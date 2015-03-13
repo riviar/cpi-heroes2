@@ -56,6 +56,7 @@ public class AuthenticationBean {
         if (user == null) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Incorrect login or password"));
+            return "index";
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Logged In Successfully!"));
@@ -65,8 +66,8 @@ public class AuthenticationBean {
             // set user attribute of session
             session.setAttribute("user", user);
             newUser = user;
+            return "home";
         }
-        return "home";
     }
 
     public boolean isLoggedIn() {
