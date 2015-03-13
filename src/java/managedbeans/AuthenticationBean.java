@@ -6,12 +6,16 @@
 package managedbeans;
 
 import entitybeans.Users;
+import java.util.Iterator;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import sessionbeans.AccountSessionFacade;
 
 /**
@@ -39,13 +43,13 @@ public class AuthenticationBean {
 
     public Users getLoggedInUser() {
         // get current session
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                    .getExternalContext().getSession(false);
-            // set user attribute of session
-            return (Users)session.getAttribute("user");
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(false);
+        // set user attribute of session
+        return (Users) session.getAttribute("user");
     }
-    
-    public void loginUser(String username, String password) {
+
+    public String loginUser(String username, String password) {
         // lookup username/password combination in database
         Users user = accountFacade.checkUserLogin(username, password);
         // if no matching user found, show error message
@@ -62,6 +66,7 @@ public class AuthenticationBean {
             session.setAttribute("user", user);
             newUser = user;
         }
+        return "home";
     }
 
     public boolean isLoggedIn() {
@@ -69,33 +74,49 @@ public class AuthenticationBean {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                 .getExternalContext().getSession(false);
         //returns true if user attribute for current session is not null
-        return (session.getAttribute("user") != null);        
+        return (session.getAttribute("user") != null);
     }
 
     public Users getNewUser() {
         return newUser;
     }
-    
-    public void registerNewUser() {        
-        Users testuser = new Users();
-        testuser.setFirstname("testfirstname");
-        testuser.setLastname("testlastname");
-        testuser.setIdusers(4);
-        testuser.setUsername("staticuser");
-        testuser.setPassword("password");
-        accountFacade.registerUser(testuser);
-        System.out.println("newUser.firstname = " + newUser.getFirstname());
-        System.out.println("newUser.lastname = " + newUser.getLastname());
-        System.out.println("newUser.idusers = " + newUser.getIdusers());
-        System.out.println("newUser.password = " + newUser.getPassword());
-        System.out.println("newUser.username = " + newUser.getUsername());
-        // check if user with specified login already exists
+
+    public String registerNewUser() {
+//        Users testuser = new Users();
+//        testuser.setFirstname("gdh");
+//        testuser.setLastname("dfh");
+//        testuser.setUsername("qwfjgfer");
+//        testuser.setPassword("fhhfg");
+//        accountFacade.registerUser(testuser);
+//        try {
+//        accountFacade.registerUser(testuser);
+//        }
+//        catch (EJBException e) {
+//        @SuppressWarnings("ThrowableResultIgnored")
+//        Exception cause = e.getCausedByException();
+//        if (cause instanceof ConstraintViolationException) {
+//            @SuppressWarnings("ThrowableResultIgnored")
+//            ConstraintViolationException cve = (ConstraintViolationException) e.getCausedByException();
+//            for (Iterator<ConstraintViolation<?>> it = cve.getConstraintViolations().iterator(); it.hasNext();) {
+//                ConstraintViolation<? extends Object> v = it.next();
+//                System.err.println(v);
+//                System.err.println("==>>"+v.getMessage());
+//            }
+//        }
+//    }
+
+//        System.out.println("newUser.firstname = " + newUser.getFirstname());
+//        System.out.println("newUser.lastname = " + newUser.getLastname());
+//        System.out.println("newUser.idusers = " + newUser.getIdusers());
+//        System.out.println("newUser.password = " + newUser.getPassword());
+//        System.out.println("newUser.username = " + newUser.getUsername());
+         //check if user with specified login already exists
         if (accountFacade.userExists(newUser.getUsername())) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("This username is already registered!"));
         } else {
             accountFacade.registerUser(newUser);
-            this.loginUser(newUser.getUsername(), newUser.getPassword());
         }
+        return "index";
     }
 }

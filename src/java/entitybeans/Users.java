@@ -52,13 +52,13 @@ public class Users implements Serializable {
     @Column(name = "idusers")
     private Integer idusers;
     @Basic(optional = false)
-    @NotNull
+    //@NotNull
     @Size(min = 1, max = 45)
     @Column(name = "username")
     private String username;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 64)
+    //@NotNull
+    @Size(min = 1, max = 160)
     @Column(name = "password")
     private String password;
     @Size(max = 45)
