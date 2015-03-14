@@ -41,8 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password"),
     @NamedQuery(name = "Users.findByFirstname", query = "SELECT u FROM Users u WHERE u.firstname = :firstname"),
     @NamedQuery(name = "Users.findByLastname", query = "SELECT u FROM Users u WHERE u.lastname = :lastname"),
-    @NamedQuery(name = "Users.findByInstitution", query = "SELECT u FROM Users u WHERE u.institution = :institution"),
-    @NamedQuery(name = "Users.findBySalt", query = "SELECT u FROM Users u WHERE u.salt = :salt")})
+    @NamedQuery(name = "Users.findByInstitution", query = "SELECT u FROM Users u WHERE u.institution = :institution")})
 public class Users implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -70,9 +69,6 @@ public class Users implements Serializable {
     @Size(max = 45)
     @Column(name = "institution")
     private String institution;
-    @Size(max = 8)
-    @Column(name = "salt")
-    private String salt;
     @JoinTable(name = "users_has_workgroups", joinColumns = {
         @JoinColumn(name = "users_idusers", referencedColumnName = "idusers")}, inverseJoinColumns = {
         @JoinColumn(name = "workgroups_idworkgroups", referencedColumnName = "idworkgroups")})
@@ -142,14 +138,6 @@ public class Users implements Serializable {
 
     public void setInstitution(String institution) {
         this.institution = institution;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     @XmlTransient
