@@ -8,7 +8,6 @@ package sessionbeans;
 import entitybeans.Projects;
 import entitybeans.Users;
 import entitybeans.Workgroups;
-import java.security.MessageDigest;
 import java.util.Collection;
 import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
@@ -16,7 +15,6 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  * Facade for managing login sessions
@@ -24,7 +22,7 @@ import javax.persistence.Query;
  * @author Matthew Robinson
  */
 @Stateful
-public class WorkGroupSessionFacade extends AbstractFacade<Users> {
+public class WorkGroupSessionFacade extends AbstractFacade<Workgroups> {
 
     @PersistenceContext(unitName = "RNAseqPU")
     private EntityManager em;
@@ -35,7 +33,7 @@ public class WorkGroupSessionFacade extends AbstractFacade<Users> {
     }
 
     public WorkGroupSessionFacade() {
-        super(Users.class);
+        super(Workgroups.class);
     }
 
     public void renameWorkgroup(String newname, Workgroups workgroup) {
@@ -45,6 +43,14 @@ public class WorkGroupSessionFacade extends AbstractFacade<Users> {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Cannot rename workgroup!"));
         }
+    }
+
+    public void createWorkgroup(Workgroups workgroup) {
+        create(workgroup);
+    }
+
+    public void deleteWorkgroup(Workgroups workgroup) {
+        remove(workgroup);
     }
 
     public void addUserToWorkgroup(Users user, Workgroups workgroup) {
