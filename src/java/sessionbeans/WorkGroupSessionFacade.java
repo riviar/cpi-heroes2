@@ -17,7 +17,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
- * Facade for managing login sessions
+ * Facade for managing workgroups
  *
  * @author Matthew Robinson
  */
