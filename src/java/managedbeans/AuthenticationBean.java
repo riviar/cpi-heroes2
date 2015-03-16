@@ -38,7 +38,9 @@ public class AuthenticationBean {
     }
 
     public String loginUser() {
-        return loginUser(newUser.getUsername(), newUser.getPassword());
+        //attempt login and get redirect page
+        String redirectpage = loginUser(newUser.getUsername(), newUser.getPassword());
+        return redirectpage;
     }
 
     public Users getLoggedInUser() {
