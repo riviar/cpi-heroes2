@@ -54,7 +54,7 @@ public class AccountSessionFacade extends AbstractFacade<Users> {
     }
    
     public Users checkUserLogin(String username, String password) {
-        Query q = em.createQuery("SELECT u FROM Users u WHERE u.username=:username AND u.password=:password");
+        Query q = em.createQuery("SELECT u FROM Users u WHERE (u.username = :username AND u.password = :password)");
         q.setParameter("username", username);
         q.setParameter("password", hashPassword(password));
         try {

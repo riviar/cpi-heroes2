@@ -37,8 +37,8 @@ public class AuthenticationBean {
     public AuthenticationBean() {
     }
 
-    public void loginUser() {
-        loginUser(newUser.getUsername(), newUser.getPassword());
+    public String loginUser() {
+        return loginUser(newUser.getUsername(), newUser.getPassword());
     }
 
     public Users getLoggedInUser() {
@@ -83,34 +83,6 @@ public class AuthenticationBean {
     }
 
     public String registerNewUser() {
-//        Users testuser = new Users();
-//        testuser.setFirstname("gdh");
-//        testuser.setLastname("dfh");
-//        testuser.setUsername("qwfjgfer");
-//        testuser.setPassword("fhhfg");
-//        accountFacade.registerUser(testuser);
-//        try {
-//        accountFacade.registerUser(testuser);
-//        }
-//        catch (EJBException e) {
-//        @SuppressWarnings("ThrowableResultIgnored")
-//        Exception cause = e.getCausedByException();
-//        if (cause instanceof ConstraintViolationException) {
-//            @SuppressWarnings("ThrowableResultIgnored")
-//            ConstraintViolationException cve = (ConstraintViolationException) e.getCausedByException();
-//            for (Iterator<ConstraintViolation<?>> it = cve.getConstraintViolations().iterator(); it.hasNext();) {
-//                ConstraintViolation<? extends Object> v = it.next();
-//                System.err.println(v);
-//                System.err.println("==>>"+v.getMessage());
-//            }
-//        }
-//    }
-
-//        System.out.println("newUser.firstname = " + newUser.getFirstname());
-//        System.out.println("newUser.lastname = " + newUser.getLastname());
-//        System.out.println("newUser.idusers = " + newUser.getIdusers());
-//        System.out.println("newUser.password = " + newUser.getPassword());
-//        System.out.println("newUser.username = " + newUser.getUsername());
          //check if user with specified login already exists
         if (accountFacade.userExists(newUser.getUsername())) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -118,6 +90,13 @@ public class AuthenticationBean {
         } else {
             accountFacade.registerUser(newUser);
         }
+        return "index";
+    }
+    
+    public String logOut() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                    .getExternalContext().getSession(false);
+        session.invalidate();
         return "index";
     }
 }

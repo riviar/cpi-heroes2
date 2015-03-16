@@ -36,16 +36,26 @@
                     </ul>
                 </div>
                 <div id="logincontrol">
-                    <h:form>
-                        <h:panelGrid styleClass="loginPanel" columns="5" >
-                            <h:outputText value="Username: "/>
-                            <h:inputText value="#{authenticationBean.newUser.username}"/>
-                            <h:outputText value="Password: "/>
-                            <h:inputSecret value="#{authenticationBean.newUser.password}"/>
-                            <h:commandButton id="logInButton" action="#{authenticationBean.loginUser()}" class="login" value="Log In"/>
-                        </h:panelGrid>
-                    </h:form>
-                </div>
+                        <c:if test="#{sessionScope.user == null}">
+                            <h:form>
+                                <h:panelGrid styleClass="loginPanel" columns="5" >
+                                    <h:outputText value="Username: "/>
+                                    <p:inputText value="#{authenticationBean.newUser.username}"/>
+                                    <h:outputText value="Password: "/>
+                                    <p:password value="#{authenticationBean.newUser.password}"/>
+                                    <h:commandButton id="logInButton" action="#{authenticationBean.loginUser()}" class="login" value="Log In"/>
+                                </h:panelGrid>
+                            </h:form>
+                        </c:if>
+                        <c:if test="#{sessionScope.user != null}">
+                            <h:form>
+                                <h:panelGrid styleClass="loginPanel" columns="2" >
+                                    <h:outputText value="Logged in as #{sessionScope.user.getUsername()} "/>
+                                    <h:commandButton id="logInButton" action="#{authenticationBean.logOut()}" class="login" value="Log Out"/>
+                                </h:panelGrid>
+                            </h:form>
+                        </c:if>
+                    </div>
                 <div id="headerimage">
                     <c:if test="#{authenticationBean.loggedIn}">
                         <div id="download">
