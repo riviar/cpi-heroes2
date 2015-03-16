@@ -90,9 +90,12 @@
                             <ul>
                                 <li><p class=""><strong>Quality Control</strong></p></li>
                                 <ul>
-                                    <li><p class="subtool"><h:link value="Tool 1" outcome="new_job"/></p></li>
+                                    <!--<li><p class="subtool"><h:link value="Tool 1" outcome="new_job"/></p></li>
                                     <li><p class="subtool">Tool 2</p></li>
-                                    <li><p class="subtool">Tool 3</p></li>
+                                    <li><p class="subtool">Tool 3</p></li> -->
+                                    <c:forEach items="#{toolsSidebarBean.getToolNames()}" var="tool">
+                                        <li><p class="subtool">#{tool}</p></li>
+                                    </c:forEach>
                                 </ul>
                                 <li><p class=""><strong>Assembly</strong></p></li>
                                 <ul>
