@@ -40,10 +40,10 @@
                         <h:form>
                             <h:panelGrid styleClass="loginPanel" columns="5" >
                                 <h:outputText value="Username: "/>
-                                <p:inputText value="username"/>
+                                <p:inputText value="#{authenticationBean.newUser.username}"/>
                                 <h:outputText value="Password: "/>
-                                <p:password value="password"/>
-                                <h:commandButton id="logInButton" action="home" class="login" value="Log In"/>
+                                <p:password value="#{authenticationBean.newUser.password}"/>
+                                <h:commandButton id="logInButton" action="#{authenticationBean.loginUser()}" class="login" value="Log In"/>
                             </h:panelGrid>
                         </h:form>
                     </div>
