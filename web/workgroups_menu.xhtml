@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -26,17 +27,13 @@
 
             <ui:define name="center">
                 <h3>Workgroups Menu</h3>
-                <div class="news">
-                    <h4>Your workgroups</h4>
-                    <br/>
-                    <h:form>
-                        <ul>
-                            <li><p><h:link value="Workgroup 1" outcome="workgroup"/></p></li>
-                            <li><p>Workgroup 2</p></li>
-                            <li><p>Workgroup 3</p></li>
-                            <li><p>Workgroup 4</p></li>
-                        </ul>
-                    </h:form>
+                <div class="news">                                      
+                    <h:dataTable value="#{workgroupBean.workgroupsForUser}" var="workgroups">
+                        <h:column>
+                            <f:facet name="header">My Groups</f:facet>
+                            "#{workgroups.workgroupname}"
+                        </h:column>
+                    </h:dataTable>
                 </div>
                 <div class="news">
                     <h:form>

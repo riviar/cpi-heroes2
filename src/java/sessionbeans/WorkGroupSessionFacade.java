@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  * Facade for managing workgroups
@@ -49,7 +50,7 @@ public class WorkGroupSessionFacade extends AbstractFacade<Workgroups> {
         create(workgroup);
     }
 
-    public void deleteWorkgroup(Workgroups workgroup) {
+    public void removeWorkgroup(Workgroups workgroup) {
         remove(workgroup);
     }
 
@@ -100,4 +101,12 @@ public class WorkGroupSessionFacade extends AbstractFacade<Workgroups> {
 
         }
     }
+    
+    public Collection<Workgroups> workgroupsForUser(Users user) {
+          
+        Query q = em.createNamedQuery("Workgroups.findByUsersWorkgroup", Workgroups.class);
+        q.setParameter("users", user);
+        return q.getResultList();
+    }
+    
 }
