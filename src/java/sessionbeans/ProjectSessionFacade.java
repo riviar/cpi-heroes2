@@ -5,8 +5,8 @@
  */
 package sessionbeans;
 
+import entitybeans.Experiments;
 import entitybeans.Projects;
-import entitybeans.Users;
 import entitybeans.Workgroups;
 import java.util.Collection;
 import javax.ejb.Stateful;
@@ -17,12 +17,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
- * Facade for managing workgroups
+ * Facade for managing projects
  *
  * @author Matthew Robinson
  */
 @Stateful
-public class ProjectSessionFacade extends AbstractFacade<Workgroups> {
+public class ProjectSessionFacade extends AbstractFacade<Projects> {
 
     @PersistenceContext(unitName = "RNAseqPU")
     private EntityManager em;
@@ -33,48 +33,24 @@ public class ProjectSessionFacade extends AbstractFacade<Workgroups> {
     }
 
     public ProjectSessionFacade() {
-        super(Workgroups.class);
+        super(Projects.class);
     }
 
-    public void renameWorkgroup(String newname, Workgroups workgroup) {
+    public void renameProject(String newname, Projects project) {
         try {
-            workgroup.setWorkgroupname(newname);
+            project.setProjectname(newname);
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Cannot rename workgroup!"));
+                    new FacesMessage("Cannot rename project!"));
         }
     }
 
-    public void createWorkgroup(Workgroups workgroup) {
-        create(workgroup);
+    public void createProject(Projects project) {
+        create(project);
     }
 
-    public void deleteWorkgroup(Workgroups workgroup) {
-        remove(workgroup);
-    }
-
-    public void addUserToWorkgroup(Users user, Workgroups workgroup) {
-        try {
-            Collection<Users> users = workgroup.getUsersCollection();
-            users.add(user);
-            workgroup.setUsersCollection(users);
-        } catch (NoResultException ex) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Error - user or workgroup does not exist!"));
-
-        }
-    }
-
-    public void removeUserFromWorkgroup(Users user, Workgroups workgroup) {
-        try {
-            Collection<Users> users = workgroup.getUsersCollection();
-            users.remove(user);
-            workgroup.setUsersCollection(users);
-        } catch (NoResultException ex) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Error - user or workgroup does not exist!"));
-
-        }
+    public void deleteProject(Projects project) {
+        remove(project);
     }
 
     public void addProjectToWorkgroup(Projects project, Workgroups workgroup) {
@@ -84,7 +60,7 @@ public class ProjectSessionFacade extends AbstractFacade<Workgroups> {
             workgroup.setProjectsCollection(projects);
         } catch (NoResultException ex) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Error - project or workgroup does not exist!"));
+                    new FacesMessage("Error - workgroup or project does not exist!"));
 
         }
     }
@@ -96,7 +72,31 @@ public class ProjectSessionFacade extends AbstractFacade<Workgroups> {
             workgroup.setProjectsCollection(projects);
         } catch (NoResultException ex) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Error - project or workgroup does not exist!"));
+                    new FacesMessage("Error - workgroup or project does not exist!"));
+
+        }
+    }
+
+    public void addExperimentToProject(Experiments experiment, Projects project) {
+        try {
+            Collection<Experiments> experiments = project.getExperimentsCollection();
+            experiments.add(experiment);
+            project.setExperimentsCollection(experiments);
+        } catch (NoResultException ex) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Error - project or experiment does not exist!"));
+
+        }
+    }
+
+    public void removeExperimentFromProject(Experiments experiment, Projects project) {
+        try {
+            Collection<Experiments> experiments = project.getExperimentsCollection();
+            experiments.remove(experiment);
+            project.setExperimentsCollection(experiments);
+        } catch (NoResultException ex) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Error - project or experiment does not exist!"));
 
         }
     }
