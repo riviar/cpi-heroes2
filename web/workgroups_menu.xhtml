@@ -35,8 +35,8 @@
                     <h3>Create new workgroup</h3>
                     <h:form>
                         <h:outputText value="Workgroup name"/><br/>
-                        <p:inputText class="regInput" value="name"/><br/>
-                        <h:commandButton id="addWorkgroupButton" action="workgroups_menu" class="centerButton" value="Create"/>
+                        <p:inputText class="regInput" value="#{workgroupBean.newWorkgroup.workgroupname}"/><br/>
+                        <h:commandButton id="addWorkgroupButton" action="#{workgroupBean.createWorkgroup()}" class="centerButton" value="Create"/>
                     </h:form>
                 </p:dialog>
             </ui:define>

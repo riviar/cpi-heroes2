@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -38,17 +39,24 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Workgroups.findByIdworkgroups", query = "SELECT w FROM Workgroups w WHERE w.idworkgroups = :idworkgroups"),
     @NamedQuery(name = "Workgroups.findByWorkgroupname", query = "SELECT w FROM Workgroups w WHERE w.workgroupname = :workgroupname")})
 public class Workgroups implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idworkgroups")
     private Integer idworkgroups;
     @Size(max = 45)
     @Column(name = "workgroupname")
     private String workgroupname;
-    @ManyToMany(mappedBy = "workgroupsCollection")
+    @ManyToMany
+    @JoinTable(name = "user_has_workgroups",
+            inverseJoinColumns = {
+                @JoinColumn(name = "users_idusers", referencedColumnName = "idusers")},
+            joinColumns = {
+                @JoinColumn(name = "workgroups_idworkgroups", referencedColumnName = "idworkgroups")}
+    )
     private Collection<Users> usersCollection;
     @OneToMany(mappedBy = "workgroupid")
     private Collection<Projects> projectsCollection;
@@ -129,5 +137,5 @@ public class Workgroups implements Serializable {
     public String toString() {
         return "entitybeans.Workgroups[ idworkgroups=" + idworkgroups + " ]";
     }
-    
+
 }
