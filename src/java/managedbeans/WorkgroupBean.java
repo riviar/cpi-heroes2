@@ -40,6 +40,18 @@ public class WorkgroupBean {
      * Creates a new instance of WorkgroupBean
      */
     public WorkgroupBean() {
+
+        //TODO: code taken from AuthenticationBean - should call it there instead!
+        // get current session
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(false);
+        // set user attribute of session
+        user = (Users) session.getAttribute("user");
+
+        workgroup = new Workgroups();
+        
+        project = new Projects();
+        
     }
 
     /**
@@ -135,19 +147,20 @@ public class WorkgroupBean {
     }
 
     public Collection<Workgroups> getWorkgroupsForUser() {
-        
-        //TODO: code taken from AuthenticationBean - should call it there instead!
-        // get current session
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
-        // set user attribute of session
-        user = (Users) session.getAttribute("user");
-             
+
         if (user == null) {
             return new ArrayList();
         } else {
             return workgroupFacade.workgroupsForUser(user);
         }
+    }
+
+    public Workgroups getNewWorkgroup() {
+        workgroup.setOwner(user);       
+        ArrayList<Users> users = new ArrayList();
+        users.add(user);
+        workgroup.setUsersCollection(users);
+        return workgroup;
     }
 
 }
