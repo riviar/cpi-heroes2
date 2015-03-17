@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Workgroups.findAll", query = "SELECT w FROM Workgroups w"),
+    @NamedQuery(name = "Workgroups.findByUsersWorkgroup", query = "SELECT w FROM Workgroups w WHERE w.usersCollection = :users"),
     @NamedQuery(name = "Workgroups.findByIdworkgroups", query = "SELECT w FROM Workgroups w WHERE w.idworkgroups = :idworkgroups"),
     @NamedQuery(name = "Workgroups.findByWorkgroupname", query = "SELECT w FROM Workgroups w WHERE w.workgroupname = :workgroupname")})
 public class Workgroups implements Serializable {
