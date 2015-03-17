@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -54,8 +55,11 @@ public class Files implements Serializable {
     @Size(max = 9999)
     @Column(name = "description")
     private String description;
-    @ManyToMany(mappedBy = "filesCollection")
-    private Collection<Experiments> experimentsCollection;
+    @ManyToMany
+    @JoinTable(name = "project_has_files", inverseJoinColumns = {
+        @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")}, joinColumns = {
+        @JoinColumn(name = "resources_idresources", referencedColumnName = "idresources")})
+    private Collection<Projects> projectsCollection;
     @JoinColumn(name = "filetype", referencedColumnName = "filetypeid")
     @ManyToOne
     private Filetype filetype;
@@ -100,12 +104,12 @@ public class Files implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Experiments> getExperimentsCollection() {
-        return experimentsCollection;
+    public Collection<Projects> getProjectsCollection() {
+        return projectsCollection;
     }
 
-    public void setExperimentsCollection(Collection<Experiments> experimentsCollection) {
-        this.experimentsCollection = experimentsCollection;
+    public void setProjectsCollection(Collection<Projects> projectsCollection) {
+        this.projectsCollection = projectsCollection;
     }
 
     public Filetype getFiletype() {
@@ -140,5 +144,5 @@ public class Files implements Serializable {
     public String toString() {
         return "entitybeans.Files[ idresources=" + idresources + " ]";
     }
-    
+
 }

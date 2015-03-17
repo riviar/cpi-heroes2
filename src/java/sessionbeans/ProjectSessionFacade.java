@@ -5,8 +5,9 @@
  */
 package sessionbeans;
 
-import entitybeans.Experiments;
+import entitybeans.Files;
 import entitybeans.Projects;
+import entitybeans.Users;
 import entitybeans.Workgroups;
 import java.util.Collection;
 import javax.ejb.Stateful;
@@ -15,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  * Facade for managing projects
@@ -77,27 +79,51 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
         }
     }
 
-    public void addExperimentToProject(Experiments experiment, Projects project) {
+    public void addFileToProject(Files file, Projects project) {
         try {
-            Collection<Experiments> experiments = project.getExperimentsCollection();
-            experiments.add(experiment);
-            project.setExperimentsCollection(experiments);
+            Collection<Files> files = project.getFilesCollection();
+            files.add(file);
+            project.setFilesCollection(files);
         } catch (NoResultException ex) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Error - project or experiment does not exist!"));
+                    new FacesMessage("Error - project or file does not exist!"));
 
         }
     }
 
-    public void removeExperimentFromProject(Experiments experiment, Projects project) {
+    public void removeFileFromProject(Files file, Projects project) {
         try {
-            Collection<Experiments> experiments = project.getExperimentsCollection();
-            experiments.remove(experiment);
-            project.setExperimentsCollection(experiments);
+            Collection<Files> files = project.getFilesCollection();
+            files.remove(file);
+            project.setFilesCollection(files);
         } catch (NoResultException ex) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Error - project or experiment does not exist!"));
+                    new FacesMessage("Error - project or file does not exist!"));
 
         }
+    }
+
+    public Collection<Projects> getUserVisibleProjects(Users user) {
+        try {
+            Query q = em.createNamedQuery("getUserVisibleProjects", Projects.class);
+            q.setParameter("user", user);
+            return q.getResultList();
+        } catch (NoResultException ex) {
+             FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Error - project or file does not exist!"));
+        }
+        return null;
+    }
+
+    public Collection<Projects> getUserOwnedProjects(Users user) {
+        try {
+            Query q = em.createNamedQuery("getUserVisibleProjects", Projects.class);
+            q.setParameter("user", user);
+            return q.getResultList();
+        } catch (NoResultException ex) {
+             FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Error - project or file does not exist!"));           
+        }
+        return null;
     }
 }
