@@ -15,19 +15,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author user
+ * @author pitas
  */
 @Entity
 @Table(name = "projects")
@@ -41,9 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Projects implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idprojects")
     private Integer idprojects;
     @Size(max = 45)
@@ -55,14 +54,16 @@ public class Projects implements Serializable {
     @Size(max = 9)
     @Column(name = "visibility")
     private String visibility;
-    @JoinColumn(name = "owner", referencedColumnName = "idusers")
-    @ManyToOne(optional = false)
-    private Users owner;
+    @ManyToMany(mappedBy = "projectsCollection")
+    private Collection<Files> filesCollection;
     @JoinColumn(name = "workgroupid", referencedColumnName = "idworkgroups")
     @ManyToOne
     private Workgroups workgroupid;
+    @JoinColumn(name = "owner", referencedColumnName = "idusers")
+    @ManyToOne(optional = false)
+    private Users owner;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectid")
-    private Collection<Experiments> experimentsCollection;
+    private Collection<Jobhistory> jobhistoryCollection;
 
     public Projects() {
     }
@@ -103,12 +104,13 @@ public class Projects implements Serializable {
         this.visibility = visibility;
     }
 
-    public Users getOwner() {
-        return owner;
+    @XmlTransient
+    public Collection<Files> getFilesCollection() {
+        return filesCollection;
     }
 
-    public void setOwner(Users owner) {
-        this.owner = owner;
+    public void setFilesCollection(Collection<Files> filesCollection) {
+        this.filesCollection = filesCollection;
     }
 
     public Workgroups getWorkgroupid() {
@@ -119,13 +121,21 @@ public class Projects implements Serializable {
         this.workgroupid = workgroupid;
     }
 
-    @XmlTransient
-    public Collection<Experiments> getExperimentsCollection() {
-        return experimentsCollection;
+    public Users getOwner() {
+        return owner;
     }
 
-    public void setExperimentsCollection(Collection<Experiments> experimentsCollection) {
-        this.experimentsCollection = experimentsCollection;
+    public void setOwner(Users owner) {
+        this.owner = owner;
+    }
+
+    @XmlTransient
+    public Collection<Jobhistory> getJobhistoryCollection() {
+        return jobhistoryCollection;
+    }
+
+    public void setJobhistoryCollection(Collection<Jobhistory> jobhistoryCollection) {
+        this.jobhistoryCollection = jobhistoryCollection;
     }
 
     @Override
@@ -150,7 +160,7 @@ public class Projects implements Serializable {
 
     @Override
     public String toString() {
-        return "entitybeans.Projects[ idprojects=" + idprojects + " ]";
+        return "entities.Projects[ idprojects=" + idprojects + " ]";
     }
     
 }

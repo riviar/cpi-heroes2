@@ -37,7 +37,7 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
      * It retrieves all the user jobs from the history
      * @return 
      */
-    public List<Integer> getAllJobs() {
+    public List<Jobhistory> getAllJobs() {
         Query q = em.createNamedQuery("Jobhistory.findAll");
         return q.getResultList();
     }

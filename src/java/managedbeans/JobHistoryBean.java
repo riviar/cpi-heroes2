@@ -31,14 +31,14 @@ public class JobHistoryBean {
     public JobHistoryBean() {
     }
     
-    public List<Integer> getJobCommand() {
+    public List<String> getJobCommand() {
         List<String> list = new ArrayList();
-        List<Integer> jobs = jobHistoryFacade.getAllJobs();
-        /*for (Jobhistory job:jobs) {
+        //List<Integer> jobs = jobHistoryFacade.getAllJobs();
+        List<Jobhistory> jobs = jobHistoryFacade.getAllJobs();
+        for (Jobhistory job:jobs) {
             list.add(job.getCommandused());
         }
-        return list;*/
-        return jobs;
+        return list;        
     }
     
 }

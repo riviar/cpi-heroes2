@@ -5,7 +5,6 @@
  */
 package sessionbeans;
 
-import entitybeans.Experiments;
 import entitybeans.Projects;
 import entitybeans.Workgroups;
 import java.util.Collection;
@@ -75,29 +74,5 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
                     new FacesMessage("Error - workgroup or project does not exist!"));
 
         }
-    }
-
-    public void addExperimentToProject(Experiments experiment, Projects project) {
-        try {
-            Collection<Experiments> experiments = project.getExperimentsCollection();
-            experiments.add(experiment);
-            project.setExperimentsCollection(experiments);
-        } catch (NoResultException ex) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Error - project or experiment does not exist!"));
-
-        }
-    }
-
-    public void removeExperimentFromProject(Experiments experiment, Projects project) {
-        try {
-            Collection<Experiments> experiments = project.getExperimentsCollection();
-            experiments.remove(experiment);
-            project.setExperimentsCollection(experiments);
-        } catch (NoResultException ex) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Error - project or experiment does not exist!"));
-
-        }
-    }
+    }    
 }
