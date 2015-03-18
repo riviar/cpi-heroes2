@@ -85,12 +85,9 @@
                             <ul>
                                 <li><p class=""><strong>Quality Control</strong></p></li>
                                 <ul>
-                                    <!--<li><p class="subtool"><h:link value="Tool 1" outcome="new_job"/></p></li>
+                                    <li><p class="subtool"><h:link value="Tool 1" outcome="new_job"/></p></li>
                                     <li><p class="subtool">Tool 2</p></li>
-                                    <li><p class="subtool">Tool 3</p></li> -->
-                                    <c:forEach items="#{toolsSidebarBean.getToolNames()}" var="tool">
-                                        <li><p class="subtool">#{tool}</p></li>
-                                    </c:forEach>
+                                    <li><p class="subtool">Tool 3</p></li> -->                                    
                                 </ul>
                                 <li><p class=""><strong>Assembly</strong></p></li>
                                 <ul>
@@ -127,15 +124,13 @@
                             <div id="hiddenDiv" class="about">
                                 <h:form>
                                 <ul>
-                                    <!--<li><div id="job">
+                                    <li><div id="job">
                                             <c:forEach items="#{jobHistoryBean.getJobCommand()}" var="job">
                                                 <li><p class="subtool">#{job}</p></li>
-                                            </c:forEach>-->
-                                            
-                                           <!-- <p><h:link value="Jobname1" outcome="data_item"/></p>
-                                            <p>some description</p>
-                                            <p>ongoing or finished</p> -->
-                                     <!--   </div></li>  -->                                  
+                                                <li><p>some description</p></li>
+                                                <li><p>ongoing or finished</p></li>
+                                            </c:forEach>  
+                                    </div></li>
                                     <li><div id="job">
                                             <p><h:link value="Jobname1" outcome="data_item"/></p>
                                             <p>some description</p>
