@@ -10,8 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import sessionbeans.ToolsSidebarFacade;
+import toolstuff.util.EToolType;
+import toolstuff.util.ToolsBase;
+import toolstuff.util.ToolsBaseFactory;
 
 /**
  *
@@ -22,21 +26,41 @@ import sessionbeans.ToolsSidebarFacade;
 public class ToolsSidebarBean {
 
     //private List<Tools> tools;
-    @EJB
-    private ToolsSidebarFacade toolsSidebarFacade;
+//    @EJB
+//    private ToolsSidebarFacade toolsSidebarFacade;
+    private ToolsBase tools;
     
+    @ManagedProperty(value="#{param.tool}")
+    private String selectedToolName;
+    
+    @ManagedProperty(value="#{utilityBean}")
+    private UtilityBean utilityBean;
+
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
+    
+    public void setSelectedToolName(String selectedToolName) {
+        this.selectedToolName = selectedToolName;
+    }
+
     /**
      * Creates a new instance of TollsSidebarBean
      */
     public ToolsSidebarBean() {
+        tools = ToolsBaseFactory.initializeToolsBase();
+    }
+
+    public List<String> getToolNames(EToolType type) {
+        return tools.getToolsNames(type);
     }
     
-    public List<String> getToolNames() {
-        List<String> list = new ArrayList();
-        List<Tools> tools = toolsSidebarFacade.getAllTools();
-        for (Tools tool:tools) {
-            list.add(tool.getDescription());
-        }
-        return list;
+    public List<String> getPreprocessingToolNames() {
+        return getToolNames(EToolType.PREPROCESSING);
+    }
+    
+    public String selectTool() {
+        utilityBean.setSelectedTool(tools.getToolByName(selectedToolName));
+        return "new_job";
     }
 }

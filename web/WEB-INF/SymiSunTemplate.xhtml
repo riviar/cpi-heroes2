@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -57,7 +58,7 @@
                         </c:if>
                     </div>
                 <div id="headerimage">
-                    <c:if test="#{authenticationBean.loggedIn}">
+                    <c:if test="#{!authenticationBean.loggedIn}">
                         <div id="download">
                             <h:form>                                
                                 <span id="download-text">Not yet an user?<br/><h:link value="Register for free!" outcome="register"></h:link></span>
@@ -85,9 +86,15 @@
                             <ul>
                                 <li><p class=""><strong>Quality Control</strong></p></li>
                                 <ul>
+                                    <c:forEach items="#{toolsSidebarBean.getPreprocessingToolNames()}" var="toolName">
+                                        <li><p class="subtool"><h:commandLink value="#{toolName}" action="#{toolsSidebarBean.selectTool()}">
+                                                    <f:param name="tool" value="#{toolName}"/>
+                                                </h:commandLink>
+                                        </p></li>
+                                    </c:forEach>
                                     <li><p class="subtool"><h:link value="Tool 1" outcome="new_job"/></p></li>
                                     <li><p class="subtool">Tool 2</p></li>
-                                    <li><p class="subtool">Tool 3</p></li> -->                                    
+                                    <li><p class="subtool">Tool 3</p></li>                                    
                                 </ul>
                                 <li><p class=""><strong>Assembly</strong></p></li>
                                 <ul>
