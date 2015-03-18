@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,19 +16,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author pitas
+ * @author Matthew Robinson
  */
 @Entity
 @Table(name = "projects")
@@ -39,12 +43,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Projects.findByDescription", query = "SELECT p FROM Projects p WHERE p.description = :description"),
     @NamedQuery(name = "Projects.findByVisibility", query = "SELECT p FROM Projects p WHERE p.visibility = :visibility"),
     @NamedQuery(name = "Projects.findByOwner", query = "SELECT p FROM Projects p WHERE p.owner = :user"),
-    @NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p WHERE p.owner = :user")})
+    @NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w WHERE w.usersCollection = :user")})
+// @NamedNativeQuery(name = "Projects.findVisibleToUser",
+// query = "SELECT * FROM projects p LEFT JOIN users_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
+// resultClass = Projects.class)
 public class Projects implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idprojects")
     private Integer idprojects;
     @Size(max = 45)
@@ -56,13 +65,14 @@ public class Projects implements Serializable {
     @Size(max = 9)
     @Column(name = "visibility")
     private String visibility;
-    @ManyToMany(mappedBy = "projectsCollection")
-    private Collection<Files> filesCollection;
+    @JoinColumn(name = "owner", referencedColumnName = "idusers")
+    @ManyToOne(optional = false)
+    private Users owner;
     @JoinColumn(name = "workgroupid", referencedColumnName = "idworkgroups")
     @ManyToOne
     private Workgroups workgroupid;
     @ManyToMany
-        @JoinTable(name = "project_has_files", joinColumns = {
+    @JoinTable(name = "project_has_files", joinColumns = {
         @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")}, inverseJoinColumns = {
         @JoinColumn(name = "resources_idresources", referencedColumnName = "idresources")})
     private Collection<Files> filesCollection;
@@ -106,13 +116,12 @@ public class Projects implements Serializable {
         this.visibility = visibility;
     }
 
-    @XmlTransient
-    public Collection<Files> getFilesCollection() {
-        return filesCollection;
+    public Users getOwner() {
+        return owner;
     }
 
-    public void setFilesCollection(Collection<Files> filesCollection) {
-        this.filesCollection = filesCollection;
+    public void setOwner(Users owner) {
+        this.owner = owner;
     }
 
     public Workgroups getWorkgroupid() {
@@ -123,8 +132,13 @@ public class Projects implements Serializable {
         this.workgroupid = workgroupid;
     }
 
+    @XmlTransient
+    public Collection<Files> getFilesCollection() {
+        return filesCollection;
     }
 
+    public void setFilesCollection(Collection<Files> filesCollection) {
+        this.filesCollection = filesCollection;
     }
 
     @Override
@@ -136,7 +150,7 @@ public class Projects implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+// TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Projects)) {
             return false;
         }
@@ -149,12 +163,6 @@ public class Projects implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Projects[ idprojects=" + idprojects + " ]";
+        return "entitybeans.Projects[ idprojects=" + idprojects + " ]";
     }
-    
 }
-    public Users getOwner() {
-        return owner;
-    @XmlTransient
-    public Collection<Files> getFilesCollection() {
-        return filesCollection;
