@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -37,7 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Projects.findByIdprojects", query = "SELECT p FROM Projects p WHERE p.idprojects = :idprojects"),
     @NamedQuery(name = "Projects.findByProjectname", query = "SELECT p FROM Projects p WHERE p.projectname = :projectname"),
     @NamedQuery(name = "Projects.findByDescription", query = "SELECT p FROM Projects p WHERE p.description = :description"),
-    @NamedQuery(name = "Projects.findByVisibility", query = "SELECT p FROM Projects p WHERE p.visibility = :visibility")})
+    @NamedQuery(name = "Projects.findByVisibility", query = "SELECT p FROM Projects p WHERE p.visibility = :visibility"),
+    @NamedQuery(name = "Projects.findByOwner", query = "SELECT p FROM Projects p WHERE p.owner = :user"),
+    @NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p WHERE p.owner = :user")})
 public class Projects implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -61,8 +65,11 @@ public class Projects implements Serializable {
     @JoinColumn(name = "workgroupid", referencedColumnName = "idworkgroups")
     @ManyToOne
     private Workgroups workgroupid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectid")
-    private Collection<Experiments> experimentsCollection;
+    @ManyToMany
+        @JoinTable(name = "project_has_files", joinColumns = {
+        @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")}, inverseJoinColumns = {
+        @JoinColumn(name = "resources_idresources", referencedColumnName = "idresources")})
+    private Collection<Files> filesCollection;
 
     public Projects() {
     }
@@ -120,12 +127,12 @@ public class Projects implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Experiments> getExperimentsCollection() {
-        return experimentsCollection;
+    public Collection<Files> getFilesCollection() {
+        return filesCollection;
     }
 
-    public void setExperimentsCollection(Collection<Experiments> experimentsCollection) {
-        this.experimentsCollection = experimentsCollection;
+    public void setFilesCollection(Collection<Files> filesCollection) {
+        this.filesCollection = filesCollection;
     }
 
     @Override
