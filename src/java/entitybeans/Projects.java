@@ -45,8 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Projects.findByProjectname", query = "SELECT p FROM Projects p WHERE p.projectname = :projectname"),
     @NamedQuery(name = "Projects.findByDescription", query = "SELECT p FROM Projects p WHERE p.description = :description"),
     @NamedQuery(name = "Projects.findByVisibility", query = "SELECT p FROM Projects p WHERE p.visibility = :visibility"),
-    @NamedQuery(name = "Projects.findByOwner", query = "SELECT p FROM Projects p WHERE p.owner = :user"),
-    @NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w WHERE w.usersCollection = :user")})
+    @NamedQuery(name = "Projects.findByOwner", query = "SELECT p FROM Projects p WHERE p.owner = :user")
+    //@NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w WHERE w.usersCollection = :user")
+    })
 // @NamedNativeQuery(name = "Projects.findVisibleToUser",
 // query = "SELECT * FROM projects p LEFT JOIN users_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
 // resultClass = Projects.class)
