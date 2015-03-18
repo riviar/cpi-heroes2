@@ -20,7 +20,10 @@
                     <h:commandButton value="Run FastQC" action="#{TestToolBean.runFastQC()}" /><br/>
                 </h:form>
                 <p:outputLabel value="Output File Link"/><br/>
-                <h:link outcome="#{TestToolBean.outputFile}"/><br/>
+                 <!--<a href="/home/izi/PREPROCESSING/Seecer/SEECER/testdata/SRR027877-small-p1_fastqc.html">FastQC output</a> -->
+                <h:link value="link" outcome="/Output/SRR027877-small-p1_fastqc.html"/><br/>
+                <!--<h:link outcome="{TestToolBean.outputFile}"/><br/>-->
+                <!--<h:link outcome="/home/izi/PREPROCESSING/Seecer/SEECER/testdata/SRR027877-small-p1_fastqc.html"/><br/>-->
             </ui:define>
 
         </ui:composition>

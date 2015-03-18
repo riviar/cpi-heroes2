@@ -16,7 +16,7 @@ public class FastQCJob extends AbstractJob {
 
     public FastQCJob(String inputPath) {
         getParameters().put("input", inputPath);
-        setExecutableFile("/Preprocessing/FastQC/fastqc");
+        setExecutableFile("Preprocessing/FastQC/fastqc");
     }
 
     @Override
@@ -25,7 +25,7 @@ public class FastQCJob extends AbstractJob {
 
         String filename = getParameters().get("input");
         
-        String command = getCommand() + " " + filename;
+        String command = getCommand() + " " + filename + " " + "-o /root/NetBeansProjects/cpi-heroes2izi/web/Output";
 	
         String output = executeCommand(command);
 
@@ -36,6 +36,9 @@ public class FastQCJob extends AbstractJob {
     private String executeCommand(String command) {
 
         StringBuffer output = new StringBuffer();
+        
+        //output directory -o /root/NetBeansProjects/cpi-heroes2izi/web/Output
+
 
         Process p;
         try {
