@@ -20,11 +20,7 @@
                 <div class="news">
                     <h4>Datasets</h4>
                     <br/>
-                    
-                    <ul id="datasetList">
-                        
-
-                            
+                    <ul id="datasetList">       
                         <c:forEach items="#{filesBean.getFilesNames(projectNum)}"  var="file">
                             <li><h:outputText value="#{file}"/></li>
                         </c:forEach>

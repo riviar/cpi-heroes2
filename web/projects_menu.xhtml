@@ -17,21 +17,12 @@
             <ui:define name="center">
                 <h3>Projects Menu</h3>
                 <div class="news">
-                    <h4>Your projects</h4>
-                    <br/>
-                    <h:form>
-                        <ul>
-                            <li><p><h:link value="Project 1" outcome="project.xhtml?projectNum=3" includeViewParams="true"> 
-                                 
-                                </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
-                            
-                            <li><p><h:link value="Project 2" outcome="project?projectNum=4" includeViewParams="true"> 
-                                  
-                                </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
-                            
-                                    
-                        </ul>
-                    </h:form>
+                    <h:dataTable value="#{projectBean.userVisibleProjects}" var="projects">
+                        <h:column>
+                            <f:facet name="header">Your projects</f:facet>
+                            <h:link value="#{projects.projectname}" outcome="project" />
+                        </h:column>
+                    </h:dataTable>
                 </div>
                 <div class="news">
                     <h:form>
