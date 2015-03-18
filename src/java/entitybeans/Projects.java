@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -29,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author user
+ * @author Matthew Robinson
  */
 @Entity
 @Table(name = "projects")
@@ -41,7 +42,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Projects.findByDescription", query = "SELECT p FROM Projects p WHERE p.description = :description"),
     @NamedQuery(name = "Projects.findByVisibility", query = "SELECT p FROM Projects p WHERE p.visibility = :visibility"),
     @NamedQuery(name = "Projects.findByOwner", query = "SELECT p FROM Projects p WHERE p.owner = :user"),
-    @NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p WHERE p.owner = :user")})
+    @NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w WHERE w.usersCollection = :user")})
+//    @NamedNativeQuery(name = "Projects.findVisibleToUser",
+//        query = "SELECT * FROM projects p LEFT JOIN users_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
+//        resultClass = Projects.class)
 public class Projects implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,7 +70,7 @@ public class Projects implements Serializable {
     @ManyToOne
     private Workgroups workgroupid;
     @ManyToMany
-        @JoinTable(name = "project_has_files", joinColumns = {
+    @JoinTable(name = "project_has_files", joinColumns = {
         @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")}, inverseJoinColumns = {
         @JoinColumn(name = "resources_idresources", referencedColumnName = "idresources")})
     private Collection<Files> filesCollection;
@@ -159,5 +163,5 @@ public class Projects implements Serializable {
     public String toString() {
         return "entitybeans.Projects[ idprojects=" + idprojects + " ]";
     }
-    
+
 }

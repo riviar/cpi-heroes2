@@ -105,7 +105,7 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
 
     public Collection<Projects> getUserVisibleProjects(Users user) {
         try {
-            Query q = em.createNamedQuery("getUserVisibleProjects", Projects.class);
+            Query q = em.createNamedQuery("findVisibleToUser", Projects.class);
             q.setParameter("user", user);
             return q.getResultList();
         } catch (NoResultException ex) {
@@ -117,7 +117,7 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
 
     public Collection<Projects> getUserOwnedProjects(Users user) {
         try {
-            Query q = em.createNamedQuery("getUserVisibleProjects", Projects.class);
+            Query q = em.createNamedQuery("findByOwner", Projects.class);
             q.setParameter("user", user);
             return q.getResultList();
         } catch (NoResultException ex) {
