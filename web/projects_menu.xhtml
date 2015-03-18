@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -20,10 +21,15 @@
                     <br/>
                     <h:form>
                         <ul>
-                            <li><p><h:link value="Project 1" outcome="project"/> &ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
-                            <li><p>Project 2 [Workgroup 2]</p></li>
-                            <li><p>Project 3 [Workgroup 3]</p></li>
-                            <li><p>Project 4 [Workgroup 4]</p></li>
+                            <li><p><h:link value="Project 1" outcome="project.xhtml?projectNum=3" includeViewParams="true"> 
+                                 
+                                </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
+                            
+                            <li><p><h:link value="Project 2" outcome="project?projectNum=4" includeViewParams="true"> 
+                                  
+                                </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
+                            
+                                    
                         </ul>
                     </h:form>
                 </div>

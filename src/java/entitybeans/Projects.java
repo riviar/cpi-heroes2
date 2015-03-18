@@ -48,7 +48,8 @@ import javax.xml.bind.annotation.XmlTransient;
 // query = "SELECT * FROM projects p LEFT JOIN users_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
 // resultClass = Projects.class)
 public class Projects implements Serializable {
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectid")
+    private Collection<Jobhistory> jobhistoryCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -164,5 +165,13 @@ public class Projects implements Serializable {
     @Override
     public String toString() {
         return "entitybeans.Projects[ idprojects=" + idprojects + " ]";
+    }
+    @XmlTransient
+    public Collection<Jobhistory> getJobhistoryCollection() {
+        return jobhistoryCollection;
+    }
+
+    public void setJobhistoryCollection(Collection<Jobhistory> jobhistoryCollection) {
+        this.jobhistoryCollection = jobhistoryCollection;
     }
 }

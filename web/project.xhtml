@@ -3,7 +3,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -12,20 +14,20 @@
             <ui:define name="title">
                 RNAseq &ndash; Project
             </ui:define>
-
+            <f:metadata><f:viewParam name="projectNum"/></f:metadata>
             <ui:define name="center">
-                <h3>Project {project}</h3>
+                <h3>Project #{projectNum}</h3>
                 <div class="news">
                     <h4>Datasets</h4>
                     <br/>
+                    
                     <ul id="datasetList">
-                        <li><h:outputText value="Dataset 1"/></li>
-                        <li><h:outputText value="Dataset 2"/></li>
-                        <li><h:outputText value="Dataset 3"/></li>
-                        <li><h:outputText value="Dataset 4"/></li>
-                        <li><h:outputText value="Dataset 5"/></li>
-                        <li><h:outputText value="Dataset 6"/></li>
-                        <li><h:outputText value="Dataset 7"/></li>
+                        
+
+                            
+                        <c:forEach items="#{filesBean.getFilesNames(projectNum)}"  var="file">
+                            <li><h:outputText value="#{file}"/></li>
+                        </c:forEach>
                     </ul>
                 </div>
                 <div class="news">

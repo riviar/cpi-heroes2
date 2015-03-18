@@ -32,12 +32,19 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "files")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Files.findAll", query = "SELECT f FROM Files f"),
+    @NamedQuery(name = "Files.findByProj", query = "SELECT f FROM Files f INNER JOIN f.projectsCollection proj WHERE proj.idprojects= :idprojects"),
+    @NamedQuery(name = "Files.findAll", query = "SELECT f FROM Files f"),    
     @NamedQuery(name = "Files.findByIdresources", query = "SELECT f FROM Files f WHERE f.idresources = :idresources"),
     @NamedQuery(name = "Files.findByPath", query = "SELECT f FROM Files f WHERE f.path = :path"),
     @NamedQuery(name = "Files.findByDisplayname", query = "SELECT f FROM Files f WHERE f.displayname = :displayname"),
     @NamedQuery(name = "Files.findByDescription", query = "SELECT f FROM Files f WHERE f.description = :description")})
 public class Files implements Serializable {
+    public static boolean getProjectCollection;
+    @JoinTable(name = "project_has_files", joinColumns = {
+        @JoinColumn(name = "resources_idresources", referencedColumnName = "idresources")}, inverseJoinColumns = {
+        @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")})
+    @ManyToMany
+    private Collection<Projects> projectsCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,7 +68,7 @@ public class Files implements Serializable {
     @JoinColumn(name = "filetype", referencedColumnName = "filetypeid")
     @ManyToOne
     private Filetype filetype;
-
+    
     public Files() {
     }
 
@@ -143,4 +150,14 @@ public class Files implements Serializable {
         return "entities.Files[ idresources=" + idresources + " ]";
     }
 
+    @XmlTransient
+    public Collection<Projects> getProjectsCollection() {
+        return projectsCollection;
+    }
+
+    public void setProjectsCollection(Collection<Projects> projectsCollection) {
+        this.projectsCollection = projectsCollection;
+        
+    }
+    
 }

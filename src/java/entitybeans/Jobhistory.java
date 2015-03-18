@@ -33,6 +33,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Jobhistory.findByProcessid", query = "SELECT j FROM Jobhistory j WHERE j.processid = :processid"),
     @NamedQuery(name = "Jobhistory.findByCommandused", query = "SELECT j FROM Jobhistory j WHERE j.commandused = :commandused")})
 public class Jobhistory implements Serializable {
+    @JoinColumn(name = "projectid", referencedColumnName = "idprojects")
+    @ManyToOne(optional = false)
+    private Projects projectid;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,6 +113,14 @@ public class Jobhistory implements Serializable {
     @Override
     public String toString() {
         return "entities.Jobhistory[ idjobs=" + idjobs + " ]";
+    }
+
+    public Projects getProjectid() {
+        return projectid;
+    }
+
+    public void setProjectid(Projects projectid) {
+        this.projectid = projectid;
     }
     
 }
