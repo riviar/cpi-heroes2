@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "jobhistory")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Jobhistory.findAll", query = "SELECT j FROM Jobhistory j"),
+    @NamedQuery(name = "Jobhistory.findAll", query = "SELECT j.processid FROM Jobhistory j"),
     @NamedQuery(name = "Jobhistory.findByIdjobs", query = "SELECT j FROM Jobhistory j WHERE j.idjobs = :idjobs"),
     @NamedQuery(name = "Jobhistory.findByProcessid", query = "SELECT j FROM Jobhistory j WHERE j.processid = :processid"),
     @NamedQuery(name = "Jobhistory.findByCommandused", query = "SELECT j FROM Jobhistory j WHERE j.commandused = :commandused")})
