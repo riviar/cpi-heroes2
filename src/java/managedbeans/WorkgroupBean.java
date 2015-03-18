@@ -13,10 +13,12 @@ import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import sessionbeans.AccountSessionFacade;
+import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
 
 /**
@@ -30,11 +32,42 @@ public class WorkgroupBean {
     private Workgroups workgroup;
     private Users user;
     private Projects project;
+    private String newProjectName;
 
     @EJB
     WorkGroupSessionFacade workgroupFacade;
+    @EJB
+    ProjectSessionFacade projectFacade;
 //    @EJB
 //    AuthenticationBean authBean;
+    @ManagedProperty(value="#{utilityBean}")
+    private UtilityBean utilityBean;
+    //Stores ID of the workgroup
+    @ManagedProperty(value="#{param.selectedWorkgroup}")
+    private String selectedWorkgroup;
+    //Stored ID of the project
+    @ManagedProperty(value="#{param.selectedProject}")
+    private String selectedProject;
+
+    public void setSelectedProject(String selectedProject) {
+        this.selectedProject = selectedProject;
+    }
+
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
+
+    public void setSelectedWorkgroup(String selectedWorkgroup) {
+        this.selectedWorkgroup = selectedWorkgroup;
+    }
+
+    public String getNewProjectName() {
+        return newProjectName;
+    }
+
+    public void setNewProjectName(String newProjectName) {
+        this.newProjectName = newProjectName;
+    }
 
     /**
      * Creates a new instance of WorkgroupBean
@@ -60,6 +93,7 @@ public class WorkgroupBean {
      * @return Collection containing all projects in current workgroup
      */
     public Collection<Projects> getProjectsInWorkgroup() {
+        
         if (workgroup == null) {
             return new ArrayList();
         } else {
@@ -73,7 +107,7 @@ public class WorkgroupBean {
      * @return Collection containing all users in current workgroup
      */
     public Collection<Users> getUsersInWorkgroup() {
-
+        workgroup = utilityBean.getSelectedWorkgroup();
         if (workgroup == null) {
             return new ArrayList();
         } else {
@@ -105,8 +139,10 @@ public class WorkgroupBean {
         }
         return "workgroupspage";
     }
-
+    
     public String addProjectToWorkgroup() {
+        project = new Projects();
+        project.setProjectname(newProjectName);
         if (project == null || workgroup == null) {
             return "invaliddataerrorpage";
         } else {
@@ -148,10 +184,10 @@ public class WorkgroupBean {
 
     public Collection<Workgroups> getWorkgroupsForUser() {
 
-        if (user == null) {
+        if (utilityBean.getUser() == null) {
             return new ArrayList();
         } else {
-            return workgroupFacade.workgroupsWithUserMember(user);
+            return workgroupFacade.workgroupsWithUserMember(utilityBean.getUser());
         }
     }
 
@@ -162,5 +198,22 @@ public class WorkgroupBean {
         workgroup.setUsersCollection(users);
         return workgroup;
     }
+    
+    /**
+     * Selects workgroup and redirects to its page
+     * @return 
+     */
+    public String selectWorkgroup() {
+        utilityBean.setSelectedWorkgroup(workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup)));
+        return "workgroup";
+    }
 
+    /**
+     * Selects projects and redirects to its page
+     * @return 
+     */
+    public String selectProject() {
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
+        return "project";
+    }
 }

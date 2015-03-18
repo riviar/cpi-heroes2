@@ -139,4 +139,16 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
         }
         return null;
     }
+    
+    public Projects retrieveProjectById(int id) {
+        try {
+            Query q = em.createNamedQuery("Projects.findByIdprojects");
+            q.setParameter("idprojects", id);
+            return (Projects) q.getSingleResult();
+        } catch (NoResultException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Project doesn't exist!"));   
+        }
+        return null;
+    }
 }

@@ -14,6 +14,7 @@ import toolstuff.util.Tool;
 
 /**
  * Bean used to store information about session
+ *
  * @author Fox
  */
 @ManagedBean
@@ -56,9 +57,7 @@ public class UtilityBean {
     public void setSelectedTool(Tool selectedTool) {
         this.selectedTool = selectedTool;
     }
-    
-    
-    
+
     /**
      * Creates a new instance of UtilityBean
      */
@@ -68,5 +67,5 @@ public class UtilityBean {
         this.selectedWorkgroup = null;
         this.user = null;
     }
-    
+
 }

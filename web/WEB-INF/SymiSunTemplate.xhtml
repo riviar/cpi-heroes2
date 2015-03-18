@@ -37,7 +37,7 @@
                     </ul>
                 </div>
                 <div id="logincontrol">
-                        <c:if test="#{sessionScope.user == null}">
+                    <c:if test="#{utilityBean.user == null}">
                             <h:form>
                                 <h:panelGrid styleClass="loginPanel" columns="5" >
                                     <h:outputText value="Username: "/>
@@ -48,23 +48,16 @@
                                 </h:panelGrid>
                             </h:form>
                         </c:if>
-                        <c:if test="#{sessionScope.user != null}">
+                        <c:if test="#{utilityBean.user != null}">
                             <h:form>
                                 <h:panelGrid styleClass="loginPanel" columns="2" >
-                                    <h:outputText value="Logged in as #{sessionScope.user.getUsername()} "/>
+                                    Logged in as <h:outputText style="font-weight:bold" value="#{utilityBean.user.username} "/>
                                     <h:commandButton id="logInButton" action="#{authenticationBean.logOut()}" class="login" value="Log Out"/>
                                 </h:panelGrid>
                             </h:form>
                         </c:if>
                     </div>
                 <div id="headerimage">
-                    <c:if test="#{!authenticationBean.loggedIn}">
-                        <div id="download">
-                            <h:form>                                
-                                <span id="download-text">Not yet an user?<br/><h:link value="Register for free!" outcome="register"></h:link></span>
-                            </h:form>
-                        </div>
-                    </c:if>
                     <div id="slogan">
                         Our cute super slogan
                     </div>

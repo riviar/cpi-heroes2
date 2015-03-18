@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import managedbeans.UtilityBean;
 
 /**
  *
@@ -108,10 +109,17 @@ public class LoginStatusFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String uri = httpRequest.getRequestURI();
         Users user = null;
-        HttpSession session = httpRequest.getSession();
+        HttpSession session = httpRequest.getSession(false);
         
         if (session != null) {
-            user = (Users) session.getAttribute("user");
+            System.out.println("trying to get bean from session..");
+            UtilityBean bean = (UtilityBean) session.getAttribute("utilityBean");
+            try {
+                user = ((UtilityBean) session.getAttribute("utilityBean")).getUser();
+            }
+            catch (NullPointerException e) {
+                user = null;
+            }
         }
 
         //user is logged in, no register, no index pages

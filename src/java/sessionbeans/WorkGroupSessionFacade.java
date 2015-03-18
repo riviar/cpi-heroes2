@@ -102,25 +102,27 @@ public class WorkGroupSessionFacade extends AbstractFacade<Workgroups> {
 
         }
     }
-    
+
     public Collection<Workgroups> workgroupsOwnedByUser(Users user) {
-        
+
         Query q = em.createNamedQuery("Workgroups.findByUsersOwner", Workgroups.class);
         q.setParameter("users", user);
         System.out.println("WGFacade - " + q.getResultList().size() + " owner results!");
         return q.getResultList();
     }
-    
-        public Collection<Workgroups> workgroupsWithUserMember(Users user) {
-        
+
+    public Collection<Workgroups> workgroupsWithUserMember(Users user) {
+
         Query q = em.createNamedQuery("Workgroups.findByUsersMember", Workgroups.class);
         q.setParameter(1, user.getIdusers());
-        System.out.println("WGFacade - " + q.getResultList().size() + "member results!");
-        List results = q.getResultList();
-        for (Object r : results) {            
-            System.out.println(r.toString());
-        }
-        return results;
+        return q.getResultList();
     }
-    
+
+    public Workgroups retrieveWorkgroupById(int id) {
+        
+        Query q = em.createNamedQuery("Workgroups.findByIdworkgroups");
+        q.setParameter("idworkgroups", id);
+        return (Workgroups) q.getSingleResult();
+    }
+
 }
