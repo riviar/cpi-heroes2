@@ -43,6 +43,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Users.findByLastname", query = "SELECT u FROM Users u WHERE u.lastname = :lastname"),
     @NamedQuery(name = "Users.findByInstitution", query = "SELECT u FROM Users u WHERE u.institution = :institution")})
 public class Users implements Serializable {
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Size(max = 45)
+    @Column(name = "email")
+    private String email;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -190,6 +194,14 @@ public class Users implements Serializable {
     @Override
     public String toString() {
         return "entitybeans.Users[ idusers=" + idusers + " ]";
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
     
 }

@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -39,6 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Projects.findByDescription", query = "SELECT p FROM Projects p WHERE p.description = :description"),
     @NamedQuery(name = "Projects.findByVisibility", query = "SELECT p FROM Projects p WHERE p.visibility = :visibility")})
 public class Projects implements Serializable {
+    @ManyToMany(mappedBy = "projectsCollection")
+    private Collection<Files> filesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectid")
+    private Collection<Jobhistory> jobhistoryCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -151,6 +156,24 @@ public class Projects implements Serializable {
     @Override
     public String toString() {
         return "entitybeans.Projects[ idprojects=" + idprojects + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Files> getFilesCollection() {
+        return filesCollection;
+    }
+
+    public void setFilesCollection(Collection<Files> filesCollection) {
+        this.filesCollection = filesCollection;
+    }
+
+    @XmlTransient
+    public Collection<Jobhistory> getJobhistoryCollection() {
+        return jobhistoryCollection;
+    }
+
+    public void setJobhistoryCollection(Collection<Jobhistory> jobhistoryCollection) {
+        this.jobhistoryCollection = jobhistoryCollection;
     }
     
 }
