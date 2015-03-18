@@ -20,14 +20,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author user
+ * @author pitas
  */
 @Entity
 @Table(name = "files")
@@ -41,9 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Files implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idresources")
     private Integer idresources;
     @Size(max = 9999)
@@ -55,10 +53,10 @@ public class Files implements Serializable {
     @Size(max = 9999)
     @Column(name = "description")
     private String description;
+    @JoinTable(name = "project_has_files", joinColumns = {
+        @JoinColumn(name = "resources_idresources", referencedColumnName = "idresources")}, inverseJoinColumns = {
+        @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")})
     @ManyToMany
-    @JoinTable(name = "project_has_files", inverseJoinColumns = {
-        @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")}, joinColumns = {
-        @JoinColumn(name = "resources_idresources", referencedColumnName = "idresources")})
     private Collection<Projects> projectsCollection;
     @JoinColumn(name = "filetype", referencedColumnName = "filetypeid")
     @ManyToOne
@@ -142,7 +140,7 @@ public class Files implements Serializable {
 
     @Override
     public String toString() {
-        return "entitybeans.Files[ idresources=" + idresources + " ]";
+        return "entities.Files[ idresources=" + idresources + " ]";
     }
 
 }
