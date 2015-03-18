@@ -151,7 +151,7 @@ public class WorkgroupBean {
         if (user == null) {
             return new ArrayList();
         } else {
-            return workgroupFacade.workgroupsForUser(user);
+            return workgroupFacade.workgroupsWithUserMember(user);
         }
     }
 
