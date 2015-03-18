@@ -47,9 +47,6 @@ public class Jobhistory implements Serializable {
     @Size(max = 9999)
     @Column(name = "commandused")
     private String commandused;
-    @JoinColumn(name = "projectid", referencedColumnName = "idprojects")
-    @ManyToOne(optional = false)
-    private Projects projectid;
 
     public Jobhistory() {
     }
@@ -114,13 +111,4 @@ public class Jobhistory implements Serializable {
     public String toString() {
         return "entities.Jobhistory[ idjobs=" + idjobs + " ]";
     }
-
-    public Projects getProjectid() {
-        return projectid;
-    }
-
-    public void setProjectid(Projects projectid) {
-        this.projectid = projectid;
-    }
-    
 }

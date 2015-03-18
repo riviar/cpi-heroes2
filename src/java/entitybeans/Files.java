@@ -40,11 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Files.findByDescription", query = "SELECT f FROM Files f WHERE f.description = :description")})
 public class Files implements Serializable {
     public static boolean getProjectCollection;
-    @JoinTable(name = "project_has_files", joinColumns = {
-        @JoinColumn(name = "resources_idresources", referencedColumnName = "idresources")}, inverseJoinColumns = {
-        @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")})
-    @ManyToMany
-    private Collection<Projects> projectsCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -149,15 +144,4 @@ public class Files implements Serializable {
     public String toString() {
         return "entities.Files[ idresources=" + idresources + " ]";
     }
-
-    @XmlTransient
-    public Collection<Projects> getProjectsCollection() {
-        return projectsCollection;
-    }
-
-    public void setProjectsCollection(Collection<Projects> projectsCollection) {
-        this.projectsCollection = projectsCollection;
-        
-    }
-    
 }
