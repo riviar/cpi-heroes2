@@ -109,4 +109,10 @@ public class WorkGroupSessionFacade extends AbstractFacade<Workgroups> {
         return q.getResultList();
     }
     
+    public Workgroups retrieveWorkgroupById(int id) {
+        Query q = em.createNamedQuery("Workgroups.findByIdworkgroups");
+        q.setParameter("idworkgroups", id);
+        return (Workgroups) q.getSingleResult();
+    }
+    
 }

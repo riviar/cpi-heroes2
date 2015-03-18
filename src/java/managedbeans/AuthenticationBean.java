@@ -11,6 +11,7 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -28,6 +29,17 @@ public class AuthenticationBean {
 
     @EJB
     AccountSessionFacade accountFacade;
+    
+    @ManagedProperty(value="#{utilityBean}")
+    private UtilityBean utilityBean;
+
+    public UtilityBean getUtilityBean() {
+        return utilityBean;
+    }
+
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
 
     private Users newUser = new Users();
 
@@ -44,11 +56,8 @@ public class AuthenticationBean {
     }
 
     public Users getLoggedInUser() {
-        // get current session
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
         // set user attribute of session
-        return (Users) session.getAttribute("user");
+        return utilityBean.getUser();
     }
 
     public String loginUser(String username, String password) {
@@ -66,7 +75,7 @@ public class AuthenticationBean {
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                     .getExternalContext().getSession(false);
             // set user attribute of session
-            session.setAttribute("user", user);
+            utilityBean.setUser(user);
             newUser = user;
             return "home";
         }
@@ -77,7 +86,7 @@ public class AuthenticationBean {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                 .getExternalContext().getSession(false);
         //returns true if user attribute for current session is not null
-        return (session.getAttribute("user") != null);
+        return (utilityBean.getUser() != null);
     }
 
     public Users getNewUser() {

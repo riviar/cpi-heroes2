@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -16,13 +17,19 @@
 
             <ui:define name="center">
                 <h3>Workgroups Menu</h3>
-                <div class="news">                                      
-                    <h:dataTable value="#{workgroupBean.workgroupsForUser}" var="workgroups">
-                        <h:column>
-                            <f:facet name="header">My Groups</f:facet>
-                            "#{workgroups.workgroupname}"
-                        </h:column>
-                    </h:dataTable>
+                <div class="news"> 
+                    <h4>My Groups</h4>
+                    <ul>
+                        <h:form>
+                            <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">
+                                <li><p>
+                                        <h:commandLink value="#{workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
+                                            <f:param name="selectedWorkgroup" value="#{workgroup.idworkgroups}"/>
+                                        </h:commandLink>
+                                    </p></li>
+                            </c:forEach>
+                        </h:form>
+                    </ul>
                 </div>
                 <div class="news">
                     <h:form>

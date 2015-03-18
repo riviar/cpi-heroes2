@@ -35,33 +35,35 @@
                         <li><h:link value="Contact" outcome="index"/></li>
                     </ul>
                 </div>
-                <ui:insert name="loginMenu">
-                    <div id="logincontrol">
-                        <c:if test="#{sessionScope.user == null}">
-                            <h:form>
-                                <h:panelGrid styleClass="loginPanel" columns="5" >
-                                    <h:outputText value="Username: "/>
-                                    <p:inputText value="#{authenticationBean.newUser.username}"/>
-                                    <h:outputText value="Password: "/>
-                                    <p:password value="#{authenticationBean.newUser.password}"/>
-                                    <h:commandButton id="logInButton" action="#{authenticationBean.loginUser()}" class="login" value="Log In"/>
-                                </h:panelGrid>
-                            </h:form>
-                        </c:if>
-                        <c:if test="#{sessionScope.user != null}">
-                            <h:form>
-                                <h:panelGrid styleClass="loginPanel" columns="2" >
-                                    <h:outputText value="Logged in as #{sessionScope.user.getUsername()} "/>
-                                    <h:commandButton id="logInButton" action="#{authenticationBean.logOut()}" class="login" value="Log Out"/>
-                                </h:panelGrid>
-                            </h:form>
-                        </c:if>
-                    </div>
-                </ui:insert>
+                <div id="logincontrol">
+                    <c:if test="#{utilityBean.user == null}">
+                        <h:form>
+                            <h:panelGrid styleClass="loginPanel" columns="5" >
+                                <h:outputText value="Username: "/>
+                                <p:inputText value="#{authenticationBean.newUser.username}"/>
+                                <h:outputText value="Password: "/>
+                                <p:password value="#{authenticationBean.newUser.password}"/>
+                                <h:commandButton id="logInButton" action="#{authenticationBean.loginUser()}" class="login" value="Log In"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </c:if>
+                    <c:if test="#{utilityBean.user != null}">
+                        <h:form>
+                            <h:panelGrid styleClass="loginPanel" columns="3" >
+                                Logged in as <h:outputText style="font-weight:bold" value="#{utilityBean.user.username} "/>
+                                <h:commandButton id="logInButton" action="#{authenticationBean.logOut()}" class="login" value="Log Out"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </c:if>
+                </div>
                 <div id="headerimage">
-                    <ui:insert name="registerLink">
-
-                    </ui:insert>
+                    <c:if test="#{utilityBean.user == null}">
+                        <div id="registerFloater">
+                            <h:form>
+                                <span id="download-text">Not yet an user?<br/><h:link value="Register for free!" outcome="register"></h:link></span>
+                            </h:form>
+                        </div>
+                    </c:if>
                     <div id="slogan">
                         Our cute super slogan
                     </div>
