@@ -21,15 +21,16 @@
                     <h4>Members:</h4>
                     <br/>
                     <ul>
-                        <c:forEach items="#{workgroupBean.getUsersInWorkgroup()}" var="user">
-                            <li><p>
-                                    <h:outputText style="font-weight: bold" value="#{user.username}"/>
-                                </p></li>
-                        </c:forEach>
-                        <li><p>Member 1</p></li>
-                        <li><p>Member 2</p></li>
-                        <li><p>Member 3</p></li>
-                        <li><p>Member 4</p></li>
+                        <c:if test="#{workgroupBean.getUsersInWorkgroup() == null}">
+                            <p>{No members yet}</p>
+                        </c:if>
+                        <c:if test="#{workgroupBean.getUsersInWorkgroup() != null}">
+                            <c:forEach items="#{workgroupBean.getUsersInWorkgroup()}" var="user">
+                                <li><p>
+                                        <h:outputText style="font-weight: bold" value="#{user.username}"/>
+                                    </p></li>
+                            </c:forEach>
+                        </c:if>
                     </ul>
                 </div>
                 <div class="news">
@@ -41,21 +42,22 @@
                 <div class="news">
                     <h4>Projects:</h4>
                     <br/>
-                    <ul>
-                        <h:form>
-                            <c:forEach items="#{workgroupBean.getProjectsInWorkgroup()}" var="project">
-                                <li><p>
-                                        <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
-                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
-                                        </h:commandLink>
-                                    </p></li>
-                            </c:forEach>
-                        </h:form>
-                        <li><p>Project 1</p></li>
-                        <li><p>Project 2</p></li>
-                        <li><p>Project 3</p></li>
-                        <li><p>Project 4</p></li>
-                    </ul>
+                    <c:if test="#{workgroupBean.getProjectsInWorkgroup() == null}">
+                        <p>{No projects in workgroup yet}</p>
+                    </c:if>
+                    <c:if test="#{workgroupBean.getProjectsInWorkgroup() != null}">
+                        <ul>
+                            <h:form>
+                                <c:forEach items="#{workgroupBean.getProjectsInWorkgroup()}" var="project">
+                                    <li><p>
+                                            <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
+                                                <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                            </h:commandLink>
+                                        </p></li>
+                                </c:forEach>
+                            </h:form>
+                        </ul>
+                    </c:if>
                 </div>
                 <div class="news">
                     <h:form>

@@ -34,6 +34,8 @@ public class WorkgroupBean {
     private Projects project;
     private String newProjectName;
     private String newUserName;
+    private Workgroups newWorkgroup;
+    private String newWorkgroupName;
 
     @EJB
     WorkGroupSessionFacade workgroupFacade;
@@ -52,6 +54,23 @@ public class WorkgroupBean {
     @ManagedProperty(value = "#{param.selectedProject}")
     private String selectedProject;
 
+    public String getNewWorkgroupName() {
+        return newWorkgroupName;
+    }
+
+    public void setNewWorkgroupName(String newWorkgroupName) {
+        this.newWorkgroupName = newWorkgroupName;
+    }
+
+    
+    public Workgroups getNewWorkgroup() {
+        return newWorkgroup;
+    }
+
+    public void setNewWorkgroup(Workgroups newWorkgroup) {
+        this.newWorkgroup = newWorkgroup;
+    }
+    
     public void setSelectedProject(String selectedProject) {
         this.selectedProject = selectedProject;
     }
@@ -183,10 +202,13 @@ public class WorkgroupBean {
     }
 
     public String createWorkgroup() {
-        if (workgroup == null) {
+        if (newWorkgroup == null) {
             return "invaliddataerrorpage";
         } else {
-            workgroupFacade.createWorkgroup(workgroup);
+            newWorkgroup = new Workgroups();
+            newWorkgroup.setWorkgroupname(newWorkgroupName);
+            newWorkgroup = getNewWorkgroup(newWorkgroup);
+            workgroupFacade.createWorkgroup(newWorkgroup);
         }
         return "workgroupspage";
     }
@@ -209,7 +231,8 @@ public class WorkgroupBean {
         }
     }
 
-    public Workgroups getNewWorkgroup() {
+    public Workgroups getNewWorkgroup(Workgroups workgroup) {
+        user = utilityBean.getUser();
         workgroup.setOwner(user);
         ArrayList<Users> users = new ArrayList();
         users.add(user);

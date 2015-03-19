@@ -25,14 +25,19 @@ public class FilesBean {
     @EJB
     private FilesFacade filesFacade;
     
-    @ManagedProperty(value=("#{utilityBean}"))
-    private UtilityBean utilityBean;
+    //@ManagedProperty(value = "#{utilityBean}")
+    //private UtilityBean utilityBean;
+
+//    public void setUtilityBean(UtilityBean utilityBean) {
+//        this.utilityBean = utilityBean;
+//    }
     
     private int idProject;
     
     
     public FilesBean(){
-        idProject = utilityBean.getSelectedProject().getIdprojects();
+        //idProject = utilityBean.getSelectedProject().getIdprojects();
+        idProject = 0;
     }
     
     public List<Files> getFiles(){
