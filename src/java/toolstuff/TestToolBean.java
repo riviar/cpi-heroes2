@@ -17,15 +17,60 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class TestToolBean {
 
-    private String inputPath;
+    private String inputPath="";
+    private String inputPath2="";
+    private String windowSize ="";
+    private String qualityth ="";
     private String outputFile = "none";
 
     public String getInputPath() {
         return inputPath;
     }
-
+    
+  
     public void setInputPath(String inputPath) {
         this.inputPath = inputPath;
+    }
+    
+    /**
+     * @return the inputPath2
+     */
+    public String getInputPath2() {
+        return inputPath2;
+    }
+    
+    public void setInputPath2(String inputPath2) {
+        this.inputPath2 = getInputPath2();        
+    }
+    
+    
+
+    /**
+     * @return the windowSize
+     */
+    public String getWindowSize() {
+        return windowSize;
+    }
+
+    /**
+     * @param windowSize the windowSize to set
+     */
+    public void setWindowSize(String windowSize) {
+        this.windowSize = windowSize;
+    }
+
+    /**
+     * @return the qualityth
+     */
+    public String getQualityth() {
+        return qualityth;
+    }
+
+    /**
+     * @param qualityth the qualityth to set
+     */
+    public void setQualityth(String qualityth) {
+        this.qualityth = qualityth;
     }
 
     public String getOutputFile() {
@@ -48,5 +93,12 @@ public class TestToolBean {
         job.execute();
         outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
     }
+    
+    public void runSeecer() {
+        AbstractJob job = new SeecerJob(getInputPath(), getInputPath2());
+        job.execute();
+        outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
+    }
+
     
 }
