@@ -33,11 +33,14 @@ public class WorkgroupBean {
     private Users user;
     private Projects project;
     private String newProjectName;
+    private String newUserName;
 
     @EJB
     WorkGroupSessionFacade workgroupFacade;
     @EJB
     ProjectSessionFacade projectFacade;
+    @EJB
+    AccountSessionFacade usersFacade;
 //    @EJB
 //    AuthenticationBean authBean;
     @ManagedProperty(value="#{utilityBean}")
@@ -68,6 +71,16 @@ public class WorkgroupBean {
     public void setNewProjectName(String newProjectName) {
         this.newProjectName = newProjectName;
     }
+
+    public String getNewUserName() {
+        return newUserName;
+    }
+
+    public void setNewUserName(String newUserName) {
+        this.newUserName = newUserName;
+    }
+    
+    
 
     /**
      * Creates a new instance of WorkgroupBean
@@ -119,6 +132,7 @@ public class WorkgroupBean {
     }
 
     public String addUserToWorkgroup() {
+        Users user = usersFacade.retrieveUserByName(newUserName);
         if (user == null || workgroup == null) {
             return "invaliddataerrorpage";
         } else {

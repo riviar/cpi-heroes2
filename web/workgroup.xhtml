@@ -68,8 +68,8 @@
                     <h3>Add new member</h3>
                     <h:form>
                         <h:outputText value="User name"/><br/>
-                        <p:inputText class="regInput" value="name"/><br/>
-                        <h:commandButton id="addMemberButton" action="workgroup" class="centerButton" value="Add"/>
+                        <p:inputText class="regInput" value="#{workgroupBean.newUserName}"/><br/>
+                        <h:commandButton id="addMemberButton" action="#{workgroupBean.addUserToWorkgroup()}" class="centerButton" value="Add"/>
                     </h:form>
                 </p:dialog>
 

@@ -40,9 +40,11 @@ public class AccountSessionFacade extends AbstractFacade<Users> {
             MessageDigest sha = MessageDigest.getInstance("SHA-512");
             byte[] hash = sha.digest(password.getBytes("UTF-8"));
             StringBuilder hashedPassword = new StringBuilder();
-            for (int i = 0; i< hash.length; i++) {
+            for (int i = 0; i < hash.length; i++) {
                 String hex = Integer.toHexString(0xff & hash[i]);
-                if (hex.length() == 1) hashedPassword.append('0');
+                if (hex.length() == 1) {
+                    hashedPassword.append('0');
+                }
                 hashedPassword.append(hex);
             }
             return hashedPassword.toString();
@@ -52,7 +54,7 @@ public class AccountSessionFacade extends AbstractFacade<Users> {
         }
         return null;
     }
-   
+
     public Users checkUserLogin(String username, String password) {
         Query q = em.createQuery("SELECT u FROM Users u WHERE (u.username = :username AND u.password = :password)");
         q.setParameter("username", username);
@@ -85,6 +87,21 @@ public class AccountSessionFacade extends AbstractFacade<Users> {
         String hashedPassword = hashPassword(newUser.getPassword());
         newUser.setPassword(hashedPassword);
         create(newUser);
+    }
+
+    public Users retrieveUserByName(String username) {
+        Query q = em.createNamedQuery("Users.findByUsername");
+        q.setParameter("username", username);
+        try {
+            Users user = (Users) q.getSingleResult();
+            if (user != null) {
+                return user;
+            } else {
+                return null;
+            }
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
 }
