@@ -17,24 +17,12 @@ import javax.faces.bean.RequestScoped;
 @RequestScoped
 public class TestToolBean {
 
-    private String inputPath;
+    private String inputPath="";
+    private String inputPath2="";
+    private String windowSize ="";
+    private String qualityth ="";
     private String outputFile = "none";
 
-    public String getInputPath() {
-        return inputPath;
-    }
-
-    public void setInputPath(String inputPath) {
-        this.inputPath = inputPath;
-    }
-
-    public String getOutputFile() {
-        return outputFile;
-    }
-
-    public void setOutputFile(String outputFile) {
-        this.outputFile = outputFile;
-    }
     
     
     /**
@@ -44,9 +32,87 @@ public class TestToolBean {
     }
     
     public void runFastQC() {
-        AbstractJob job = new FastQCJob(inputPath);
+        AbstractJob job = new FastQCJob(getInputPath());
         job.execute();
-        outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
+        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+    }
+    
+    public void runTrimmomatic() {
+        System.out.println("##########################################");
+
+        AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
+        job.execute();
+        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+    }
+
+    /**
+     * @return the inputPath
+     */
+    public String getInputPath() {
+        return inputPath;
+    }
+
+    /**
+     * @param inputPath the inputPath to set
+     */
+    public void setInputPath(String inputPath) {
+        this.inputPath = inputPath;
+    }
+
+    /**
+     * @return the inputPath2
+     */
+    public String getInputPath2() {
+        return inputPath2;
+    }
+
+    /**
+     * @param inputPath2 the inputPath2 to set
+     */
+    public void setInputPath2(String inputPath2) {
+        this.inputPath2 = inputPath2;
+    }
+
+    /**
+     * @return the windowSize
+     */
+    public String getWindowSize() {
+        return windowSize;
+    }
+
+    /**
+     * @param windowSize the windowSize to set
+     */
+    public void setWindowSize(String windowSize) {
+        this.windowSize = windowSize;
+    }
+
+    /**
+     * @return the qualityth
+     */
+    public String getQualityth() {
+        return qualityth;
+    }
+
+    /**
+     * @param qualityth the qualityth to set
+     */
+    public void setQualityth(String qualityth) {
+        this.qualityth = qualityth;
+    }
+
+    /**
+     * @return the outputFile
+     */
+    public String getOutputFile() {
+        return outputFile;
+    }
+
+    /**
+     * @param outputFile the outputFile to set
+     */
+    public void setOutputFile(String outputFile) {
+        this.outputFile = outputFile;
     }
     
 }

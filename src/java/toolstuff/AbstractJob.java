@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public abstract class AbstractJob {
     
-    private String command = "/home/vmuser/CPI/tools/";
+    private String command = "";
     private HashMap<String, String> parameters = new HashMap();
     private String output;
 

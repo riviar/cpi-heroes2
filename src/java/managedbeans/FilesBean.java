@@ -7,9 +7,13 @@ package managedbeans;
 
 import entitybeans.Files;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import sessionbeans.FilesFacade;
 
@@ -17,25 +21,27 @@ import sessionbeans.FilesFacade;
  *
  * @author lestelles
  */
-@ManagedBean
+@ManagedBean(name="user")
 @RequestScoped
 public class FilesBean {
     
     @EJB
     private FilesFacade filesFacade;
     
+    private int idProject=3;
+    
     
     public FilesBean(){
         
     }
-    
-    public List<Files> getFiles(int idProject){
+           
+    public List<Files> getFiles(){
         List<String> list=new ArrayList();
         List<Files> files=filesFacade.getProjectFiles(idProject);
         return files;
     }
     
-    public List<String> getFilesNames(int idProject){
+    public List<String> getFilesNames(){
         List<String> list=new ArrayList();
         List<Files> files=filesFacade.getProjectFiles(idProject);
         for (Files file:files){
@@ -44,7 +50,7 @@ public class FilesBean {
         return list;
     }
     
-    public List<String> getFilesDescription(int idProject){
+    public List<String> getFilesDescription(){
         List<String> list=new ArrayList();
         List<Files> files=filesFacade.getProjectFiles(idProject);
         for (Files file:files){
@@ -53,14 +59,27 @@ public class FilesBean {
         return list;
     }
     
-    public List<String> getFilesPath(int idProject){
+    public List<String> getFilesPath(){
         List<String> list=new ArrayList();
         List<Files> files=filesFacade.getProjectFiles(idProject);
         for (Files file:files){
-            list.add(file.getPath());
+            list.add(file.getPath());            
         }
         return list;
     }
-
     
+    
+    /*
+    Creates a HashMap to use it in new_job_trimmomatic.xhtml
+    */
+    private static Map<String,Object> filesMap;
+    public Map<String,Object> getFilesMap() {
+        filesMap = new LinkedHashMap<>();
+        List<Files> files=filesFacade.getProjectFiles(idProject);
+        for (Files file:files){
+            filesMap.put(file.getDisplayname(), file.getPath());
+        }
+        return filesMap;
+    }
+        
 }
