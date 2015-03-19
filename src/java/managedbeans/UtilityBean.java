@@ -22,6 +22,7 @@ import toolstuff.util.Tool;
 public class UtilityBean {
 
     private Users user;
+    private Users selectedUser;
     private Workgroups selectedWorkgroup;
     private Projects selectedProject;
     private Tool selectedTool;
@@ -58,6 +59,13 @@ public class UtilityBean {
         this.selectedTool = selectedTool;
     }
 
+    public Users getSelectedUser() {
+        return selectedUser;
+    }
+    public void setSelectedUser(Users selectedUser) {
+        this.selectedUser = selectedUser;
+    }
+    
     /**
      * Creates a new instance of UtilityBean
      */

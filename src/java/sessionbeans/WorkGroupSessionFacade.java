@@ -55,6 +55,10 @@ public class WorkGroupSessionFacade extends AbstractFacade<Workgroups> {
         remove(workgroup);
     }
 
+    public void updateWorkgroup(Workgroups workgroup) {
+        edit(workgroup);
+    }
+
     public void addUserToWorkgroup(Users user, Workgroups workgroup) {
         try {
             Collection<Users> users = workgroup.getUsersCollection();
@@ -119,10 +123,16 @@ public class WorkGroupSessionFacade extends AbstractFacade<Workgroups> {
     }
 
     public Workgroups retrieveWorkgroupById(int id) {
-        
+
         Query q = em.createNamedQuery("Workgroups.findByIdworkgroups");
         q.setParameter("idworkgroups", id);
         return (Workgroups) q.getSingleResult();
+    }
+
+    public Users retrieveUserById(int id) {
+        Query q = em.createNamedQuery("Users.findByIdusers");
+        q.setParameter("idusers", id);
+        return (Users) q.getSingleResult();
     }
 
 }

@@ -51,7 +51,13 @@ public class WorkgroupBean {
     //Stored ID of the project
     @ManagedProperty(value="#{param.selectedProject}")
     private String selectedProject;
-
+    @ManagedProperty(value="#{param.selectedUser}")
+    private String selectedUser;
+    
+    public void setSelectedUser(String selectedUser) {
+        this.selectedUser = selectedUser;
+    }
+ 
     public void setSelectedProject(String selectedProject) {
         this.selectedProject = selectedProject;
     }
@@ -139,42 +145,41 @@ public class WorkgroupBean {
             Collection<Users> users = workgroup.getUsersCollection();
             users.add(user);
             workgroup.setUsersCollection(users);
+            workgroupFacade.updateWorkgroup(workgroup);
         }
         return "workgroupspage";
     }
 
-    public String removeUserFromWorkgroup() {
-        if (user == null || workgroup == null) {
-            return "invaliddataerrorpage";
-        } else {
+    public String removeUserFromWorkgroup() {           
             Collection<Users> users = workgroup.getUsersCollection();
-            users.remove(user);
+            users.remove(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
             workgroup.setUsersCollection(users);
-        }
+            workgroupFacade.updateWorkgroup(workgroup);
         return "workgroupspage";
     }
     
     public String addProjectToWorkgroup() {
         project = new Projects();
         project.setProjectname(newProjectName);
+        project.setOwner(utilityBean.getUser());
         if (project == null || workgroup == null) {
             return "invaliddataerrorpage";
         } else {
             Collection<Projects> projects = workgroup.getProjectsCollection();
             projects.add(project);
             workgroup.setProjectsCollection(projects);
+            workgroupFacade.updateWorkgroup(workgroup);
         }
         return "workgroupspage";
     }
 
     public String removeProjectFromWorkgroup() {
-        if (project == null || workgroup == null) {
-            return "invaliddataerrorpage";
-        } else {
+        
             Collection<Projects> projects = workgroup.getProjectsCollection();
-            projects.add(project);
+            projects.remove(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
             workgroup.setProjectsCollection(projects);
-        }
+            workgroupFacade.updateWorkgroup(workgroup);
+        
         return "workgroupspage";
     }
 
@@ -228,6 +233,11 @@ public class WorkgroupBean {
      */
     public String selectProject() {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
+        return "project";
+    }
+    
+    public String selectUser() {
+        utilityBean.setSelectedUser(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
         return "project";
     }
 }
