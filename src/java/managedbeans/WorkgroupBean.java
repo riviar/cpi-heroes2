@@ -43,13 +43,13 @@ public class WorkgroupBean {
     AccountSessionFacade usersFacade;
 //    @EJB
 //    AuthenticationBean authBean;
-    @ManagedProperty(value="#{utilityBean}")
+    @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     //Stores ID of the workgroup
-    @ManagedProperty(value="#{param.selectedWorkgroup}")
+    @ManagedProperty(value = "#{param.selectedWorkgroup}")
     private String selectedWorkgroup;
     //Stored ID of the project
-    @ManagedProperty(value="#{param.selectedProject}")
+    @ManagedProperty(value = "#{param.selectedProject}")
     private String selectedProject;
 
     public void setSelectedProject(String selectedProject) {
@@ -79,8 +79,6 @@ public class WorkgroupBean {
     public void setNewUserName(String newUserName) {
         this.newUserName = newUserName;
     }
-    
-    
 
     /**
      * Creates a new instance of WorkgroupBean
@@ -95,9 +93,9 @@ public class WorkgroupBean {
         user = (Users) session.getAttribute("user");
 
         workgroup = new Workgroups();
-        
+
         project = new Projects();
-        
+
     }
 
     /**
@@ -106,7 +104,7 @@ public class WorkgroupBean {
      * @return Collection containing all projects in current workgroup
      */
     public Collection<Projects> getProjectsInWorkgroup() {
-        
+        workgroup = utilityBean.getSelectedWorkgroup();
         if (workgroup == null) {
             return new ArrayList();
         } else {
@@ -139,6 +137,7 @@ public class WorkgroupBean {
             Collection<Users> users = workgroup.getUsersCollection();
             users.add(user);
             workgroup.setUsersCollection(users);
+            workgroupFacade.updateWorkgroup(workgroup);
         }
         return "workgroupspage";
     }
@@ -153,16 +152,21 @@ public class WorkgroupBean {
         }
         return "workgroupspage";
     }
-    
+
     public String addProjectToWorkgroup() {
         project = new Projects();
         project.setProjectname(newProjectName);
+        
         if (project == null || workgroup == null) {
             return "invaliddataerrorpage";
         } else {
+            project.setOwner(utilityBean.getUser());
+            project.setWorkgroupid(workgroup);
+            projectFacade.create(project);
             Collection<Projects> projects = workgroup.getProjectsCollection();
             projects.add(project);
             workgroup.setProjectsCollection(projects);
+            workgroupFacade.updateWorkgroup(workgroup);
         }
         return "workgroupspage";
     }
@@ -206,16 +210,17 @@ public class WorkgroupBean {
     }
 
     public Workgroups getNewWorkgroup() {
-        workgroup.setOwner(user);       
+        workgroup.setOwner(user);
         ArrayList<Users> users = new ArrayList();
         users.add(user);
         workgroup.setUsersCollection(users);
         return workgroup;
     }
-    
+
     /**
      * Selects workgroup and redirects to its page
-     * @return 
+     *
+     * @return
      */
     public String selectWorkgroup() {
         utilityBean.setSelectedWorkgroup(workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup)));
@@ -224,7 +229,8 @@ public class WorkgroupBean {
 
     /**
      * Selects projects and redirects to its page
-     * @return 
+     *
+     * @return
      */
     public String selectProject() {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));

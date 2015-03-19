@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -21,15 +22,20 @@
                     <br/>
                     <h:form>
                         <ul>
+                            <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">            
+                                <c:forEach items="#{workgroup.getProjectsCollection()}" var="project">
+                                    <li><p><h:outputText value="#{project.projectname}"/>&ndash; <h:outputText value=" [#{workgroup.workgroupname}]"/></p></li>
+                                </c:forEach>
+                            </c:forEach>
                             <li><p><h:link value="Project 1" outcome="project.xhtml?projectNum=3" includeViewParams="true"> 
-                                 
-                                </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
-                            
+
+                                    </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
+
                             <li><p><h:link value="Project 2" outcome="project?projectNum=4" includeViewParams="true"> 
-                                  
-                                </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
-                            
-                                    
+
+                                    </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
+
+
                         </ul>
                     </h:form>
                 </div>

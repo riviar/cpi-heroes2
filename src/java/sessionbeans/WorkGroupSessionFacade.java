@@ -53,6 +53,10 @@ public class WorkGroupSessionFacade extends AbstractFacade<Workgroups> {
     public void removeWorkgroup(Workgroups workgroup) {
         remove(workgroup);
     }
+    
+    public void updateWorkgroup(Workgroups workgroup) {
+        edit(workgroup);
+    }
 
     public void addUserToWorkgroup(Users user, Workgroups workgroup) {
         try {

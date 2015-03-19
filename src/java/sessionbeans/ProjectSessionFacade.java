@@ -54,6 +54,10 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
     public void deleteProject(Projects project) {
         remove(project);
     }
+    
+    public void updateProject(Projects project) {
+        edit(project);
+    }
 
     public void addProjectToWorkgroup(Projects project, Workgroups workgroup) {
         try {
