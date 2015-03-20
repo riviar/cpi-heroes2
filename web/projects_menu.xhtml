@@ -24,9 +24,28 @@
                         <ul>
                             <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">            
                                 <c:forEach items="#{workgroup.getProjectsCollection()}" var="project">
-                                    <li><p><h:outputText value="#{project.projectname}"/>&ndash; <h:outputText value=" [#{workgroup.workgroupname}]"/></p></li>
+                                    <li><p>
+                                            <!--<h:outputText value="{project.projectname}"/>&ndash; -->
+                                            <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
+                                                    <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                            </h:commandLink>  
+                                            
+                                            
+                                            &ndash;
+                                            
+                                            <!--<h:outputText value=" [{workgroup.workgroupname}]"/>-->
+                                            <h:commandLink value="#{workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
+                                                    <f:param name="selectedWorkgroup" value="#{workgroup.idworkgroups}"/>
+                                            </h:commandLink>  
+                                            
+                                    </p></li>
+                                    
                                 </c:forEach>
                             </c:forEach>
+                            
+                                            
+                         
+                            
                             <!--<li><p><h:link value="Project 1" outcome="project.xhtml?projectNum=3" includeViewParams="true"> 
 
                                     </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>

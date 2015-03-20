@@ -23,13 +23,13 @@
                         <p>{No workgroups exists yet}</p>
                     </c:if>
                     <c:if test="#{workgroupBean.getWorkgroupsForUser() != null}">
-                        <ul>
+                         <ul>
                             <h:form>
                                 <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">
                                     <li><p>
                                             <h:commandLink value="#{workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
                                                 <f:param name="selectedWorkgroup" value="#{workgroup.idworkgroups}"/>
-                                            </h:commandLink>
+                                            </h:commandLink>                                         
                                         </p></li>
                                 </c:forEach>
                             </h:form>

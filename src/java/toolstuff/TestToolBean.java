@@ -27,28 +27,62 @@ public class TestToolBean {
     private String insLen="";
     private String jobid="";
 
+    
+    
+    /**
+     * Creates a new instance of TestToolBean
+     */
+    public TestToolBean() {
+    }
+    
+    public void runFastQC() {
+        AbstractJob job = new FastQCJob(getInputPath());
+        job.execute();
+        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+    }
+    
+    public void runTrimmomatic() {
+       
+        AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
+        job.execute();
+        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+    }
+    
+    public void runVelvet() {
+        
+        //inputPath are left reads and inputPath2 are right reads
+        AbstractJob job = new VelvetJob(getSeqType(), getInputPath(), getInputPath2(), getKmer(), getInsLen(), getJobid());
+        job.execute();
+        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+    }
 
+    /**
+     * @return the inputPath
+     */
     public String getInputPath() {
         return inputPath;
     }
-    
-  
+
+    /**
+     * @param inputPath the inputPath to set
+     */
     public void setInputPath(String inputPath) {
         this.inputPath = inputPath;
     }
-    
+
     /**
      * @return the inputPath2
      */
     public String getInputPath2() {
         return inputPath2;
     }
-    
+
+    /**
+     * @param inputPath2 the inputPath2 to set
+     */
     public void setInputPath2(String inputPath2) {
-        this.inputPath2 = getInputPath2();        
+        this.inputPath2 = inputPath2;
     }
-    
-    
 
     /**
      * @return the windowSize
@@ -78,49 +112,19 @@ public class TestToolBean {
         this.qualityth = qualityth;
     }
 
+    /**
+     * @return the outputFile
+     */
     public String getOutputFile() {
         return outputFile;
     }
 
+    /**
+     * @param outputFile the outputFile to set
+     */
     public void setOutputFile(String outputFile) {
         this.outputFile = outputFile;
     }
-
-    
-    
-    /**
-     * Creates a new instance of TestToolBean
-     */
-    public TestToolBean() {
-    }
-    
-    public void runFastQC() {
-        AbstractJob job = new FastQCJob(getInputPath());
-        job.execute();
-        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
-    }
-    
-
-    public void runTrimmomatic() {
-        System.out.println("##########################################");
-
-        AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
-        job.execute();
-        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
-    }
-    
-    public void runVelvet() {
-        System.out.println("##########################################");
-        //inputPath are left reads and inputPath2 are right reads
-        AbstractJob job = new VelvetJob(getSeqType(), getInputPath(), getInputPath2(), getKmer(), getInsLen(), getJobid());
-        job.execute();
-        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
-    }
-
-    /**
-     * @return the inputPath
-     */
-
 
     /**
      * @return the seqType
@@ -176,13 +180,6 @@ public class TestToolBean {
      */
     public void setJobid(String jobid) {
         this.jobid = jobid;
-    }
-    
-    public void runSeecer() {
-        AbstractJob job = new SeecerJob(getInputPath(), getInputPath2());
-        job.execute();
-        outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
-
     }
 
     

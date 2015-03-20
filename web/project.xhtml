@@ -14,22 +14,27 @@
             <ui:define name="title">
                 RNAseq &ndash; Project
             </ui:define>
-            <f:metadata><f:viewParam name="projectNum"/></f:metadata>
+
             <ui:define name="center">
                 <h3>Project #{utilityBean.selectedProject.projectname}</h3>
+
                 <div class="news">
                     <h4>Datasets</h4>
                     <br/>
 
                     <ul id="datasetList">
-                        <c:if test="#{filesBean.files == null}">
+
+                        <c:if test="#{filesBean.getFilesNames() == null}">
                             <p>{No datasets exist}</p>
                         </c:if>
-                        <c:if test="#{filesBean.files != null}">
+                        <c:if test="#{filesBean.getFilesNames() != null}">
+
+
                             <c:forEach items="#{filesBean.getFilesNames()}"  var="file">
                                 <li><h:outputText value="#{file}"/></li>
                             </c:forEach>
                         </c:if>
+
                     </ul>
                 </div>
                 <div class="news">
