@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="WEB-INF/SymiSunTemplate.xhtml">
+
+            <ui:define name="title">
+                RNAseq &ndash; New Job
+            </ui:define>
+
+            <ui:define name="center">
+                <h3>{toolname}</h3>                
+                <br/>
+                <h:form>
+                    <div class="news">
+                        <h:outputText value="Job Name"/><br/>
+                        <p:inputText class="regInput" value="defaultname"/>
+                    </div>
+                    <div class="news">
+                        <h:outputText value="Input file"/><br/>
+                        
+                        <p:outputLabel value="File type"/><br/>
+                    
+                        <h:selectOneMenu class="regInput" value="#{TestToolBean.seqType}" style="width: 200px">
+                            <f:selectItem itemValue="fastq" itemLabel="fastq" />
+                        </h:selectOneMenu>
+                        <br/>
+                       
+                        
+
+                        <p:outputLabel value="Left reads"/><br/>
+                    
+                        <h:selectOneMenu class="regInput" value="#{TestToolBean.inputPath}" style="width: 200px">
+                            <f:selectItems value="#{user.filesMap}"/>
+                        </h:selectOneMenu>
+
+                        <br/>
+                        <p:outputLabel value="Right reads"/><br/>
+                        <h:selectOneMenu class="regInput" value="#{TestToolBean.inputPath2}" style="width: 200px">
+                            <f:selectItems value="#{user.filesMap}"/>
+                        </h:selectOneMenu>
+                        <br/>
+
+                    </div>
+                    <div class="news">
+                        <h4>Parameters</h4><br/>
+                        
+
+                        
+                        <p:outputLabel value="Kmer size"/><br/>
+                        <p:inputText value="#{TestToolBean.kmer}"/><br/>
+                        <p:outputLabel value="Insert lenght"/><br/>
+                        <p:inputText value="#{TestToolBean.insLen}"/><br/>
+                        <p:outputLabel value="JobID"/><br/>
+                        <p:inputText value="#{TestToolBean.jobid}"/><br/>
+                    </div>
+                    <div class="news">
+                        <h:commandButton value="Run Velvet" action="#{TestToolBean.runVelvet()}" /><br/>
+                    </div>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
