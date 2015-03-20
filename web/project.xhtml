@@ -34,6 +34,12 @@
                                 <li><h:outputText value="#{file}"/></li>
                             </c:forEach>
                         </c:if>
+                        
+                        <h:form>
+                            <h:commandLink value="Trimmomatic" action="#{workgroupBean.doTrimmomatic()}" >
+                                <f:param name="selectedProject" value="#{utilityBean.selectedProject.idprojects}"/>
+                            </h:commandLink>
+                        </h:form>
 
                     </ul>
                 </div>

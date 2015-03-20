@@ -259,11 +259,16 @@ public class WorkgroupBean {
      */
     public String selectProject() {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
-        return "project";
+        return "project";        
     }
     
     public String selectUser() {
         utilityBean.setSelectedUser(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
         return "project";
+    }
+    
+    public String doTrimmomatic(){
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
+        return "new_job_trimmomatic";      
     }
 }

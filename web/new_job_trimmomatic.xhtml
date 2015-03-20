@@ -20,15 +20,15 @@
             <ui:define name="center">
                 <h:form>
                     <p:outputLabel value="Input file 1"/><br/>
-                    
+                    <p:outputLabel value="#{utilityBeans.selectedProject}"/><br/>
                     <h:selectOneMenu class="regInput" value="#{TestToolBean.inputPath}" style="width: 200px">
-                        <f:selectItems value="#{projectFiles.filesMap}"/>
+                        <f:selectItems value="#{filesBean.getFilesMap()}"/>
                     </h:selectOneMenu>
                     
                     <br/>
                     <p:outputLabel value="Input file 2"/><br/>
                     <h:selectOneMenu class="regInput" value="#{TestToolBean.inputPath2}" style="width: 200px">
-                        <f:selectItems value="#{projectFiles.filesMap}"/>
+                        <f:selectItems value="#{filesBean.getFilesMap()}"/>
                     </h:selectOneMenu>
                     <br/>
                     <p:outputLabel value="Window size"/><br/>

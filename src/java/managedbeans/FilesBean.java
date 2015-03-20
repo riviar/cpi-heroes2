@@ -91,7 +91,7 @@ public class FilesBean {
         List<Files> files=filesFacade.getProjectFiles(selectedProject);
         for (Files file:files){
             filesMap.put(file.getDisplayname(), file.getPath());
-        }
+        }        
         return filesMap;
     }
 
