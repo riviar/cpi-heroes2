@@ -73,10 +73,11 @@ public class Users implements Serializable {
     @Size(max = 45)
     @Column(name = "institution")
     private String institution;
-    @JoinTable(name = "users_has_workgroups", joinColumns = {
-        @JoinColumn(name = "users_idusers", referencedColumnName = "idusers")}, inverseJoinColumns = {
-        @JoinColumn(name = "workgroups_idworkgroups", referencedColumnName = "idworkgroups")})
-    @ManyToMany
+//    @JoinTable(name = "users_has_workgroups", joinColumns = {
+//        @JoinColumn(name = "users_idusers", referencedColumnName = "idusers")}, inverseJoinColumns = {
+//        @JoinColumn(name = "workgroups_idworkgroups", referencedColumnName = "idworkgroups")})
+//    @ManyToMany
+    @ManyToMany(mappedBy = "usersCollection")
     private Collection<Workgroups> workgroupsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Collection<Projects> projectsCollection;

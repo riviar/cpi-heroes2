@@ -27,8 +27,8 @@
                         <h:outputText value="Input file"/><br/>
                         <f:metadata><f:viewParam name="projectNum"/></f:metadata>
                         <h:selectOneMenu class="regInput" value="tool" style="width: 200px">
-                            <c:forEach items="#{filesBean.getFiles(projectNum)}" var="file"> 
-                                <f:selectItem itemLabel="#{file.displayname}" itemValue="#{file.path}"/>
+                            <c:forEach items="#{MockLists.inputs}" var="file"> 
+                                <f:selectItem itemLabel="#{file}" itemValue="#{file}"/>
                             </c:forEach> 
                             </h:selectOneMenu>
 

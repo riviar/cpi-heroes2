@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -36,29 +35,27 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "projects")
 @XmlRootElement
-@NamedNativeQuery(name = "Projects.findVisibleToUser",
-        query = "SELECT * FROM projects p LEFT JOIN users_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
-        resultClass = Projects.class)
+@NamedNativeQuery(name = "Projects.findInUsersWorkgroup",
+    query = "SELECT * FROM projects p LEFT JOIN users_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
+    resultClass = Projects.class)
 @NamedQueries({
     @NamedQuery(name = "Projects.findAll", query = "SELECT p FROM Projects p"),
     @NamedQuery(name = "Projects.findByIdprojects", query = "SELECT p FROM Projects p WHERE p.idprojects = :idprojects"),
     @NamedQuery(name = "Projects.findByProjectname", query = "SELECT p FROM Projects p WHERE p.projectname = :projectname"),
     @NamedQuery(name = "Projects.findByDescription", query = "SELECT p FROM Projects p WHERE p.description = :description"),
     @NamedQuery(name = "Projects.findByVisibility", query = "SELECT p FROM Projects p WHERE p.visibility = :visibility"),
-    @NamedQuery(name = "Projects.findByOwner", query = "SELECT p FROM Projects p WHERE p.owner = :user")
-    //@NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w WHERE w.usersCollection = :user")
-    })
-// @NamedNativeQuery(name = "Projects.findVisibleToUser",
-// query = "SELECT * FROM projects p LEFT JOIN users_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
-// resultClass = Projects.class)
+    @NamedQuery(name = "Projects.findByOwner", query = "SELECT p FROM Projects p WHERE p.owner = :user"),
+    //@NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w JOIN w.usersCollection u WHERE u.idusers = :user"),
+    @NamedQuery(name = "Projects.findInWorkgroupOwnedByUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w WHERE w.owner = :user")})
+
 public class Projects implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectid")
     private Collection<Jobhistory> jobhistoryCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idprojects")
     private Integer idprojects;
     @Size(max = 45)
@@ -170,6 +167,7 @@ public class Projects implements Serializable {
     public String toString() {
         return "entitybeans.Projects[ idprojects=" + idprojects + " ]";
     }
+
     @XmlTransient
     public Collection<Jobhistory> getJobhistoryCollection() {
         return jobhistoryCollection;
@@ -178,4 +176,5 @@ public class Projects implements Serializable {
     public void setJobhistoryCollection(Collection<Jobhistory> jobhistoryCollection) {
         this.jobhistoryCollection = jobhistoryCollection;
     }
+
 }

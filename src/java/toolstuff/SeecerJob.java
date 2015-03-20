@@ -12,26 +12,32 @@ import java.io.InputStreamReader;
  *
  * @author Fox
  */
-public class FastQCJob extends AbstractJob {
+public class SeecerJob extends AbstractJob {
 
-    public FastQCJob(String inputPath) {
-        getParameters().put("input", inputPath);
-        setExecutableFile("Preprocessing/FastQC/fastqc");
+    public SeecerJob(String inputPath1, String inputPath2) {
+        getParameters().put("input1", inputPath1);
+        getParameters().put("input2", inputPath2);
+        setExecutableFile("Preprocessing/Seecer/Seecer/SEECER/bin/run_seecer.sh");
     }
 
     @Override
     //creates html file in input file location with name input_fastqc.html
     public void execute() {
 
-        String filename = getParameters().get("input");
+        String filename1 = getParameters().get("input1");
+        String filename2 = getParameters().get("input2");
         
-        String command = getCommand() + " " + filename + " " + "-o /root/NetBeansProjects/izidev2/web/Output";
+        String tmpPath = "/home/vmuser/CPI/tools/Seecer/testdata/tmp";
+        String jellyfishPath = "/home/vmuser/CPI/tools/Preprocessing/Seecer/Seecer/jellyfish-1.1.11/bin";
+        
+        String command = getCommand() + " "+"-t "+ tmpPath+" "+"-j " +jellyfishPath+" " + filename1 + "" + filename2;
 	
         String output = executeCommand(command);
         
         
 
-        //System.out.println(output);
+        System.out.println("**************************");
+        System.out.println(command);
 
     }
 

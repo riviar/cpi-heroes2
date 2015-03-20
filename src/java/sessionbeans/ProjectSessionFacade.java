@@ -10,6 +10,8 @@ import entitybeans.Projects;
 import entitybeans.Users;
 import entitybeans.Workgroups;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -53,6 +55,10 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
 
     public void deleteProject(Projects project) {
         remove(project);
+    }
+    
+    public void updateProject(Projects project) {
+        edit(project);
     }
 
     public void addProjectToWorkgroup(Projects project, Workgroups workgroup) {
@@ -104,12 +110,23 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
     }
 
     public Collection<Projects> getUserVisibleProjects(Users user) {
+        Collection<Projects> userVisibleProjects = new HashSet();
+        Query q = em.createNamedQuery("Projects.findInUsersWorkgroup", Projects.class);
+        q.setParameter(1, user.getIdusers());
+        System.out.println("Found " + q.getResultList().size() + " projects");
+        userVisibleProjects.addAll(q.getResultList());
+        userVisibleProjects.addAll(getUserOwnedProjects(user));
+        userVisibleProjects.addAll(getPublicProjects(user));
+        return userVisibleProjects;
+    }
+
+    public Collection<Projects> getPublicProjects(Users user) {
         try {
-            Query q = em.createNamedQuery("getUserVisibleProjects", Projects.class);
-            q.setParameter("user", user);
+            Query q = em.createNamedQuery("Projects.findByVisibility", Projects.class);
+            q.setParameter("visibility", "PUBLIC");
             return q.getResultList();
         } catch (NoResultException ex) {
-             FacesContext.getCurrentInstance().addMessage(null,
+            FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Error - project or file does not exist!"));
         }
         return null;
@@ -117,12 +134,24 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
 
     public Collection<Projects> getUserOwnedProjects(Users user) {
         try {
-            Query q = em.createNamedQuery("getUserVisibleProjects", Projects.class);
+            Query q = em.createNamedQuery("Projects.findByOwner", Projects.class);
             q.setParameter("user", user);
             return q.getResultList();
         } catch (NoResultException ex) {
-             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Error - project or file does not exist!"));           
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Error - project or file does not exist!"));
+        }
+        return null;
+    }
+    
+    public Projects retrieveProjectById(int id) {
+        try {
+            Query q = em.createNamedQuery("Projects.findByIdprojects");
+            q.setParameter("idprojects", id);
+            return (Projects) q.getSingleResult();
+        } catch (NoResultException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Project doesn't exist!"));   
         }
         return null;
     }

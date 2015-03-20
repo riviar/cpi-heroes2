@@ -17,11 +17,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -33,9 +33,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "workgroups")
 @XmlRootElement
+@NamedNativeQuery(name = "Workgroups.findByUsersMember", 
+        query = "SELECT * FROM workgroups w LEFT JOIN users_has_workgroups uw ON w.idworkgroups=uw.workgroups_idworkgroups WHERE uw.users_idusers=?",
+        resultClass = Workgroups.class)
 @NamedQueries({
     @NamedQuery(name = "Workgroups.findAll", query = "SELECT w FROM Workgroups w"),
-    @NamedQuery(name = "Workgroups.findByUsersWorkgroup", query = "SELECT w FROM Workgroups w WHERE w.usersCollection = :users"),
+    @NamedQuery(name = "Workgroups.findByUsersOwner", query = "SELECT w FROM Workgroups w WHERE w.owner = :users"),
     @NamedQuery(name = "Workgroups.findByIdworkgroups", query = "SELECT w FROM Workgroups w WHERE w.idworkgroups = :idworkgroups"),
     @NamedQuery(name = "Workgroups.findByWorkgroupname", query = "SELECT w FROM Workgroups w WHERE w.workgroupname = :workgroupname")})
 public class Workgroups implements Serializable {

@@ -9,6 +9,7 @@ import entitybeans.Projects;
 import entitybeans.Users;
 import entitybeans.Workgroups;
 import java.util.Collection;
+import java.util.List;
 import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -52,6 +53,14 @@ public class WorkGroupSessionFacade extends AbstractFacade<Workgroups> {
 
     public void removeWorkgroup(Workgroups workgroup) {
         remove(workgroup);
+    }
+
+    public void updateWorkgroup(Workgroups workgroup) {
+        edit(workgroup);
+    }
+    
+    public void updateWorkgroup(Workgroups workgroup) {
+        edit(workgroup);
     }
 
     public void addUserToWorkgroup(Users user, Workgroups workgroup) {
@@ -101,18 +110,33 @@ public class WorkGroupSessionFacade extends AbstractFacade<Workgroups> {
 
         }
     }
-    
-    public Collection<Workgroups> workgroupsForUser(Users user) {
-          
-        Query q = em.createNamedQuery("Workgroups.findByUsersWorkgroup", Workgroups.class);
+
+    public Collection<Workgroups> workgroupsOwnedByUser(Users user) {
+
+        Query q = em.createNamedQuery("Workgroups.findByUsersOwner", Workgroups.class);
         q.setParameter("users", user);
+        System.out.println("WGFacade - " + q.getResultList().size() + " owner results!");
         return q.getResultList();
     }
-    
+
+    public Collection<Workgroups> workgroupsWithUserMember(Users user) {
+
+        Query q = em.createNamedQuery("Workgroups.findByUsersMember", Workgroups.class);
+        q.setParameter(1, user.getIdusers());
+        return q.getResultList();
+    }
+
     public Workgroups retrieveWorkgroupById(int id) {
+
         Query q = em.createNamedQuery("Workgroups.findByIdworkgroups");
         q.setParameter("idworkgroups", id);
         return (Workgroups) q.getSingleResult();
     }
-    
+
+    public Users retrieveUserById(int id) {
+        Query q = em.createNamedQuery("Users.findByIdusers");
+        q.setParameter("idusers", id);
+        return (Users) q.getSingleResult();
+    }
+
 }

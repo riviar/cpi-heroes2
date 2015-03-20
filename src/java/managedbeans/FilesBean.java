@@ -6,7 +6,9 @@
 package managedbeans;
 
 import entitybeans.Files;
+import entitybeans.Workgroups;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,34 +18,48 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import sessionbeans.FilesFacade;
+import sessionbeans.WorkGroupSessionFacade;
 
 /**
  *
  * @author lestelles
  */
-@ManagedBean(name="user")
+@ManagedBean
 @RequestScoped
 public class FilesBean {
     
     @EJB
     private FilesFacade filesFacade;
     
-    private int idProject=3;
+    @ManagedProperty(value = "#{utilityBean}")
+    private UtilityBean utilityBean;
+    
+    @ManagedProperty(value = "#{param.selectedProject}")
+    private int selectedProject;
+    
+//    public void setUtilityBean(UtilityBean utilityBean) {
+//        this.utilityBean = utilityBean;
+//    }
+    
+
     
     
     public FilesBean(){
         
     }
-           
-    public List<Files> getFiles(){
-        List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getProjectFiles(idProject);
+
+
+    
+    /*public List<Files> getFiles(){
+
+        List<Files> files=filesFacade.getProjectFiles(selectedProject);
+        System.out.println("idproj filesbean"+selectedProject);
         return files;
-    }
+    }*/
     
     public List<String> getFilesNames(){
         List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getProjectFiles(idProject);
+        List<Files> files=filesFacade.getProjectFiles(selectedProject);
         for (Files file:files){
             list.add(file.getDisplayname());
         }
@@ -52,7 +68,7 @@ public class FilesBean {
     
     public List<String> getFilesDescription(){
         List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getProjectFiles(idProject);
+        List<Files> files=filesFacade.getProjectFiles(selectedProject);
         for (Files file:files){
             list.add(file.getDescription());
         }
@@ -61,7 +77,7 @@ public class FilesBean {
     
     public List<String> getFilesPath(){
         List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getProjectFiles(idProject);
+        List<Files> files=filesFacade.getProjectFiles(selectedProject);
         for (Files file:files){
             list.add(file.getPath());            
         }
@@ -75,11 +91,27 @@ public class FilesBean {
     private static Map<String,Object> filesMap;
     public Map<String,Object> getFilesMap() {
         filesMap = new LinkedHashMap<>();
-        List<Files> files=filesFacade.getProjectFiles(idProject);
+        List<Files> files=filesFacade.getProjectFiles(selectedProject);
         for (Files file:files){
             filesMap.put(file.getDisplayname(), file.getPath());
         }
         return filesMap;
     }
+
+    /**
+     * @param utilityBean the utilityBean to set
+     */
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
+
+    /**
+     * @param selectedProject the selectedProject to set
+     */
+    public void setSelectedProject(int selectedProject) {
+        this.selectedProject = selectedProject;
+    }
+    
+
         
 }

@@ -55,10 +55,10 @@ public class Files implements Serializable {
     @Size(max = 9999)
     @Column(name = "description")
     private String description;
-    @JoinTable(name = "project_has_files", joinColumns = {
-        @JoinColumn(name = "resources_idresources", referencedColumnName = "idresources")}, inverseJoinColumns = {
-        @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")})
-    @ManyToMany
+//    @JoinTable(name = "project_has_files", joinColumns = {
+//        @JoinColumn(name = "resources_idresources", referencedColumnName = "idresources")}, inverseJoinColumns = {
+//        @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")})
+    @ManyToMany(mappedBy = "filesCollection")
     private Collection<Projects> projectsCollection;
     @JoinColumn(name = "filetype", referencedColumnName = "filetypeid")
     @ManyToOne

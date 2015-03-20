@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -20,11 +21,14 @@
                     <h4>Members:</h4>
                     <br/>
                     <ul>
-                        
-                        <li><p>Member 1</p></li>
-                        <li><p>Member 2</p></li>
-                        <li><p>Member 3</p></li>
-                        <li><p>Member 4</p></li>
+                        <c:forEach items="#{workgroupBean.getUsersInWorkgroup()}" var="user">
+                            <li><p> 
+                                    <h:outputText style="font-weight: bold" value="#{user.username}"/>                                     
+                                    <h:form><h:commandLink action="#{workgroupBean.removeUserFromWorkgroup()}" value="Remove User">
+                                            <f:param name="selectedUser" value="#{user.idusers}"/>
+                                    </h:commandLink></h:form>
+                                </p></li>
+                        </c:forEach>
                     </ul>
                 </div>
                 <div class="news">
@@ -37,12 +41,21 @@
                     <h4>Projects:</h4>
                     <br/>
                     <ul>
-                        
-                        <li><p>Project 1</p></li>
-                        <li><p>Project 2</p></li>
-                        <li><p>Project 3</p></li>
-                        <li><p>Project 4</p></li>
+                        <h:form>
+                            <c:forEach items="#{workgroupBean.getProjectsInWorkgroup()}" var="project">
+                                <li><p>
+                                        <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
+                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                        </h:commandLink>
+                                        <br/>
+                                        <h:commandLink value="Remove Project" action="#{workgroupBean.removeProjectFromWorkgroup()}">
+                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                        </h:commandLink>                                        
+                                    </p></li>
+                            </c:forEach>
+                        </h:form>
                     </ul>
+
                 </div>
                 <div class="news">
                     <h:form>
@@ -55,8 +68,8 @@
                     <h3>Add new member</h3>
                     <h:form>
                         <h:outputText value="User name"/><br/>
-                        <p:inputText class="regInput" value="name"/><br/>
-                        <h:commandButton id="addMemberButton" action="workgroup" class="centerButton" value="Add"/>
+                        <p:inputText class="regInput" value="#{workgroupBean.newUserName}"/><br/>
+                        <h:commandButton id="addMemberButton" action="#{workgroupBean.addUserToWorkgroup()}" class="centerButton" value="Add"/>
                     </h:form>
                 </p:dialog>
 
@@ -64,8 +77,8 @@
                     <h3>Create new project</h3>
                     <h:form>
                         <h:outputText value="Project name"/><br/>
-                        <p:inputText class="regInput" value="name"/><br/>
-                        <h:commandButton id="createProjectButton" action="workgroup" class="centerButton" value="Create"/>
+                        <p:inputText class="regInput" value="#{workgroupBean.newProjectName}"/><br/>
+                        <h:commandButton id="createProjectButton" action="#{workgroupBean.addProjectToWorkgroup()}" class="centerButton" value="Create"/>
                     </h:form>
                 </p:dialog>
             </ui:define>
