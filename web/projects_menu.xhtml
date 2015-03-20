@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -17,12 +18,26 @@
             <ui:define name="center">
                 <h3>Projects Menu</h3>
                 <div class="news">
-                    <h:dataTable value="#{projectBean.userVisibleProjects}" var="projects">
-                        <h:column>
-                            <f:facet name="header">Your projects</f:facet>
-                            <h:link value="#{projects.projectname}" outcome="project" />
-                        </h:column>
-                    </h:dataTable>
+                    <h4>Your projects</h4>
+                    <br/>
+                    <h:form>
+                        <ul>
+                            <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">            
+                                <c:forEach items="#{workgroup.getProjectsCollection()}" var="project">
+                                    <li><p><h:outputText value="#{project.projectname}"/>&ndash; <h:outputText value=" [#{workgroup.workgroupname}]"/></p></li>
+                                </c:forEach>
+                            </c:forEach>
+                            <!--<li><p><h:link value="Project 1" outcome="project.xhtml?projectNum=3" includeViewParams="true"> 
+
+                                    </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
+
+                            <li><p><h:link value="Project 2" outcome="project?projectNum=4" includeViewParams="true"> 
+
+                                    </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li> -->
+
+
+                        </ul>
+                    </h:form>
                 </div>
                 <div class="news">
                     <h:form>

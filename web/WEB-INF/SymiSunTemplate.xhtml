@@ -50,7 +50,7 @@
                         </c:if>
                         <c:if test="#{utilityBean.user != null}">
                             <h:form>
-                                <h:panelGrid styleClass="loginPanel" columns="2" >
+                                <h:panelGrid styleClass="loginPanel" columns="3" >
                                     Logged in as <h:outputText style="font-weight:bold" value="#{utilityBean.user.username} "/>
                                     <h:commandButton id="logInButton" action="#{authenticationBean.logOut()}" class="login" value="Log Out"/>
                                 </h:panelGrid>
