@@ -93,12 +93,7 @@ public class WorkgroupBean {
      */
     public WorkgroupBean() {
 
-        //TODO: code taken from AuthenticationBean - should call it there instead!
-        // get current session
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
-        // set user attribute of session
-        user = (Users) session.getAttribute("user");
+        user = utilityBean.getUser();
 
         workgroup = new Workgroups();
         
