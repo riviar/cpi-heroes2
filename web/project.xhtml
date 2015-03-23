@@ -14,17 +14,39 @@
             <ui:define name="title">
                 RNAseq &ndash; Project
             </ui:define>
-            <f:metadata><f:viewParam name="projectNum"/></f:metadata>
+
             <ui:define name="center">
-                <h3>Project #{projectNum}</h3>
+                <h3>Project #{utilityBean.selectedProject.projectname}</h3>
+
                 <div class="news">
                     <h4>Datasets</h4>
                     <br/>
-                    
+
                     <ul id="datasetList">
-                        <c:forEach items="#{filesBean.getFilesNames(projectNum)}"  var="file">
-                            <li><h:outputText value="#{file}"/></li>
-                        </c:forEach>
+
+                        <c:if test="#{filesBean.getFilesNames() == null}">
+                            <p>{No datasets exist}</p>
+                        </c:if>
+                        <c:if test="#{filesBean.getFilesNames() != null}">
+
+
+                            <c:forEach items="#{filesBean.getFilesNames()}"  var="file">
+                                <li><h:outputText value="#{file}"/></li>
+                            </c:forEach>
+                        </c:if>
+                        
+                        <h:form>
+                            <h:commandLink value="Trimmomatic" action="#{testToolBean.doTrimmomatic()}" >
+                                <f:param name="selectedProject" value="#{utilityBean.selectedProject.idprojects}"/>
+                            </h:commandLink>
+                        </h:form>
+                        
+                        <h:form>
+                            <h:commandLink value="Velvet" action="#{testToolBean.doVelvet()}" >
+                                <f:param name="selectedProject" value="#{utilityBean.selectedProject.idprojects}"/>
+                            </h:commandLink>
+                        </h:form>
+
                     </ul>
                 </div>
                 <div class="news">
@@ -42,7 +64,7 @@
                         <h:commandButton value="Submit" class="centerButton" actionListener="backendaction"/>  
                     </h:form>  
                 </p:dialog>
-                
+
             </ui:define>
 
         </ui:composition>

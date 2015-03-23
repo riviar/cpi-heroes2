@@ -19,17 +19,22 @@
                 <h3>Workgroups Menu</h3>
                 <div class="news"> 
                     <h4>My Groups</h4>
-                    <ul>
-                        <h:form>
-                            <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">
-                                <li><p>
-                                        <h:commandLink value="#{workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
-                                            <f:param name="selectedWorkgroup" value="#{workgroup.idworkgroups}"/>
-                                        </h:commandLink>
-                                    </p></li>
-                            </c:forEach>
-                        </h:form>
-                    </ul>
+                    <c:if test="#{workgroupBean.getWorkgroupsForUser() == null}">
+                        <p>{No workgroups exists yet}</p>
+                    </c:if>
+                    <c:if test="#{workgroupBean.getWorkgroupsForUser() != null}">
+                         <ul>
+                            <h:form>
+                                <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">
+                                    <li><p>
+                                            <h:commandLink value="#{workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
+                                                <f:param name="selectedWorkgroup" value="#{workgroup.idworkgroups}"/>
+                                            </h:commandLink>                                         
+                                        </p></li>
+                                </c:forEach>
+                            </h:form>
+                        </ul>
+                    </c:if>
                 </div>
                 <div class="news">
                     <h:form>
@@ -42,7 +47,7 @@
                     <h3>Create new workgroup</h3>
                     <h:form>
                         <h:outputText value="Workgroup name"/><br/>
-                        <p:inputText class="regInput" value="#{workgroupBean.newWorkgroup.workgroupname}"/><br/>
+                        <p:inputText class="regInput" value="#{workgroupBean.newWorkgroupName}"/><br/>
                         <h:commandButton id="addWorkgroupButton" action="#{workgroupBean.createWorkgroup()}" class="centerButton" value="Create"/>
                     </h:form>
                 </p:dialog>
