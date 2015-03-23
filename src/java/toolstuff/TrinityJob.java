@@ -12,21 +12,19 @@ import java.io.InputStreamReader;
  *
  * @author lestelles
  */
-public class VelvetJob extends AbstractJob {
+public class TrinityJob extends AbstractJob {
     
-    public VelvetJob(String seqType, String leftReads, String rightReads, String kmer, String insLen, String jobid){ 
+    public TrinityJob(String seqType, String leftReads, String rightReads, String jobid){ 
         System.out.println("***********************************************************************");
         
         getParameters().put("seqType", seqType);
         getParameters().put("leftReads", leftReads);
         getParameters().put("rightReads", rightReads);
-        getParameters().put("kmer", kmer);
-        getParameters().put("insLen", insLen);
-        getParameters().put("outdir", "/home/vmuser/CPI/results/");
+        getParameters().put("outdir", "/home/lestelles/Desktop/");
         getParameters().put("jobid", jobid);
         
         
-        setExecutableFile("bash_scripts/do_velvet.sh");
+        setExecutableFile("/home/lestelles/Desktop/do_trinity.sh");
     
     }
         
@@ -36,9 +34,7 @@ public class VelvetJob extends AbstractJob {
         String command = getCommand()+ " " 
                 + getParameters().get("seqType")+ " "
                 + getParameters().get("leftReads") + " "
-                + getParameters().get("rightReads")+" "
-                + getParameters().get("kmer")+" "
-                + getParameters().get("insLen")+" "
+                + getParameters().get("rightReads")+ " "
                 + getParameters().get("outdir")+" "
                 + getParameters().get("jobid");
         System.out.println(command);

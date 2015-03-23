@@ -26,7 +26,7 @@ import sessionbeans.WorkGroupSessionFacade;
 @RequestScoped
 public class TestToolBean {
 
-        private Projects project;
+    private Projects project;
 
     
     private String inputPath="";
@@ -111,6 +111,19 @@ public class TestToolBean {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
         //inputPath are left reads and inputPath2 are rightReads
         AbstractJob job = new VelvetJob(getSeqType(), getInputPath(), getInputPath(), getKmer(), getInsLen(), getJobid());
+        job.execute();
+        return "project";
+    }
+        
+    public String doTrinity(){
+        getUtilityBean().setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
+        return "new_job_trinity"; 
+    }
+    
+        public String runTrinity() {
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
+        //inputPath are left reads and inputPath2 are rightReads
+        AbstractJob job = new TrinityJob(getSeqType(), getInputPath(), getInputPath(), getJobid());
         job.execute();
         return "project";
     }
