@@ -17,7 +17,7 @@ import sessionbeans.ProjectSessionFacade;
  *
  * @author Fox
  */
-@ManagedBean(name = "TestToolBean")
+@ManagedBean//(name = "TestToolBean")
 @RequestScoped
 public class TestToolBean {
 
@@ -79,13 +79,14 @@ public class TestToolBean {
         return "new_job_trimmomatic";      
     }
     
-    public void runTrimmomatic() {
-       utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
+    public String runTrimmomatic() {
+       //utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
         
-       AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
+       //AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
         System.out.println("runTrimmomatic");
-        job.execute();
-        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+        //job.execute();
+        //setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+        return "project";
     }
     
     public String doVelvet(){

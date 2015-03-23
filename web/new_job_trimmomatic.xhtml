@@ -20,22 +20,27 @@
             <ui:define name="center">
                 <h:form>
                     
+                    <p:outputLabel value="Job name"/><br/>
+                    <p:inputText value="#{testToolBean.windowSize}"/><br/>
+                    
                     <p:outputLabel value="Input file 1"/><br/>
-                    <h:selectOneMenu class="regInput" value="#{TestToolBean.inputPath}" style="width: 200px">
+                    <h:selectOneMenu class="regInput" value="#{testToolBean.inputPath}" style="width: 200px">
                         <f:selectItems value="#{filesBean.getFilesMap()}"/>
                     </h:selectOneMenu>                    
                     <br/>
                     <p:outputLabel value="Input file 2"/><br/>
-                    <h:selectOneMenu class="regInput" value="#{TestToolBean.inputPath2}" style="width: 200px">
+                    <h:selectOneMenu class="regInput" value="#{testToolBean.inputPath2}" style="width: 200px">
                         <f:selectItems value="#{filesBean.getFilesMap()}"/>
                     </h:selectOneMenu>
                     <br/>
                     <p:outputLabel value="Window size"/><br/>
-                    <p:inputText value="#{TestToolBean.windowSize}"/><br/>
+                    <p:inputText value="#{testToolBean.windowSize}"/><br/>
                     <p:outputLabel value="Required quality"/><br/>
-                    <p:inputText value="#{TestToolBean.qualityth}"/>
+                    <p:inputText value="#{testToolBean.qualityth}"/>
                     <br/><br/>
-                    <h:commandButton value="Run Trimmomatic" action="#{TestToolBean.runTrimmomatic()}"> <f:param name="seletedProject" value="#{utilityBean.selectedProject.idprojects}"/> </h:commandButton><br/>
+                    <h:commandButton value="Run Trimmomatic" action="#{testToolBean.runTrimmomatic()}">
+                        <f:param name="selectedProject" value="#{utilityBean.selectedProject.idprojects}"/>
+                    </h:commandButton><br/>
                     <br/>
                 
                 </h:form>
