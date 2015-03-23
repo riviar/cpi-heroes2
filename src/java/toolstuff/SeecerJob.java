@@ -14,9 +14,10 @@ import java.io.InputStreamReader;
  */
 public class SeecerJob extends AbstractJob {
 
-    public SeecerJob(String inputPath1, String inputPath2) {
+    public SeecerJob(String inputPath1, String inputPath2, String KmerCount) {
         getParameters().put("input1", inputPath1);
         getParameters().put("input2", inputPath2);
+        getParameters().put("input3", KmerCount);
         setExecutableFile("Preprocessing/Seecer/Seecer/SEECER/bin/run_seecer.sh");
     }
 
@@ -26,11 +27,13 @@ public class SeecerJob extends AbstractJob {
 
         String filename1 = getParameters().get("input1");
         String filename2 = getParameters().get("input2");
+        String KmerCount = getParameters().get("input3");
         
         String tmpPath = "/home/vmuser/CPI/tools/Seecer/testdata/tmp";
-        String jellyfishPath = "/home/vmuser/CPI/tools/Preprocessing/Seecer/Seecer/jellyfish-1.1.11/bin";
+        //String jellyfishPath = "/home/vmuser/CPI/tools/Preprocessing/Seecer/Seecer/jellyfish-1.1.11/bin";
         
-        String command = getCommand() + " "+"-t "+ tmpPath+" "+"-j " +jellyfishPath+" " + filename1 + "" + filename2;
+        
+        String command = getCommand() +" -t "+ tmpPath + " -k " + KmerCount +" "+ filename1 + " " + filename2;
 	
         String output = executeCommand(command);
         

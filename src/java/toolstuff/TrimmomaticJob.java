@@ -45,7 +45,6 @@ public class TrimmomaticJob extends AbstractJob {
         System.out.println(getParameters().get("input2"));
         System.out.println(getParameters().get("windowSize"));
         System.out.println(getParameters().get("requiredQuality"));
-        String command1 = "echo " + getParameters().get("windowSize") + " > pwd.txt";
         String command = "java -jar "+ getCommand()+ " PE " 
                 + getParameters().get("input1")+ " "
                 + getParameters().get("input2")
@@ -56,7 +55,10 @@ public class TrimmomaticJob extends AbstractJob {
         System.out.println(command);
         
         //~/glassfish-4.1/glassfish/domains/domain1/config
-        String output=executeCommand(command);
+        
+        //#########################ATTENTION!!!!!!!!!!################################
+        //Inhibit the command as it isn't installed
+        //String output=executeCommand(command);
         
     }
     

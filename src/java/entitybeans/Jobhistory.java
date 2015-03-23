@@ -31,7 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Jobhistory.findAll", query = "SELECT j FROM Jobhistory j"),
     @NamedQuery(name = "Jobhistory.findByIdjobs", query = "SELECT j FROM Jobhistory j WHERE j.idjobs = :idjobs"),
     @NamedQuery(name = "Jobhistory.findByProcessid", query = "SELECT j FROM Jobhistory j WHERE j.processid = :processid"),
-    @NamedQuery(name = "Jobhistory.findByCommandused", query = "SELECT j FROM Jobhistory j WHERE j.commandused = :commandused")})
+    @NamedQuery(name = "Jobhistory.findByCommandused", query = "SELECT j FROM Jobhistory j WHERE j.commandused = :commandused"),
+    @NamedQuery(name = "Jobhistory.findByProjectid", query = "SELECT j FROM Jobhistory j WHERE j.projectid.idprojects = :projectid"),
+    @NamedQuery(name = "Jobhistory.findByJobname", query = "SELECT j FROM Jobhistory j WHERE j.jobname = :jobname")})
 public class Jobhistory implements Serializable {
     @JoinColumn(name = "projectid", referencedColumnName = "idprojects")
     @ManyToOne(optional = false)
@@ -44,6 +46,9 @@ public class Jobhistory implements Serializable {
     private Integer idjobs;
     @Column(name = "processid")
     private Integer processid;
+    @Size(max = 45)
+    @Column(name = "jobname")
+    private String jobname;
     @Size(max = 9999)
     @Column(name = "commandused")
     private String commandused;
@@ -69,6 +74,14 @@ public class Jobhistory implements Serializable {
 
     public void setProcessid(Integer processid) {
         this.processid = processid;
+    }
+    
+    public String getJobname() {
+        return jobname;
+    }
+
+    public void setJobname(String jobname) {
+        this.jobname = jobname;
     }
 
     public String getCommandused() {

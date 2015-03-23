@@ -22,7 +22,7 @@ import sessionbeans.WorkGroupSessionFacade;
  *
  * @author Fox
  */
-@ManagedBean
+@ManagedBean//(name = "TestToolBean")
 @RequestScoped
 public class TestToolBean {
 
@@ -34,23 +34,23 @@ public class TestToolBean {
     private String windowSize ="";
     private String qualityth ="";
     private String outputFile = "none";
+
+    private String kmerCount = "";
+
     private String seqType="";
     private String kmer="";
     private String insLen="";
     private String jobid="";
-
-
-
+    
     @EJB
     ProjectSessionFacade projectFacade;
 //    @EJB
 //    AuthenticationBean authBean;
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
-    //Stored ID of the project
+    
     @ManagedProperty(value = "#{param.selectedProject}")
     private String selectedProject;
-
     
     
         /**
@@ -65,43 +65,8 @@ public class TestToolBean {
         // set user attribute of session
 
         project = new Projects();
-
-    }
-    
- 
-
-    public void setSelectedProject(String selectedProject) {
-        this.selectedProject = selectedProject;
     }
 
-    public void setUtilityBean(UtilityBean utilityBean) {
-        this.utilityBean = utilityBean;
-    }
-
-
-    /**
-     * Selects projects and redirects to its page
-     *
-     * @return
-     */
-    public String selectProject() {
-        getUtilityBean().setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
-        return "project";        
-    }
-
-    public String doTrimmomatic(){
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
-        return "new_job_trimmomatic";      
-    }
-    
-    public String runTrimmomatic() {
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
-
-        AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
-        job.execute();
-        return "project";
-    }
-    
     public String doVelvet(){
         getUtilityBean().setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
         return "new_job_velvet"; 
@@ -128,6 +93,12 @@ public class TestToolBean {
         return "project";
     }
 
+    public String getSeqType() {
+        return seqType;
+    }
+
+        
+        
     /**
      * @return the utilityBean
      */
@@ -169,7 +140,16 @@ public class TestToolBean {
      * @param inputPath2 the inputPath2 to set
      */
     public void setInputPath2(String inputPath2) {
-        this.inputPath2 = inputPath2;
+        this.inputPath2 = inputPath2;        
+    }
+    
+    public String getKmerCount() {
+        return kmerCount;
+    }
+    
+  
+    public void setKmerCount(String kmerCount) {
+        this.kmerCount = kmerCount;
     }
 
     /**
@@ -214,18 +194,20 @@ public class TestToolBean {
         this.outputFile = outputFile;
     }
 
-    /**
-     * @return the seqType
-     */
-    public String getSeqType() {
-        return seqType;
+   
+    
+    public void runFastQC() {
+        AbstractJob job = new FastQCJob(inputPath);
+        job.execute();
+        outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
     }
+ 
+    public void runSeecer() {
+        AbstractJob job = new SeecerJob(getInputPath(), getInputPath2(), getKmerCount());
+        job.execute();
+        outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
 
-    /**
-     * @param seqType the seqType to set
-     */
-    public void setSeqType(String seqType) {
-        this.seqType = seqType;
+
     }
 
     /**
@@ -269,5 +251,5 @@ public class TestToolBean {
     public void setJobid(String jobid) {
         this.jobid = jobid;
     }
-    
+
 }
