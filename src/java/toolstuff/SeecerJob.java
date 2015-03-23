@@ -17,7 +17,7 @@ public class SeecerJob extends AbstractJob {
     public SeecerJob(String inputPath1, String inputPath2) {
         getParameters().put("input1", inputPath1);
         getParameters().put("input2", inputPath2);
-        setExecutableFile("Preprocessing/Seecer/Seecer/SEECER/bin/run_seecer.sh");
+        setExecutableFile("/home/vmuser/CPI/tools/Preprocessing/Seecer/Seecer/SEECER/bin/run_seecer.sh");
     }
 
     @Override
