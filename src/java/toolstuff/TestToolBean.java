@@ -112,7 +112,7 @@ public class TestToolBean {
     }
         
     public String doTrinity(){
-        getUtilityBean().setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
         return "new_job_trinity"; 
     }
     
@@ -237,6 +237,18 @@ public class TestToolBean {
         AbstractJob job = new SeecerJob(getInputPath(), getInputPath2(), getKmerCount());
         job.execute();
         outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
+    }
+    
+    public String doTrimmomatic() {
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
+        return "new_job_trimmomatic";
+    }
+
+    public String runTrimmomatic() {
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
+        AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
+        job.execute();
+        return "project";
     }
 
     /**
