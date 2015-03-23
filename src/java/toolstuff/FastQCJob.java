@@ -25,9 +25,11 @@ public class FastQCJob extends AbstractJob {
 
         String filename = getParameters().get("input");
         
-        String command = getCommand() + " " + filename + " " + "-o /root/NetBeansProjects/cpi-heroes2izi/web/Output";
+        String command = getCommand() + " " + filename + " " + "-o /root/NetBeansProjects/izidev2/web/Output";
 	
         String output = executeCommand(command);
+        
+        
 
         //System.out.println(output);
 
@@ -42,7 +44,7 @@ public class FastQCJob extends AbstractJob {
 
         Process p;
         try {
-            p = Runtime.getRuntime().exec(command);
+                        p = Runtime.getRuntime().exec(command);
             p.waitFor();
             BufferedReader reader
                     = new BufferedReader(new InputStreamReader(p.getInputStream()));
