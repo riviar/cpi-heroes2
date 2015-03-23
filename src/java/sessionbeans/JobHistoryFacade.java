@@ -55,14 +55,14 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
      * It retrieves all the jobs in the history related to the selected project
      * @return 
      */
-    public List<Jobhistory> getProjectJobs(String projectid) {
+    public List<Jobhistory> getProjectJobs(int projectid) {
         List<Jobhistory> list = new ArrayList();
         
         Query q = em.createNamedQuery("Jobhistory.findByProjectid");
         //Query q = em.createNamedQuery("Jobhistory.findAll");
         //System.out.println("Project: " + projectid);
         
-        q.setParameter("projectid", Integer.parseInt(projectid));
+        q.setParameter("projectid", projectid);
         //System.out.println(q.getResultList().size());
         /*List<Jobhistory> jobs = q.getResultList();
         for (Jobhistory job:jobs) {

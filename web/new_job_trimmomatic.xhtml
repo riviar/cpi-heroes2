@@ -42,6 +42,7 @@
                     <p:outputLabel value="Required quality"/><br/>
                     <p:inputText value="#{testToolBean.qualityth}"/>
                     <br/><br/>
+
                     <h:commandButton value="Run Trimmomatic" action="#{testToolBean.runTrimmomatic()}" >
                         <f:param name="selectedProject" value="#{utilityBean.selectedProject.idprojects}"/>
                     </h:commandButton>

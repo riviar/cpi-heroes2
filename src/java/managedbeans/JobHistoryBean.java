@@ -29,7 +29,6 @@ public class JobHistoryBean {
     
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
-    private String selectedProject;
     
     @ManagedProperty(value = "#{param.currentJob}")
     private String currentJob;
@@ -40,7 +39,6 @@ public class JobHistoryBean {
     
     public void setUtilityBean(UtilityBean utilityBean) {
         this.utilityBean = utilityBean;
-        selectedProject = utilityBean.getSelectedProject().getIdprojects().toString();
     }
     
     /**
@@ -70,7 +68,8 @@ public class JobHistoryBean {
      public List<Jobhistory> getProjectJobs() {
         //List<Jobhistory> list = new ArrayList();
         //List<Jobhistory> jobs = jobHistoryFacade.getAllJobs();
-        List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(selectedProject);
+        //List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(utilityBean.getSelectedProject().getIdprojects());
+         List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(151);
         /*for (Jobhistory job:jobs) {
             System.out.println(job.getProjectid().getIdprojects());
             System.out.println(Integer.getInteger(selectedProject));
