@@ -41,8 +41,9 @@ public class WorkgroupBean {
     ProjectSessionFacade projectFacade;
     @EJB
     AccountSessionFacade usersFacade;
-//    @EJB
-//    AuthenticationBean authBean;
+
+    @ManagedProperty(value = "#{authenticationBean}")
+    private AuthenticationBean authenticationBean;
     @ManagedProperty(value="#{utilityBean}")
     private UtilityBean utilityBean;
     //Stores ID of the workgroup
@@ -53,11 +54,19 @@ public class WorkgroupBean {
     private String selectedProject;
     @ManagedProperty(value="#{param.selectedUser}")
     private String selectedUser;
-    
+
+    public void setAuthenticationBean(AuthenticationBean authBean) {
+        this.authenticationBean = authBean;
+    }
+
+    public AuthenticationBean getAuthenticationBean() {
+        return authenticationBean;
+    }
+
     public void setSelectedUser(String selectedUser) {
         this.selectedUser = selectedUser;
     }
- 
+
     public void setSelectedProject(String selectedProject) {
         this.selectedProject = selectedProject;
     }
@@ -85,7 +94,7 @@ public class WorkgroupBean {
     public void setNewUserName(String newUserName) {
         this.newUserName = newUserName;
     }
-    
+
     
 
     /**
@@ -96,9 +105,9 @@ public class WorkgroupBean {
         user = utilityBean.getUser();
 
         workgroup = new Workgroups();
-        
+
         project = new Projects();
-        
+
     }
 
     /**
@@ -107,7 +116,7 @@ public class WorkgroupBean {
      * @return Collection containing all projects in current workgroup
      */
     public Collection<Projects> getProjectsInWorkgroup() {
-        
+
         if (workgroup == null) {
             return new ArrayList();
         } else {
@@ -145,14 +154,14 @@ public class WorkgroupBean {
         return "workgroupspage";
     }
 
-    public String removeUserFromWorkgroup() {           
-            Collection<Users> users = workgroup.getUsersCollection();
-            users.remove(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
-            workgroup.setUsersCollection(users);
-            workgroupFacade.updateWorkgroup(workgroup);
+    public String removeUserFromWorkgroup() {
+        Collection<Users> users = workgroup.getUsersCollection();
+        users.remove(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
+        workgroup.setUsersCollection(users);
+        workgroupFacade.updateWorkgroup(workgroup);
         return "workgroupspage";
     }
-    
+
     public String addProjectToWorkgroup() {
         project = new Projects();
         project.setProjectname(newProjectName);
@@ -169,12 +178,12 @@ public class WorkgroupBean {
     }
 
     public String removeProjectFromWorkgroup() {
-        
-            Collection<Projects> projects = workgroup.getProjectsCollection();
-            projects.remove(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
-            workgroup.setProjectsCollection(projects);
-            workgroupFacade.updateWorkgroup(workgroup);
-        
+
+        Collection<Projects> projects = workgroup.getProjectsCollection();
+        projects.remove(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
+        workgroup.setProjectsCollection(projects);
+        workgroupFacade.updateWorkgroup(workgroup);
+
         return "workgroupspage";
     }
 
@@ -206,16 +215,17 @@ public class WorkgroupBean {
     }
 
     public Workgroups getNewWorkgroup() {
-        workgroup.setOwner(user);       
+        user = authenticationBean.getLoggedInUser();
+        workgroup.setOwner(user);
         ArrayList<Users> users = new ArrayList();
         users.add(user);
         workgroup.setUsersCollection(users);
         return workgroup;
     }
-    
+
     /**
      * Selects workgroup and redirects to its page
-     * @return 
+     * @return
      */
     public String selectWorkgroup() {
         utilityBean.setSelectedWorkgroup(workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup)));
@@ -224,13 +234,13 @@ public class WorkgroupBean {
 
     /**
      * Selects projects and redirects to its page
-     * @return 
+     * @return
      */
     public String selectProject() {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
         return "project";
     }
-    
+
     public String selectUser() {
         utilityBean.setSelectedUser(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
         return "project";
