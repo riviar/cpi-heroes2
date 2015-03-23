@@ -22,6 +22,7 @@ public class TestToolBean {
     private String windowSize ="";
     private String qualityth ="";
     private String outputFile = "none";
+    private String kmerCount = "";
 
     public String getInputPath() {
         return inputPath;
@@ -40,7 +41,16 @@ public class TestToolBean {
     }
     
     public void setInputPath2(String inputPath2) {
-        this.inputPath2 = getInputPath2();        
+        this.inputPath2 = inputPath2;        
+    }
+    
+    public String getKmerCount() {
+        return kmerCount;
+    }
+    
+  
+    public void setKmerCount(String kmerCount) {
+        this.kmerCount = kmerCount;
     }
     
     
@@ -95,7 +105,7 @@ public class TestToolBean {
     }
     
     public void runSeecer() {
-        AbstractJob job = new SeecerJob(getInputPath(), getInputPath2());
+        AbstractJob job = new SeecerJob(getInputPath(), getInputPath2(), getKmerCount());
         job.execute();
         outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
     }
