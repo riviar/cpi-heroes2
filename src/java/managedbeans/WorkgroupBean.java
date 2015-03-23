@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import sessionbeans.AccountSessionFacade;
 import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
+import toolstuff.TestToolBean;
 
 /**
  *
@@ -266,9 +267,5 @@ public class WorkgroupBean {
         utilityBean.setSelectedUser(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
         return "project";
     }
-    
-    public String doTrimmomatic(){
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
-        return "new_job_trimmomatic";      
-    }
+   
 }

@@ -4,8 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -28,23 +27,25 @@
                         
                         <p:outputLabel value="File type"/><br/>
                     
-                        <h:selectOneMenu class="regInput" value="#{TestToolBean.seqType}" style="width: 200px">
+                        <h:selectOneMenu class="regInput" value="#{testToolBean.seqType}" style="width: 200px">
                             <f:selectItem itemValue="fastq" itemLabel="fastq" />
                         </h:selectOneMenu>
                         <br/>
-                       
+                        
+                        
                         
 
                         <p:outputLabel value="Left reads"/><br/>
                     
-                        <h:selectOneMenu class="regInput" value="#{TestToolBean.inputPath}" style="width: 200px">
-                            <f:selectItems value="#{user.filesMap}"/>
+                        <h:selectOneMenu class="regInput" value="#{testToolBean.inputPath}" style="width: 200px">
+                            <f:selectItems value="#{filesBean.getFilesMap()}"/>
                         </h:selectOneMenu>
+                        
 
                         <br/>
                         <p:outputLabel value="Right reads"/><br/>
-                        <h:selectOneMenu class="regInput" value="#{TestToolBean.inputPath2}" style="width: 200px">
-                            <f:selectItems value="#{user.filesMap}"/>
+                        <h:selectOneMenu class="regInput" value="#{testToolBean.inputPath2}" style="width: 200px">
+                            <f:selectItems value="#{filesBean.getFilesMap()}"/>
                         </h:selectOneMenu>
                         <br/>
 
@@ -55,14 +56,17 @@
 
                         
                         <p:outputLabel value="Kmer size"/><br/>
-                        <p:inputText value="#{TestToolBean.kmer}"/><br/>
+                        <p:inputText value="#{testToolBean.kmer}"/><br/>
                         <p:outputLabel value="Insert lenght"/><br/>
-                        <p:inputText value="#{TestToolBean.insLen}"/><br/>
+                        <p:inputText value="#{testToolBean.insLen}"/><br/>
                         <p:outputLabel value="JobID"/><br/>
-                        <p:inputText value="#{TestToolBean.jobid}"/><br/>
+                        <p:inputText value="#{testToolBean.jobid}"/><br/>
                     </div>
                     <div class="news">
-                        <h:commandButton value="Run Velvet" action="#{TestToolBean.runVelvet()}" /><br/>
+                        <h:commandButton value="Run Velvet" action="#{testToolBean.runVelvet()}" >
+                            <f:param name="selectedProject" value="#{utilityBean.selectedProject.idprojects}"/>
+                        </h:commandButton>
+                    <br/>
                     </div>
                 </h:form>
 

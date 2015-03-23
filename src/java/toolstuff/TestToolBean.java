@@ -5,18 +5,30 @@
  */
 package toolstuff;
 
+import entitybeans.Projects;
 import java.util.regex.Pattern;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+import managedbeans.UtilityBean;
+import sessionbeans.AccountSessionFacade;
+import sessionbeans.ProjectSessionFacade;
+import sessionbeans.WorkGroupSessionFacade;
 
 /**
  *
  * @author Fox
  */
-@ManagedBean(name = "TestToolBean")
+@ManagedBean
 @RequestScoped
 public class TestToolBean {
 
+        private Projects project;
+
+    
     private String inputPath="";
     private String inputPath2="";
     private String windowSize ="";
@@ -27,33 +39,96 @@ public class TestToolBean {
     private String insLen="";
     private String jobid="";
 
+
+
+    @EJB
+    ProjectSessionFacade projectFacade;
+//    @EJB
+//    AuthenticationBean authBean;
+    @ManagedProperty(value = "#{utilityBean}")
+    private UtilityBean utilityBean;
+    //Stored ID of the project
+    @ManagedProperty(value = "#{param.selectedProject}")
+    private String selectedProject;
+
     
     
-    /**
-     * Creates a new instance of TestToolBean
+        /**
+     * Creates a new instance of WorkgroupBean
      */
     public TestToolBean() {
+
+        //TODO: code taken from AuthenticationBean - should call it there instead!
+        // get current session
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(false);
+        // set user attribute of session
+
+        project = new Projects();
+
     }
     
-    public void runFastQC() {
-        AbstractJob job = new FastQCJob(getInputPath());
-        job.execute();
-        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+ 
+
+    public void setSelectedProject(String selectedProject) {
+        this.selectedProject = selectedProject;
+    }
+
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
+
+
+    /**
+     * Selects projects and redirects to its page
+     *
+     * @return
+     */
+    public String selectProject() {
+        getUtilityBean().setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
+        return "project";        
+    }
+
+    public String doTrimmomatic(){
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
+        return "new_job_trimmomatic";      
     }
     
-    public void runTrimmomatic() {
-       
+    public String runTrimmomatic() {
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
+
         AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
         job.execute();
-        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+        return "project";
     }
     
-    public void runVelvet() {
-        
-        //inputPath are left reads and inputPath2 are right reads
-        AbstractJob job = new VelvetJob(getSeqType(), getInputPath(), getInputPath2(), getKmer(), getInsLen(), getJobid());
+    public String doVelvet(){
+        getUtilityBean().setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
+        return "new_job_velvet"; 
+    }
+    
+        public String runVelvet() {
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
+        //inputPath are left reads and inputPath2 are rightReads
+        AbstractJob job = new VelvetJob(getSeqType(), getInputPath(), getInputPath(), getKmer(), getInsLen(), getJobid());
         job.execute();
-        setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+        return "project";
+    }
+
+    /**
+     * @return the utilityBean
+     */
+    public UtilityBean getUtilityBean() {
+        return utilityBean;
+    }
+
+
+
+    /**
+     * @return the selectedProject
+     */
+    public String getSelectedProject() {
+        return selectedProject;
     }
 
     /**
@@ -181,6 +256,5 @@ public class TestToolBean {
     public void setJobid(String jobid) {
         this.jobid = jobid;
     }
-
     
 }
