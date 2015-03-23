@@ -54,14 +54,14 @@ public class Workgroups implements Serializable {
     @Column(name = "workgroupname")
     private String workgroupname;
     @ManyToMany
-    @JoinTable(name = "users_has_workgroups",
+    @JoinTable(name = "user_has_workgroups",
             inverseJoinColumns = {
                 @JoinColumn(name = "users_idusers", referencedColumnName = "idusers")},
             joinColumns = {
                 @JoinColumn(name = "workgroups_idworkgroups", referencedColumnName = "idworkgroups")}
     )
     private Collection<Users> usersCollection;
-    @OneToMany(mappedBy = "workgroup")
+    @OneToMany(mappedBy = "workgroupid")
     private Collection<Projects> projectsCollection;
     @JoinColumn(name = "owner", referencedColumnName = "idusers")
     @ManyToOne(optional = false)

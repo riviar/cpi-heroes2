@@ -56,7 +56,7 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
     public void deleteProject(Projects project) {
         remove(project);
     }
-
+    
     public void updateProject(Projects project) {
         edit(project);
     }
@@ -113,13 +113,14 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
         Collection<Projects> userVisibleProjects = new HashSet();
         Query q = em.createNamedQuery("Projects.findInUsersWorkgroup", Projects.class);
         q.setParameter(1, user.getIdusers());
+        //System.out.println("Found " + q.getResultList().size() + " projects");
         userVisibleProjects.addAll(q.getResultList());
         userVisibleProjects.addAll(getUserOwnedProjects(user));
-        userVisibleProjects.addAll(getAllPublicProjects());
+        userVisibleProjects.addAll(getPublicProjects(user));
         return userVisibleProjects;
     }
 
-    public Collection<Projects> getAllPublicProjects() {
+    public Collection<Projects> getPublicProjects(Users user) {
         try {
             Query q = em.createNamedQuery("Projects.findByVisibility", Projects.class);
             q.setParameter("visibility", "PUBLIC");
@@ -142,7 +143,7 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
         }
         return null;
     }
-
+    
     public Projects retrieveProjectById(int id) {
         try {
             Query q = em.createNamedQuery("Projects.findByIdprojects");
@@ -150,41 +151,8 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
             return (Projects) q.getSingleResult();
         } catch (NoResultException e) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage("Project doesn't exist!"));
+                    new FacesMessage("Project doesn't exist!"));   
         }
         return null;
-    }
-
-    public Collection<Projects> getUsersPublicProjects(Users user) {
-        Collection<Projects> projects = getUserOwnedProjects(user);
-        Collection<Projects> userpublicprojects = new HashSet();
-        for (Projects project : projects) {
-            if (project.getVisibility().equals("PUBLIC")) {
-                userpublicprojects.add(project);
-            }
-        }
-        return userpublicprojects;
-    }
-
-    public Collection<Projects> getUsersProtectedProjects(Users user) {
-        Collection<Projects> projects = getUserOwnedProjects(user);
-        Collection<Projects> userprotectedprojects = new HashSet();
-        for (Projects project : projects) {
-            if (project.getVisibility().equals("WORKGROUP")) {
-                userprotectedprojects.add(project);
-            }
-        }
-        return userprotectedprojects;
-    }
-
-    public Collection<Projects> getUsersPrivateProjects(Users user) {
-        Collection<Projects> projects = getUserOwnedProjects(user);
-        Collection<Projects> userprivateprojects = new HashSet();
-        for (Projects project : projects) {
-            if (project.getVisibility().equals("PRIVATE")) {
-                userprivateprojects.add(project);
-            }
-        }
-        return userprivateprojects;
     }
 }

@@ -19,16 +19,20 @@
             
             <ui:define name="center">
                 <h:form>
-                    <p:outputLabel value="Job name"/><br/>
-                    <!--<p:inputText  value="{jobHistoryBean.newJob.jobname}"/><br/>-->
-                    <p:inputText  value="#{testToolBean.newJob.jobname}"/><br/>
-                    
                     <p:outputLabel value="Input file 1"/><br/>
                     <h:selectOneMenu class="regInput" value="#{testToolBean.inputPath}" style="width: 200px">
                         <f:selectItems value="#{filesBean.getFilesMap()}"/>
                     </h:selectOneMenu>
-                                       
-                    <br/><p:outputLabel value="Input file 2"/><br/>
+                    
+                    <p:outputLabel value="Job name"/><br/>
+                    <p:inputText value="#{testToolBean.windowSize}"/><br/>
+                    
+                    <p:outputLabel value="Input file 1"/><br/>
+                    <h:selectOneMenu class="regInput" value="#{testToolBean.inputPath}" style="width: 200px">
+                        <f:selectItems value="#{filesBean.getFilesMap()}"/>
+                    </h:selectOneMenu>                    
+                    <br/>
+                    <p:outputLabel value="Input file 2"/><br/>
                     <h:selectOneMenu class="regInput" value="#{testToolBean.inputPath2}" style="width: 200px">
                         <f:selectItems value="#{filesBean.getFilesMap()}"/>
                     </h:selectOneMenu>
@@ -38,9 +42,7 @@
                     <p:outputLabel value="Required quality"/><br/>
                     <p:inputText value="#{testToolBean.qualityth}"/>
                     <br/><br/>
-
-                   <h:commandButton value="Run Trimmomatic" action="#{testToolBean.runTrimmomatic()}" >
-                   <!--<h:commandButton value="Run Trimmomatic" action="{jobHistoryBean.addJob2History()}" >--> 
+                    <h:commandButton value="Run Trimmomatic" action="#{testToolBean.runTrimmomatic()}" >
                         <f:param name="selectedProject" value="#{utilityBean.selectedProject.idprojects}"/>
                     </h:commandButton>
                         
