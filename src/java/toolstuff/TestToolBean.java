@@ -22,7 +22,7 @@ import sessionbeans.WorkGroupSessionFacade;
  *
  * @author Fox
  */
-@ManagedBean
+@ManagedBean//(name = "TestToolBean")
 @RequestScoped
 public class TestToolBean {
 
@@ -41,20 +41,16 @@ public class TestToolBean {
     private String kmer="";
     private String insLen="";
     private String jobid="";
-
-
-
-
+    
     @EJB
     ProjectSessionFacade projectFacade;
 //    @EJB
 //    AuthenticationBean authBean;
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
-    //Stored ID of the project
+    
     @ManagedProperty(value = "#{param.selectedProject}")
     private String selectedProject;
-
     
     
         /**
@@ -69,43 +65,8 @@ public class TestToolBean {
         // set user attribute of session
 
         project = new Projects();
-
-    }
-    
- 
-
-    public void setSelectedProject(String selectedProject) {
-        this.selectedProject = selectedProject;
     }
 
-    public void setUtilityBean(UtilityBean utilityBean) {
-        this.utilityBean = utilityBean;
-    }
-
-
-    /**
-     * Selects projects and redirects to its page
-     *
-     * @return
-     */
-    public String selectProject() {
-        getUtilityBean().setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
-        return "project";        
-    }
-
-    public String doTrimmomatic(){
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
-        return "new_job_trimmomatic";      
-    }
-    
-    public String runTrimmomatic() {
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
-
-        AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
-        job.execute();
-        return "project";
-    }
-    
     public String doVelvet(){
         getUtilityBean().setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
         return "new_job_velvet"; 
@@ -132,6 +93,12 @@ public class TestToolBean {
         return "project";
     }
 
+    public String getSeqType() {
+        return seqType;
+    }
+
+        
+        
     /**
      * @return the utilityBean
      */
@@ -285,11 +252,4 @@ public class TestToolBean {
         this.jobid = jobid;
     }
 
-    /**
-     * @return the seqType
-     */
-    public String getSeqType() {
-        return seqType;
-    }
-    
 }
