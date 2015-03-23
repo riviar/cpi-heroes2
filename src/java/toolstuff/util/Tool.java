@@ -16,8 +16,8 @@ public class Tool {
     private EToolType toolType;
     private String description;
     private String path;
-    private List<String> inputList;
-    private List<String> parameterList;
+    private List<ToolAttributes> inputList;
+    private List<ToolAttributes> parameterList;
 
     public String getName() {
         return name;
@@ -51,16 +51,26 @@ public class Tool {
         this.path = path;
     }
 
-    public List<String> getParameterList() {
+    public List<ToolAttributes> getParameterList() {
         return parameterList;
     }
 
-    public void setParameterList(List<String> parameterList) {
+    public void setParameterList(List<ToolAttributes> parameterList) {
         this.parameterList = parameterList;
     }
+
+    public List<ToolAttributes> getInputList() {
+        return inputList;
+    }
+
+    public void setInputList(List<ToolAttributes> inputList) {
+        this.inputList = inputList;
+    }
+    
+    
     
     public Tool(String name, EToolType toolType, String description, 
-            String path, List<String> inputList, List<String> parametersList) {
+            String path, List<ToolAttributes> inputList, List<ToolAttributes> parametersList) {
         this.name = name;
         this.toolType = toolType;
         this.description = description;
