@@ -36,7 +36,7 @@ public class FilesFacade extends AbstractFacade<Files> {
             
         Query q = em.createNamedQuery("Files.findByProj");
         q.setParameter("idprojects", idProject);
-        System.out.println("--------idProject: "+idProject);
+        //System.out.println("--------idProject: "+idProject);
         return q.getResultList();
         
     }

@@ -6,8 +6,12 @@
 package toolstuff;
 
 import java.util.regex.Pattern;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import managedbeans.UtilityBean;
+import sessionbeans.ProjectSessionFacade;
 
 /**
  *
@@ -26,7 +30,15 @@ public class TestToolBean {
     private String kmer="";
     private String insLen="";
     private String jobid="";
+    
+    @EJB
+    ProjectSessionFacade projectFacade;
 
+    @ManagedProperty(value = "#{utilityBean}")
+    private UtilityBean utilityBean;
+    
+    @ManagedProperty(value = "#{param.selectedProject}")
+    private String selectedProject;
     
     
     /**
@@ -35,17 +47,50 @@ public class TestToolBean {
     public TestToolBean() {
     }
     
+     /**
+     * @param utilityBean the utilityBean to set
+     */
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
+
+    /**
+     * @param selectedProject the selectedProject to set
+     */
+    public void setSelectedProject(String selectedProject) {
+        this.selectedProject = selectedProject;
+    }
+    
+    /**
+     * @return the selectedProject
+     */
+    public String getSelectedProject() {
+        return selectedProject;
+    }
+    
     public void runFastQC() {
         AbstractJob job = new FastQCJob(getInputPath());
         job.execute();
         setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
     }
     
+     public String doTrimmomatic(){
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
+        return "new_job_trimmomatic";      
+    }
+    
     public void runTrimmomatic() {
-       
-        AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
+       utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
+        
+       AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
+        System.out.println("runTrimmomatic");
         job.execute();
         setOutputFile(getInputPath().substring(0, getInputPath().lastIndexOf(".")));
+    }
+    
+    public String doVelvet(){
+        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
+        return "new_job_velvet"; 
     }
     
     public void runVelvet() {
@@ -181,6 +226,8 @@ public class TestToolBean {
     public void setJobid(String jobid) {
         this.jobid = jobid;
     }
+
+     
 
     
 }

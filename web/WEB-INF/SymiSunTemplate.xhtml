@@ -126,34 +126,17 @@
                                 <h:form>
                                 <ul>
 
-                                    <c:forEach items="#{jobHistoryBean.getJobCommand()}" var="job">
+                                    <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
                                         <li><div id="job">
-                                                <p class="subtool">#{job}</p>
-                                                <p>some description</p>
-                                                <p>ongoing or finished</p>
+                                                <p class="subtool">#{job.jobname}</p>
+                                                <p>#{job.commandused}</p>
+                                                
+                                                <c:if test="#{job.processid>0}"><p style="color:orange">RUNNING</p></c:if>
+                                                <c:if test="#{job.processid==-1}"><p style="color:green">FINISHED</p></c:if>                                               
+                                               
                                             </div></li>
                                     </c:forEach>  
-                                    
-                                    <li><div id="job">
-                                            <p><h:link value="Jobname1" outcome="data_item"/></p>
-                                            <p>some description</p>
-                                            <p>ongoing or finished</p>
-                                        </div></li>
-                                    <li><div id="job">
-                                            <p>Jobname2</p>
-                                            <p>some description</p>
-                                            <p>ongoing or finished</p>
-                                        </div></li>
-                                    <li><div id="job">
-                                            <p>Jobname3</p>
-                                            <p>some description</p>
-                                            <p>ongoing or finished</p>
-                                        </div></li>
-                                    <li><div id="job">
-                                            <p>Jobname4</p>
-                                            <p>some description</p>
-                                            <p>ongoing or finished</p>
-                                        </div></li>
+                                                                        
                                 </ul>
                                 </h:form>
                             </div>
