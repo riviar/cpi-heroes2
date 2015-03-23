@@ -102,7 +102,7 @@ public class WorkgroupBean {
      */
     public WorkgroupBean() {
 
-        user = utilityBean.getUser();
+        //user = utilityBean.getUser();
 
         workgroup = new Workgroups();
 
