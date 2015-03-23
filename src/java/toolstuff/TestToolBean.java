@@ -34,10 +34,14 @@ public class TestToolBean {
     private String windowSize ="";
     private String qualityth ="";
     private String outputFile = "none";
+
+    private String kmerCount = "";
+
     private String seqType="";
     private String kmer="";
     private String insLen="";
     private String jobid="";
+
 
 
 
@@ -169,7 +173,16 @@ public class TestToolBean {
      * @param inputPath2 the inputPath2 to set
      */
     public void setInputPath2(String inputPath2) {
-        this.inputPath2 = inputPath2;
+        this.inputPath2 = inputPath2;        
+    }
+    
+    public String getKmerCount() {
+        return kmerCount;
+    }
+    
+  
+    public void setKmerCount(String kmerCount) {
+        this.kmerCount = kmerCount;
     }
 
     /**
@@ -214,18 +227,20 @@ public class TestToolBean {
         this.outputFile = outputFile;
     }
 
-    /**
-     * @return the seqType
-     */
-    public String getSeqType() {
-        return seqType;
+   
+    
+    public void runFastQC() {
+        AbstractJob job = new FastQCJob(inputPath);
+        job.execute();
+        outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
     }
+ 
+    public void runSeecer() {
+        AbstractJob job = new SeecerJob(getInputPath(), getInputPath2(), getKmerCount());
+        job.execute();
+        outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
 
-    /**
-     * @param seqType the seqType to set
-     */
-    public void setSeqType(String seqType) {
-        this.seqType = seqType;
+
     }
 
     /**
@@ -268,6 +283,13 @@ public class TestToolBean {
      */
     public void setJobid(String jobid) {
         this.jobid = jobid;
+    }
+
+    /**
+     * @return the seqType
+     */
+    public String getSeqType() {
+        return seqType;
     }
     
 }
