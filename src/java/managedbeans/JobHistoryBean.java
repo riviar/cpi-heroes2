@@ -68,8 +68,8 @@ public class JobHistoryBean {
      public List<Jobhistory> getProjectJobs() {
         //List<Jobhistory> list = new ArrayList();
         //List<Jobhistory> jobs = jobHistoryFacade.getAllJobs();
-        //List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(utilityBean.getSelectedProject().getIdprojects());
-         List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(151);
+        List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(utilityBean.getSelectedProject().getIdprojects());
+        //List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(151);
         /*for (Jobhistory job:jobs) {
             System.out.println(job.getProjectid().getIdprojects());
             System.out.println(Integer.getInteger(selectedProject));

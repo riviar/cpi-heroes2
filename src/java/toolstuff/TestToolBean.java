@@ -5,6 +5,7 @@
  */
 package toolstuff;
 
+import entitybeans.Jobhistory;
 import entitybeans.Projects;
 import java.util.regex.Pattern;
 import javax.ejb.EJB;
@@ -27,8 +28,9 @@ import sessionbeans.WorkGroupSessionFacade;
 public class TestToolBean {
 
     private Projects project;
+    private Jobhistory newJob;
 
-    
+    private String newJobName = "";
     private String inputPath="";
     private String inputPath2="";
     private String windowSize ="";
@@ -51,6 +53,30 @@ public class TestToolBean {
     
     @ManagedProperty(value = "#{param.selectedProject}")
     private String selectedProject;
+
+    public void setProject(Projects project) {
+        this.project = project;
+    }
+
+    public void setNewJob(Jobhistory newJob) {
+        this.newJob = newJob;
+    }
+
+    public void setSeqType(String seqType) {
+        this.seqType = seqType;
+    }
+
+    public void setProjectFacade(ProjectSessionFacade projectFacade) {
+        this.projectFacade = projectFacade;
+    }
+
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
+
+    public void setSelectedProject(String selectedProject) {
+        this.selectedProject = selectedProject;
+    }
     
     
         /**
@@ -67,6 +93,11 @@ public class TestToolBean {
         project = new Projects();
     }
 
+    
+    public void setNewJob(String newJobName) {
+        this.newJob = new Jobhistory(newJobName);
+    }
+    
     public String doVelvet(){
         getUtilityBean().setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
         return "new_job_velvet"; 
@@ -206,8 +237,6 @@ public class TestToolBean {
         AbstractJob job = new SeecerJob(getInputPath(), getInputPath2(), getKmerCount());
         job.execute();
         outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
-
-
     }
 
     /**
@@ -250,6 +279,20 @@ public class TestToolBean {
      */
     public void setJobid(String jobid) {
         this.jobid = jobid;
+    }
+
+    /**
+     * @return the newJobName
+     */
+    public String getNewJobName() {
+        return newJobName;
+    }
+
+    /**
+     * @param newJobName the newJobName to set
+     */
+    public void setNewJobName(String newJobName) {
+        this.newJobName = newJobName;
     }
 
 }

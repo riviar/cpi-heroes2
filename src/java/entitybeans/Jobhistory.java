@@ -55,6 +55,10 @@ public class Jobhistory implements Serializable {
 
     public Jobhistory() {
     }
+    
+    public Jobhistory(String jobname) {
+        this.jobname = jobname;
+    }
 
     public Jobhistory(Integer idjobs) {
         this.idjobs = idjobs;
