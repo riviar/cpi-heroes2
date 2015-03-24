@@ -11,6 +11,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -88,6 +89,31 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
         return Integer.parseInt(q.getResultList().get(0).toString());
     }
 
+    /**
+     * Add new job to database
+     * @param newJob 
+     */
+    public void addJob(Jobhistory newJob){
+        create(newJob);
+    }
+    
+    public boolean jobExists(String jobname) {
+        Query q = em.createQuery("SELECT j FROM Jobhistory j WHERE j.jobname=:jobname");
+        q.setParameter("username", jobname);
+        try {
+            // return true if any record matching username is found in database
+            // can getSingleResult ever return null and not throw NoResultException?
+            if (q.getSingleResult() != null) {
+                return true;
+            }
+        } catch (NoResultException ex) {
+            return false;
+        }
+        // should never reach here, so trap with assert, but return true anyway as IDE complains otherwise
+        assert false;
+        return true;
+    }
+    
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

@@ -28,7 +28,8 @@ import sessionbeans.WorkGroupSessionFacade;
 public class TestToolBean {
 
     private Projects project;
-    private Jobhistory newJob;
+        
+    private Jobhistory newJob = new Jobhistory();
 
     private String newJobName = "";
     private String inputPath="";
@@ -53,13 +54,17 @@ public class TestToolBean {
     
     @ManagedProperty(value = "#{param.selectedProject}")
     private String selectedProject;
-
-    public void setProject(Projects project) {
-        this.project = project;
+    
+    public Jobhistory getNewJob() {
+        return newJob;
     }
 
     public void setNewJob(Jobhistory newJob) {
         this.newJob = newJob;
+    }
+
+    public void setProject(Projects project) {
+        this.project = project;
     }
 
     public void setSeqType(String seqType) {
@@ -246,7 +251,7 @@ public class TestToolBean {
 
     public String runTrimmomatic() {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
-        AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
+        AbstractJob job = new TrimmomaticJob(getNewJobName(), getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
         job.execute();
         return "project";
     }

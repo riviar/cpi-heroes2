@@ -9,9 +9,11 @@ import entitybeans.Jobhistory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import sessionbeans.JobHistoryFacade;
 
 /**
@@ -23,6 +25,16 @@ import sessionbeans.JobHistoryFacade;
 public class JobHistoryBean {
 
     private String jobName;
+    
+    private Jobhistory newJob = new Jobhistory("New Job 2");
+
+    public Jobhistory getNewJob() {
+        return newJob;
+    }
+
+    public void setNewJob(Jobhistory newJob) {
+        this.newJob = newJob;
+    }
     
     @EJB
     private JobHistoryFacade jobHistoryFacade;
@@ -45,6 +57,19 @@ public class JobHistoryBean {
      * Creates a new instance of JobHistoryBean
      */
     public JobHistoryBean() {
+        //this.newJob = new Jobhistory();
+    }
+    
+    public String addJob2History() {
+        //check if user with specified login already exists
+        /*if (jobHistoryFacade.jobExists(newJob.getJobname())) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("This job already exists!"));
+        } else {*/
+        System.out.println("Job Name "+newJob.getJobname());
+        jobHistoryFacade.addJob(newJob);
+        //}
+        return "project";
     }
     
      /**

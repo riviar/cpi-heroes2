@@ -54,10 +54,28 @@ public class Jobhistory implements Serializable {
     private String commandused;
 
     public Jobhistory() {
+        System.out.println("Default Constructor");
+        jobname= "New job";
+        processid = 11;
+        projectid = new Projects(1);
+        commandused = "Path and parameters";
+        
     }
     
     public Jobhistory(String jobname) {
+        System.out.println("Constructor II");
         this.jobname = jobname;
+        processid = 11;
+        projectid = new Projects(1);
+        commandused = "Path and parameters";
+    }
+    
+    public Jobhistory(String jobname, Integer processid, int projectid, String commandused) {
+        System.out.println("Constructor II");
+        this.jobname = jobname;
+        this.processid = processid;
+        this.projectid = new Projects(projectid);
+        this.commandused = commandused;
     }
 
     public Jobhistory(Integer idjobs) {
