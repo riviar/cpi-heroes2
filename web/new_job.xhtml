@@ -21,7 +21,7 @@
                 <h:form>
                     <div class="news">
                         <h4>Job Name</h4><br/>
-                        <p:inputText class="regInput" value=""/>
+                        <p:inputText class="regInput" value="#{testToolBean.newJobName}"/>
                     </div>
                     <div class="news">
                         <h4>Inputs</h4>
@@ -42,7 +42,7 @@
                         </c:forEach>
                     </div>
                     <div class="news">
-                        <h:commandButton value="Submit" class="centerButton" action="project"/>
+                        <h:commandButton value="Submit" class="centerButton" action="#{testToolBean.runJob()}"/>
                     </div>
                 </h:form>
 

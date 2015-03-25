@@ -7,6 +7,7 @@ package toolstuff;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import toolstuff.util.Tool;
 
 /**
  *
@@ -14,51 +15,20 @@ import java.io.InputStreamReader;
  */
 public class FastQCJob extends AbstractJob {
 
-    public FastQCJob(String inputPath) {
-        getParameters().put("input", inputPath);
-        setExecutableFile("Preprocessing/FastQC/fastqc");
+    public FastQCJob(Tool tool) {
+        setTool(tool);
+        setExecutableFile(getTool().getPath());
     }
 
     @Override
     //creates html file in input file location with name input_fastqc.html
     public void execute() {
-
-        String filename = getParameters().get("input");
+        String inputFileName = getTool().getInputList().get(0).getValue();
         
-        String command = getCommand() + " " + filename + " " + "-o /root/NetBeansProjects/izidev2/web/Output";
+        String command = getCommand() + " " + inputFileName + " " + "-o /root/NetBeansProjects/izidev2/web/Output";
 	
         String output = executeCommand(command);
-        
-        
-
         //System.out.println(output);
 
     }
-
-    private String executeCommand(String command) {
-
-        StringBuffer output = new StringBuffer();
-        
-        //output directory -o /root/NetBeansProjects/cpi-heroes2izi/web/Output
-
-
-        Process p;
-        try {
-                        p = Runtime.getRuntime().exec(command);
-            p.waitFor();
-            BufferedReader reader
-                    = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                output.append(line + "\n");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return output.toString();
-    }
-
 }

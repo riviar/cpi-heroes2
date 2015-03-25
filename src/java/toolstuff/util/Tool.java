@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class Tool {
     private String name;
+    private ETool toolEnum;
     private EToolType toolType;
     private String description;
     private String path;
@@ -25,6 +26,14 @@ public class Tool {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ETool getToolEnum() {
+        return toolEnum;
+    }
+
+    public void setToolEnum(ETool toolEnum) {
+        this.toolEnum = toolEnum;
     }
 
     public EToolType getToolType() {
@@ -69,9 +78,10 @@ public class Tool {
     
     
     
-    public Tool(String name, EToolType toolType, String description, 
+    public Tool(String name, ETool toolEnum, EToolType toolType, String description, 
             String path, List<ToolAttributes> inputList, List<ToolAttributes> parametersList) {
         this.name = name;
+        this.toolEnum = toolEnum;
         this.toolType = toolType;
         this.description = description;
         this.path = path;

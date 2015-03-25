@@ -7,6 +7,7 @@ package toolstuff;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import toolstuff.util.Tool;
 
 /**
  *
@@ -14,20 +15,18 @@ import java.io.InputStreamReader;
  */
 public class SeecerJob extends AbstractJob {
 
-    public SeecerJob(String inputPath1, String inputPath2, String KmerCount) {
-        getParameters().put("input1", inputPath1);
-        getParameters().put("input2", inputPath2);
-        getParameters().put("input3", KmerCount);
-        setExecutableFile("Preprocessing/Seecer/Seecer/SEECER/bin/run_seecer.sh");
+    public SeecerJob(Tool tool) {
+        setTool(tool);
+        setExecutableFile(tool.getPath());
     }
 
     @Override
     //creates html file in input file location with name input_fastqc.html
     public void execute() {
 
-        String filename1 = getParameters().get("input1");
-        String filename2 = getParameters().get("input2");
-        String KmerCount = getParameters().get("input3");
+        String filename1 = getTool().getInputList().get(0).getValue();
+        String filename2 = getTool().getInputList().get(1).getValue();
+        String KmerCount = getTool().getParameterList().get(0).getValue();
         
         String tmpPath = "/home/vmuser/CPI/tools/Seecer/testdata/tmp";
         //String jellyfishPath = "/home/vmuser/CPI/tools/Preprocessing/Seecer/Seecer/jellyfish-1.1.11/bin";
@@ -42,32 +41,6 @@ public class SeecerJob extends AbstractJob {
         System.out.println("**************************");
         System.out.println(command);
 
-    }
-
-    private String executeCommand(String command) {
-
-        StringBuffer output = new StringBuffer();
-        
-        //output directory -o /root/NetBeansProjects/cpi-heroes2izi/web/Output
-
-
-        Process p;
-        try {
-                        p = Runtime.getRuntime().exec(command);
-            p.waitFor();
-            BufferedReader reader
-                    = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                output.append(line + "\n");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return output.toString();
     }
 
 }

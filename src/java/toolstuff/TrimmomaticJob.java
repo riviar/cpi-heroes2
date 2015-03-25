@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import toolstuff.util.Tool;
 
 /**
  *
@@ -18,43 +19,12 @@ import java.util.logging.Logger;
  */
 public class TrimmomaticJob extends AbstractJob {
     
-    public TrimmomaticJob(String input1, String input2, String windowSize, String requiredQuality){ 
+    public TrimmomaticJob(Tool tool){ 
         //    , String fastaWithAdaptersEtc, String seedMismatches, String palindromeClipThreshold, String simpleClipThreshold) {
         System.out.println("***********************************************************************");
         
-        getParameters().put("input1", input1);
-        getParameters().put("input2", input2);
-        getParameters().put("windowSize", windowSize);
-        getParameters().put("requiredQuality", requiredQuality);
-        //<fastaWithAdaptersEtc>:<seedMismatches>:<palindromeClipThreshold>:<simple clip threshold> 2:30:10
-        //getParameters().put("fastaWithAdaptersEtc", fastaWithAdaptersEtc);
-        //getParameters().put("seedMismatches", seedMismatches);
-        //getParameters().put("palindromeClipThreshold", palindromeClipThreshold);
-        //getParameters().put("simpleClipThreshold", simpleClipThreshold);
-        
-        
-        setExecutableFile("/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar");
-        //setExecutableFile("/opt/FastQC/fastqc");
-    }
-    
-    public TrimmomaticJob(String jobName, String input1, String input2, String windowSize, String requiredQuality){ 
-        //    , String fastaWithAdaptersEtc, String seedMismatches, String palindromeClipThreshold, String simpleClipThreshold) {
-        System.out.println("***********************************************************************");
-        
-        getParameters().put("jobName", jobName);
-        getParameters().put("input1", input1);
-        getParameters().put("input2", input2);
-        getParameters().put("windowSize", windowSize);
-        getParameters().put("requiredQuality", requiredQuality);
-        //<fastaWithAdaptersEtc>:<seedMismatches>:<palindromeClipThreshold>:<simple clip threshold> 2:30:10
-        //getParameters().put("fastaWithAdaptersEtc", fastaWithAdaptersEtc);
-        //getParameters().put("seedMismatches", seedMismatches);
-        //getParameters().put("palindromeClipThreshold", palindromeClipThreshold);
-        //getParameters().put("simpleClipThreshold", simpleClipThreshold);
-        
-        
-        setExecutableFile("/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar");
-        //setExecutableFile("/opt/FastQC/fastqc");
+        setTool(tool);
+        setExecutableFile(tool.getPath());  
     }
 
     

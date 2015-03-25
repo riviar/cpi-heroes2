@@ -30,8 +30,8 @@ public class TestToolBean {
     private Projects project;
         
     private Jobhistory newJob = new Jobhistory();
-
     private String newJobName = "";
+    
     private String inputPath="";
     private String inputPath2="";
     private String windowSize ="";
@@ -101,6 +101,19 @@ public class TestToolBean {
     
     public void setNewJob(String newJobName) {
         this.newJob = new Jobhistory(newJobName);
+    }
+    
+    public void runJob() {
+        AbstractJob job;
+        switch (utilityBean.getSelectedTool().getName()) {
+            case "FastQC":
+                job = new FastQCJob(utilityBean.getSelectedTool());
+                break;
+            case "Trimmomatic":
+                break;
+            case "Seecer":
+                break;
+        }
     }
     
     public String doVelvet(){

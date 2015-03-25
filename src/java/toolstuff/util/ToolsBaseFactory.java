@@ -30,7 +30,13 @@ public class ToolsBaseFactory {
         parameters.clear();
         //tool = new Tool("FastQC", EToolType.PREPROCESSING, "Performs initial analysis of fastqc quality", "Preprocessing/FastQC/fastqc", inputs, parameters);
         //fullToolsList.add(tool);
-        fullToolsList.add(new Tool("FastQC", EToolType.PREPROCESSING, "Performs initial analysis of fastqc quality", "Preprocessing/FastQC/fastqc", new ArrayList<>(inputs), new ArrayList<>(parameters)));        
+        fullToolsList.add(new Tool("FastQC", 
+                ETool.FASTQC, 
+                EToolType.PREPROCESSING, 
+                "Performs initial analysis of fastqc quality", 
+                "Preprocessing/FastQC/fastqc", 
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));        
         
         inputs.clear();
         inputs.add(new ToolAttributes("Right", "fasta"));
@@ -40,14 +46,28 @@ public class ToolsBaseFactory {
         parameters.add(new ToolAttributes("Required Quality", "21"));
         //tool = new Tool("Trimmomatric", EToolType.PREPROCESSING, "Performs trimming and matric and stuff", "/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar", inputs, parameters);
         //fullToolsList.add(tool);
-        fullToolsList.add(new Tool("Trimmomatic", EToolType.PREPROCESSING, "Performs trimming and matric and stuff", "/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar", new ArrayList<>(inputs), new ArrayList<>(parameters)));
+        fullToolsList.add(new Tool("Trimmomatic", 
+                ETool.TRIMMOMATIC, 
+                EToolType.PREPROCESSING, 
+                "Performs trimming and matric and stuff", 
+                "/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar", 
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));
         
         inputs.clear();
-        inputs.add(new ToolAttributes("Fasta file", "fasta"));
+        inputs.add(new ToolAttributes("Right", "fasta"));
+        inputs.add(new ToolAttributes("Left", "fasta"));
         parameters.clear();
+        parameters.add(new ToolAttributes("Kmer Count", "15"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
-        fullToolsList.add(new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", new ArrayList<>(inputs), new ArrayList<>(parameters)));
+        fullToolsList.add(new Tool("Seecer", 
+                ETool.SEECER, 
+                EToolType.PREPROCESSING, 
+                "Performs seecering", 
+                "There should be path I don't remember", 
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));
         
         //finished creating tools
         //initializing base
