@@ -90,11 +90,11 @@ public class ToolsBaseFactory {
         parameters.clear();
         parameters.add(new ToolAttributes("Sequence Type", "?"));
         parameters.add(new ToolAttributes("Kmer Count", "15"));
-        parameters.add(new ToolAttributes("Distance between two paired ends", "0"));
+        parameters.add(new ToolAttributes("Expected distance between two paired ends", "0"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Velvet", 
-                ETool.TRINITY, 
+                ETool.VELVET, 
                 EToolType.ASSEMBLY, 
                 "Help me", 
                 "bash_scripts/do_velvet.sh", 
