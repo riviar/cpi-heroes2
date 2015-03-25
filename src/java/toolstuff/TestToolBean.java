@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import managedbeans.UtilityBean;
 import sessionbeans.AccountSessionFacade;
+import sessionbeans.JobHistoryFacade;
 import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
 
@@ -96,6 +97,8 @@ public class TestToolBean {
         // set user attribute of session
 
         project = new Projects();
+        newJob = new Jobhistory();
+        
     }
 
     
@@ -250,13 +253,21 @@ public class TestToolBean {
         return "new_job_trimmomatic";
     }
 
+    @EJB
+    JobHistoryFacade jobHistoryFacade;
+    
     public String runTrimmomatic() {
         System.out.println("runTrimmomatic");
         //System.out.println(getNewJobName() + " " + getInputPath() + " " + getInputPath2() + " " + getWindowSize() + " " + getQualityth());
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
-        AbstractJob job = new TrimmomaticJob(getNewJobName(), getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
+        AbstractJob job = new TrimmomaticJob(jobHistoryFacade, newJob.getJobname(), getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
         //AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
         job.execute();
+        
+        //System.out.println(newJob.getJobname());
+        jobHistoryFacade.addJob(newJob);
+        
+        
         return "project";
     }
 

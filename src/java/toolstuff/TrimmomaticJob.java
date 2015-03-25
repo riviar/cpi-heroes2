@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import managedbeans.JobHistoryBean;
+import sessionbeans.JobHistoryFacade;
 
 /**
  *
@@ -20,8 +21,11 @@ import managedbeans.JobHistoryBean;
  */
 public class TrimmomaticJob extends AbstractJob {
     
-    @EJB
-    private JobHistoryBean jobHistoryBean;
+    /*@EJB
+    private JobHistoryBean jobHistoryBean;*/
+    
+    JobHistoryFacade jobHistoryFacade;
+    
     
     public TrimmomaticJob(String input1, String input2, String windowSize, String requiredQuality){ 
         //    , String fastaWithAdaptersEtc, String seedMismatches, String palindromeClipThreshold, String simpleClipThreshold) {
@@ -42,9 +46,11 @@ public class TrimmomaticJob extends AbstractJob {
         //setExecutableFile("/opt/FastQC/fastqc");
     }
     
-    public TrimmomaticJob(String jobName, String input1, String input2, String windowSize, String requiredQuality){ 
+    public TrimmomaticJob(JobHistoryFacade jobHistoryFacade, String jobName, String input1, String input2, String windowSize, String requiredQuality){ 
         //    , String fastaWithAdaptersEtc, String seedMismatches, String palindromeClipThreshold, String simpleClipThreshold) {
         System.out.println("***********************************************************************");
+        
+        this.jobHistoryFacade = jobHistoryFacade;
         
         getParameters().put("jobName", jobName);
         getParameters().put("input1", input1);
@@ -91,8 +97,10 @@ public class TrimmomaticJob extends AbstractJob {
 
         Jobhistory newJob;
         newJob = new Jobhistory(jobName, 1, 1, command);
-        jobHistoryBean = new JobHistoryBean(newJob);
-        jobHistoryBean.addJob2History();
+        //jobHistoryFacade = new JobHistoryFacade(newJob);
+        //jobHistoryFacade.addJob(newJob);
+        //jobHistoryFacade = new JobHistoryFacade();
+        jobHistoryFacade.create(newJob);
         
         StringBuffer output = new StringBuffer();
 

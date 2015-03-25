@@ -38,20 +38,21 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
   
     @Override
     protected EntityManager getEntityManager() {
-        if(em == null){
+        /*if(em == null){
              System.out.println("Yes, it's null");
              EntityManagerFactory emf = Persistence.createEntityManagerFactory("RNAseqPU");
              EntityManager ecm = emf.createEntityManager(); 
              return ecm;
-        }else{
+        }else{*/
             return em;
-        }        
+        //}        
     }
     
     public JobHistoryFacade() {
         super(Jobhistory.class);
     }
     
+        
     /*public void setcurrentJob(String currentJob) {
         this.currentJob = currentJob;
     }*/
