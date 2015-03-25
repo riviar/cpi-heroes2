@@ -28,63 +28,23 @@ import sessionbeans.WorkGroupSessionFacade;
 public class TestToolBean {
 
     private Projects project;
-        
+
     private Jobhistory newJob = new Jobhistory();
     private String newJobName = "";
-    
-    private String inputPath="";
-    private String inputPath2="";
-    private String windowSize ="";
-    private String qualityth ="";
+
     private String outputFile = "none";
 
-    private String kmerCount = "";
-
-    private String seqType="";
-    private String kmer="";
-    private String insLen="";
-    private String jobid="";
-    
     @EJB
     ProjectSessionFacade projectFacade;
 //    @EJB
 //    AuthenticationBean authBean;
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
-    
+
     @ManagedProperty(value = "#{param.selectedProject}")
     private String selectedProject;
-    
-    public Jobhistory getNewJob() {
-        return newJob;
-    }
 
-    public void setNewJob(Jobhistory newJob) {
-        this.newJob = newJob;
-    }
-
-    public void setProject(Projects project) {
-        this.project = project;
-    }
-
-    public void setSeqType(String seqType) {
-        this.seqType = seqType;
-    }
-
-    public void setProjectFacade(ProjectSessionFacade projectFacade) {
-        this.projectFacade = projectFacade;
-    }
-
-    public void setUtilityBean(UtilityBean utilityBean) {
-        this.utilityBean = utilityBean;
-    }
-
-    public void setSelectedProject(String selectedProject) {
-        this.selectedProject = selectedProject;
-    }
-    
-    
-        /**
+    /**
      * Creates a new instance of WorkgroupBean
      */
     public TestToolBean() {
@@ -98,135 +58,16 @@ public class TestToolBean {
         project = new Projects();
     }
 
-    
     public void setNewJob(String newJobName) {
         this.newJob = new Jobhistory(newJobName);
     }
-    
+
+    /**
+     * Creates new job instance and executes it using selectedTool (UtilityBean)
+     */
     public void runJob() {
-        AbstractJob job;
-        switch (utilityBean.getSelectedTool().getName()) {
-            case "FastQC":
-                job = new FastQCJob(utilityBean.getSelectedTool());
-                break;
-            case "Trimmomatic":
-                break;
-            case "Seecer":
-                break;
-        }
-    }
-    
-    public String doVelvet(){
-        getUtilityBean().setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
-        return "new_job_velvet"; 
-    }
-    
-        public String runVelvet() {
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
-        //inputPath are left reads and inputPath2 are rightReads
-        AbstractJob job = new VelvetJob(getSeqType(), getInputPath(), getInputPath(), getKmer(), getInsLen(), getJobid());
+        RNAseqJob job = new RNAseqJob(newJobName);
         job.execute();
-        return "project";
-    }
-        
-    public String doTrinity(){
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
-        return "new_job_trinity"; 
-    }
-    
-        public String runTrinity() {
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
-        //inputPath are left reads and inputPath2 are rightReads
-        AbstractJob job = new TrinityJob(getSeqType(), getInputPath(), getInputPath(), getJobid());
-        job.execute();
-        return "project";
-    }
-
-    public String getSeqType() {
-        return seqType;
-    }
-
-        
-        
-    /**
-     * @return the utilityBean
-     */
-    public UtilityBean getUtilityBean() {
-        return utilityBean;
-    }
-
-
-
-    /**
-     * @return the selectedProject
-     */
-    public String getSelectedProject() {
-        return selectedProject;
-    }
-
-    /**
-     * @return the inputPath
-     */
-    public String getInputPath() {
-        return inputPath;
-    }
-
-    /**
-     * @param inputPath the inputPath to set
-     */
-    public void setInputPath(String inputPath) {
-        this.inputPath = inputPath;
-    }
-
-    /**
-     * @return the inputPath2
-     */
-    public String getInputPath2() {
-        return inputPath2;
-    }
-
-    /**
-     * @param inputPath2 the inputPath2 to set
-     */
-    public void setInputPath2(String inputPath2) {
-        this.inputPath2 = inputPath2;        
-    }
-    
-    public String getKmerCount() {
-        return kmerCount;
-    }
-    
-  
-    public void setKmerCount(String kmerCount) {
-        this.kmerCount = kmerCount;
-    }
-
-    /**
-     * @return the windowSize
-     */
-    public String getWindowSize() {
-        return windowSize;
-    }
-
-    /**
-     * @param windowSize the windowSize to set
-     */
-    public void setWindowSize(String windowSize) {
-        this.windowSize = windowSize;
-    }
-
-    /**
-     * @return the qualityth
-     */
-    public String getQualityth() {
-        return qualityth;
-    }
-
-    /**
-     * @param qualityth the qualityth to set
-     */
-    public void setQualityth(String qualityth) {
-        this.qualityth = qualityth;
     }
 
     /**
@@ -243,74 +84,6 @@ public class TestToolBean {
         this.outputFile = outputFile;
     }
 
-   
-    
-    public void runFastQC() {
-        AbstractJob job = new FastQCJob(inputPath);
-        job.execute();
-        outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
-    }
- 
-    public void runSeecer() {
-        AbstractJob job = new SeecerJob(getInputPath(), getInputPath2(), getKmerCount());
-        job.execute();
-        outputFile = inputPath.substring(0, inputPath.lastIndexOf("."));
-    }
-    
-    public String doTrimmomatic() {
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
-        return "new_job_trimmomatic";
-    }
-
-    public String runTrimmomatic() {
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
-        AbstractJob job = new TrimmomaticJob(getNewJobName(), getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
-        job.execute();
-        return "project";
-    }
-
-    /**
-     * @return the kmer
-     */
-    public String getKmer() {
-        return kmer;
-    }
-
-    /**
-     * @param kmer the kmer to set
-     */
-    public void setKmer(String kmer) {
-        this.kmer = kmer;
-    }
-
-    /**
-     * @return the insLen
-     */
-    public String getInsLen() {
-        return insLen;
-    }
-
-    /**
-     * @param insLen the insLen to set
-     */
-    public void setInsLen(String insLen) {
-        this.insLen = insLen;
-    }
-
-    /**
-     * @return the jobid
-     */
-    public String getJobid() {
-        return jobid;
-    }
-
-    /**
-     * @param jobid the jobid to set
-     */
-    public void setJobid(String jobid) {
-        this.jobid = jobid;
-    }
-
     /**
      * @return the newJobName
      */
@@ -323,6 +96,44 @@ public class TestToolBean {
      */
     public void setNewJobName(String newJobName) {
         this.newJobName = newJobName;
+    }
+    
+    public Jobhistory getNewJob() {
+        return newJob;
+    }
+
+    public void setNewJob(Jobhistory newJob) {
+        this.newJob = newJob;
+    }
+
+    public void setProject(Projects project) {
+        this.project = project;
+    }
+
+    public void setProjectFacade(ProjectSessionFacade projectFacade) {
+        this.projectFacade = projectFacade;
+    }
+
+    /**
+     * @return the utilityBean
+     */
+    public UtilityBean getUtilityBean() {
+        return utilityBean;
+    }
+    
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
+
+    /**
+     * @return the selectedProject
+     */
+    public String getSelectedProject() {
+        return selectedProject;
+    }
+    
+    public void setSelectedProject(String selectedProject) {
+        this.selectedProject = selectedProject;
     }
 
 }
