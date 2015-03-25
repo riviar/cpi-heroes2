@@ -54,6 +54,9 @@ public class RNAseqJob {
             case VELVET:
                 executeVelvet();
                 break;
+            case TRANSABYSS:
+                executeTransabyss();
+                break;
             default:
                 throw new AssertionError(utilityBean.getSelectedTool().getToolEnum().name());
         }
@@ -157,6 +160,26 @@ public class RNAseqJob {
 
         //~/glassfish-4.1/glassfish/domains/domain1/config
         output=executeCommand(jobName, command);
+    }
+    
+    /**
+     * Retrieves parameters and executes Velvet job
+     */
+    private void executeTransabyss() {
+        String rightInput = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
+        String leftInput = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
+        
+        String kmer = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
+        String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        
+        command += " " 
+                + leftInput + " "
+                + rightInput + " "
+                + kmer + " "
+                + outputDir + " "
+                + jobName;
+        
+        output = executeCommand(jobName, command);
     }
 
     /**

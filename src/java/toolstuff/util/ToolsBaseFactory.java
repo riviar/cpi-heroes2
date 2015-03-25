@@ -50,7 +50,7 @@ public class ToolsBaseFactory {
                 ETool.TRIMMOMATIC, 
                 EToolType.PREPROCESSING, 
                 "Performs trimming and matric and stuff", 
-                "/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar", 
+                "/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar", //change for VM
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
         
@@ -80,7 +80,7 @@ public class ToolsBaseFactory {
                 ETool.TRINITY, 
                 EToolType.ASSEMBLY, 
                 "Help me", 
-                "/home/lestelles/Desktop/do_trinity.sh", 
+                "/home/lestelles/Desktop/do_trinity.sh", //change on VM
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
         
@@ -97,7 +97,22 @@ public class ToolsBaseFactory {
                 ETool.VELVET, 
                 EToolType.ASSEMBLY, 
                 "Help me", 
-                "bash_scripts/do_velvet.sh", 
+                "bash_scripts/do_velvet.sh", //change for VM
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));
+        
+        inputs.clear();
+        inputs.add(new ToolAttributes("Right", "fasta"));
+        inputs.add(new ToolAttributes("Left", "fasta"));
+        parameters.clear();
+        parameters.add(new ToolAttributes("Kmer Count", "15"));
+        //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
+        //fullToolsList.add(tool);
+        fullToolsList.add(new Tool("Transabyss", 
+                ETool.TRANSABYSS, 
+                EToolType.ASSEMBLY, 
+                "Help me", 
+                "temporary, change", //change for VM
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
         

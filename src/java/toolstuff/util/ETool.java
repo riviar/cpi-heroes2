@@ -14,5 +14,6 @@ public enum ETool {
     TRIMMOMATIC,
     SEECER,
     TRINITY,
-    VELVET
+    VELVET,
+    TRANSABYSS
 }
