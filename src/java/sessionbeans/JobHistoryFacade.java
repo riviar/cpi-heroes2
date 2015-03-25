@@ -8,10 +8,13 @@ package sessionbeans;
 import entitybeans.Jobhistory;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -20,23 +23,33 @@ import javax.persistence.Query;
  * @author pitas
  */
 
-@Stateless
+//@Stateless
+@Stateful
 public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
 
+    private Jobhistory newJob;
+    
     
     @PersistenceContext(unitName = "RNAseqPU")
     private EntityManager em;
     
    /* @ManagedProperty(value = "#{param.currentJob}")
     private String currentJob;*/
-
-    public JobHistoryFacade() {
-        super(Jobhistory.class);
-    }
-    
+  
     @Override
     protected EntityManager getEntityManager() {
-        return em;
+        if(em == null){
+             System.out.println("Yes, it's null");
+             EntityManagerFactory emf = Persistence.createEntityManagerFactory("RNAseqPU");
+             EntityManager ecm = emf.createEntityManager(); 
+             return ecm;
+        }else{
+            return em;
+        }        
+    }
+    
+    public JobHistoryFacade() {
+        super(Jobhistory.class);
     }
     
     /*public void setcurrentJob(String currentJob) {
@@ -94,7 +107,21 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
      * @param newJob 
      */
     public void addJob(Jobhistory newJob){
+        if(newJob == null){
+            System.out.println("Malo!");
+            this.newJob = new Jobhistory("Manually entered job");
+        }else{
+            this.newJob = newJob;
+        }
+        System.out.println(newJob.getCommandused());
         create(newJob);
+        //System.out.println(this.newJob.getJobname());
+        //System.out.println(this.newJob.getProcessid());
+        //System.out.println(this.newJob.getCommandused());
+        //create(new Jobhistory("Manually entered job"));
+        
+            
+        
     }
     
     public boolean jobExists(String jobname) {

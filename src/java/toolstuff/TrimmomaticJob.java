@@ -11,12 +11,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
+import managedbeans.JobHistoryBean;
 
 /**
  *
  * @author lestelles
  */
 public class TrimmomaticJob extends AbstractJob {
+    
+    @EJB
+    private JobHistoryBean jobHistoryBean;
     
     public TrimmomaticJob(String input1, String input2, String windowSize, String requiredQuality){ 
         //    , String fastaWithAdaptersEtc, String seedMismatches, String palindromeClipThreshold, String simpleClipThreshold) {
@@ -33,7 +38,7 @@ public class TrimmomaticJob extends AbstractJob {
         //getParameters().put("simpleClipThreshold", simpleClipThreshold);
         
         
-        setExecutableFile("/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar");
+        setExecutableFile("opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar");
         //setExecutableFile("/opt/FastQC/fastqc");
     }
     
@@ -61,6 +66,7 @@ public class TrimmomaticJob extends AbstractJob {
     @Override
     public void execute(){
                        
+        System.out.println(getParameters().get("jobName"));
         System.out.println(getParameters().get("input1"));
         System.out.println(getParameters().get("input2"));
         System.out.println(getParameters().get("windowSize"));
@@ -73,7 +79,7 @@ public class TrimmomaticJob extends AbstractJob {
                 + getParameters().get("windowSize")+":"
                 + getParameters().get("requiredQuality");
         System.out.println(command);
-        
+                
         //~/glassfish-4.1/glassfish/domains/domain1/config
         
         String output=executeCommand(getParameters().get("jobName"), command);
@@ -85,10 +91,12 @@ public class TrimmomaticJob extends AbstractJob {
 
         Jobhistory newJob;
         newJob = new Jobhistory(jobName, 1, 1, command);
+        jobHistoryBean = new JobHistoryBean(newJob);
+        jobHistoryBean.addJob2History();
         
         StringBuffer output = new StringBuffer();
 
-        Process p;
+        /*Process p;
         try {
             p = Runtime.getRuntime().exec(command);
             p.waitFor();
@@ -104,6 +112,8 @@ public class TrimmomaticJob extends AbstractJob {
             e.printStackTrace();
         }
 
-        return output.toString();
+        return output.toString();*/
+        System.out.println("Trimmomatic executed");
+        return "Trimmomatic executed";
     }
 }

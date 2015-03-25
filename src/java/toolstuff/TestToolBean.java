@@ -29,7 +29,7 @@ public class TestToolBean {
 
     private Projects project;
         
-    private Jobhistory newJob = new Jobhistory();
+    private Jobhistory newJob;// = new Jobhistory();
 
     private String newJobName = "";
     private String inputPath="";
@@ -100,6 +100,7 @@ public class TestToolBean {
 
     
     public void setNewJob(String newJobName) {
+        System.out.println("Non expected");
         this.newJob = new Jobhistory(newJobName);
     }
     
@@ -108,7 +109,7 @@ public class TestToolBean {
         return "new_job_velvet"; 
     }
     
-        public String runVelvet() {
+    public String runVelvet() {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
         //inputPath are left reads and inputPath2 are rightReads
         AbstractJob job = new VelvetJob(getSeqType(), getInputPath(), getInputPath(), getKmer(), getInsLen(), getJobid());
@@ -121,7 +122,7 @@ public class TestToolBean {
         return "new_job_trinity"; 
     }
     
-        public String runTrinity() {
+    public String runTrinity() {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));   
         //inputPath are left reads and inputPath2 are rightReads
         AbstractJob job = new TrinityJob(getSeqType(), getInputPath(), getInputPath(), getJobid());
@@ -250,8 +251,11 @@ public class TestToolBean {
     }
 
     public String runTrimmomatic() {
+        System.out.println("runTrimmomatic");
+        //System.out.println(getNewJobName() + " " + getInputPath() + " " + getInputPath2() + " " + getWindowSize() + " " + getQualityth());
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(getSelectedProject())));
         AbstractJob job = new TrimmomaticJob(getNewJobName(), getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
+        //AbstractJob job = new TrimmomaticJob(getInputPath(), getInputPath2(), getWindowSize(), getQualityth());
         job.execute();
         return "project";
     }
