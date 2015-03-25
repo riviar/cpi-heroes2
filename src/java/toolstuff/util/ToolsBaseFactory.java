@@ -65,7 +65,39 @@ public class ToolsBaseFactory {
                 ETool.SEECER, 
                 EToolType.PREPROCESSING, 
                 "Performs seecering", 
-                "There should be path I don't remember", 
+                "Preprocessing/Seecer/Seecer/SEECER/bin/run_seecer.sh", 
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));
+        
+        inputs.clear();
+        inputs.add(new ToolAttributes("Right", "fasta"));
+        inputs.add(new ToolAttributes("Left", "fasta"));
+        parameters.clear();
+        parameters.add(new ToolAttributes("Sequence Type", "?"));
+        //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
+        //fullToolsList.add(tool);
+        fullToolsList.add(new Tool("Trinity", 
+                ETool.TRINITY, 
+                EToolType.ASSEMBLY, 
+                "Help me", 
+                "/home/lestelles/Desktop/do_trinity.sh", 
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));
+        
+        inputs.clear();
+        inputs.add(new ToolAttributes("Right", "fasta"));
+        inputs.add(new ToolAttributes("Left", "fasta"));
+        parameters.clear();
+        parameters.add(new ToolAttributes("Sequence Type", "?"));
+        parameters.add(new ToolAttributes("Kmer Count", "15"));
+        parameters.add(new ToolAttributes("Distance between two paired ends", "0"));
+        //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
+        //fullToolsList.add(tool);
+        fullToolsList.add(new Tool("Velvet", 
+                ETool.TRINITY, 
+                EToolType.ASSEMBLY, 
+                "Help me", 
+                "bash_scripts/do_velvet.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
         
