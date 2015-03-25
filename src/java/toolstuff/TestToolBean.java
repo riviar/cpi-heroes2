@@ -64,10 +64,12 @@ public class TestToolBean {
 
     /**
      * Creates new job instance and executes it using selectedTool (UtilityBean)
+     * @return 
      */
-    public void runJob() {
+    public String runJob() {
         RNAseqJob job = new RNAseqJob(newJobName);
         job.execute();
+        return "project";
     }
 
     /**
