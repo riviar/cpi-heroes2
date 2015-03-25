@@ -64,8 +64,9 @@ public class RNAseqJob {
      */
     private void executeFastQC() {
         String inputFileName = utilityBean.getSelectedTool().getInputList().get(0).getValue();
+        
         command += " " + inputFileName + " " + "-o /root/NetBeansProjects/izidev2/web/Output";
-        String output = executeCommand(jobName, command);
+        output = executeCommand(jobName, command);
     }
     
     /**
@@ -74,6 +75,7 @@ public class RNAseqJob {
     private void executeTrimmomatic() {
         String rightInput = utilityBean.getSelectedTool().getInputList().get(0).getValue();
         String leftInput = utilityBean.getSelectedTool().getInputList().get(1).getValue();
+        
         String windowSize = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
         String requiredQuality = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
         
@@ -88,28 +90,73 @@ public class RNAseqJob {
         
         //~/glassfish-4.1/glassfish/domains/domain1/config
         
-        String output=executeCommand(jobName, command);
+        output=executeCommand(jobName, command);
     }
     
     /**
      * Retrieves parameters and executes Seecer job
      */
     private void executeSeecer() {
+        String rightInput =  utilityBean.getSelectedTool().getInputList().get(0).getValue();
+        String leftInput =  utilityBean.getSelectedTool().getInputList().get(1).getValue();
         
+        String KmerCount =  utilityBean.getSelectedTool().getParameterList().get(0).getValue();
+        
+        //directory where seecer will store temporary files during job
+        String tmpPath = "/home/vmuser/CPI/tools/Seecer/testdata/tmp";
+        //String jellyfishPath = "/home/vmuser/CPI/tools/Preprocessing/Seecer/Seecer/jellyfish-1.1.11/bin";
+        
+        
+        command += " -t " + tmpPath + " -k " + KmerCount +" "+ rightInput + " " + leftInput;
+	
+        output = executeCommand(jobName ,command);
     }
     
     /**
      * Retrieves parameters and executes Trinity job
+     * Be mindful of reversed right/left order!
      */
     private void executeTrinity() {
+        String rightInput = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
+        String leftInput = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
         
+        String seqType = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
+        String outputDir = "/home/lestelles/Desktop/"; // probably should be changed?
+        
+        command += " " 
+                + seqType + " "
+                + leftInput + " "
+                + rightInput + " "
+                + outputDir + " "
+                + jobName;
+
+        //~/glassfish-4.1/glassfish/domains/domain1/config
+        output=executeCommand(jobName ,command);
     }
     
     /**
      * Retrieves parameters and executes Velvet job
      */
     private void executeVelvet() {
+        String rightInput = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
+        String leftInput = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
         
+        String seqType = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
+        String kmer = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
+        String insLen = utilityBean.getSelectedTool().getParameterList().get(2).getValue();
+        String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        
+        command += " " 
+                + seqType + " "
+                + leftInput + " "
+                + rightInput + " "
+                + kmer + " "
+                + insLen + " "
+                + outputDir + " "
+                + jobName;
+
+        //~/glassfish-4.1/glassfish/domains/domain1/config
+        output=executeCommand(jobName, command);
     }
 
     /**
