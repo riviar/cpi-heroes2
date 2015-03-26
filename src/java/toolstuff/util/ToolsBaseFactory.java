@@ -88,16 +88,16 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Right", "fasta"));
         inputs.add(new ToolAttributes("Left", "fasta"));
         parameters.clear();
-        parameters.add(new ToolAttributes("Sequence Type", "?"));
-        parameters.add(new ToolAttributes("Kmer Count", "15"));
-        parameters.add(new ToolAttributes("Expected distance between two paired ends", "0"));
+        parameters.add(new ToolAttributes("Sequence Type", "fastq"));
+        parameters.add(new ToolAttributes("Kmer", "31"));
+        parameters.add(new ToolAttributes("Insert Length", "170"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Velvet", 
                 ETool.VELVET, 
                 EToolType.ASSEMBLY, 
                 "Help me", 
-                "bash_scripts/do_velvet.sh", //change for VM
+                "shell_scripts/do_velvet.sh", //change for VM
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
         
@@ -105,14 +105,14 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Right", "fasta"));
         inputs.add(new ToolAttributes("Left", "fasta"));
         parameters.clear();
-        parameters.add(new ToolAttributes("Kmer Count", "15"));
+        parameters.add(new ToolAttributes("Kmer", "27"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Transabyss", 
                 ETool.TRANSABYSS, 
                 EToolType.ASSEMBLY, 
                 "Help me", 
-                "temporary, change", //change for VM
+                "shell_scripts/do_transabyss.sh", //change for VM
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
         

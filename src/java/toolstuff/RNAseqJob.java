@@ -150,8 +150,8 @@ public class RNAseqJob {
      * Retrieves parameters and executes Velvet job
      */
     private void executeVelvet() {
-        String rightInput = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String leftInput = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
         
         String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         String kmer = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
@@ -175,10 +175,10 @@ public class RNAseqJob {
      * Retrieves parameters and executes Velvet job
      */
     private void executeTransabyss() {
-        String rightInput = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String leftInput = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
         
-        String kmer = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String kmer = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         
         command += " " 
