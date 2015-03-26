@@ -112,7 +112,6 @@ public class LoginStatusFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
         
         if (session != null) {
-            System.out.println("trying to get bean from session..");
             UtilityBean bean = (UtilityBean) session.getAttribute("utilityBean");
             try {
                 user = ((UtilityBean) session.getAttribute("utilityBean")).getUser();
@@ -124,8 +123,7 @@ public class LoginStatusFilter implements Filter {
 
         //user is logged in, no register, no index pages
         if (user != null) {
-            if (uri.contains("faces/index.xhtml")
-                    || uri.contains("faces/register.xhtml")) {
+            if (uriInaccessibleForUser(uri)) {
                 httpResponse.sendRedirect("faces/home.xhtml");
             } else {
                 //do not filter other pages
@@ -140,6 +138,14 @@ public class LoginStatusFilter implements Filter {
                 chain.doFilter(request, response);
             }
         }
+    }
+    
+    private boolean uriInaccessibleForUser(String uri) {
+        if (uri.contains("faces/index.xhtml")
+                    || uri.contains("faces/register.xhtml")) {
+            return true;
+        }
+        return false;
     }
     
     private boolean uriInaccessibleForGuest(String uri) {

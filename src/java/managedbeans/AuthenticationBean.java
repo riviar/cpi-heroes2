@@ -6,6 +6,7 @@
 package managedbeans;
 
 import entitybeans.Users;
+import java.util.Collection;
 import java.util.Iterator;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -33,6 +34,10 @@ public class AuthenticationBean {
     @ManagedProperty(value="#{utilityBean}")
     private UtilityBean utilityBean;
 
+    public Collection<Users> getAllUsers(){
+        return accountFacade.findAll();
+    }
+    
     public UtilityBean getUtilityBean() {
         return utilityBean;
     }
@@ -49,6 +54,15 @@ public class AuthenticationBean {
     public AuthenticationBean() {
     }
 
+    public String getUserNameByID(String userTextID) {
+        // this is horrible, wrong, and wants replacing with a converter class
+        userTextID = userTextID.replace("entitybeans.Users[ idusers=", "");
+        userTextID = userTextID.replace(" ]", "");
+        int userID = Integer.valueOf(userTextID);
+        Users user = accountFacade.find(userID);
+        return user.getUsername();
+    }
+    
     public String loginUser() {
         //attempt login and get redirect page
         String redirectpage = loginUser(newUser.getUsername(), newUser.getPassword());
