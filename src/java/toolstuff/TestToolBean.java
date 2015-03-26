@@ -67,8 +67,9 @@ public class TestToolBean {
      * @return 
      */
     public String runJob() {
-        RNAseqJob job = new RNAseqJob(newJobName);
-        job.execute();
+        //RNAseqJob job = new RNAseqJob(newJobName);
+        //job.execute();
+        System.out.println("Yes");
         return "project";
     }
 
