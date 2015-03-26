@@ -46,7 +46,7 @@ public class WorkgroupBean {
     ProjectSessionFacade projectFacade;
     @EJB
     AccountSessionFacade usersFacade;
-    @EJB
+    @ManagedProperty(value = "#{authenticationBean}")
     AuthenticationBean authenticationBean;
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
