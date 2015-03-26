@@ -57,6 +57,18 @@ public class ToolsSidebarBean {
         return getToolNames(EToolType.PREPROCESSING);
     }
     
+    public List<String> getAssemblyToolNames() {
+        return getToolNames(EToolType.ASSEMBLY);
+    }
+    
+    public List<String> getAnnotationToolNames() {
+        return getToolNames(EToolType.ANNOTATION);
+    }
+    
+    public List<String> getDownstreamToolNames() {
+        return getToolNames(EToolType.DOWNSTREAM);
+    }
+    
     public String selectTool() {
         utilityBean.setSelectedTool(tools.getToolByName(selectedToolName));
         return "new_job";

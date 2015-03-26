@@ -6,10 +6,14 @@
 package toolstuff.util;
 
 /**
- * Enum type listing available tools
+ * Enum describing tool
  * @author Fox
  */
 public enum ETool {
-    FASTQC, 
-    TRIMMOMATRIC
+    FASTQC,
+    TRIMMOMATIC,
+    SEECER,
+    TRINITY,
+    VELVET,
+    TRANSABYSS
 }

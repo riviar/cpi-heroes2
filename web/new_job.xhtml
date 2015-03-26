@@ -16,38 +16,34 @@
             </ui:define>
 
             <ui:define name="center">
-                <h3>{toolname}</h3>                
+                <h3>#{utilityBean.selectedTool.name}</h3>                
                 <br/>
                 <h:form>
                     <div class="news">
-                        <h:outputText value="Job Name"/><br/>
-                        <p:inputText class="regInput" value="defaultname"/>
+                        <h4>Job Name</h4><br/>
+                        <p:inputText class="regInput" value="#{testToolBean.newJobName}"/>
                     </div>
                     <div class="news">
-                        <h:outputText value="Input file"/><br/>
-                        <f:metadata><f:viewParam name="projectNum"/></f:metadata>
-                        <h:selectOneMenu class="regInput" value="tool" style="width: 200px">
-                            <c:forEach items="#{filesBean.getFiles(projectNum)}" var="file"> 
-                                <f:selectItem itemLabel="#{file.displayname}" itemValue="#{file.path}"/>
-                            </c:forEach> 
-                            </h:selectOneMenu>
-
+                        <h4>Inputs</h4>
+                        <c:forEach items="#{utilityBean.selectedTool.inputList}" var="input">
+                            <h:outputText value="#{input.name}"/><br/>
+                            <h:selectOneMenu class="regInput" value="#{input.value}" style="width: 200px">
+                                <f:selectItems value="#{filesBean.getFilesMap()}"/>
+                            <!--<c:forEach items="{MockLists.inputs}" var="file"> 
+                                    <f:selectItem itemLabel="{file}" itemValue="{file}"/>
+                                </c:forEach> -->
+                            </h:selectOneMenu><br/>
+                        </c:forEach>
                     </div>
                     <div class="news">
-                        <h4>Parameters</h4><br/>
-                        <h:outputText value="Param 1"/><br/>
-                        <p:inputText class="regInput" value="paramvalue"/><br/>
-                        <h:outputText value="Param 2"/><br/>
-                        <p:inputText class="regInput" value="paramvalue"/><br/>
-                        <h:outputText value="Param 3"/><br/>
-                        <p:inputText class="regInput" value="paramvalue"/><br/>
-                        <h:outputText value="Param 4"/><br/>
-                        <p:inputText class="regInput" value="paramvalue"/><br/>
-                        <h:outputText value="Param 5"/><br/>
-                        <p:inputText class="regInput" value="paramvalue"/><br/>
+                        <h4>Parameters</h4>
+                        <c:forEach items="#{utilityBean.selectedTool.parameterList}" var="param">
+                            <h:outputText value="#{param.name}"/><br/>
+                            <p:inputText class="regInput" value="#{param.value}"/><br/>
+                        </c:forEach>
                     </div>
                     <div class="news">
-                        <h:commandButton value="Submit" class="centerButton" action="project"/>
+                        <h:commandButton value="Submit" class="centerButton" action="#{testToolBean.runJob()}"/>
                     </div>
                 </h:form>
 

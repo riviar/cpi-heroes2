@@ -50,7 +50,7 @@
                         </c:if>
                         <c:if test="#{utilityBean.user != null}">
                             <h:form>
-                                <h:panelGrid styleClass="loginPanel" columns="2" >
+                                <h:panelGrid styleClass="loginPanel" columns="3" >
                                     Logged in as <h:outputText style="font-weight:bold" value="#{utilityBean.user.username} "/>
                                     <h:commandButton id="logInButton" action="#{authenticationBean.logOut()}" class="login" value="Log Out"/>
                                 </h:panelGrid>
@@ -80,20 +80,22 @@
                                 <li><p class=""><strong>Quality Control</strong></p></li>
                                 <ul>
                                     <c:forEach items="#{toolsSidebarBean.getPreprocessingToolNames()}" var="toolName">
-                                        <li><p class="subtool"><h:commandLink value="#{toolName}" action="#{toolsSidebarBean.selectTool()}">
+                                        <li><p class="subtool">
+                                                <h:commandLink value="#{toolName}" action="#{toolsSidebarBean.selectTool()}">
                                                     <f:param name="tool" value="#{toolName}"/>
                                                 </h:commandLink>
                                         </p></li>
-                                    </c:forEach>
-                                    <li><p class="subtool"><h:link value="Tool 1" outcome="new_job"/></p></li>
-                                    <li><p class="subtool">Tool 2</p></li>
-                                    <li><p class="subtool">Tool 3</p></li>                                    
+                                    </c:forEach>                                  
                                 </ul>
                                 <li><p class=""><strong>Assembly</strong></p></li>
                                 <ul>
-                                    <li><p class="subtool">Tool 1</p></li>
-                                    <li><p class="subtool">Tool 2</p></li>
-                                    <li><p class="subtool">Tool 3</p></li>
+                                    <c:forEach items="#{toolsSidebarBean.getAssemblyToolNames()}" var="toolName">
+                                        <li><p class="subtool">
+                                                <h:commandLink value="#{toolName}" action="#{toolsSidebarBean.selectTool()}">
+                                                    <f:param name="tool" value="#{toolName}"/>
+                                                </h:commandLink>
+                                        </p></li>
+                                    </c:forEach>  
                                 </ul>
                                 <li><p class=""><strong>Annotation</strong></p></li>
                                 <ul>
@@ -124,33 +126,18 @@
                             <div id="hiddenDiv" class="about">
                                 <h:form>
                                 <ul>
-                                    <li><div id="job">
-                                            <c:forEach items="#{jobHistoryBean.getJobCommand()}" var="job">
-                                                <li><p class="subtool">#{job}</p></li>
-                                                <li><p>some description</p></li>
-                                                <li><p>ongoing or finished</p></li>
-                                            </c:forEach>  
-                                    </div></li>
-                                    <li><div id="job">
-                                            <p><h:link value="Jobname1" outcome="data_item"/></p>
-                                            <p>some description</p>
-                                            <p>ongoing or finished</p>
-                                        </div></li>
-                                    <li><div id="job">
-                                            <p>Jobname2</p>
-                                            <p>some description</p>
-                                            <p>ongoing or finished</p>
-                                        </div></li>
-                                    <li><div id="job">
-                                            <p>Jobname3</p>
-                                            <p>some description</p>
-                                            <p>ongoing or finished</p>
-                                        </div></li>
-                                    <li><div id="job">
-                                            <p>Jobname4</p>
-                                            <p>some description</p>
-                                            <p>ongoing or finished</p>
-                                        </div></li>
+
+                                    <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
+                                        <li><div id="job">
+                                                <p class="subtool">#{job.jobname}</p>
+                                                <p>#{job.commandused}</p>
+                                                
+                                                <c:if test="#{job.processid>0}"><p style="color:orange">RUNNING</p></c:if>
+                                                <c:if test="#{job.processid==-1}"><p style="color:green">FINISHED</p></c:if>                                               
+                                               
+                                            </div></li>
+                                    </c:forEach>  
+                                                                        
                                 </ul>
                                 </h:form>
                             </div>

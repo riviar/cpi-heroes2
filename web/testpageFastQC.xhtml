@@ -15,19 +15,15 @@
 
             <ui:define name="center">
                 <h:form>
-                    <p:outputLabel value="Input file 1"/><br/>
+                    <p:outputLabel value="full input path"/><br/>
                     <p:inputText value="#{TestToolBean.inputPath}"/><br/>
-                    <p:outputLabel value="Input file 2"/><br/>
-                    <p:inputText value="#{TestToolBean.inputPath2}"/><br/>
-                    <p:outputLabel value="Window size"/><br/>
-                    <p:inputText value="#{TestToolBean.windowSize}"/><br/>
-                    <p:outputLabel value="Required quality"/><br/>
-                    <p:inputText value="#{TestToolBean.qualityth}"/><br/>
-                    <h:commandButton value="Run FastQC" action="#{TestToolBean.runTrimmomatic()}" /><br/>
+                    <h:commandButton value="Run FastQC" action="#{TestToolBean.runFastQC()}" /><br/>
                 </h:form>
-                
                 <p:outputLabel value="Output File Link"/><br/>
-                <h:link outcome="#{TestToolBean.outputFile}"/><br/>
+                 <!--<a href="/home/izi/PREPROCESSING/Seecer/SEECER/testdata/SRR027877-small-p1_fastqc.html">FastQC output</a> -->
+                <h:link value="link" outcome="/Output/SRR027877-small-p1_fastqc.html"/><br/>
+                <!--<h:link outcome="{TestToolBean.outputFile}"/><br/>-->
+                <!--<h:link outcome="/home/izi/PREPROCESSING/Seecer/SEECER/testdata/SRR027877-small-p1_fastqc.html"/><br/>-->
             </ui:define>
 
         </ui:composition>

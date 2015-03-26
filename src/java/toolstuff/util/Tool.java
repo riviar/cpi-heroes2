@@ -13,11 +13,12 @@ import java.util.List;
  */
 public class Tool {
     private String name;
+    private ETool toolEnum;
     private EToolType toolType;
     private String description;
     private String path;
-    private List<String> inputList;
-    private List<String> parameterList;
+    private List<ToolAttributes> inputList;
+    private List<ToolAttributes> parameterList;
 
     public String getName() {
         return name;
@@ -25,6 +26,14 @@ public class Tool {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ETool getToolEnum() {
+        return toolEnum;
+    }
+
+    public void setToolEnum(ETool toolEnum) {
+        this.toolEnum = toolEnum;
     }
 
     public EToolType getToolType() {
@@ -51,17 +60,28 @@ public class Tool {
         this.path = path;
     }
 
-    public List<String> getParameterList() {
+    public List<ToolAttributes> getParameterList() {
         return parameterList;
     }
 
-    public void setParameterList(List<String> parameterList) {
+    public void setParameterList(List<ToolAttributes> parameterList) {
         this.parameterList = parameterList;
     }
+
+    public List<ToolAttributes> getInputList() {
+        return inputList;
+    }
+
+    public void setInputList(List<ToolAttributes> inputList) {
+        this.inputList = inputList;
+    }
     
-    public Tool(String name, EToolType toolType, String description, 
-            String path, List<String> inputList, List<String> parametersList) {
+    
+    
+    public Tool(String name, ETool toolEnum, EToolType toolType, String description, 
+            String path, List<ToolAttributes> inputList, List<ToolAttributes> parametersList) {
         this.name = name;
+        this.toolEnum = toolEnum;
         this.toolType = toolType;
         this.description = description;
         this.path = path;

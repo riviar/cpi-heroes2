@@ -33,11 +33,10 @@ public class FilesFacade extends AbstractFacade<Files> {
     }
     
     public List<Files> getProjectFiles(int idProject) {
-        //find all for one project?
-       
-        
+            
         Query q = em.createNamedQuery("Files.findByProj");
         q.setParameter("idprojects", idProject);
+        //System.out.println("--------idProject: "+idProject);
         return q.getResultList();
         
     }

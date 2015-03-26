@@ -78,11 +78,11 @@ public class Users implements Serializable {
 //        @JoinColumn(name = "workgroups_idworkgroups", referencedColumnName = "idworkgroups")})
 //    @ManyToMany
     @ManyToMany(mappedBy = "usersCollection")
-    private Collection<Workgroups> userMemberOfWorkgroupsCollection;
+    private Collection<Workgroups> workgroupsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private Collection<Projects> projectsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private Collection<Workgroups> userOwnsWorkgroupsCollection;
+    private Collection<Workgroups> workgroupsCollection1;
 
     public Users() {
     }
@@ -146,12 +146,12 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Workgroups> getUserMemberOfWorkgroupsCollection() {
-        return userMemberOfWorkgroupsCollection;
+    public Collection<Workgroups> getWorkgroupsCollection() {
+        return workgroupsCollection;
     }
 
-    public void setUserMemberOfWorkgroupsCollection(Collection<Workgroups> userMemberOfWorkgroupsCollection) {
-        this.userMemberOfWorkgroupsCollection = userMemberOfWorkgroupsCollection;
+    public void setWorkgroupsCollection(Collection<Workgroups> workgroupsCollection) {
+        this.workgroupsCollection = workgroupsCollection;
     }
 
     @XmlTransient
@@ -164,12 +164,12 @@ public class Users implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Workgroups> getUserOwnsWorkgroupsCollection() {
-        return userOwnsWorkgroupsCollection;
+    public Collection<Workgroups> getWorkgroupsCollection1() {
+        return workgroupsCollection1;
     }
 
-    public void setUserOwnsWorkgroupsCollection(Collection<Workgroups> userOwnsWorkgroupsCollection) {
-        this.userOwnsWorkgroupsCollection = userOwnsWorkgroupsCollection;
+    public void setWorkgroupsCollection1(Collection<Workgroups> workgroupsCollection1) {
+        this.workgroupsCollection1 = workgroupsCollection1;
     }
 
     @Override
