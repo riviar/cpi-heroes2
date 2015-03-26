@@ -19,13 +19,13 @@
                 <h3>Workgroup <h:outputText value="#{utilityBean.selectedWorkgroup.workgroupname}"/></h3>
                 <div class="news">
                     <h4>Members:</h4>
-                       <br/>
+                    <br/>
                     <ul>
                         <c:forEach items="#{workgroupBean.getUsersInWorkgroup()}" var="user">
                             <li><p>                                   
                                     <h:outputText converter="userConverter" style="font-weight: bold" value="#{user.username}"/>                                     
                                     <h:form>
-                                        <h:commandLink action="#{workgroupBean.removeUserFromWorkgroup()}" value="Remove User">
+                                        <h:commandLink onclick="PF('confirmDeleteUser').show(); return false;" value="Remove User">
                                             <f:param name="selectedUser" value="#{user.idusers}"/>
                                         </h:commandLink>
                                     </h:form>
@@ -86,6 +86,15 @@
                         <h:commandButton id="createProjectButton" action="#{workgroupBean.addProjectToWorkgroup()}" class="centerButton" value="Create"/>
                     </h:form>
                 </p:dialog>
+
+                <p:dialog resizable="false" minHeight="80" header="Remove User" widgetVar="confirmDeleteUser" modal="true">
+                    <h3>Remove User</h3>
+                    <h:form>
+                        <h:commandButton id="confirmRemoveUser" action="#{workgroupBean.removeUserFromWorkgroup()}" class="centerButton" value="Confirm"/>
+                        <h:commandButton id="cancelRemoveUser" action="return false;" class="centerButton" value="Cancel"/>
+                    </h:form>
+                </p:dialog>
+
             </ui:define>
 
         </ui:composition>
