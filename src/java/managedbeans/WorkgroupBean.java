@@ -46,8 +46,8 @@ public class WorkgroupBean {
     ProjectSessionFacade projectFacade;
     @EJB
     AccountSessionFacade usersFacade;
-//    @EJB
-//    AuthenticationBean authBean;
+    @EJB
+    AuthenticationBean authenticationBean;
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     //Stores ID of the workgroup
