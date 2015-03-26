@@ -31,7 +31,7 @@ public class FilesBean {
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     
-    @ManagedProperty(value = "#{param.selectedProject}")
+    //@ManagedProperty(value = "#{param.selectedProject}")
     private int selectedProject;
     
 //    public void setUtilityBean(UtilityBean utilityBean) {
@@ -88,7 +88,7 @@ public class FilesBean {
     private static Map<String,Object> filesMap;
     public Map<String,Object> getFilesMap() {
         filesMap = new LinkedHashMap<>();
-        List<Files> files=filesFacade.getProjectFiles(selectedProject);
+        List<Files> files=filesFacade.getProjectFiles(utilityBean.getSelectedProject().getIdprojects());
         for (Files file:files){
             filesMap.put(file.getDisplayname(), file.getPath());
         }        
