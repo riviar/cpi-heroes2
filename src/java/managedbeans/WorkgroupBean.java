@@ -10,7 +10,9 @@ import entitybeans.Users;
 import entitybeans.Workgroups;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -57,6 +59,27 @@ public class WorkgroupBean {
     @ManagedProperty(value="#{param.selectedUser}")
     private String selectedUser;
     
+    /*
+    Creates a HashMap to use it in workgroups.xhtml
+    */
+    private static Map<String,Object> userMap;
+    public Map<String,Object> getUsersMap() {
+        userMap = new LinkedHashMap<>();
+        List<Users> users=usersFacade.findAll();
+        for (Users user:users){
+            userMap.put(user.getUsername(), user);
+        }        
+        return userMap;
+    }
+
+    public void setAuthenticationBean(AuthenticationBean authBean) {
+        this.authenticationBean = authBean;
+    }
+
+    public AuthenticationBean getAuthenticationBean() {
+        return authenticationBean;
+    }
+
     public void setSelectedUser(String selectedUser) {
         this.selectedUser = selectedUser;
     }
@@ -157,7 +180,8 @@ public class WorkgroupBean {
     }
 
     public String addUserToWorkgroup() {
-        Users user = usersFacade.retrieveUserByName(newUserName);
+        System.out.println("adduser called");
+        Users user = utilityBean.getSelectedUser();
         if (user == null || workgroup == null) {
             return "invaliddataerrorpage";
         } else {
@@ -166,7 +190,7 @@ public class WorkgroupBean {
             workgroup.setUsersCollection(users);
             workgroupFacade.updateWorkgroup(workgroup);
         }
-        return "workgroupspage";
+        return "workgroup.xhtml";
     }
 
     public String removeUserFromWorkgroup() {           
@@ -174,7 +198,7 @@ public class WorkgroupBean {
             users.remove(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
             workgroup.setUsersCollection(users);
             workgroupFacade.updateWorkgroup(workgroup);
-        return "workgroupspage";
+        return "workgroup.xhtml";
     }
 
     public String addProjectToWorkgroup() {
