@@ -60,9 +60,11 @@ public class UtilityBean {
     }
 
     public Users getSelectedUser() {
+        System.out.println("utilbean,getselecteduser called");
         return selectedUser;
     }
     public void setSelectedUser(Users selectedUser) {
+        System.out.println("utilbean.setselecteduser called");
         this.selectedUser = selectedUser;
     }
     

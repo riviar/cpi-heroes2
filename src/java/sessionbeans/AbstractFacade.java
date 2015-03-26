@@ -22,10 +22,12 @@ public abstract class AbstractFacade<T> {
     protected abstract EntityManager getEntityManager();
 
     public void create(T entity) {
+        System.out.println("create called");
         getEntityManager().persist(entity);
     }
 
     public void edit(T entity) {
+        System.out.println("edit called");
         getEntityManager().merge(entity);
     }
 
