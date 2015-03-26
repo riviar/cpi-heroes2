@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import javax.faces.bean.ManagedProperty;
 import managedbeans.UtilityBean;
+import sessionbeans.JobHistoryFacade;
 
 /**
  * Universal job class. 
@@ -25,10 +26,18 @@ public class RNAseqJob {
     /**
      * provides access to session bean UtilityBean (here for selectedTool)
      */
-    @ManagedProperty(value = "#{utilityBean}")
+    //@ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
+    private JobHistoryFacade jobHistoryFacade;
 
     public RNAseqJob(String jobName) {
+        this.jobName = jobName;
+        this.command = "/home/vmuser/CPI/tools/";
+    }
+    
+    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, String jobName) {
+        this.jobHistoryFacade = jobHistoryFacade;
+        this.utilityBean = utilityBean;
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/";
     }
@@ -38,7 +47,7 @@ public class RNAseqJob {
      */
     public void execute() {
         appentExecutable();
-        switch (utilityBean.getSelectedTool().getToolEnum()) {
+        switch (getUtilityBean().getSelectedTool().getToolEnum()) {
             case FASTQC:
                 executeFastQC();
                 break;
@@ -58,7 +67,7 @@ public class RNAseqJob {
                 executeTransabyss();
                 break;
             default:
-                throw new AssertionError(utilityBean.getSelectedTool().getToolEnum().name());
+                throw new AssertionError(getUtilityBean().getSelectedTool().getToolEnum().name());
         }
     }
     
@@ -66,7 +75,7 @@ public class RNAseqJob {
      * Retrieves parameters and executes FastQC job
      */
     private void executeFastQC() {
-        String inputFileName = utilityBean.getSelectedTool().getInputList().get(0).getValue();
+        String inputFileName = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
         
         command += " " + inputFileName + " " + "-o /root/NetBeansProjects/izidev2/web/Output";
         output = executeCommand(jobName, command);
@@ -76,11 +85,11 @@ public class RNAseqJob {
      * Retrieves parameters and executes Trimmomatic job
      */
     private void executeTrimmomatic() {
-        String rightInput = utilityBean.getSelectedTool().getInputList().get(0).getValue();
-        String leftInput = utilityBean.getSelectedTool().getInputList().get(1).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
-        String windowSize = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
-        String requiredQuality = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
+        String windowSize = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String requiredQuality = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
         String finalCommand = "java -jar "+ command + " PE " 
                 + rightInput + " "
@@ -100,10 +109,10 @@ public class RNAseqJob {
      * Retrieves parameters and executes Seecer job
      */
     private void executeSeecer() {
-        String rightInput =  utilityBean.getSelectedTool().getInputList().get(0).getValue();
-        String leftInput =  utilityBean.getSelectedTool().getInputList().get(1).getValue();
+        String rightInput =  getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String leftInput =  getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
-        String KmerCount =  utilityBean.getSelectedTool().getParameterList().get(0).getValue();
+        String KmerCount =  getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         
         //directory where seecer will store temporary files during job
         String tmpPath = "/home/vmuser/CPI/tools/Seecer/testdata/tmp";
@@ -120,10 +129,10 @@ public class RNAseqJob {
      * Be mindful of reversed right/left order!
      */
     private void executeTrinity() {
-        String rightInput = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
-        String leftInput = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
-        String seqType = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
+        String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         String outputDir = "/home/lestelles/Desktop/"; // probably should be changed?
         
         command += " " 
@@ -141,12 +150,12 @@ public class RNAseqJob {
      * Retrieves parameters and executes Velvet job
      */
     private void executeVelvet() {
-        String rightInput = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
-        String leftInput = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
-        String seqType = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
-        String kmer = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
-        String insLen = utilityBean.getSelectedTool().getParameterList().get(2).getValue();
+        String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String kmer = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String insLen = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
         String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         
         command += " " 
@@ -166,10 +175,10 @@ public class RNAseqJob {
      * Retrieves parameters and executes Velvet job
      */
     private void executeTransabyss() {
-        String rightInput = utilityBean.getSelectedTool().getParameterList().get(0).getValue();
-        String leftInput = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
-        String kmer = utilityBean.getSelectedTool().getParameterList().get(1).getValue();
+        String kmer = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         
         command += " " 
@@ -190,7 +199,8 @@ public class RNAseqJob {
     private String executeCommand(String jobName, String command) {
 
         Jobhistory newJob;
-        newJob = new Jobhistory(jobName, 1, 1, command);
+        newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command);
+        jobHistoryFacade.create(newJob);
         
         StringBuffer output = new StringBuffer();
 
@@ -217,6 +227,35 @@ public class RNAseqJob {
      * Appends path to executable file to the command
      */
     private void appentExecutable() {
-        command += utilityBean.getSelectedTool().getPath();
+        System.out.println(getUtilityBean().getSelectedTool().getName());
+        command += getUtilityBean().getSelectedTool().getPath();              
+    }
+
+    /**
+     * @return the utilityBean
+     */
+    public UtilityBean getUtilityBean() {
+        return utilityBean;
+    }
+
+    /**
+     * @param utilityBean the utilityBean to set
+     */
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
+
+    /**
+     * @return the jobHistoryFacade
+     */
+    public JobHistoryFacade getJobHistoryFacade() {
+        return jobHistoryFacade;
+    }
+
+    /**
+     * @param jobHistoryFacade the jobHistoryFacade to set
+     */
+    public void setJobHistoryFacade(JobHistoryFacade jobHistoryFacade) {
+        this.jobHistoryFacade = jobHistoryFacade;
     }
 }
