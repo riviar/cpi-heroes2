@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "projects")
 @XmlRootElement
 @NamedNativeQuery(name = "Projects.findInUsersWorkgroup",
-    query = "SELECT * FROM projects p LEFT JOIN users_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
+    query = "SELECT * FROM projects p LEFT JOIN user_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
     resultClass = Projects.class)
 @NamedQueries({
     @NamedQuery(name = "Projects.findAll", query = "SELECT p FROM Projects p"),

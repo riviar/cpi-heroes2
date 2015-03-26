@@ -109,7 +109,6 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
         Collection<Projects> userVisibleProjects = new HashSet();
         Query q = em.createNamedQuery("Projects.findInUsersWorkgroup", Projects.class);
         q.setParameter(1, user.getIdusers());
-        System.out.println("Found " + q.getResultList().size() + " projects");
         userVisibleProjects.addAll(q.getResultList());
         userVisibleProjects.addAll(getUserOwnedProjects(user));
         userVisibleProjects.addAll(getPublicProjects(user));
