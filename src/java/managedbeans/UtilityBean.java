@@ -5,6 +5,7 @@
  */
 package managedbeans;
 
+import entitybeans.Jobhistory;
 import entitybeans.Projects;
 import entitybeans.Users;
 import entitybeans.Workgroups;
@@ -26,6 +27,7 @@ public class UtilityBean {
     private Workgroups selectedWorkgroup;
     private Projects selectedProject;
     private Tool selectedTool;
+    private Jobhistory newJob;
 
     public Users getUser() {
         return user;
@@ -76,6 +78,21 @@ public class UtilityBean {
         this.selectedProject = null;
         this.selectedWorkgroup = null;
         this.user = null;
+        this.newJob = null;
+    }
+
+    /**
+     * @return the newJob
+     */
+    public Jobhistory getNewJob() {
+        return newJob;
+    }
+
+    /**
+     * @param newJob the newJob to set
+     */
+    public void setNewJob(Jobhistory newJob) {
+        this.newJob = newJob;
     }
 
 }
