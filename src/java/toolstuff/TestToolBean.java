@@ -31,8 +31,7 @@ public class TestToolBean {
     private Projects project;
         
     private Jobhistory newJob;// = new Jobhistory();
-
-    private Jobhistory newJob = new Jobhistory();
+    
     private String newJobName = "";
 
     private String outputFile = "none";

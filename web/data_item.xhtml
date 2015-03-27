@@ -17,35 +17,17 @@
                 <h3>{dataset name}</h3>
                 <br/>
                 <div class="news">
-                    <h4>Uploaded or Output of tool {tool} with params:</h4>
-                    <br/>
-                    <h:panelGrid columns="3">
-                        <h:outputText value="Param 1"/>
-                        &ndash;
-                        <h:outputText value="paramvalue"/>
-                        <h:outputText value="Param 2"/>
-                        &ndash;
-                        <h:outputText value="paramvalue"/>
-                        <h:outputText value="Param 3"/>
-                        &ndash;
-                        <h:outputText value="paramvalue"/>
-                        <h:outputText value="Param 4"/>
-                        &ndash;
-                        <h:outputText value="paramvalue"/>
-                        <h:outputText value="Param 5"/>
-                        &ndash;
-                        <h:outputText value="paramvalue"/>
-                    </h:panelGrid>
+                    <ui:include src="/Output/SRR027877-small-p1_fastqc.html"/>
                 </div>
                 <div class="news">
                     Content depending on data type, graphs/statistics/etc
                 </div>
                 <div class="news">
                     <h:panelGrid columns="2">
-                    <h:form>
-                        <h:commandButton id="downloadButton" action="data_item" class="centerButton" value="Download"/>
-                        <h:commandButton id="makePublicButton" action="data_item" class="centerButton" value="Make Public"/>
-                    </h:form>
+                        <h:form>
+                            <h:commandButton id="downloadButton" action="data_item" class="centerButton" value="Download"/>
+                            <h:commandButton id="makePublicButton" action="data_item" class="centerButton" value="Make Public"/>
+                        </h:form>
                     </h:panelGrid>
                 </div>
             </ui:define>
