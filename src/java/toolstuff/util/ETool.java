@@ -11,7 +11,8 @@ package toolstuff.util;
  */
 public enum ETool {
     FASTQC,
-    TRIMMOMATIC,
+    TRIMMOMATIC_TRIM,
+    TRIMMOMATIC_ADAPT,
     SEECER,
     TRINITY,
     VELVET,
