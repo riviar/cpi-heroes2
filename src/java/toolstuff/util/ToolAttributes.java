@@ -6,13 +6,17 @@
 package toolstuff.util;
 
 /**
- *
+ * Tool Attributes
  * @author Fox
  */
 public class ToolAttributes {
     
     private String name;
+    private EToolParamType inputType;
+    
     private String value;
+    
+    private String dropdownList;
 
     public ToolAttributes(String name, String value) {
         this.name = name;
@@ -34,6 +38,21 @@ public class ToolAttributes {
     public void setValue(String value) {
         this.value = value;
     }
-    
+
+    public String getDropdownList() {
+        return dropdownList;
+    }
+
+    public void setDropdownList(String dropdownList) {
+        this.dropdownList = dropdownList;
+    }
+
+    public EToolParamType getInputType() {
+        return inputType;
+    }
+
+    public void setInputType(EToolParamType inputType) {
+        this.inputType = inputType;
+    }
     
 }
