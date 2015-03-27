@@ -20,6 +20,7 @@ import sessionbeans.JobHistoryFacade;
 public class RNAseqJob {
 
     private String jobName;
+    private String jobProjectID;
 
     private String command;
     private String output;
@@ -43,6 +44,7 @@ public class RNAseqJob {
         this.utilityBean = utilityBean;
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/";
+        this.jobProjectID= Integer.toString(utilityBean.getSelectedProject().getIdprojects());
     }
 
     /**
@@ -87,9 +89,9 @@ public class RNAseqJob {
         command += " " 
                 + inputFileName + " "
                 + outputDir + " "
-                + jobName;
+                + jobProjectID;
         
-        output = executeCommand(jobName, command);
+        output = executeCommand(jobProjectID, command);
     }
     
     /**
@@ -112,14 +114,14 @@ public class RNAseqJob {
                 + windowSize + " "
                 + requiredQuality + " "
                 + outputDir + " "
-                + jobName + " "
+                + jobProjectID + " "
                 + fwPaired + " "
                 + fwUnpaired + " "
                 + rPaired + " "
                 + rUnpaired;
 
         
-        output=executeCommand(jobName, command);
+        output=executeCommand(jobProjectID, command);
     }
     
     /**
@@ -147,14 +149,14 @@ public class RNAseqJob {
                 + palindromeTh + " "
                 + simpleTh + " "
                 + outputDir + " "
-                + jobName + " "
+                + jobProjectID + " "
                 + fwPaired + " "
                 + fwUnpaired + " "
                 + rPaired + " "
                 + rUnpaired;
 
         
-        output=executeCommand(jobName, command);
+        output=executeCommand(jobProjectID, command);
     }
     
     /**
@@ -179,12 +181,12 @@ public class RNAseqJob {
                 + rightInput + " "
                 + kmerCount + " "
                 + outputDir + " "
-                + jobName + " "
+                + jobProjectID + " "
                 + outfileName;
 
         
         
-        output = executeCommand(jobName ,command);
+        output = executeCommand(jobProjectID ,command);
     }
     
     /**
@@ -204,10 +206,10 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + outputDir + " "
-                + jobName + " "
+                + jobProjectID + " "
                 + outfileName;
 
-        output=executeCommand(jobName ,command);
+        output=executeCommand(jobProjectID ,command);
     }
     
     /**
@@ -230,10 +232,10 @@ public class RNAseqJob {
                 + kmer + " "
                 + insLen + " "
                 + outputDir + " "
-                + jobName + " "
+                + jobProjectID + " "
                 + outfileName;
 
-        output=executeCommand(jobName, command);
+        output=executeCommand(jobProjectID, command);
     }
     
     /**
@@ -252,11 +254,11 @@ public class RNAseqJob {
                 + rightInput + " "
                 + kmer + " "
                 + outputDir + " "
-                + jobName + " "
+                + jobProjectID + " "
                 + outfileName /*+" "
                 + "> /home/vmuser/CPI/results/logfile"*/;
         
-        output = executeCommand(jobName, command);
+        output = executeCommand(jobProjectID, command);
     }
 
     /**
@@ -264,10 +266,10 @@ public class RNAseqJob {
      * @param command full command to execute
      * @return 
      */
-    private String executeCommand(String jobName, String command) {
+    private String executeCommand(String jobProjectID, String command) {
 
         Jobhistory newJob;
-        newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command);
+        newJob = new Jobhistory(jobProjectID, 1, utilityBean.getSelectedProject().getIdprojects(), command);
         jobHistoryFacade.create(newJob);
         
         StringBuffer output = new StringBuffer();

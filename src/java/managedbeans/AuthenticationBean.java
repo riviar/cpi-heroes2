@@ -33,6 +33,8 @@ public class AuthenticationBean {
     
     @ManagedProperty(value="#{utilityBean}")
     private UtilityBean utilityBean;
+    
+    private String passwordConfirm;
 
     public Collection<Users> getAllUsers(){
         return accountFacade.findAll();
@@ -45,6 +47,16 @@ public class AuthenticationBean {
     public void setUtilityBean(UtilityBean utilityBean) {
         this.utilityBean = utilityBean;
     }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+    
+    
 
     private Users newUser = new Users();
 
@@ -112,6 +124,11 @@ public class AuthenticationBean {
         if (accountFacade.userExists(newUser.getUsername())) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("This username is already registered!"));
+            return "register";
+        } else if (!newUser.getPassword().equals(passwordConfirm)) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Password doesn't match!"));
+            return "register";
         } else {
             accountFacade.registerUser(newUser);
         }

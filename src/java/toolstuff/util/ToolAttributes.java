@@ -5,18 +5,38 @@
  */
 package toolstuff.util;
 
+import java.util.List;
+
 /**
- *
+ * Tool Attributes
  * @author Fox
  */
 public class ToolAttributes {
     
     private String name;
+    private EToolParamType inputType;
+    
     private String value;
+    
+    /**
+     * Holds values to display in dropdown list if EToolParamType favours this type of input
+     */
+    private List<DropDownParamStruct> dropdownList;
 
+    //constructor for textfields
     public ToolAttributes(String name, String value) {
         this.name = name;
+        this.inputType = EToolParamType.TEXTFIELD;
         this.value = value;
+        this.dropdownList = null;
+    }
+    
+    public ToolAttributes(String name, EToolParamType inputType,
+            String value, List<DropDownParamStruct> dropdownList) {
+        this.name = name;
+        this.inputType = inputType;
+        this.value = value;
+        this.dropdownList = dropdownList;
     }
     
     public String getName() {
@@ -34,6 +54,21 @@ public class ToolAttributes {
     public void setValue(String value) {
         this.value = value;
     }
-    
+
+    public List<DropDownParamStruct> getDropdownList() {
+        return dropdownList;
+    }
+
+    public void setDropdownList(List<DropDownParamStruct> dropdownList) {
+        this.dropdownList = dropdownList;
+    }
+
+    public EToolParamType getInputType() {
+        return inputType;
+    }
+
+    public void setInputType(EToolParamType inputType) {
+        this.inputType = inputType;
+    }
     
 }

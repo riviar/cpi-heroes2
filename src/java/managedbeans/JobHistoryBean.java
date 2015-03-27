@@ -15,6 +15,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import sessionbeans.JobHistoryFacade;
+import toolstuff.TestToolBean;
 
 /**
  *
@@ -25,7 +26,8 @@ import sessionbeans.JobHistoryFacade;
 public class JobHistoryBean {
 
     private String jobName;
-    
+        
+    //private Jobhistory newJob;// = new Jobhistory("New Job 2");
     private Jobhistory newJob = new Jobhistory("New Job 2");
 
     public Jobhistory getNewJob() {
@@ -37,7 +39,7 @@ public class JobHistoryBean {
     }
     
     @EJB
-    private JobHistoryFacade jobHistoryFacade;
+    JobHistoryFacade jobHistoryFacade;
     
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
@@ -58,6 +60,11 @@ public class JobHistoryBean {
      */
     public JobHistoryBean() {
         //this.newJob = new Jobhistory();
+        //jobHistoryFacade = new JobHistoryFacade();
+    }
+    
+    public JobHistoryBean(Jobhistory newJob) {
+        this.newJob = newJob;
     }
     
     public String addJob2History() {
@@ -67,7 +74,16 @@ public class JobHistoryBean {
                     new FacesMessage("This job already exists!"));
         } else {*/
         System.out.println("Job Name "+newJob.getJobname());
-        jobHistoryFacade.addJob(newJob);
+        //jobHistoryFacade = new JobHistoryFacade();
+        if(jobHistoryFacade != null){
+            jobHistoryFacade.addJob(newJob);
+        }else{
+            jobHistoryFacade = new JobHistoryFacade();
+            jobHistoryFacade.addJob(newJob);
+        }
+        
+        
+        
         //}
         return "project";
     }
@@ -136,7 +152,5 @@ public class JobHistoryBean {
     public void setCurrentJob(String currentJob) {
         this.currentJob = currentJob;
     }
-
    
-    
 }

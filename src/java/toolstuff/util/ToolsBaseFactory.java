@@ -23,12 +23,13 @@ public class ToolsBaseFactory {
         List<ToolAttributes> inputs = new ArrayList();
         List<ToolAttributes> parameters = new ArrayList();
         List<Tool> fullToolsList = new ArrayList();
+        List<DropDownParamStruct> dropdownList = new ArrayList();
         
         //starting creating tools
         
         //FastQC
         inputs.clear();
-        inputs.add(new ToolAttributes("Fasta file", "fasta"));
+        inputs.add(new ToolAttributes("Fasta file", EToolParamType.DROPDOWN, "fasta", null));
         parameters.clear();
         //tool = new Tool("FastQC", EToolType.PREPROCESSING, "Performs initial analysis of fastqc quality", "Preprocessing/FastQC/fastqc", inputs, parameters);
         //fullToolsList.add(tool);
@@ -68,7 +69,11 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Forward reads", "fasta"));
         inputs.add(new ToolAttributes("Reverse reads", "fasta"));
         parameters.clear();
-        parameters.add(new ToolAttributes("Adapters", "/home/vmuser/CPI/tools/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/adapters/TruSeq3-PE.fa"));
+        dropdownList.clear();
+        dropdownList.add(new DropDownParamStruct("TruSeq3-PE", "/home/vmuser/CPI/tools/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/adapters/TruSeq3-PE.fa"));
+        dropdownList.add(new DropDownParamStruct("TruSeq2-PE", "/home/vmuser/CPI/tools/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/adapters/TruSeq2-PE.fa"));
+        dropdownList.add(new DropDownParamStruct("NexteraPE-PE.fa", "/home/vmuser/CPI/tools/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/adapters/NexteraPE-PE.fa"));
+        parameters.add(new ToolAttributes("Adapters", EToolParamType.DROPDOWN, "Select adapters", dropdownList));
         parameters.add(new ToolAttributes("Seed mismatches", "2"));
         parameters.add(new ToolAttributes("Palindrome Clip Thresshold", "30"));
         parameters.add(new ToolAttributes("Simple Clip Thresshold", "10"));

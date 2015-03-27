@@ -24,6 +24,9 @@ public abstract class AbstractFacade<T> {
     public void create(T entity) {
         System.out.println("create called");
         getEntityManager().persist(entity);
+        System.out.println("Introduced");
+        //}
+        
     }
 
     public void edit(T entity) {
