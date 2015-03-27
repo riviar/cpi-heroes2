@@ -23,10 +23,11 @@ public class ToolsBaseFactory {
         List<ToolAttributes> inputs = new ArrayList();
         List<ToolAttributes> parameters = new ArrayList();
         List<Tool> fullToolsList = new ArrayList();
+        List<DropDownParamStruct> dropdownList = new ArrayList();
         
         //starting creating tools
         inputs.clear();
-        inputs.add(new ToolAttributes("Fasta file", "fasta"));
+        inputs.add(new ToolAttributes("Fasta file", EToolParamType.DROPDOWN, "fasta", null));
         parameters.clear();
         //tool = new Tool("FastQC", EToolType.PREPROCESSING, "Performs initial analysis of fastqc quality", "Preprocessing/FastQC/fastqc", inputs, parameters);
         //fullToolsList.add(tool);
@@ -39,11 +40,11 @@ public class ToolsBaseFactory {
                 new ArrayList<>(parameters)));        
         
         inputs.clear();
-        inputs.add(new ToolAttributes("Right", "fasta"));
-        inputs.add(new ToolAttributes("Left", "fasta"));
+        inputs.add(new ToolAttributes("Right", EToolParamType.DROPDOWN, "fasta", null));
+        inputs.add(new ToolAttributes("Left", EToolParamType.DROPDOWN, "fasta", null));
         parameters.clear();
-        parameters.add(new ToolAttributes("Window Size", "4")); //should set default values
-        parameters.add(new ToolAttributes("Required Quality", "21"));
+        parameters.add(new ToolAttributes("Window Size", EToolParamType.TEXTFIELD, "4", null)); //should set default values
+        parameters.add(new ToolAttributes("Required Quality", EToolParamType.TEXTFIELD, "21", null));
         //tool = new Tool("Trimmomatric", EToolType.PREPROCESSING, "Performs trimming and matric and stuff", "/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Trimmomatic", 
@@ -55,10 +56,10 @@ public class ToolsBaseFactory {
                 new ArrayList<>(parameters)));
         
         inputs.clear();
-        inputs.add(new ToolAttributes("Right", "fasta"));
-        inputs.add(new ToolAttributes("Left", "fasta"));
+        inputs.add(new ToolAttributes("Right", EToolParamType.DROPDOWN, "fasta", null));
+        inputs.add(new ToolAttributes("Left", EToolParamType.DROPDOWN, "fasta", null));
         parameters.clear();
-        parameters.add(new ToolAttributes("Kmer Count", "15"));
+        parameters.add(new ToolAttributes("Kmer Count", EToolParamType.TEXTFIELD, "15", null));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Seecer", 
@@ -70,10 +71,13 @@ public class ToolsBaseFactory {
                 new ArrayList<>(parameters)));
         
         inputs.clear();
-        inputs.add(new ToolAttributes("Right", "fasta"));
-        inputs.add(new ToolAttributes("Left", "fasta"));
+        inputs.add(new ToolAttributes("Right", EToolParamType.DROPDOWN, "fasta", null));
+        inputs.add(new ToolAttributes("Left", EToolParamType.DROPDOWN, "fasta", null));
         parameters.clear();
-        parameters.add(new ToolAttributes("Sequence Type", "?"));
+        dropdownList.clear();
+        dropdownList.add(new DropDownParamStruct("Fasta file", "fasta"));
+        dropdownList.add(new DropDownParamStruct("Fastq file", "fastq"));
+        parameters.add(new ToolAttributes("Sequence Type", EToolParamType.DROPDOWN, "fasta", dropdownList));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Trinity", 
@@ -85,12 +89,15 @@ public class ToolsBaseFactory {
                 new ArrayList<>(parameters)));
         
         inputs.clear();
-        inputs.add(new ToolAttributes("Right", "fasta"));
-        inputs.add(new ToolAttributes("Left", "fasta"));
+        inputs.add(new ToolAttributes("Right", EToolParamType.DROPDOWN, "fasta", null));
+        inputs.add(new ToolAttributes("Left", EToolParamType.DROPDOWN, "fasta", null));
         parameters.clear();
-        parameters.add(new ToolAttributes("Sequence Type", "?"));
-        parameters.add(new ToolAttributes("Kmer Count", "15"));
-        parameters.add(new ToolAttributes("Expected distance between two paired ends", "0"));
+        dropdownList.clear();
+        dropdownList.add(new DropDownParamStruct("Fasta file", "fasta"));
+        dropdownList.add(new DropDownParamStruct("Fastq file", "fastq"));
+        parameters.add(new ToolAttributes("Sequence Type", EToolParamType.DROPDOWN, "fasta", dropdownList));
+        parameters.add(new ToolAttributes("Kmer Count", EToolParamType.TEXTFIELD, "15", null));
+        parameters.add(new ToolAttributes("Expected distance between two paired ends", EToolParamType.TEXTFIELD, "0", null));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Velvet", 
@@ -102,10 +109,10 @@ public class ToolsBaseFactory {
                 new ArrayList<>(parameters)));
         
         inputs.clear();
-        inputs.add(new ToolAttributes("Right", "fasta"));
-        inputs.add(new ToolAttributes("Left", "fasta"));
+        inputs.add(new ToolAttributes("Right", EToolParamType.DROPDOWN, "fasta", null));
+        inputs.add(new ToolAttributes("Left", EToolParamType.DROPDOWN, "fasta", null));
         parameters.clear();
-        parameters.add(new ToolAttributes("Kmer Count", "15"));
+        parameters.add(new ToolAttributes("Kmer Count", EToolParamType.TEXTFIELD, "15", null));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Transabyss", 

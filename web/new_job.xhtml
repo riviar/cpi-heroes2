@@ -28,10 +28,10 @@
                         <c:forEach items="#{utilityBean.selectedTool.inputList}" var="input">
                             <h:outputText value="#{input.name}"/><br/>
                             <h:selectOneMenu class="regInput" value="#{input.value}" style="width: 200px">
-                                <f:selectItems value="#{filesBean.getFilesMap()}"/>
-                            <!--<c:forEach items="{MockLists.inputs}" var="file"> 
-                                    <f:selectItem itemLabel="{file}" itemValue="{file}"/>
-                                </c:forEach> -->
+                                <!--<f:selectItems value="{filesBean.getFilesMap()}"/> -->
+                                <c:forEach items="#{MockLists.inputs}" var="file"> 
+                                    <f:selectItem itemLabel="#{file}" itemValue="#{file}"/>
+                                </c:forEach>
                             </h:selectOneMenu><br/>
                         </c:forEach>
                     </div>
@@ -39,7 +39,16 @@
                         <h4>Parameters</h4>
                         <c:forEach items="#{utilityBean.selectedTool.parameterList}" var="param">
                             <h:outputText value="#{param.name}"/><br/>
-                            <p:inputText class="regInput" value="#{param.value}"/><br/>
+                            <c:if test="#{param.inputType == 'TEXTFIELD'}">    
+                                <p:inputText class="regInput" value="#{param.value}"/><br/>
+                            </c:if>
+                            <c:if test="#{param.inputType == 'DROPDOWN'}">
+                                <h:selectOneMenu class="regInput" value="#{param.value}" style="width: 200px">
+                                    <c:forEach items="#{param.getDropdownList()}" var="drop"> 
+                                        <f:selectItem itemLabel="#{drop.label}" itemValue="#{drop.value}"/>
+                                    </c:forEach>
+                                </h:selectOneMenu><br/><br/>
+                            </c:if>
                         </c:forEach>
                     </div>
                     <div class="news">
