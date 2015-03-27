@@ -53,16 +53,7 @@ public class AuthenticationBean {
      */
     public AuthenticationBean() {
     }
-
-    public String getUserNameByID(String userTextID) {
-        // this is horrible, wrong, and wants replacing with a converter class
-        userTextID = userTextID.replace("entitybeans.Users[ idusers=", "");
-        userTextID = userTextID.replace(" ]", "");
-        int userID = Integer.valueOf(userTextID);
-        Users user = accountFacade.find(userID);
-        return user.getUsername();
-    }
-    
+  
     public String loginUser() {
         //attempt login and get redirect page
         String redirectpage = loginUser(newUser.getUsername(), newUser.getPassword());
@@ -85,10 +76,7 @@ public class AuthenticationBean {
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Logged In Successfully!"));
-            // get current session
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                    .getExternalContext().getSession(false);
-            // set user attribute of session
+            // set user attribute in utilitybean
             utilityBean.setUser(user);
             newUser = user;
             return "home";
@@ -96,9 +84,6 @@ public class AuthenticationBean {
     }
 
     public boolean isLoggedIn() {
-        //gets current session
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
         //returns true if user attribute for current session is not null
         return (utilityBean.getUser() != null);
     }
