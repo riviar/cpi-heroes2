@@ -1,0 +1,194 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 27-Mar-2015, 13:24:18
+    Author     : Fox
+*/
+
+@media screen {
+    div.summary {
+        width: 18em;
+        position:fixed;
+        top: 3em;
+        margin:1em 0 0 1em;
+    }
+
+    div.main {
+        display:block;
+        position:absolute;
+        overflow:auto;
+        height:auto;
+        width:auto;
+        top:4.5em;
+        bottom:2.3em;
+        left:18em;
+        right:0;
+        border-left: 1px solid #CCC;
+        padding:0 0 0 1em;
+        z-index:1;
+    }
+
+    div.header {
+        border:0;
+        margin:0;
+        padding: 0.5em;
+        font-size: 200%;
+        font-weight: bold;
+        position:fixed;
+        width:100%;
+        top:0;
+        left:0;
+        z-index:2;
+    }
+
+    div.footer {
+        border:0;
+        margin:0;
+        padding:0.5em;
+        height: 1.3em;
+        overflow:hidden;
+        font-size: 100%;
+        font-weight: bold;
+        position:fixed;
+        bottom:0;
+        width:100%;
+        z-index:2;
+    }
+
+    img.indented {
+        margin-left: 0;
+    }
+}
+
+@media print {
+    img {
+        max-width:100% !important;
+        page-break-inside: avoid;
+    }
+    h2, h3 {
+        page-break-after: avoid;
+    }
+    div.header {
+        background-color: #FFF;
+    }
+
+}
+
+body {    
+    font-family: sans-serif;   
+    font-size: 75%;
+    color: orangered;   
+    background: url("../resources/images/bg_general_fastqc.gif") no-repeat scroll center top #282627;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+div.header {
+    border:0;
+    margin:0;
+    padding: 0.5em;
+    font-size: 150%;
+    font-weight: bold;
+    width:100%;
+}    
+
+#header_title {
+    display:inline-block;
+    float:left;
+    clear:left;
+}
+#header_filename {
+    display:inline-block;
+    float:right;
+    clear:right;
+    font-size: 50%;
+    margin-right:2em;
+    text-align: right;
+}
+
+div.header h3 {
+    font-size: 50%;
+    margin-bottom: 0;
+}
+
+div.summary ul {
+    padding-left:0;
+    list-style-type:none;
+}
+
+div.summary ul li img {
+    margin-bottom:-0.5em;
+    margin-top:0.5em;
+}
+
+div.main {
+    background: url("../resources/images/bg_general_fastqc.gif") no-repeat scroll center top #282627;
+}
+
+div.module {
+    padding-bottom:1.5em;
+    padding-top:1.5em;
+}
+
+div.footer {
+    background: url("../resources/images/bg_general_fastqc.gif") no-repeat scroll center top #282627;
+    border:0;
+    margin:0;
+    padding: 0.5em;
+    font-size: 100%;
+    font-weight: bold;
+    width:100%;
+}
+
+
+a {
+    color: #8A2BE2;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #800000;
+}
+
+h2 {
+    color: #888;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    clear:left;
+}
+
+table { 
+    margin-left: 3em;
+    text-align: center;
+}
+
+th { 
+    text-align: center;
+    background-color: #CCC;
+    color: #000;
+    padding: 0.4em;
+}      
+
+td { 
+    font-family: monospace; 
+    text-align: left;
+    background-color: #EEE;
+    color: #000;
+    padding: 0.4em;
+}
+
+img {
+    padding-top: 0;
+    margin-top: 0;
+    border-top: 0;
+}
+
+
+p {
+    padding-top: 0;
+    margin-top: 0;
+}

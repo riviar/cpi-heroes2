@@ -7,29 +7,22 @@
 
     <body>
 
-        <ui:composition template="WEB-INF/SymiSunTemplate.xhtml">
+        <ui:composition template="WEB-INF/SymiSunHTMLOutput.xhtml">
 
             <ui:define name="title">
                 RNAseq &ndash; Data Item
             </ui:define>
 
             <ui:define name="center">
-                <h3>{dataset name}</h3>
-                <br/>
-                <div class="news">
-                    <ui:include src="/Output/SRR027877-small-p1_fastqc.html"/>
-                </div>
-                <div class="news">
-                    Content depending on data type, graphs/statistics/etc
-                </div>
-                <div class="news">
+                <iframe src="../Output/SRR027877-small-p1_fastqc.html" frameborder="0" width="100%" height="750px"></iframe>
+                <!--<div class="news">
                     <h:panelGrid columns="2">
                         <h:form>
                             <h:commandButton id="downloadButton" action="data_item" class="centerButton" value="Download"/>
                             <h:commandButton id="makePublicButton" action="data_item" class="centerButton" value="Make Public"/>
                         </h:form>
                     </h:panelGrid>
-                </div>
+                </div> -->
             </ui:define>
 
         </ui:composition>
