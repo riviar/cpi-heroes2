@@ -50,9 +50,9 @@ public class ToolsBaseFactory {
         parameters.add(new ToolAttributes("Window Size", "4")); //should set default values
         parameters.add(new ToolAttributes("Required Quality", "15"));
         parameters.add(new ToolAttributes("Forward paired file name", "fw_paired.fq"));
-        parameters.add(new ToolAttributes("Forward unpaired file name", "fw_paired.fq"));
-        parameters.add(new ToolAttributes("Reverse paired file name", "fw_paired.fq"));
-        parameters.add(new ToolAttributes("Reverse unpaired file name", "fw_paired.fq"));
+        parameters.add(new ToolAttributes("Forward unpaired file name", "fw_unpaired.fq"));
+        parameters.add(new ToolAttributes("Reverse paired file name", "r_paired.fq"));
+        parameters.add(new ToolAttributes("Reverse unpaired file name", "r_unpaired.fq"));
         //tool = new Tool("Trimmomatric", EToolType.PREPROCESSING, "Performs trimming and matric and stuff", "/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Trimmomatic - Trimming", 

@@ -253,7 +253,8 @@ public class RNAseqJob {
                 + kmer + " "
                 + outputDir + " "
                 + jobName + " "
-                + outfileName;
+                + outfileName /*+" "
+                + "> /home/vmuser/CPI/results/logfile"*/;
         
         output = executeCommand(jobName, command);
     }
@@ -273,7 +274,19 @@ public class RNAseqJob {
 
         Process p;
         try {
+
+
+
+
+            /*p = Runtime.getRuntime().exec("export TRANSABYSS=/home/vmuser/CPI/tools/TRANSABYSS");
+            p = Runtime.getRuntime().exec("export PATH=$PATH:$TRANSABYSS/blat");
+            p = Runtime.getRuntime().exec("export PATH=$PATH:$TRANSABYSS/bowtie2-2.2.4");
+            p = Runtime.getRuntime().exec("export PATH=$PATH:$TRANSABYSS/transabyss-master");
+            */
+            
+            //p = Runtime.getRuntime().exec("export PATH=$PATH:/home/vmuser/CPI/tools/TRINITY/jre1.7.0_75/bin:/home/vmuser/CPI/tools/TRINITY/samtools-0.1.19/misc:/home/vmuser/CPI/tools/TRINITY/samtools-0.1.19/bcftools:/home/vmuser/CPI/tools/TRINITY/samtools-0.1.19:/home/vmuser/CPI/tools/TRINITY/bowtie-0.12.9:/home/vmuser/CPI/tools/TRINITY/ncbi-blast-2.2.30+/bin:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/vmuser/CPI/tools/ncbi-blast-2.2.30+/bin:/home/vmuser/CPI/tools/Preprocessing/FastQC:/home/vmuser/SATA2/PFAM/hmmer-3.1b2:/home/vmuser/CPI/tools/ncbi-blast-2.2.30+:/usr/bin:/bin:/home/lucia/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/rsem-1.2.19:/home/vmuser/CPI/tools/TRANSABYSS/blat:/home/vmuser/CPI/tools/TRANSABYSS/bowtie2-2.2.4:/home/vmuser/CPI/tools/TRANSABYSS/transabyss-master");
             p = Runtime.getRuntime().exec(command);
+            
             p.waitFor();
             BufferedReader reader
                     = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -287,6 +300,7 @@ public class RNAseqJob {
             e.printStackTrace();
         }
 
+        System.out.print(output.toString());
         return output.toString();
     }
     
