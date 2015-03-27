@@ -20,9 +20,13 @@ import sessionbeans.JobHistoryFacade;
 public class RNAseqJob {
 
     private String jobName;
+    private String jobProjectID;
 
     private String command;
     private String output;
+    private String outputDir="/home/vmuser/CPI/results";
+    
+    
     /**
      * provides access to session bean UtilityBean (here for selectedTool)
      */
@@ -41,6 +45,14 @@ public class RNAseqJob {
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/";
     }
+    
+    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, String jobName) {
+        this.jobHistoryFacade = jobHistoryFacade;
+        this.utilityBean = utilityBean;
+        this.jobName = jobName;
+        this.command = "/home/vmuser/CPI/tools/";
+        this.jobProjectID= Integer.toString(utilityBean.getSelectedProject().getIdprojects());
+    }
 
     /**
      * Executes Job based on selected tool.
@@ -51,8 +63,11 @@ public class RNAseqJob {
             case FASTQC:
                 executeFastQC();
                 break;
-            case TRIMMOMATIC:
-                executeTrimmomatic();
+            case TRIMMOMATIC_TRIM:
+                executeTrimmomaticTrim();
+                break;
+            case TRIMMOMATIC_ADAPT:
+                executeTrimmomaticAdapt();
                 break;
             case SEECER:
                 executeSeecer();
@@ -77,51 +92,108 @@ public class RNAseqJob {
     private void executeFastQC() {
         String inputFileName = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
         
-        command += " " + inputFileName + " " + "-o /root/NetBeansProjects/izidev2/web/Output";
-        output = executeCommand(jobName, command);
+        //command += " " + inputFileName + " " + "-o "+outputDir+jobName;
+        command += " " 
+                + inputFileName + " "
+                + outputDir + " "
+                + jobProjectID;
+        
+        output = executeCommand(jobProjectID, command);
     }
     
     /**
-     * Retrieves parameters and executes Trimmomatic job
+     * Retrieves parameters and executes Trimmomatic job for trimming using sliding window
      */
-    private void executeTrimmomatic() {
-        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
-        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
+    private void executeTrimmomaticTrim() {
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
         String windowSize = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         String requiredQuality = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String fwPaired=getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
+        String fwUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+        String rPaired=getUtilityBean().getSelectedTool().getParameterList().get(4).getValue();
+        String rUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(5).getValue();
         
-        String finalCommand = "java -jar "+ command + " PE " 
+        command += " " 
+                + leftInput + " "
                 + rightInput + " "
-                + leftInput
-                + " paired_1 unpaired_1 paired_2 unpaired_2"
-                + " SLIDINGWINDOW:"
-                + windowSize + ":"
-                + requiredQuality;
-        System.out.println(finalCommand);
+                + windowSize + " "
+                + requiredQuality + " "
+                + outputDir + " "
+                + jobProjectID + " "
+                + fwPaired + " "
+                + fwUnpaired + " "
+                + rPaired + " "
+                + rUnpaired;
+
         
-        //~/glassfish-4.1/glassfish/domains/domain1/config
+        output=executeCommand(jobProjectID, command);
+    }
+    
+    /**
+     * Retrieves parameters and executes Trimmomatic job for removing adapters
+     */
+    private void executeTrimmomaticAdapt() {
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
-        output=executeCommand(jobName, command);
+        String adapters = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String seedMismatches = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String palindromeTh = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
+        String simpleTh = getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+        String fwPaired=getUtilityBean().getSelectedTool().getParameterList().get(4).getValue();
+        String fwUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(5).getValue();
+        String rPaired=getUtilityBean().getSelectedTool().getParameterList().get(6).getValue();
+        String rUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(7).getValue();
+        
+        
+        command += " " 
+                + leftInput + " "
+                + rightInput + " "
+                + adapters + " "
+                + seedMismatches + " "
+                + palindromeTh + " "
+                + simpleTh + " "
+                + outputDir + " "
+                + jobProjectID + " "
+                + fwPaired + " "
+                + fwUnpaired + " "
+                + rPaired + " "
+                + rUnpaired;
+
+        
+        output=executeCommand(jobProjectID, command);
     }
     
     /**
      * Retrieves parameters and executes Seecer job
      */
     private void executeSeecer() {
-        String rightInput =  getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
-        String leftInput =  getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
-        String KmerCount =  getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String kmerCount =  getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String outfileName =  getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         
+        /*
         //directory where seecer will store temporary files during job
         String tmpPath = "/home/vmuser/CPI/tools/Seecer/testdata/tmp";
-        //String jellyfishPath = "/home/vmuser/CPI/tools/Preprocessing/Seecer/Seecer/jellyfish-1.1.11/bin";
-        
-        
+        //String jellyfishPath = "/home/vmuser/CPI/tools/Preprocessing/Seecer/Seecer/jellyfish-1.1.11/bin";      
         command += " -t " + tmpPath + " -k " + KmerCount +" "+ rightInput + " " + leftInput;
-	
-        output = executeCommand(jobName ,command);
+	*/
+        
+        command += " " 
+                + leftInput + " "
+                + rightInput + " "
+                + kmerCount + " "
+                + outputDir + " "
+                + jobProjectID + " "
+                + outfileName;
+
+        
+        
+        output = executeCommand(jobProjectID ,command);
     }
     
     /**
@@ -129,34 +201,36 @@ public class RNAseqJob {
      * Be mindful of reversed right/left order!
      */
     private void executeTrinity() {
-        String rightInput = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String leftInput = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
-        
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
+         
         String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String outputDir = "/home/lestelles/Desktop/"; // probably should be changed?
+        //String outputDir = "/home/lestelles/Desktop/"; // probably should be changed?
+        String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
         command += " " 
                 + seqType + " "
                 + leftInput + " "
                 + rightInput + " "
                 + outputDir + " "
-                + jobName;
+                + jobProjectID + " "
+                + outfileName;
 
-        //~/glassfish-4.1/glassfish/domains/domain1/config
-        output=executeCommand(jobName ,command);
+        output=executeCommand(jobProjectID ,command);
     }
     
     /**
      * Retrieves parameters and executes Velvet job
      */
     private void executeVelvet() {
-        String rightInput = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String leftInput = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
         String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         String kmer = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         String insLen = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
-        String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
         
         command += " " 
                 + seqType + " "
@@ -165,30 +239,33 @@ public class RNAseqJob {
                 + kmer + " "
                 + insLen + " "
                 + outputDir + " "
-                + jobName;
+                + jobProjectID + " "
+                + outfileName;
 
-        //~/glassfish-4.1/glassfish/domains/domain1/config
-        output=executeCommand(jobName, command);
+        output=executeCommand(jobProjectID, command);
     }
     
     /**
      * Retrieves parameters and executes Velvet job
      */
     private void executeTransabyss() {
-        String rightInput = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String leftInput = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
-        String kmer = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
-        String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        String kmer = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
         command += " " 
                 + leftInput + " "
                 + rightInput + " "
                 + kmer + " "
                 + outputDir + " "
-                + jobName;
+                + jobProjectID + " "
+                + outfileName /*+" "
+                + "> /home/vmuser/CPI/results/logfile"*/;
         
-        output = executeCommand(jobName, command);
+        output = executeCommand(jobProjectID, command);
     }
 
     /**
@@ -196,17 +273,29 @@ public class RNAseqJob {
      * @param command full command to execute
      * @return 
      */
-    private String executeCommand(String jobName, String command) {
+    private String executeCommand(String jobProjectID, String command) {
 
         Jobhistory newJob;
-        newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command);
+        newJob = new Jobhistory(jobProjectID, 1, utilityBean.getSelectedProject().getIdprojects(), command);
         jobHistoryFacade.create(newJob);
         
         StringBuffer output = new StringBuffer();
 
         Process p;
         try {
+
+
+
+
+            /*p = Runtime.getRuntime().exec("export TRANSABYSS=/home/vmuser/CPI/tools/TRANSABYSS");
+            p = Runtime.getRuntime().exec("export PATH=$PATH:$TRANSABYSS/blat");
+            p = Runtime.getRuntime().exec("export PATH=$PATH:$TRANSABYSS/bowtie2-2.2.4");
+            p = Runtime.getRuntime().exec("export PATH=$PATH:$TRANSABYSS/transabyss-master");
+            */
+            
+            //p = Runtime.getRuntime().exec("export PATH=$PATH:/home/vmuser/CPI/tools/TRINITY/jre1.7.0_75/bin:/home/vmuser/CPI/tools/TRINITY/samtools-0.1.19/misc:/home/vmuser/CPI/tools/TRINITY/samtools-0.1.19/bcftools:/home/vmuser/CPI/tools/TRINITY/samtools-0.1.19:/home/vmuser/CPI/tools/TRINITY/bowtie-0.12.9:/home/vmuser/CPI/tools/TRINITY/ncbi-blast-2.2.30+/bin:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/vmuser/CPI/tools/ncbi-blast-2.2.30+/bin:/home/vmuser/CPI/tools/Preprocessing/FastQC:/home/vmuser/SATA2/PFAM/hmmer-3.1b2:/home/vmuser/CPI/tools/ncbi-blast-2.2.30+:/usr/bin:/bin:/home/lucia/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/rsem-1.2.19:/home/vmuser/CPI/tools/TRANSABYSS/blat:/home/vmuser/CPI/tools/TRANSABYSS/bowtie2-2.2.4:/home/vmuser/CPI/tools/TRANSABYSS/transabyss-master");
             p = Runtime.getRuntime().exec(command);
+            
             p.waitFor();
             BufferedReader reader
                     = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -220,6 +309,7 @@ public class RNAseqJob {
             e.printStackTrace();
         }
 
+        System.out.print(output.toString());
         return output.toString();
     }
     

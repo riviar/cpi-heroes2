@@ -23,6 +23,14 @@ public class ToolAttributes {
      */
     private List<DropDownParamStruct> dropdownList;
 
+    //constructor for textfields
+    public ToolAttributes(String name, String value) {
+        this.name = name;
+        this.inputType = EToolParamType.TEXTFIELD;
+        this.value = value;
+        this.dropdownList = null;
+    }
+    
     public ToolAttributes(String name, EToolParamType inputType,
             String value, List<DropDownParamStruct> dropdownList) {
         this.name = name;
