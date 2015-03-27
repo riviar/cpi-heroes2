@@ -25,15 +25,26 @@
                             <li><p>                                   
                                     <h:outputText converter="userConverter" style="font-weight: bold" value="#{user.username}"/>                                     
                                     <h:form>
-                                        <h:commandLink onclick="PF('confirmDeleteUser').show(); return false;" value="Remove User">
+                                        <h:commandLink onclick="PF('confirmRemoveUser').show(); return false;" 
+                                                       value="Remove User">
                                             <f:param name="selectedUser" value="#{user.idusers}"/>
                                         </h:commandLink>
+
+
                                     </h:form>
                                 </p></li>
                         </c:forEach>
                     </ul>
                 </div>
                 <div class="news">
+                                        <p:confirmDialog message="Are you sure you want to remove this user?" header="Remove User" widgetVar="confirmRemoveUser">
+                                            <h3>Remove User</h3>
+                                            <p:commandButton id="confirmRemoveUser" 
+                                                             action="#{workgroupBean.removeUserFromWorkgroup()}" 
+                                                             class="centerButton" 
+                                                             value="Confirm"/>
+                                            <p:commandButton id="cancelRemoveUser" onclick="PF('confirmRemoveUser').hide();return false;" class="centerButton" value="Cancel"/>
+                                        </p:confirmDialog>
                     <h:form>
                         <h:commandButton id="openAddMemberDialog" onclick="PF('addMemberDialog').show();
                                 return false;" class="centerButton" value="Add Member"/>
@@ -87,13 +98,6 @@
                     </h:form>
                 </p:dialog>
 
-                <p:dialog resizable="false" minHeight="80" header="Remove User" widgetVar="confirmDeleteUser" modal="true">
-                    <h3>Remove User</h3>
-                    <h:form>
-                        <h:commandButton id="confirmRemoveUser" action="#{workgroupBean.removeUserFromWorkgroup()}" class="centerButton" value="Confirm"/>
-                        <h:commandButton id="cancelRemoveUser" action="return false;" class="centerButton" value="Cancel"/>
-                    </h:form>
-                </p:dialog>
 
             </ui:define>
 
