@@ -22,8 +22,14 @@ public abstract class AbstractFacade<T> {
     protected abstract EntityManager getEntityManager();
 
     public void create(T entity) {
-        System.out.println("create called");
+        /*if(getEntityManager() == null){
+            System.out.println("Horra arazoa, ta oin zer?");
+        }else{*/
+        
         getEntityManager().persist(entity);
+        System.out.println("Introduced");
+        //}
+        
     }
 
     public void edit(T entity) {

@@ -29,6 +29,8 @@ import sessionbeans.WorkGroupSessionFacade;
 public class TestToolBean {
 
     private Projects project;
+        
+    private Jobhistory newJob;// = new Jobhistory();
 
     private Jobhistory newJob = new Jobhistory();
     private String newJobName = "";
@@ -60,9 +62,12 @@ public class TestToolBean {
         // set user attribute of session
 
         project = new Projects();
+        newJob = new Jobhistory();
+        
     }
 
     public void setNewJob(String newJobName) {
+        System.out.println("Non expected");
         this.newJob = new Jobhistory(newJobName);
     }
 
