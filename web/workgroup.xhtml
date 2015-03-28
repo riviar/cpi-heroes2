@@ -16,7 +16,7 @@
             </ui:define>
 
             <ui:define name="center">
-                <h3>Workgroup <h:outputText value="#{utilityBean.selectedWorkgroup.workgroupname}"/></h3>
+                <h3>Workgroup: <h:outputText value="#{utilityBean.selectedWorkgroup.workgroupname}"/></h3>
                 <div class="news">
                     <h4>Members:</h4>
                     <br/>
@@ -25,26 +25,30 @@
                             <li><p>                                   
                                     <h:outputText converter="userConverter" style="font-weight: bold" value="#{user.username}"/>                                     
                                     <h:form>
-                                        <h:commandLink onclick="PF('confirmRemoveUser').show(); return false;" 
+                                        <h:commandLink onclick="PF('confirmRemoveUser').show();
+                                                return false;" 
                                                        value="Remove User">
-                                            <f:param name="selectedUser" value="#{user.idusers}"/>
+                                            <p:confirmDialog message="Are you sure you want to remove this user?" header="Remove User" widgetVar="confirmRemoveUser">
+                                                <h3>Remove User</h3>
+                                                <p:commandButton id="confirmRemoveUser" 
+                                                                 action="#{workgroupBean.removeUserFromWorkgroup()}"
+                                                                 onclick="PF('confirmRemoveUser').hide();return false;"
+                                                                 class="centerButton" 
+                                                                 value="Confirm">
+                                                    <f:param name="selectedUser" value="#{user.idusers}"/>
+                                                </p:commandButton>
+                                                <p:commandButton id="cancelRemoveUser" 
+                                                                 onclick="PF('confirmRemoveUser').hide();return false;" 
+                                                                 class="centerButton" 
+                                                                 value="Cancel"/>
+                                            </p:confirmDialog>
                                         </h:commandLink>
-
-
                                     </h:form>
                                 </p></li>
                         </c:forEach>
                     </ul>
                 </div>
                 <div class="news">
-                                        <p:confirmDialog message="Are you sure you want to remove this user?" header="Remove User" widgetVar="confirmRemoveUser">
-                                            <h3>Remove User</h3>
-                                            <p:commandButton id="confirmRemoveUser" 
-                                                             action="#{workgroupBean.removeUserFromWorkgroup()}" 
-                                                             class="centerButton" 
-                                                             value="Confirm"/>
-                                            <p:commandButton id="cancelRemoveUser" onclick="PF('confirmRemoveUser').hide();return false;" class="centerButton" value="Cancel"/>
-                                        </p:confirmDialog>
                     <h:form>
                         <h:commandButton id="openAddMemberDialog" onclick="PF('addMemberDialog').show();
                                 return false;" class="centerButton" value="Add Member"/>
