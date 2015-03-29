@@ -32,19 +32,28 @@ public class jobThread extends Thread {
               
        if(getName().equals("waitThread")){
             try {
+                               
                 System.out.println("Waiting");
-                p.waitFor();
+                //p.waitFor();
+                StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
+
+                StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+
+                // start gobblers
+                outputGobbler.start();
+                errorGobbler.start();
+                
                 Thread.sleep(5000);
 
                 //Update the status to finished
                 //jobHistoryFacade.updateJob(newJob);
-                BufferedReader reader
+                /*BufferedReader reader
                         = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
                 String line = "";
                 while ((line = reader.readLine()) != null) {
                     output.append(line + "\n");
-                }
+                }*/
                 
                 updateJob.setProcessid(-1);
                 jobHistoryFacade.edit(updateJob);

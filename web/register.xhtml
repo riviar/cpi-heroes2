@@ -40,6 +40,8 @@
                         <p:inputText class="regInput" value="#{authenticationBean.newUser.username}"/><br/>
                         <h:outputText value="Password"/><br/>
                         <p:password class="regInput" value="#{authenticationBean.newUser.password}"/><br/>
+                        <h:outputText value="Password confirmation"/><br/>
+                        <p:password class="regInput" value="#{authenticationBean.passwordConfirm}"/><br/>
                     </div>
                     <div class="news">
                         <h:commandButton id="registerButton" action="#{authenticationBean.registerNewUser()}" class="centerButton" value="Register"/>

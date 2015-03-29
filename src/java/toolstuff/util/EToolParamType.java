@@ -6,15 +6,10 @@
 package toolstuff.util;
 
 /**
- * Enum describing tool
+ * Enum for param type (textfield or dropdown list for now)
  * @author Fox
  */
-public enum ETool {
-    FASTQC,
-    TRIMMOMATIC_TRIM,
-    TRIMMOMATIC_ADAPT,
-    SEECER,
-    TRINITY,
-    VELVET,
-    TRANSABYSS
+public enum EToolParamType {
+    TEXTFIELD,
+    DROPDOWN
 }

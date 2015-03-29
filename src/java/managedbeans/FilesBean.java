@@ -31,15 +31,6 @@ public class FilesBean {
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     
-    @ManagedProperty(value = "#{param.selectedProject}")
-    private int selectedProject;
-    
-//    public void setUtilityBean(UtilityBean utilityBean) {
-//        this.utilityBean = utilityBean;
-//    }
-    
-
-    
     
     public FilesBean(){
         
@@ -56,7 +47,7 @@ public class FilesBean {
     
     public List<String> getFilesNames(){
         List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getProjectFiles(selectedProject);
+        List<Files> files=filesFacade.getProjectFiles(utilityBean.getSelectedProject().getIdprojects());
         for (Files file:files){
             list.add(file.getDisplayname());            
         }
@@ -65,7 +56,7 @@ public class FilesBean {
     
     public List<String> getFilesDescription(){
         List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getProjectFiles(selectedProject);
+        List<Files> files=filesFacade.getProjectFiles(utilityBean.getSelectedProject().getIdprojects());
         for (Files file:files){
             list.add(file.getDescription());
         }
@@ -74,7 +65,7 @@ public class FilesBean {
     
     public List<String> getFilesPath(){
         List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getProjectFiles(selectedProject);
+        List<Files> files=filesFacade.getProjectFiles(utilityBean.getSelectedProject().getIdprojects());
         for (Files file:files){
             list.add(file.getPath());            
         }
@@ -101,14 +92,5 @@ public class FilesBean {
     public void setUtilityBean(UtilityBean utilityBean) {
         this.utilityBean = utilityBean;
     }
-
-    /**
-     * @param selectedProject the selectedProject to set
-     */
-    public void setSelectedProject(int selectedProject) {
-        this.selectedProject = selectedProject;
-    }
-    
-
         
 }

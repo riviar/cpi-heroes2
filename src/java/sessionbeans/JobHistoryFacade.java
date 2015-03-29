@@ -8,8 +8,6 @@ package sessionbeans;
 import entitybeans.Jobhistory;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.faces.bean.ManagedProperty;
