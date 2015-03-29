@@ -8,7 +8,9 @@ package toolstuff;
 import entitybeans.Jobhistory;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import javax.faces.bean.ManagedProperty;
+import java.lang.reflect.Field;
+import java.util.Map;
+//import javax.faces.bean.ManagedProperty;
 import managedbeans.UtilityBean;
 import sessionbeans.JobHistoryFacade;
 
@@ -22,7 +24,7 @@ public class RNAseqJob {
     private String jobName;
 
     private String command;
-    private String output;
+    //private String output;
     /**
      * provides access to session bean UtilityBean (here for selectedTool)
      */
@@ -78,7 +80,7 @@ public class RNAseqJob {
         String inputFileName = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
         
         command += " " + inputFileName + " " + "-o /root/NetBeansProjects/izidev2/web/Output";
-        output = executeCommand(jobName, command);
+        executeCommand(jobName, command);
     }
     
     /**
@@ -102,7 +104,7 @@ public class RNAseqJob {
         
         //~/glassfish-4.1/glassfish/domains/domain1/config
         
-        output=executeCommand(jobName, command);
+        executeCommand(jobName, command);
     }
     
     /**
@@ -121,7 +123,7 @@ public class RNAseqJob {
         
         command += " -t " + tmpPath + " -k " + KmerCount +" "+ rightInput + " " + leftInput;
 	
-        output = executeCommand(jobName ,command);
+        executeCommand(jobName ,command);
     }
     
     /**
@@ -143,7 +145,7 @@ public class RNAseqJob {
                 + jobName;
 
         //~/glassfish-4.1/glassfish/domains/domain1/config
-        output=executeCommand(jobName ,command);
+        executeCommand(jobName ,command);
     }
     
     /**
@@ -168,7 +170,7 @@ public class RNAseqJob {
                 + jobName;
 
         //~/glassfish-4.1/glassfish/domains/domain1/config
-        output=executeCommand(jobName, command);
+        executeCommand(jobName, command);
     }
     
     /**
@@ -188,7 +190,7 @@ public class RNAseqJob {
                 + outputDir + " "
                 + jobName;
         
-        output = executeCommand(jobName, command);
+        executeCommand(jobName, command);
     }
 
     /**
@@ -196,32 +198,66 @@ public class RNAseqJob {
      * @param command full command to execute
      * @return 
      */
-    private String executeCommand(String jobName, String command) {
+    private void executeCommand(String jobName, String command) {
 
         Jobhistory newJob;
-        newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command);
-        jobHistoryFacade.create(newJob);
+        //newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command);
+        //jobHistoryFacade.create(newJob);
+        int pid;
         
-        StringBuffer output = new StringBuffer();
+        //StringBuffer output = new StringBuffer();
 
         Process p;
         try {
-            p = Runtime.getRuntime().exec(command);
-            p.waitFor();
+            //Launch the job
+            //p = Runtime.getRuntime().exec(command);
+                       
+            p = Runtime.getRuntime().exec("ps -p 3143 -o start,etime");
+            
+            //Get the PID
+            Field f = p.getClass().getDeclaredField("pid");
+            f.setAccessible(true);
+            pid = (int) f.get(p);
+            
+            //Add job to history
+            newJob = new Jobhistory(jobName, pid, utilityBean.getSelectedProject().getIdprojects(), command);
+            jobHistoryFacade.create(newJob);
+            
+            //Create two threads: One to control if the job is finished and te other to return to the projects page
+            jobThread returnThread = new jobThread("returnThread");
+            returnThread.start();
+            jobThread waitJobCompleteThread = new jobThread("waitThread");
+            waitJobCompleteThread.setP(p);
+            waitJobCompleteThread.setUpdateJob(newJob);
+            waitJobCompleteThread.setJobHistoryFacade(jobHistoryFacade);
+            waitJobCompleteThread.start();
+            
+            //newJob.setProcessid(-1);
+            //jobHistoryFacade.edit(newJob);
+            
+                       
+            /*p.waitFor();
+            
+            //Update the status to finished
+            //jobHistoryFacade.updateJob(newJob);
+            
             BufferedReader reader
                     = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
             String line = "";
             while ((line = reader.readLine()) != null) {
                 output.append(line + "\n");
-            }
+            }*/
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return output.toString();
+        //System.out.println(output.toString());
+        //return output.toString();
     }
+    
+    
     
     /**
      * Appends path to executable file to the command

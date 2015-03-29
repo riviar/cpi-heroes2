@@ -31,7 +31,7 @@ public class FilesBean {
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     
-    //@ManagedProperty(value = "#{param.selectedProject}")
+    @ManagedProperty(value = "#{param.selectedProject}")
     private int selectedProject;
     
 //    public void setUtilityBean(UtilityBean utilityBean) {
@@ -58,7 +58,7 @@ public class FilesBean {
         List<String> list=new ArrayList();
         List<Files> files=filesFacade.getProjectFiles(selectedProject);
         for (Files file:files){
-            list.add(file.getDisplayname());
+            list.add(file.getDisplayname());            
         }
         return list;
     }

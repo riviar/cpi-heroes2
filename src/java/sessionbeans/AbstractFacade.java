@@ -5,6 +5,7 @@
  */
 package sessionbeans;
 
+import entitybeans.Jobhistory;
 import java.util.List;
 import javax.persistence.EntityManager;
 
