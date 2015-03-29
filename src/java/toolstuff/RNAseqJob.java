@@ -287,8 +287,8 @@ public class RNAseqJob {
         }
         commandList.add(jobID);
 
-        //ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
-        ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
+        ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
+        //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
         Process p;
         try {
             p = pb.start();
