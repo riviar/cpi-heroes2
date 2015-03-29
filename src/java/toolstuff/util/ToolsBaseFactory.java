@@ -97,6 +97,9 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Right reads", "fasta"));
         parameters.clear();
         parameters.add(new ToolAttributes("Kmer", "15"));
+        parameters.add(new ToolAttributes("Output file name", "output_from_seecer.fa"));
+        parameters.add(new ToolAttributes("Left corrected reads name", "leftCorrected.fa"));
+        parameters.add(new ToolAttributes("Right corrected reads name", "rightCorrected.fa"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Seecer", 
@@ -113,7 +116,11 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Left reads", "fasta"));
         inputs.add(new ToolAttributes("Right reads", "fasta"));
         parameters.clear();
-        parameters.add(new ToolAttributes("Sequence Type", "fq"));
+        dropdownList.clear();
+        dropdownList.add(new DropDownParamStruct("FASTQ", "fq"));
+        dropdownList.add(new DropDownParamStruct("FASTA", "fa"));
+        parameters.add(new ToolAttributes("Sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
+        //parameters.add(new ToolAttributes("Sequence Type", "fq"));
         parameters.add(new ToolAttributes("Output file name", "transcripts.fa"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
@@ -131,7 +138,11 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Left reads", "fasta"));
         inputs.add(new ToolAttributes("Right reads", "fasta"));
         parameters.clear();
-        parameters.add(new ToolAttributes("Sequence Type", "fastq"));
+        dropdownList.clear();
+        dropdownList.add(new DropDownParamStruct("FASTQ", "fastq"));
+        dropdownList.add(new DropDownParamStruct("FASTA", "fasta"));
+        parameters.add(new ToolAttributes("Sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
+        //parameters.add(new ToolAttributes("Sequence Type", "fastq"));
         parameters.add(new ToolAttributes("Kmer", "31"));
         parameters.add(new ToolAttributes("Insert length", "170"));
         parameters.add(new ToolAttributes("Output file name", "transcripts.fa"));

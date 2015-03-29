@@ -7,7 +7,14 @@ package toolstuff;
 
 import entitybeans.Jobhistory;
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedProperty;
 import managedbeans.UtilityBean;
 import sessionbeans.JobHistoryFacade;
@@ -20,7 +27,6 @@ import sessionbeans.JobHistoryFacade;
 public class RNAseqJob {
 
     private String jobName;
-    private String jobProjectID;
 
     private String command;
     private String output;
@@ -44,7 +50,6 @@ public class RNAseqJob {
         this.utilityBean = utilityBean;
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/";
-        this.jobProjectID= Integer.toString(utilityBean.getSelectedProject().getIdprojects());
     }
 
     /**
@@ -88,10 +93,9 @@ public class RNAseqJob {
         //command += " " + inputFileName + " " + "-o "+outputDir+jobName;
         command += " " 
                 + inputFileName + " "
-                + outputDir + " "
-                + jobProjectID;
+                + outputDir;
         
-        output = executeCommand(jobProjectID, command);
+        executeCommand(command);
     }
     
     /**
@@ -114,14 +118,13 @@ public class RNAseqJob {
                 + windowSize + " "
                 + requiredQuality + " "
                 + outputDir + " "
-                + jobProjectID + " "
                 + fwPaired + " "
                 + fwUnpaired + " "
                 + rPaired + " "
                 + rUnpaired;
 
         
-        output=executeCommand(jobProjectID, command);
+        executeCommand(command);
     }
     
     /**
@@ -149,14 +152,13 @@ public class RNAseqJob {
                 + palindromeTh + " "
                 + simpleTh + " "
                 + outputDir + " "
-                + jobProjectID + " "
                 + fwPaired + " "
                 + fwUnpaired + " "
                 + rPaired + " "
                 + rUnpaired;
 
         
-        output=executeCommand(jobProjectID, command);
+        executeCommand(command);
     }
     
     /**
@@ -167,8 +169,10 @@ public class RNAseqJob {
         String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
         String kmerCount =  getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String outfileName =  getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        
+        String outfileName =  getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String leftCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
+        String rightCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+
         /*
         //directory where seecer will store temporary files during job
         String tmpPath = "/home/vmuser/CPI/tools/Seecer/testdata/tmp";
@@ -181,12 +185,12 @@ public class RNAseqJob {
                 + rightInput + " "
                 + kmerCount + " "
                 + outputDir + " "
-                + jobProjectID + " "
-                + outfileName;
+                + outfileName + " "
+                + leftCorrName + " "
+                + rightCorrName;
 
-        
-        
-        output = executeCommand(jobProjectID ,command);
+
+        executeCommand(command);
     }
     
     /**
@@ -206,10 +210,9 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + outputDir + " "
-                + jobProjectID + " "
                 + outfileName;
 
-        output=executeCommand(jobProjectID ,command);
+        executeCommand(command);
     }
     
     /**
@@ -232,10 +235,9 @@ public class RNAseqJob {
                 + kmer + " "
                 + insLen + " "
                 + outputDir + " "
-                + jobProjectID + " "
                 + outfileName;
 
-        output=executeCommand(jobProjectID, command);
+        executeCommand(command);
     }
     
     /**
@@ -254,11 +256,10 @@ public class RNAseqJob {
                 + rightInput + " "
                 + kmer + " "
                 + outputDir + " "
-                + jobProjectID + " "
-                + outfileName /*+" "
-                + "> /home/vmuser/CPI/results/logfile"*/;
-        
-        output = executeCommand(jobProjectID, command);
+                + outfileName;
+                
+        executeCommand(command);
+       
     }
 
     /**
@@ -266,28 +267,46 @@ public class RNAseqJob {
      * @param command full command to execute
      * @return 
      */
-    private String executeCommand(String jobProjectID, String command) {
+    private void executeCommand(String command) {
 
         Jobhistory newJob;
-        newJob = new Jobhistory(jobProjectID, 1, utilityBean.getSelectedProject().getIdprojects(), command);
+        newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command);
         jobHistoryFacade.create(newJob);
+        String jobProjectID=Integer.toString(newJob.getIdjobs());
         
-        StringBuffer output = new StringBuffer();
+        String[] commandArray = command.split("\\s+");
+        List<String> commandList = new ArrayList(commandArray.length+1);
+        //Arrays.asList(commandArray);
+        for(int i=0; i<commandArray.length; i++){
+            commandList.add(commandArray[i]);
+        }
+        commandList.add(jobProjectID);
+         
+        ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
+        Process p;
+        try {
+            p = pb.start();
+            StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
+
+            StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+
+            // start gobblers
+            outputGobbler.start();
+            errorGobbler.start();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        //InputStream stdOut = p.getInputStream();
+        
+        
+        
+        /*StringBuffer output = new StringBuffer();
 
         Process p;
         try {
 
-
-
-
-            /*p = Runtime.getRuntime().exec("export TRANSABYSS=/home/vmuser/CPI/tools/TRANSABYSS");
-            p = Runtime.getRuntime().exec("export PATH=$PATH:$TRANSABYSS/blat");
-            p = Runtime.getRuntime().exec("export PATH=$PATH:$TRANSABYSS/bowtie2-2.2.4");
-            p = Runtime.getRuntime().exec("export PATH=$PATH:$TRANSABYSS/transabyss-master");
-            */
-            
-            //p = Runtime.getRuntime().exec("export PATH=$PATH:/home/vmuser/CPI/tools/TRINITY/jre1.7.0_75/bin:/home/vmuser/CPI/tools/TRINITY/samtools-0.1.19/misc:/home/vmuser/CPI/tools/TRINITY/samtools-0.1.19/bcftools:/home/vmuser/CPI/tools/TRINITY/samtools-0.1.19:/home/vmuser/CPI/tools/TRINITY/bowtie-0.12.9:/home/vmuser/CPI/tools/TRINITY/ncbi-blast-2.2.30+/bin:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/vmuser/CPI/tools/ncbi-blast-2.2.30+/bin:/home/vmuser/CPI/tools/Preprocessing/FastQC:/home/vmuser/SATA2/PFAM/hmmer-3.1b2:/home/vmuser/CPI/tools/ncbi-blast-2.2.30+:/usr/bin:/bin:/home/lucia/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/rsem-1.2.19:/home/vmuser/CPI/tools/TRANSABYSS/blat:/home/vmuser/CPI/tools/TRANSABYSS/bowtie2-2.2.4:/home/vmuser/CPI/tools/TRANSABYSS/transabyss-master");
-            p = Runtime.getRuntime().exec(command);
+            p = Runtime.getRuntime().exec(command+" "+jobProjectID);
             
             p.waitFor();
             BufferedReader reader
@@ -302,9 +321,34 @@ public class RNAseqJob {
             e.printStackTrace();
         }
 
-        System.out.print(output.toString());
-        return output.toString();
+        System.out.print(output.toString());*/
+        //return output.toString();
     }
+    
+    /*private class StreamGobbler extends Thread {
+
+        InputStream is;
+        String type;
+
+        private StreamGobbler(InputStream is, String type) {
+            this.is = is;
+            this.type = type;
+        }
+
+        @Override
+        public void run() {
+            try {
+                InputStreamReader isr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(isr);
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                    System.out.println(type + "> " + line);
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+    }*/
     
     /**
      * Appends path to executable file to the command
@@ -342,3 +386,4 @@ public class RNAseqJob {
         this.jobHistoryFacade = jobHistoryFacade;
     }
 }
+
