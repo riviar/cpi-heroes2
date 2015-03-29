@@ -10,26 +10,26 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import sessionbeans.AccountSessionFacade;
+import sessionbeans.FilesFacade;
 
-@FacesConverter(value = "userConverter", forClass = Users.class)
+@FacesConverter(value = "fileConverter", forClass = Files.class)
 
 /**
  *
  * @author user
  */
-public class UserConverter implements Converter {
+public class FileConverter implements Converter {
 
     @EJB
-    AccountSessionFacade accountFacade;
+    FilesFacade fileFacade;
     
     @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String userTextID) {
-        userTextID = userTextID.replace("entitybeans.Users[ idusers=", "");
-        userTextID = userTextID.replace(" ]", "");
-        int userID = Integer.valueOf(userTextID);
-        Users user = accountFacade.find(userID);
-        return user;
+    public Object getAsObject(FacesContext context, UIComponent component, String fileTextID) {
+        fileTextID = fileTextID.replace("entities.Files[ idresources=", "");
+        fileTextID = fileTextID.replace(" ]", "");
+        int fileID = Integer.valueOf(fileTextID);
+        Files file = fileFacade.find(fileID);
+        return file;
     }
 
     @Override

@@ -10,26 +10,26 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import sessionbeans.AccountSessionFacade;
+import sessionbeans.ProjectSessionFacade;
 
-@FacesConverter(value = "userConverter", forClass = Users.class)
+@FacesConverter(value = "projectConverter", forClass = Projects.class)
 
 /**
  *
  * @author user
  */
-public class UserConverter implements Converter {
+public class ProjectConverter implements Converter {
 
     @EJB
-    AccountSessionFacade accountFacade;
+    ProjectSessionFacade projectFacade;
     
     @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String userTextID) {
-        userTextID = userTextID.replace("entitybeans.Users[ idusers=", "");
-        userTextID = userTextID.replace(" ]", "");
-        int userID = Integer.valueOf(userTextID);
-        Users user = accountFacade.find(userID);
-        return user;
+    public Object getAsObject(FacesContext context, UIComponent component, String projectTextID) {
+        projectTextID = projectTextID.replace("entitybeans.Projects[ idprojects", "");
+        projectTextID = projectTextID.replace(" ]", "");
+        int projectID = Integer.valueOf(projectTextID);
+        Projects project = projectFacade.find(projectID);
+        return project;
     }
 
     @Override

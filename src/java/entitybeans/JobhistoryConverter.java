@@ -10,26 +10,26 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import sessionbeans.AccountSessionFacade;
+import sessionbeans.JobHistoryFacade;
 
-@FacesConverter(value = "userConverter", forClass = Users.class)
+@FacesConverter(value = "jobHistoryConverter", forClass = Jobhistory.class)
 
 /**
  *
  * @author user
  */
-public class UserConverter implements Converter {
+public class JobhistoryConverter implements Converter {
 
     @EJB
-    AccountSessionFacade accountFacade;
+    JobHistoryFacade jobHistoryFacade;
     
     @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String userTextID) {
-        userTextID = userTextID.replace("entitybeans.Users[ idusers=", "");
-        userTextID = userTextID.replace(" ]", "");
-        int userID = Integer.valueOf(userTextID);
-        Users user = accountFacade.find(userID);
-        return user;
+    public Object getAsObject(FacesContext context, UIComponent component, String jobHistoryTextID) {
+        jobHistoryTextID = jobHistoryTextID.replace("entitybeans.Jobhistory[ idjobs=", "");
+        jobHistoryTextID = jobHistoryTextID.replace(" ]", "");
+        int jobID = Integer.valueOf(jobHistoryTextID);
+        Jobhistory job = jobHistoryFacade.find(jobID);
+        return job;
     }
 
     @Override
