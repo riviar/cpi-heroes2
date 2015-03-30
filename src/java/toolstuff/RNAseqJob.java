@@ -172,8 +172,8 @@ public class RNAseqJob {
         String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
         String kmerCount =  getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String leftCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
-        String rightCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+        String leftCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String rightCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
 
         /*
         //directory where seecer will store temporary files during job
