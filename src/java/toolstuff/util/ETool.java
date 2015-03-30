@@ -16,5 +16,6 @@ public enum ETool {
     SEECER,
     TRINITY,
     VELVET,
-    TRANSABYSS
+    TRANSABYSS,
+    RSEM
 }

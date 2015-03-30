@@ -79,6 +79,9 @@ public class RNAseqJob {
             case TRANSABYSS:
                 executeTransabyss();
                 break;
+            case RSEM:
+                executeRSEM();
+                break;
             default:
                 throw new AssertionError(getUtilityBean().getSelectedTool().getToolEnum().name());
         }
@@ -169,7 +172,6 @@ public class RNAseqJob {
         String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
         String kmerCount =  getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String outfileName =  getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         String leftCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
         String rightCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
 
@@ -185,7 +187,6 @@ public class RNAseqJob {
                 + rightInput + " "
                 + kmerCount + " "
                 + outputDir + " "
-                + outfileName + " "
                 + leftCorrName + " "
                 + rightCorrName;
 
@@ -257,6 +258,29 @@ public class RNAseqJob {
                 + kmer + " "
                 + outputDir + " "
                 + outfileName;
+                
+        executeCommand(command);
+       
+    }
+    
+    /**
+     * Retrieves parameters and executes RSEM job
+     */
+    private void executeRSEM() {
+        String fasta = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(2).getValue();
+        
+        String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        
+        command += " " 
+                + fasta + " "
+                + leftInput + " "
+                + rightInput + " "
+                + seqType + " "
+                + outputDir;
                 
         executeCommand(command);
        

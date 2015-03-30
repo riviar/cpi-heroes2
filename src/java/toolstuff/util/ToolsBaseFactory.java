@@ -97,7 +97,6 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Right reads", "fasta"));
         parameters.clear();
         parameters.add(new ToolAttributes("Kmer", "15"));
-        parameters.add(new ToolAttributes("Output file name", "output_from_seecer.fa"));
         parameters.add(new ToolAttributes("Left corrected reads name", "leftCorrected.fa"));
         parameters.add(new ToolAttributes("Right corrected reads name", "rightCorrected.fa"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
@@ -171,6 +170,27 @@ public class ToolsBaseFactory {
                 EToolType.ASSEMBLY, 
                 "Help me", 
                 "shell_scripts/do_transabyss.sh", 
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));
+        
+        
+        //RSEM
+        inputs.clear();
+        inputs.add(new ToolAttributes("Fasta file", "fasta"));
+        inputs.add(new ToolAttributes("Left reads", "fasta"));
+        inputs.add(new ToolAttributes("Right reads", "fasta"));
+        parameters.clear();
+        dropdownList.clear();
+        dropdownList.add(new DropDownParamStruct("FASTQ", "fq"));
+        dropdownList.add(new DropDownParamStruct("FASTA", "fa"));
+        parameters.add(new ToolAttributes("Sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
+        //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
+        //fullToolsList.add(tool);
+        fullToolsList.add(new Tool("RSEM", 
+                ETool.RSEM, 
+                EToolType.ASSEMBLY, 
+                "Help me", 
+                "shell_scripts/do_rsem.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
         
