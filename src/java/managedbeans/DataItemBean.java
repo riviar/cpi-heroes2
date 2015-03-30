@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import outputview.EOutputType;
+import outputview.GenericOutput;
 import toolstuff.util.ETool;
 import toolstuff.util.EToolType;
 
@@ -38,43 +40,43 @@ public class DataItemBean {
      * still not sure what exactly should be retrieved: paths, names, etc
      * @return 
      */
-    public List<String> getJobOutputFiles() {
-        List<String> outputsList = new ArrayList();
+    public List<GenericOutput> getJobOutputFiles() {
+        List<GenericOutput> outputsList = new ArrayList();
         
         switch (jobsTool) {
             case FASTQC:
-                outputsList.add("Path to html");
-                outputsList.add("Path to World Domination");
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
+                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
                 break;
 
             case TRIMMOMATIC_TRIM:
-                outputsList.add("Path to html");
-                outputsList.add("Path to World Domination");
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
+                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
                 break;
                 
             case TRIMMOMATIC_ADAPT:
-                outputsList.add("Path to html");
-                outputsList.add("Path to World Domination");
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
+                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
                 break;
                 
             case SEECER:
-                outputsList.add("Path to html");
-                outputsList.add("Path to World Domination");
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
+                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
                 break;
                 
             case TRINITY:
-                outputsList.add("Path to html");
-                outputsList.add("Path to World Domination");
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
+                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
                 break;
                 
             case VELVET:
-                outputsList.add("Path to html");
-                outputsList.add("Path to World Domination");
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
+                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
                 break;
                 
             case TRANSABYSS:
-                outputsList.add("Path to html");
-                outputsList.add("Path to World Domination");
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
+                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
                 break;
             
         }
