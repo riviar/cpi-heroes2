@@ -11,6 +11,7 @@ import entitybeans.Users;
 import java.util.Collection;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -26,11 +27,21 @@ public class ProjectBean {
 
     private Projects project;
     private Files file;
-    private final Users user;
     
     @EJB
     ProjectSessionFacade projectFacade;
 
+    @ManagedProperty(value = "#{utilityBean}")
+    private UtilityBean utilityBean;
+
+    public UtilityBean getUtilityBean() {
+        return utilityBean;
+    }
+
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
+    
     /**
      * Creates a new instance of ProjectBean
      */
@@ -40,7 +51,7 @@ public class ProjectBean {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                 .getExternalContext().getSession(false);
         // set user attribute of session
-        user = (Users) session.getAttribute("user");
+        
     }
 
     public String addFileToProject() {
@@ -62,11 +73,11 @@ public class ProjectBean {
     }
     
     public Collection<Projects> getUserVisibleProjects() {      
-        return projectFacade.getUserVisibleProjects(user);
+        return projectFacade.getUserVisibleProjects(utilityBean.getUser());
     }
 
     public Collection<Projects> getUserOwnedProjects() {      
-        return projectFacade.getUserOwnedProjects(user);
+        return projectFacade.getUserOwnedProjects(utilityBean.getUser());
     }
 
 }

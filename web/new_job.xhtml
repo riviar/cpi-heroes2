@@ -21,7 +21,6 @@
                 <h:form>
                     <div class="news">
                         <h4>Job Name</h4><br/>
-                        <p:outputLabel value="#{utilityBean.selectedTool.help}"
                         <p:inputText class="regInput" value="#{testToolBean.newJobName}"/>
                     </div>
                     <div class="news">
@@ -40,16 +39,7 @@
                         <h4>Parameters</h4>
                         <c:forEach items="#{utilityBean.selectedTool.parameterList}" var="param">
                             <h:outputText value="#{param.name}"/><br/>
-                            <c:if test="#{param.inputType == 'TEXTFIELD'}">    
-                                <p:inputText class="regInput" value="#{param.value}"/><br/>
-                            </c:if>
-                            <c:if test="#{param.inputType == 'DROPDOWN'}">
-                                <h:selectOneMenu class="regInput" value="#{param.value}" style="width: 200px">
-                                    <c:forEach items="#{param.getDropdownList()}" var="drop"> 
-                                        <f:selectItem itemLabel="#{drop.label}" itemValue="#{drop.value}"/>
-                                    </c:forEach>
-                                </h:selectOneMenu><br/><br/>
-                            </c:if>
+                            <p:inputText class="regInput" value="#{param.value}"/><br/>
                         </c:forEach>
                     </div>
                     <div class="news">

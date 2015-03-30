@@ -83,7 +83,6 @@ public class WorkgroupBean {
     public void setSelectedUser(String selectedUser) {
         this.selectedUser = selectedUser;
     }
- 
 
     public String getNewWorkgroupName() {
         return newWorkgroupName;
@@ -135,12 +134,7 @@ public class WorkgroupBean {
      */
     public WorkgroupBean() {
 
-        //TODO: code taken from AuthenticationBean - should call it there instead!
-        // get current session
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
-        // set user attribute of session
-        user = (Users) session.getAttribute("user");
+        //user = utilityBean.getUser();
 
         workgroup = new Workgroups();
 
@@ -219,17 +213,17 @@ public class WorkgroupBean {
     }
 
     public String removeProjectFromWorkgroup() {
-        
-            Collection<Projects> projects = workgroup.getProjectsCollection();
-            projects.remove(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
-            workgroup.setProjectsCollection(projects);
-            workgroupFacade.updateWorkgroup(workgroup);
-        
+
+        Collection<Projects> projects = workgroup.getProjectsCollection();
+        projects.remove(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
+        workgroup.setProjectsCollection(projects);
+        workgroupFacade.updateWorkgroup(workgroup);
+
         return "workgroupspage";
     }
 
     public String createWorkgroup() {
-        if (newWorkgroup == null) {
+        if (workgroup == null) {
             return "invaliddataerrorpage";
         } else {
             newWorkgroup = new Workgroups();
@@ -269,7 +263,6 @@ public class WorkgroupBean {
 
     /**
      * Selects workgroup and redirects to its page
-     *
      * @return
      */
     public String selectWorkgroup() {
@@ -279,17 +272,15 @@ public class WorkgroupBean {
 
     /**
      * Selects projects and redirects to its page
-     *
      * @return
      */
     public String selectProject() {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
-        return "project";        
+        return "project";
     }
-    
+
     public String selectUser() {
         utilityBean.setSelectedUser(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
         return "project";
     }
-   
 }
