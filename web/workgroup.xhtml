@@ -21,31 +21,34 @@
                     <h4>Members:</h4>
                     <br/>
                     <ul>
-                        <c:forEach items="#{workgroupBean.getUsersInWorkgroup()}" var="user">
+                        <ui:repeat id="userlist" value="#{workgroupBean.getUsersInWorkgroup()}" var="user" >
                             <li><p>                                   
                                     <h:outputText converter="userConverter" style="font-weight: bold" value="#{user.username}"/>                                     
-                                    <h:form>
-                                        <h:commandLink onclick="PF('confirmRemoveUser').show();
-                                                return false;" 
-                                                       value="Remove User">
-                                            <p:confirmDialog message="Are you sure you want to remove this user?" header="Remove User" widgetVar="confirmRemoveUser">
+                                    <h:button id="removeUserButton"
+                                              onclick="PF('confirmRemoveUser#{user.idusers}').show();
+                                                    return false;" 
+                                              value="Remove User">
+                                    </h:button>
+                                    
+                                        <h:form>
+                                            <p:confirmDialog id="confirmDialog" widgetVar="confirmRemoveUser#{user.idusers}" message="Are you sure you want to remove user #{user.username}?">
                                                 <h3>Remove User</h3>
-                                                <p:commandButton id="confirmRemoveUser" 
+                                                <p:commandButton id="confirmRemoveButton"
                                                                  action="#{workgroupBean.removeUserFromWorkgroup()}"
-                                                                 onclick="PF('confirmRemoveUser').hide();return false;"
                                                                  class="centerButton" 
-                                                                 value="Confirm">
+                                                                 ajax="false"
+                                                                 value="ConfirmIt!">
                                                     <f:param name="selectedUser" value="#{user.idusers}"/>
                                                 </p:commandButton>
-                                                <p:commandButton id="cancelRemoveUser" 
-                                                                 onclick="PF('confirmRemoveUser').hide();return false;" 
+                                                <p:commandButton id="cancelRemoveButton" 
+                                                                 onclick="PF('confirmRemoveUser').hide();
+                                                                         return false;" 
                                                                  class="centerButton" 
                                                                  value="Cancel"/>
                                             </p:confirmDialog>
-                                        </h:commandLink>
-                                    </h:form>
+                                        </h:form>
                                 </p></li>
-                        </c:forEach>
+                        </ui:repeat>
                     </ul>
                 </div>
                 <div class="news">
@@ -53,6 +56,8 @@
                         <h:commandButton id="openAddMemberDialog" onclick="PF('addMemberDialog').show();
                                 return false;" class="centerButton" value="Add Member"/>
                     </h:form>
+                </div>
+                <div class="news">
                 </div>
                 <div class="news">
                     <h4>Projects:</h4>
