@@ -43,14 +43,16 @@ public class RNAseqJob {
 
     public RNAseqJob(String jobName) {
         this.jobName = jobName;
-        this.command = "/home/vmuser/CPI/tools/";
+        //this.command = "/home/vmuser/CPI/tools/";
+        this.command = "/home/pitas/SOAPdenovo-Trans";
     }
     
     public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, String jobName) {
         this.jobHistoryFacade = jobHistoryFacade;
         this.utilityBean = utilityBean;
         this.jobName = jobName;
-        this.command = "/home/vmuser/CPI/tools/";
+        //this.command = "/home/vmuser/CPI/tools/";
+        this.command = "/home/pitas/SOAPdenovo-Trans";
     }
 
     /**
@@ -79,6 +81,9 @@ public class RNAseqJob {
                 break;
             case TRANSABYSS:
                 executeTransabyss();
+                break;
+            case SOAPdenovo_Trans:
+                executeSOAPdenovoTrans();
                 break;
             default:
                 throw new AssertionError(getUtilityBean().getSelectedTool().getToolEnum().name());
@@ -262,6 +267,31 @@ public class RNAseqJob {
         executeCommand(command);
        
     }
+    
+    private void executeSOAPdenovoTrans(){
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
+        
+        String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String kmer = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String insLen = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
+        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+        
+        WriteConfig configFile = new WriteConfig(seqType, insLen, leftInput, rightInput);
+        try {
+            configFile.write();
+        } catch (Exception ex) {
+            Logger.getLogger(RNAseqJob.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        command += " " 
+                + kmer + " "
+                + outputDir + " "
+                + outfileName;
+                
+        executeCommand(command);
+    }
 
     /**
      * Executes shell command
@@ -277,8 +307,7 @@ public class RNAseqJob {
         //Job results are stored in a directory named after the job ID
         String jobID = Integer.toString(newJob.getIdjobs());
         newJob.setCommandused(command + " " + jobID);
-        jobHistoryFacade.edit(newJob);
-
+        
         String[] commandArray = command.split("\\s+");
         List<String> commandList = new ArrayList(commandArray.length + 1);
         //Arrays.asList(commandArray);
@@ -295,6 +324,10 @@ public class RNAseqJob {
             Field f = p.getClass().getDeclaredField("pid");
             f.setAccessible(true);
             int pid = (int) f.get(p);
+            newJob.setProcessid(pid);
+            
+            //Update job with the complete command and the pid
+            jobHistoryFacade.edit(newJob);
             
             //Create two threads, one to perform the the job and another to return to projects page
             jobThread waitThread = new jobThread("waitThread");
