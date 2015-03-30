@@ -9,11 +9,14 @@ import entitybeans.Jobhistory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import outputview.EOutputType;
 import outputview.GenericOutput;
 import toolstuff.util.ETool;
 import toolstuff.util.EToolType;
+import toolstuff.util.Tool;
+import toolstuff.util.ToolsBase;
 
 /**
  * Managed bean for managing tool output page
@@ -25,14 +28,44 @@ public class DataItemBean {
     
     private Jobhistory job;
     private ETool jobsTool;
+    private List<GenericOutput> outputsList;
+    
+    @ManagedProperty(value = "#{utilityBean}")
+    private UtilityBean utilityBean;
+    
+    @ManagedProperty(value = "#{param.output}")
+    private String outputName;
+
+    public UtilityBean getUtilityBean() {
+        return utilityBean;
+    }
+
+    public void setUtilityBean(UtilityBean utilityBean) {
+        this.utilityBean = utilityBean;
+    }
+    
 
     /**
      * Creates a new instance of DataItemBean
      */
     public DataItemBean() {
         //test job can be assigned here, but i have no jobs on my machine
-        
+        detectTool();
         //check for and assign ETool, check if job.path contains tool path
+    }
+    
+    /**
+     * Detects which tool was used to generate this jobhistory
+     */
+    private void detectTool() {
+        String command = utilityBean.getSelectedJob().getCommandused();
+        ToolsBase toolsBase = new ToolsBase();
+        for(Tool tool:toolsBase.getAllTools()) {
+            if (command.contains(tool.getPath())) {
+                jobsTool = tool.getToolEnum();
+                return;
+            }
+        }
     }
     
     /**
@@ -41,7 +74,7 @@ public class DataItemBean {
      * @return 
      */
     public List<GenericOutput> getJobOutputFiles() {
-        List<GenericOutput> outputsList = new ArrayList();
+        outputsList = new ArrayList();
         
         switch (jobsTool) {
             case FASTQC:
@@ -81,6 +114,20 @@ public class DataItemBean {
             
         }
         return outputsList;
+    }
+    
+    public String displayFastQC() {
+        return "<iframe src=\"../Output/SRR027877-small-p1_fastqc.html\" frameborder=\"0\" width=\"100%\" height=\"750px\"></iframe>";
+    }
+    
+    public String selectOutputFile() {
+        for (GenericOutput output:outputsList) {
+            if (output.getName().equals(outputName)) {
+                utilityBean.setSelectedOutput(output);
+                return "data_item";
+            }
+        }
+        return "data_item";
     }
     
 }

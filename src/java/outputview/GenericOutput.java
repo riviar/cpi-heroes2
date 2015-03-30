@@ -44,6 +44,15 @@ public class GenericOutput {
     public void setTool(ETool tool) {
         this.tool = tool;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     
     public GenericOutput(String name, EOutputType outputType,
             String path, ETool tool) {
