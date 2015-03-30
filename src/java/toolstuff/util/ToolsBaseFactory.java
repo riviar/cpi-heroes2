@@ -35,7 +35,7 @@ public class ToolsBaseFactory {
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("FastQC", 
                 ETool.FASTQC, 
-                EToolType.PREPROCESSING, 
+                EToolType.PREPROCESSING,
                 "Performs initial analysis of fastqc quality", 
                 //"Preprocessing/FastQC/fastqc", 
                 "shell_scripts/do_fastqc.sh",
