@@ -260,7 +260,8 @@ public class RNAseqJob {
         String rightInput = getUtilityBean().getSelectedTool().getInputList().get(2).getValue();
         
         String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String estMethod = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
         //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
@@ -269,6 +270,7 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + seqType + " "
+                + estMethod + " "
                 + outputDir + " "
                 + prefix;
                 

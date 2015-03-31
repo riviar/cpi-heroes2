@@ -174,7 +174,7 @@ public class ToolsBaseFactory {
                 new ArrayList<>(parameters)));
         
         
-        //RSEM
+        //ABUNDANCE ESTIMATION
         inputs.clear();
         inputs.add(new ToolAttributes("Fasta file", "fasta"));
         inputs.add(new ToolAttributes("Left reads", "fasta"));
@@ -184,7 +184,11 @@ public class ToolsBaseFactory {
         dropdownList.add(new DropDownParamStruct("FASTQ", "fq"));
         dropdownList.add(new DropDownParamStruct("FASTA", "fa"));
         parameters.add(new ToolAttributes("Reads sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
-        parameters.add(new ToolAttributes("Prefix for isoforms file", "sample"));
+        dropdownList = new ArrayList();
+        dropdownList.add(new DropDownParamStruct("RSEM", "RSEM"));
+        dropdownList.add(new DropDownParamStruct("eXpress", "eXpress"));
+        parameters.add(new ToolAttributes("Estimation method", EToolParamType.DROPDOWN, "RSEM", dropdownList));
+        parameters.add(new ToolAttributes("Prefix for isoforms file", "sample.RSEM"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Abundance estimation", 
