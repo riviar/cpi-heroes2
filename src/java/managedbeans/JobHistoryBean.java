@@ -47,6 +47,9 @@ public class JobHistoryBean {
     @ManagedProperty(value = "#{param.currentJob}")
     private String currentJob;
     
+    @ManagedProperty(value = "#{param.selectedJob}")
+    private String selectedJobId;
+    
     public void setcurrentJob(String currentJob) {
         this.setCurrentJob(currentJob);
     }
@@ -54,6 +57,15 @@ public class JobHistoryBean {
     public void setUtilityBean(UtilityBean utilityBean) {
         this.utilityBean = utilityBean;
     }
+
+    public String getSelectedJobId() {
+        return selectedJobId;
+    }
+
+    public void setSelectedJobId(String selectedJobId) {
+        this.selectedJobId = selectedJobId;
+    }
+    
     
     /**
      * Creates a new instance of JobHistoryBean
@@ -153,6 +165,16 @@ public class JobHistoryBean {
      */
     public void setCurrentJob(String currentJob) {
         this.currentJob = currentJob;
+    }
+    
+    /**
+     * Sets selected jobHistory item in utility bean and redirects to output page
+     * @return 
+     */
+    public String selectJobHistoryItem() {
+        Jobhistory selectedJobHistoryItem = jobHistoryFacade.findJobHistoryById(Integer.valueOf(selectedJobId));
+        utilityBean.setSelectedJob(selectedJobHistoryItem);
+        return "job_output";
     }
    
 }

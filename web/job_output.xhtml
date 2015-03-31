@@ -19,7 +19,7 @@
                 <div class="news">
                     <ul>
                         <h:form>
-                            <c:forEach items="#{dataItemBean.getJobOutputFiles()}" var="outputFile">
+                            <c:forEach items="#{dataItemBean.outputsList}" var="outputFile">
                                 <h:commandLink value="#{outputFile.name}" action="#{dataItemBean.selectOutputFile()}">
                                     <f:param name="output" value="#{outputFile.name}"/>
                                 </h:commandLink>
