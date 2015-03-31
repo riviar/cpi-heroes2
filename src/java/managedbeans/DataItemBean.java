@@ -6,6 +6,7 @@
 package managedbeans;
 
 import entitybeans.Jobhistory;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -13,6 +14,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import outputview.EOutputType;
 import outputview.GenericOutput;
+import tools.FileReader;
 import toolstuff.util.ETool;
 import toolstuff.util.EToolType;
 import toolstuff.util.Tool;
@@ -20,19 +22,20 @@ import toolstuff.util.ToolsBase;
 
 /**
  * Managed bean for managing tool output page
+ *
  * @author Fox
  */
 @ManagedBean
 @RequestScoped
 public class DataItemBean {
-    
+
     private Jobhistory job;
     private ETool jobsTool;
     private List<GenericOutput> outputsList;
-    
+
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
-    
+
     @ManagedProperty(value = "#{param.output}")
     private String outputName;
 
@@ -59,8 +62,6 @@ public class DataItemBean {
     public void setOutputsList(List<GenericOutput> outputsList) {
         this.outputsList = outputsList;
     }
-    
-    
 
     /**
      * Creates a new instance of DataItemBean
@@ -71,115 +72,130 @@ public class DataItemBean {
         outputsList = getJobOutputFiles();
         //check for and assign ETool, check if job.path contains tool path
     }
-    
+
     /**
      * Detects which tool was used to generate this jobhistory
      */
     private void detectTool() {
         String command = utilityBean.getSelectedJob().getCommandused();
         ToolsBase toolsBase = new ToolsBase();
-        for(Tool tool:toolsBase.getAllTools()) {
+        for (Tool tool : toolsBase.getAllTools()) {
             if (command.contains(tool.getPath())) {
                 jobsTool = tool.getToolEnum();
                 return;
             }
         }
     }
-    
+
     /**
-     * Retrieves list of files that are outputs of this job (intention: put them as links to their specific pages)
-     * still not sure what exactly should be retrieved: paths, names, etc
-     * @return 
+     * Retrieves list of files that are outputs of this job (intention: put them
+     * as links to their specific pages) still not sure what exactly should be
+     * retrieved: paths, names, etc
+     *
+     * @return
      */
     private List<GenericOutput> getJobOutputFiles() {
         outputsList = new ArrayList();
-        
+        String jobid = Integer.toString(utilityBean.getSelectedJob().getIdjobs());
+
         switch (jobsTool) {
             case FASTQC:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
-                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "/home/vmuser/CPI/results/" + jobid + "/fastqc.html", jobsTool));
                 break;
 
             case TRIMMOMATIC_TRIM:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
-                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
+                outputsList.add(new GenericOutput("Forward paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_paired", jobsTool));
+                outputsList.add(new GenericOutput("Forward unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_upaired", jobsTool));
                 break;
-                
+
             case TRIMMOMATIC_ADAPT:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
-                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
+                outputsList.add(new GenericOutput("Forward paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_paired", jobsTool));
+                outputsList.add(new GenericOutput("Forward unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_upaired", jobsTool));
                 break;
-                
+
             case SEECER:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
-                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
+                outputsList.add(new GenericOutput("Left Corrected", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/leftCorrected.fa", jobsTool));
+                outputsList.add(new GenericOutput("Right Corrected", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/rightCorrected.fa", jobsTool));
                 break;
-                
+
             case TRINITY:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
-                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
+                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
+                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/stats.fa", jobsTool));
                 break;
-                
+
             case VELVET:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
-                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
+                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
+                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/stats.fa", jobsTool));
                 break;
-                
+
             case TRANSABYSS:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "Path to html", jobsTool));
-                outputsList.add(new GenericOutput("World Domination Tactics", EOutputType.MAGIC, "Path to World Domination", jobsTool));
+                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
+                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/stats.fa", jobsTool));
                 break;
-            
+
         }
         return outputsList;
     }
-    
+
     /**
-     * Generates page center code for data_item page according to outputFile type
-     * Dragon's den method. Do not disturb. Do not sing. Danger of burns
-     * @return 
+     * Generates page center code for data_item page according to outputFile
+     * type Dragon's den method. Do not disturb. Do not sing. Danger of burns
+     *
+     * @return
      */
     public String generateDataItemPage() {
         //now i think it could be enough to only switch on types, can be wrong though
 
         switch (utilityBean.getSelectedOutput().getOutputType()) {
             case HTML:
-                //temporary only static fastqc method
-            return displayFastQC();
+                return displayFastQC();
             case CSV:
                 return displayCSVOutput();
             case MAGIC:
                 return "'tis be magics. No common folk should be able to see that message";
             default:
                 throw new AssertionError(utilityBean.getSelectedOutput().getOutputType().name());
-            
+
         }
     }
-    
+
     /**
      * Returns html code to generate fastqc data item page
-     * @return 
+     *
+     * @return
      */
     private String displayFastQC() {
-        String jobid = Integer.toString(utilityBean.getSelectedJob().getIdjobs());
-        String path = "/home/vmuser/CPI/results/" + jobid + "fastqc.html";
+        String path = utilityBean.getSelectedOutput().getPath();
         return "<iframe id=\"frame\" src=\"" + path + "\" frameborder=\"0\" width=\"100%\" height=\"750px\"></iframe>";
     }
-    
+
     /**
      * Returns html code to generate data item page from csv type file
-     * @return 
+     *
+     * @return
      */
     private String displayCSVOutput() {
-        return "Nothing to show now";
+        String path = utilityBean.getSelectedOutput().getPath();
+        try {
+            String contents = FileReader.readFile(path);
+            return contents;
+        } catch (FileNotFoundException e) {
+            return "File not found";
+        }
     }
-    
+
     /**
-     * Sets selevted output in utility bean and redirects to data_item page, redirects back to job_output if output was not found
-     * @return 
+     * Sets selevted output in utility bean and redirects to data_item page,
+     * redirects back to job_output if output was not found
+     *
+     * @return
      */
     public String selectOutputFile() {
-        for (GenericOutput output:outputsList) {
+        for (GenericOutput output : outputsList) {
             if (output.getName().equals(outputName)) {
                 utilityBean.setSelectedOutput(output);
                 return "data_item";
@@ -187,5 +203,5 @@ public class DataItemBean {
         }
         return "job_output";
     }
-    
+
 }
