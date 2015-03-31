@@ -17,5 +17,5 @@ public enum ETool {
     TRINITY,
     VELVET,
     TRANSABYSS,
-    RSEM
+    ABUNDANCE_ESTIMATION
 }

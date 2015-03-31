@@ -79,8 +79,8 @@ public class RNAseqJob {
             case TRANSABYSS:
                 executeTransabyss();
                 break;
-            case RSEM:
-                executeRSEM();
+            case ABUNDANCE_ESTIMATION:
+                executeAbundanceEstimation();
                 break;
             default:
                 throw new AssertionError(getUtilityBean().getSelectedTool().getToolEnum().name());
@@ -120,11 +120,7 @@ public class RNAseqJob {
                 + rightInput + " "
                 + windowSize + " "
                 + requiredQuality + " "
-                + outputDir + " "
-                + fwPaired + " "
-                + fwUnpaired + " "
-                + rPaired + " "
-                + rUnpaired;
+                + outputDir;
 
         
         executeCommand(command);
@@ -154,11 +150,7 @@ public class RNAseqJob {
                 + seedMismatches + " "
                 + palindromeTh + " "
                 + simpleTh + " "
-                + outputDir + " "
-                + fwPaired + " "
-                + fwUnpaired + " "
-                + rPaired + " "
-                + rUnpaired;
+                + outputDir;
 
         
         executeCommand(command);
@@ -186,9 +178,7 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + kmerCount + " "
-                + outputDir + " "
-                + leftCorrName + " "
-                + rightCorrName;
+                + outputDir;
 
 
         executeCommand(command);
@@ -210,8 +200,7 @@ public class RNAseqJob {
                 + seqType + " "
                 + leftInput + " "
                 + rightInput + " "
-                + outputDir + " "
-                + outfileName;
+                + outputDir;
 
         executeCommand(command);
     }
@@ -235,8 +224,7 @@ public class RNAseqJob {
                 + rightInput + " "
                 + kmer + " "
                 + insLen + " "
-                + outputDir + " "
-                + outfileName;
+                + outputDir;
 
         executeCommand(command);
     }
@@ -256,22 +244,23 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + kmer + " "
-                + outputDir + " "
-                + outfileName;
+                + outputDir;
                 
         executeCommand(command);
        
     }
     
     /**
-     * Retrieves parameters and executes RSEM job
+     * Retrieves parameters and executes aligns transcripts to an assembly 
+     * previously performed using Bowtie and estimates abundance using RSEM.
      */
-    private void executeRSEM() {
+    private void executeAbundanceEstimation() {
         String fasta = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
         String leftInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         String rightInput = getUtilityBean().getSelectedTool().getInputList().get(2).getValue();
         
         String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
@@ -280,7 +269,8 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + seqType + " "
-                + outputDir;
+                + outputDir + " "
+                + prefix;
                 
         executeCommand(command);
        

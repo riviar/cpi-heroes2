@@ -23,7 +23,7 @@ public class ToolsBaseFactory {
         List<ToolAttributes> inputs = new ArrayList();
         List<ToolAttributes> parameters = new ArrayList();
         List<Tool> fullToolsList = new ArrayList();
-        List<DropDownParamStruct> dropdownList = new ArrayList();
+        List<DropDownParamStruct> dropdownList;
         
         //starting creating tools
         
@@ -50,10 +50,10 @@ public class ToolsBaseFactory {
         parameters.clear();
         parameters.add(new ToolAttributes("Window Size", "4")); //should set default values
         parameters.add(new ToolAttributes("Required Quality", "15"));
-        parameters.add(new ToolAttributes("Forward paired file name", "fw_paired.fq"));
-        parameters.add(new ToolAttributes("Forward unpaired file name", "fw_unpaired.fq"));
-        parameters.add(new ToolAttributes("Reverse paired file name", "r_paired.fq"));
-        parameters.add(new ToolAttributes("Reverse unpaired file name", "r_unpaired.fq"));
+        parameters.add(new ToolAttributes("Forward paired file name", "fw_paired"));
+        parameters.add(new ToolAttributes("Forward unpaired file name", "fw_unpaired"));
+        parameters.add(new ToolAttributes("Reverse paired file name", "r_paired"));
+        parameters.add(new ToolAttributes("Reverse unpaired file name", "r_unpaired"));
         //tool = new Tool("Trimmomatric", EToolType.PREPROCESSING, "Performs trimming and matric and stuff", "/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Trimmomatic - Trimming", 
@@ -69,7 +69,7 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Forward reads", "fasta"));
         inputs.add(new ToolAttributes("Reverse reads", "fasta"));
         parameters.clear();
-        dropdownList.clear();
+        dropdownList = new ArrayList();
         dropdownList.add(new DropDownParamStruct("TruSeq3-PE", "/home/vmuser/CPI/tools/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/adapters/TruSeq3-PE.fa"));
         dropdownList.add(new DropDownParamStruct("TruSeq2-PE", "/home/vmuser/CPI/tools/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/adapters/TruSeq2-PE.fa"));
         dropdownList.add(new DropDownParamStruct("NexteraPE-PE.fa", "/home/vmuser/CPI/tools/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/adapters/NexteraPE-PE.fa"));
@@ -77,10 +77,10 @@ public class ToolsBaseFactory {
         parameters.add(new ToolAttributes("Seed mismatches", "2"));
         parameters.add(new ToolAttributes("Palindrome Clip Thresshold", "30"));
         parameters.add(new ToolAttributes("Simple Clip Thresshold", "10"));
-        parameters.add(new ToolAttributes("Forward paired file name", "fw_paired.fq"));
-        parameters.add(new ToolAttributes("Forward unpaired file name", "fw_unpaired.fq"));
-        parameters.add(new ToolAttributes("Reverse paired file name", "r_paired.fq"));
-        parameters.add(new ToolAttributes("Reverse unpaired file name", "r_unpaired.fq"));
+        parameters.add(new ToolAttributes("Forward paired file name", "fw_paired"));
+        parameters.add(new ToolAttributes("Forward unpaired file name", "fw_unpaired"));
+        parameters.add(new ToolAttributes("Reverse paired file name", "r_paired"));
+        parameters.add(new ToolAttributes("Reverse unpaired file name", "r_unpaired"));
         //tool = new Tool("Trimmomatric", EToolType.PREPROCESSING, "Performs trimming and matric and stuff", "/opt/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/trimmomatic.jar", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Trimmomatic - Adapters", 
@@ -115,7 +115,7 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Left reads", "fasta"));
         inputs.add(new ToolAttributes("Right reads", "fasta"));
         parameters.clear();
-        dropdownList.clear();
+        dropdownList = new ArrayList();
         dropdownList.add(new DropDownParamStruct("FASTQ", "fq"));
         dropdownList.add(new DropDownParamStruct("FASTA", "fa"));
         parameters.add(new ToolAttributes("Sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
@@ -137,17 +137,17 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Left reads", "fasta"));
         inputs.add(new ToolAttributes("Right reads", "fasta"));
         parameters.clear();
-        dropdownList.clear();
+        dropdownList = new ArrayList();
         dropdownList.add(new DropDownParamStruct("FASTQ", "fastq"));
         dropdownList.add(new DropDownParamStruct("FASTA", "fasta"));
-        parameters.add(new ToolAttributes("Sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
+        parameters.add(new ToolAttributes("Sequence type", EToolParamType.DROPDOWN, "qqqq", dropdownList));
         //parameters.add(new ToolAttributes("Sequence Type", "fastq"));
         parameters.add(new ToolAttributes("Kmer", "31"));
         parameters.add(new ToolAttributes("Insert length", "170"));
         parameters.add(new ToolAttributes("Output file name", "transcripts.fa"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
-        fullToolsList.add(new Tool("Velvet", 
+        fullToolsList.add(new Tool("Velvet + Oases", 
                 ETool.VELVET, 
                 EToolType.ASSEMBLY, 
                 "Help me", 
@@ -165,7 +165,7 @@ public class ToolsBaseFactory {
         parameters.add(new ToolAttributes("Output file name", "transcripts.fa"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
-        fullToolsList.add(new Tool("Transabyss", 
+        fullToolsList.add(new Tool("Trans-ABySS", 
                 ETool.TRANSABYSS, 
                 EToolType.ASSEMBLY, 
                 "Help me", 
@@ -180,17 +180,18 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Left reads", "fasta"));
         inputs.add(new ToolAttributes("Right reads", "fasta"));
         parameters.clear();
-        dropdownList.clear();
+        dropdownList = new ArrayList();
         dropdownList.add(new DropDownParamStruct("FASTQ", "fq"));
         dropdownList.add(new DropDownParamStruct("FASTA", "fa"));
-        parameters.add(new ToolAttributes("Sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
+        parameters.add(new ToolAttributes("Reads sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
+        parameters.add(new ToolAttributes("Prefix for isoforms file", "sample"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
-        fullToolsList.add(new Tool("RSEM", 
-                ETool.RSEM, 
-                EToolType.ASSEMBLY, 
+        fullToolsList.add(new Tool("Abundance estimation", 
+                ETool.ABUNDANCE_ESTIMATION, 
+                EToolType.DOWNSTREAM, 
                 "Help me", 
-                "shell_scripts/do_rsem.sh", 
+                "shell_scripts/do_abundanceEstimation.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
         
