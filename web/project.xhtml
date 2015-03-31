@@ -28,8 +28,7 @@
                             <p>{No datasets exist}</p>
                         </c:if>
                         <c:if test="#{filesBean.getFilesNames() != null}">
-
-
+                            <p>There's something </p>
                             <c:forEach items="#{filesBean.getFilesNames()}"  var="file">
                                 <li><h:outputText value="#{file}"/></li>
                             </c:forEach>

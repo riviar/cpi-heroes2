@@ -11,12 +11,20 @@ import java.util.List;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.faces.bean.ManagedProperty;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 /**
  *
@@ -125,6 +133,7 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
         
     }
     
+   
     public boolean jobExists(String jobname) {
         Query q = em.createQuery("SELECT j FROM Jobhistory j WHERE j.jobname=:jobname");
         q.setParameter("username", jobname);

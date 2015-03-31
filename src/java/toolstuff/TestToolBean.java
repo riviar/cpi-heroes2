@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import managedbeans.UtilityBean;
 import sessionbeans.AccountSessionFacade;
+import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
 import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
@@ -40,6 +41,9 @@ public class TestToolBean {
     
     @EJB
     private JobHistoryFacade jobHistoryFacade;
+    
+    @EJB
+    private FilesFacade filesFacade;
 //    @EJB
 //    AuthenticationBean authBean;
     @ManagedProperty(value = "#{utilityBean}")
@@ -73,7 +77,7 @@ public class TestToolBean {
     public String runJob() {
         //System.out.println(utilityBean.getSelectedTool().getName());
         //RNAseqJob job = new RNAseqJob(newJobName);
-        RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, newJobName);
+        RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, filesFacade, projectFacade, newJobName);
         job.execute();
         //System.out.println("Yes");
         return "project";

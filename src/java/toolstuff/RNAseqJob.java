@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedProperty;
 import managedbeans.UtilityBean;
+import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
+import sessionbeans.ProjectSessionFacade;
 
 /**
  * Universal job class. 
@@ -39,20 +42,26 @@ public class RNAseqJob {
     //@ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     private JobHistoryFacade jobHistoryFacade;
-
+    private FilesFacade filesFacade;
+    private ProjectSessionFacade projectFacade;
+    
     public RNAseqJob(String jobName) {
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/";
+        //this.command = "/home/pitas/SOAPdenovo-Trans";
     }
     
-    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, String jobName) {
+    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, FilesFacade filesFacade, ProjectSessionFacade projectFacade, String jobName) {
         this.jobHistoryFacade = jobHistoryFacade;
         this.utilityBean = utilityBean;
+        this.filesFacade = filesFacade;
+        this.projectFacade = projectFacade;
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/";
+        //this.command = "/home/pitas/SOAPdenovo-Trans";
     }
 
-    /**
+     /**
      * Executes Job based on selected tool.
      */
     public void execute() {
@@ -79,6 +88,9 @@ public class RNAseqJob {
             case TRANSABYSS:
                 executeTransabyss();
                 break;
+            case SOAPdenovo_Trans:
+                executeSOAPdenovoTrans();
+                break;
             case ABUNDANCE_ESTIMATION:
                 executeAbundanceEstimation();
                 break;
@@ -92,13 +104,14 @@ public class RNAseqJob {
      */
     private void executeFastQC() {
         String inputFileName = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
-        
+        String[] outputName = new String[1];
+        outputName[0] = "fastqc";
         //command += " " + inputFileName + " " + "-o "+outputDir+jobName;
         command += " " 
                 + inputFileName + " "
                 + outputDir;
         
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -114,6 +127,11 @@ public class RNAseqJob {
         String fwUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
         String rPaired=getUtilityBean().getSelectedTool().getParameterList().get(4).getValue();
         String rUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(5).getValue();
+        String[] outputName = new String[4];
+        outputName[0] = fwPaired;
+        outputName[1] = rPaired;
+        outputName[2] = fwUnpaired;
+        outputName[3] = rUnpaired;
         
         command += " " 
                 + leftInput + " "
@@ -123,7 +141,7 @@ public class RNAseqJob {
                 + outputDir;
 
         
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -141,6 +159,11 @@ public class RNAseqJob {
         String fwUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(5).getValue();
         String rPaired=getUtilityBean().getSelectedTool().getParameterList().get(6).getValue();
         String rUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(7).getValue();
+        String[] outputName = new String[4];
+        outputName[0] = fwPaired;
+        outputName[1] = rPaired;
+        outputName[2] = fwUnpaired;
+        outputName[3] = rUnpaired;
         
         
         command += " " 
@@ -153,7 +176,7 @@ public class RNAseqJob {
                 + outputDir;
 
         
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -166,7 +189,10 @@ public class RNAseqJob {
         String kmerCount =  getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         String leftCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         String rightCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
-
+        String[] outputName = new String[2];
+        outputName[0] = leftCorrName;
+        outputName[1] = rightCorrName;
+        
         /*
         //directory where seecer will store temporary files during job
         String tmpPath = "/home/vmuser/CPI/tools/Seecer/testdata/tmp";
@@ -181,7 +207,7 @@ public class RNAseqJob {
                 + outputDir;
 
 
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -195,6 +221,8 @@ public class RNAseqJob {
         String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         //String outputDir = "/home/lestelles/Desktop/"; // probably should be changed?
         String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
         
         command += " " 
                 + seqType + " "
@@ -202,7 +230,7 @@ public class RNAseqJob {
                 + rightInput + " "
                 + outputDir;
 
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -217,6 +245,8 @@ public class RNAseqJob {
         String insLen = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
         //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
         
         command += " " 
                 + seqType + " "
@@ -226,7 +256,7 @@ public class RNAseqJob {
                 + insLen + " "
                 + outputDir;
 
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -239,6 +269,8 @@ public class RNAseqJob {
         String kmer = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
         
         command += " " 
                 + leftInput + " "
@@ -246,8 +278,34 @@ public class RNAseqJob {
                 + kmer + " "
                 + outputDir;
                 
-        executeCommand(command);
+        executeCommand(command, outputName);
        
+    }
+    
+     private void executeSOAPdenovoTrans(){
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
+        
+        String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String kmer = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String insLen = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
+        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
+        
+        WriteConfig configFile = new WriteConfig(seqType, insLen, leftInput, rightInput);
+        try {
+            configFile.write();
+        } catch (Exception ex) {
+            Logger.getLogger(RNAseqJob.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        command += " " 
+                + kmer + " "
+                + outputDir;
+                
+        executeCommand(command, outputName);
     }
     
     /**
@@ -260,8 +318,10 @@ public class RNAseqJob {
         String rightInput = getUtilityBean().getSelectedTool().getInputList().get(2).getValue();
         
         String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String estMethod = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
-        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
+        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = prefix;
+        
         //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
@@ -270,101 +330,97 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + seqType + " "
-                + estMethod + " "
                 + outputDir + " "
                 + prefix;
                 
-        executeCommand(command);
+        executeCommand(command, outputName);
        
     }
 
+    
     /**
      * Executes shell command
      * @param command full command to execute
      * @return 
      */
-    private void executeCommand(String command) {
+    private void executeCommand(String command, String[] outputName) {
 
         Jobhistory newJob;
         newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command);
         jobHistoryFacade.create(newJob);
-        String jobProjectID=Integer.toString(newJob.getIdjobs());
+        
+        //Job results are stored in a directory named after the job ID
+        String jobID = Integer.toString(newJob.getIdjobs());
+        newJob.setCommandused(command + " " + jobID);
         
         String[] commandArray = command.split("\\s+");
-        List<String> commandList = new ArrayList(commandArray.length+1);
+        List<String> commandList = new ArrayList(commandArray.length + 1);
         //Arrays.asList(commandArray);
-        for(int i=0; i<commandArray.length; i++){
+        for (int i = 0; i < commandArray.length; i++) {
             commandList.add(commandArray[i]);
         }
-        commandList.add(jobProjectID);
-         
+        commandList.add(jobID);
+
         ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
+        //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
         Process p;
         try {
             p = pb.start();
-            StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
+            Field f = p.getClass().getDeclaredField("pid");
+            f.setAccessible(true);
+            int pid = (int) f.get(p);
+            newJob.setProcessid(pid);
+            
+            //Update job with the complete command and the pid
+            jobHistoryFacade.edit(newJob);
+            
+            //Create two threads, one to perform the the job and another to return to projects page
+            jobThread waitThread = new jobThread("waitThread");
+            waitThread.setP(p);
+            waitThread.setOutputName(outputName);
+            waitThread.setToolEnum(getUtilityBean().getSelectedTool().getToolEnum());
+            waitThread.setUpdateJob(newJob);
+            waitThread.setProject(getUtilityBean().getSelectedProject());
+            waitThread.setJobHistoryFacade(jobHistoryFacade);
+            waitThread.setFilesFacade(filesFacade);
+            waitThread.setProjectFacade(projectFacade);
+            jobThread returnThread = new jobThread("returnThread");
+            
+            waitThread.start();
+            returnThread.start();
+            
+            /*StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
 
             StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
 
             // start gobblers
             outputGobbler.start();
-            errorGobbler.start();
-        } catch (IOException ex) {
+            errorGobbler.start();*/
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         //InputStream stdOut = p.getInputStream();
-        
-        
-        
         /*StringBuffer output = new StringBuffer();
 
-        Process p;
-        try {
+         Process p;
+         try {
 
-            p = Runtime.getRuntime().exec(command+" "+jobProjectID);
+         p = Runtime.getRuntime().exec(command+" "+jobProjectID);
             
-            p.waitFor();
-            BufferedReader reader
-                    = new BufferedReader(new InputStreamReader(p.getInputStream()));
+         p.waitFor();
+         BufferedReader reader
+         = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                output.append(line + "\n");
-            }
+         String line = "";
+         while ((line = reader.readLine()) != null) {
+         output.append(line + "\n");
+         }*/
+   
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        System.out.print(output.toString());*/
-        //return output.toString();
-    }
-    
-    /*private class StreamGobbler extends Thread {
-
-        InputStream is;
-        String type;
-
-        private StreamGobbler(InputStream is, String type) {
-            this.is = is;
-            this.type = type;
-        }
-
-        @Override
-        public void run() {
-            try {
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
-                String line = null;
-                while ((line = br.readLine()) != null) {
-                    System.out.println(type + "> " + line);
-                }
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-        }
-    }*/
+        //System.out.println(output.toString());
+    //return output.toString();
+}
     
     /**
      * Appends path to executable file to the command
@@ -402,4 +458,6 @@ public class RNAseqJob {
         this.jobHistoryFacade = jobHistoryFacade;
     }
 }
+
+
 

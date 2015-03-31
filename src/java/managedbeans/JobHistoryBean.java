@@ -107,19 +107,21 @@ public class JobHistoryBean {
     }
     
      public List<Jobhistory> getProjectJobs() {
-        //List<Jobhistory> list = new ArrayList();
         //List<Jobhistory> jobs = jobHistoryFacade.getAllJobs();
         List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(utilityBean.getSelectedProject().getIdprojects());
+        List<Jobhistory> list = new ArrayList(jobs.size());
         //List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(151);
-        /*for (Jobhistory job:jobs) {
-            System.out.println(job.getProjectid().getIdprojects());
-            System.out.println(Integer.getInteger(selectedProject));
-            if(job.getProjectid().getIdprojects()==Integer.getInteger(selectedProject)){
-                 list.add(job);
-            }
+        for (int i = jobs.size()-1; i>=0; i--) {
+            //System.out.println(job.getProjectid().getIdprojects());
+            //System.out.println(Integer.getInteger(selectedProject));
+            //if(job.getProjectid().getIdprojects()==Integer.getInteger(selectedProject)){
+                 //list.add(job);
+            //}
+            list.add(jobs.get(i));
            
-        }*/
-        return jobs;        
+        }
+        //return jobs;
+        return list;             
     }
     
     public List<String> getJobName() {
