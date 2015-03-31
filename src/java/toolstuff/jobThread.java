@@ -6,12 +6,16 @@
 package toolstuff;
 
 import entitybeans.Files;
+import entitybeans.Filetype;
 import entitybeans.Jobhistory;
+import entitybeans.Projects;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import managedbeans.UtilityBean;
+import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
 import toolstuff.util.ETool;
 
@@ -22,9 +26,12 @@ import toolstuff.util.ETool;
 public class jobThread extends Thread {
 
     private Process p;
+    private String[] outputName; 
     private Jobhistory updateJob;
+    private Projects project;
     private ETool toolEnum;
     private JobHistoryFacade jobHistoryFacade;
+    private FilesFacade filesFacade;
     
     public jobThread(String string) {
         super(string);
@@ -79,64 +86,205 @@ public class jobThread extends Thread {
         Files output3 = new Files();
         Files output4 = new Files();
         
+        ArrayList<Projects> fileProject = new ArrayList(1);
+        fileProject.add(project);
+        
         switch (toolEnum) {
             case FASTQC:
                 //HTML
-                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs());                
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fastqc.html");
+                output1.setDisplayname(outputName[0]);
+                output1.setDescription("FastQC output for " + updateJob.getJobname());
+                //Add a mock filetype. In the future it has to mean HTML
+                output1.setFiletype(new Filetype(1));
+                output1.setProjectsCollection(fileProject);
+                
+                //Add output to database
+                filesFacade.create(output1);
                 break;
             case TRIMMOMATIC_TRIM:
-                //PAIRED 1
-                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs());
-                //PAIRED 2
-                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs());
-                //UNPAIRED 1
-                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs());
-                //UNPAIRED 2
-                output4.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs());
+                //PAIRED FORWARD
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_paired");
+                output1.setDisplayname(outputName[0]);
+                output1.setDescription("Trimmed forward paired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
+                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
+                output1.setFiletype(new Filetype(2));
+                output1.setProjectsCollection(fileProject);
+                //PAIRED REVERSE
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_paired");
+                output2.setDisplayname(outputName[1]);
+                output2.setDescription("Trimmed reverse paired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
+                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
+                output2.setFiletype(new Filetype(2));
+                output2.setProjectsCollection(fileProject);
+                //UNPAIRED FORWARD
+                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_unpaired");
+                output3.setDisplayname(outputName[2]);
+                output3.setDescription("Trimmed forward unpaired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
+                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
+                output3.setFiletype(new Filetype(2));
+                output3.setProjectsCollection(fileProject);
+                //UNPAIRED REVERSE
+                output4.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_unpaired");
+                output4.setDisplayname(outputName[3]);
+                output4.setDescription("Trimmed reverse unpaired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
+                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
+                output4.setFiletype(new Filetype(2));
+                output4.setProjectsCollection(fileProject);
+                
+                //Add outputs to database
+                filesFacade.create(output1);
+                filesFacade.create(output2);
+                filesFacade.create(output3);
+                filesFacade.create(output4);
                 break;
             case TRIMMOMATIC_ADAPT:
-                //PAIRED 1
-                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
-                //PAIRED 2
-                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
-                //UNPAIRED 1
-                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
-                //UNPAIRED 2
-                output4.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME"); 
+                //PAIRED FORWARD
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_paired");
+                output1.setDisplayname(outputName[0]);
+                output1.setDescription("Adapters removed from the forward paired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
+                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
+                output1.setFiletype(new Filetype(3));
+                output1.setProjectsCollection(fileProject);
+                //PAIRED REVERSE
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_paired");
+                output2.setDisplayname(outputName[1]);
+                output2.setDescription("Adapters removed from the reverse paired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
+                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
+                output2.setFiletype(new Filetype(3));
+                output2.setProjectsCollection(fileProject);
+                //UNPAIRED FORWARD
+                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_unpaired");
+                output3.setDisplayname(outputName[2]);
+                output3.setDescription("Adapters removed from the forward unpaired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
+                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
+                output3.setFiletype(new Filetype(3));
+                output3.setProjectsCollection(fileProject);
+                //UNPAIRED REVERSE
+                output4.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_unpaired");
+                output4.setDisplayname(outputName[3]);
+                output4.setDescription("Adapters removed from the reverse unpaired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
+                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
+                output4.setFiletype(new Filetype(3));
+                output4.setProjectsCollection(fileProject);
+                
+                //Add outputs to database
+                filesFacade.create(output1);
+                filesFacade.create(output2);
+                filesFacade.create(output3);
+                filesFacade.create(output4);
                 break;
             case SEECER:
                 //PAIRED 1
-                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/leftCorrected.fa");
+                output1.setDisplayname(outputName[0]);
+                output1.setDescription("Trimmed left reads from " + updateJob.getJobname() + " processed with SEECER.");
+                //Add a mock filetype. In the future it has to mean FASTA
+                output1.setFiletype(new Filetype(2));
+                output1.setProjectsCollection(fileProject);
                 //PAIRED 2
-                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/rightCorrected.fa");
+                output2.setDisplayname(outputName[1]);
+                output2.setDescription("Trimmed right reads from " + updateJob.getJobname() + " processed with SEECER.");
+                //Add a mock filetype. In the future it has to mean FASTA
+                output2.setFiletype(new Filetype(2));
+                output2.setProjectsCollection(fileProject);
+                
+                //Add outputs to database
+                filesFacade.create(output1);
+                filesFacade.create(output2);
                 break;
             case TRINITY:
                 //TRANSCRIPTS
-                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
+                output1.setDisplayname(outputName[0]);
+                output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trinity.");
+                //Add a mock filetype. In the future it has to mean FASTA
+                output1.setFiletype(new Filetype(2));
+                output1.setProjectsCollection(fileProject);
                 //STATISTICS
-                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
+                output2.setDisplayname(outputName[1]);
+                output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Trinity.");
+                //Add a mock filetype. In the future it has to mean FASTA
+                output2.setFiletype(new Filetype(2));
+                output2.setProjectsCollection(fileProject);
+                
+                //Add outputs to database
+                filesFacade.create(output1);
+                filesFacade.create(output2);
                 break;
             case VELVET:
                 //TRANSCRIPTS
-                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
+                output1.setDisplayname(outputName[0]);
+                output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Velvet.");
+                //Add a mock filetype. In the future it has to mean FASTA
+                output1.setFiletype(new Filetype(2));
+                output1.setProjectsCollection(fileProject);
                 //STATISTICS
-                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
+                output2.setDisplayname(outputName[1]);
+                output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Velvet.");
+                //Add a mock filetype. In the future it has to mean FASTA
+                output2.setFiletype(new Filetype(2));
+                output2.setProjectsCollection(fileProject);
+                
+                //Add outputs to database
+                filesFacade.create(output1);
+                filesFacade.create(output2);
                 break;
             case TRANSABYSS:
                 //TRANSCRIPTS
-                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
+                output1.setDisplayname(outputName[0]);
+                output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trans-ABySS.");
+                //Add a mock filetype. In the future it has to mean FASTA
+                output1.setFiletype(new Filetype(2));
+                output1.setProjectsCollection(fileProject);
                 //STATISTICS
-                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
+                output2.setDisplayname(outputName[1]);
+                output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Trans-ABySS.");
+                //Add a mock filetype. In the future it has to mean FASTA
+                output2.setFiletype(new Filetype(2));
+                output2.setProjectsCollection(fileProject);
+                
+                //Add outputs to database
+                filesFacade.create(output1);
+                filesFacade.create(output2);
                 break;
             case SOAPdenovo_Trans:
                 //TRANSCRIPTS
-                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
+                output1.setDisplayname(outputName[0]);
+                output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
+                //Add a mock filetype. In the future it has to mean FASTA
+                output1.setFiletype(new Filetype(2));
+                output1.setProjectsCollection(fileProject);
                 //STATISTICS
-                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "PREDEFINEDNAME");
-                break;
-            /*case ABUNDANCE_ESTIMATION:
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
+                output2.setDisplayname(outputName[1]);
+                output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
+                //Add a mock filetype. In the future it has to mean FASTA
+                output2.setFiletype(new Filetype(2));
+                output2.setProjectsCollection(fileProject);
                 
-                break;*/
+                //Add outputs to database
+                filesFacade.create(output1);
+                filesFacade.create(output2);
+                break;
+            case ABUNDANCE_ESTIMATION:
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/" + outputName[0] + ".isoforms.results");
+                output1.setDisplayname(outputName[0]);
+                output1.setDescription("Abundance sttimation output from " + updateJob.getJobname() + " using RSEM.");
+                //Add a mock filetype. In the future it has to mean TAB
+                output1.setFiletype(new Filetype(4));
+                output1.setProjectsCollection(fileProject);
+                
+                //Add outputs to database
+                filesFacade.create(output1);
+                break;
             default:
                 throw new AssertionError(toolEnum.name());
         }
@@ -190,5 +338,47 @@ public class jobThread extends Thread {
 
     public void setToolEnum(ETool toolEnum) {
         this.toolEnum = toolEnum;
+    }
+
+    /**
+     * @return the outputName
+     */
+    public String[] getOutputName() {
+        return outputName;
+    }
+
+    /**
+     * @param outputName the outputName to set
+     */
+    public void setOutputName(String[] outputName) {
+        this.outputName = outputName;
+    }
+
+    /**
+     * @return the project
+     */
+    public Projects getProject() {
+        return project;
+    }
+
+    /**
+     * @param project the project to set
+     */
+    public void setProject(Projects project) {
+        this.project = project;
+    }
+
+    /**
+     * @return the filesFacade
+     */
+    public FilesFacade getFilesFacade() {
+        return filesFacade;
+    }
+
+    /**
+     * @param filesFacade the filesFacade to set
+     */
+    public void setFilesFacade(FilesFacade filesFacade) {
+        this.filesFacade = filesFacade;
     }
 }

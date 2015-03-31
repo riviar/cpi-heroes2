@@ -18,7 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedProperty;
 import managedbeans.UtilityBean;
+import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
+import sessionbeans.ProjectSessionFacade;
 
 /**
  * Universal job class. 
@@ -40,22 +42,24 @@ public class RNAseqJob {
     //@ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     private JobHistoryFacade jobHistoryFacade;
-
+    private FilesFacade filesFacade;
+    
     public RNAseqJob(String jobName) {
         this.jobName = jobName;
         //this.command = "/home/vmuser/CPI/tools/";
         this.command = "/home/pitas/SOAPdenovo-Trans";
     }
     
-    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, String jobName) {
+    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, FilesFacade filesFacade, String jobName) {
         this.jobHistoryFacade = jobHistoryFacade;
         this.utilityBean = utilityBean;
+        this.filesFacade = filesFacade;
         this.jobName = jobName;
         //this.command = "/home/vmuser/CPI/tools/";
         this.command = "/home/pitas/SOAPdenovo-Trans";
     }
 
-    /**
+     /**
      * Executes Job based on selected tool.
      */
     public void execute() {
@@ -85,6 +89,9 @@ public class RNAseqJob {
             case SOAPdenovo_Trans:
                 executeSOAPdenovoTrans();
                 break;
+            case ABUNDANCE_ESTIMATION:
+                executeAbundanceEstimation();
+                break;
             default:
                 throw new AssertionError(getUtilityBean().getSelectedTool().getToolEnum().name());
         }
@@ -95,13 +102,14 @@ public class RNAseqJob {
      */
     private void executeFastQC() {
         String inputFileName = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
-        
+        String[] outputName = new String[1];
+        outputName[0] = "fastqc";
         //command += " " + inputFileName + " " + "-o "+outputDir+jobName;
         command += " " 
                 + inputFileName + " "
                 + outputDir;
         
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -117,20 +125,21 @@ public class RNAseqJob {
         String fwUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
         String rPaired=getUtilityBean().getSelectedTool().getParameterList().get(4).getValue();
         String rUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(5).getValue();
+        String[] outputName = new String[4];
+        outputName[0] = fwPaired;
+        outputName[1] = rPaired;
+        outputName[2] = fwUnpaired;
+        outputName[3] = rUnpaired;
         
         command += " " 
                 + leftInput + " "
                 + rightInput + " "
                 + windowSize + " "
                 + requiredQuality + " "
-                + outputDir + " "
-                + fwPaired + " "
-                + fwUnpaired + " "
-                + rPaired + " "
-                + rUnpaired;
+                + outputDir;
 
         
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -148,6 +157,11 @@ public class RNAseqJob {
         String fwUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(5).getValue();
         String rPaired=getUtilityBean().getSelectedTool().getParameterList().get(6).getValue();
         String rUnpaired=getUtilityBean().getSelectedTool().getParameterList().get(7).getValue();
+        String[] outputName = new String[4];
+        outputName[0] = fwPaired;
+        outputName[1] = rPaired;
+        outputName[2] = fwUnpaired;
+        outputName[3] = rUnpaired;
         
         
         command += " " 
@@ -157,14 +171,10 @@ public class RNAseqJob {
                 + seedMismatches + " "
                 + palindromeTh + " "
                 + simpleTh + " "
-                + outputDir + " "
-                + fwPaired + " "
-                + fwUnpaired + " "
-                + rPaired + " "
-                + rUnpaired;
+                + outputDir;
 
         
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -175,10 +185,12 @@ public class RNAseqJob {
         String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
         String kmerCount =  getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String outfileName =  getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
-        String leftCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
-        String rightCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
-
+        String leftCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String rightCorrName =  getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
+        String[] outputName = new String[2];
+        outputName[0] = leftCorrName;
+        outputName[1] = rightCorrName;
+        
         /*
         //directory where seecer will store temporary files during job
         String tmpPath = "/home/vmuser/CPI/tools/Seecer/testdata/tmp";
@@ -190,13 +202,10 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + kmerCount + " "
-                + outputDir + " "
-                + outfileName + " "
-                + leftCorrName + " "
-                + rightCorrName;
+                + outputDir;
 
 
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -210,15 +219,16 @@ public class RNAseqJob {
         String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         //String outputDir = "/home/lestelles/Desktop/"; // probably should be changed?
         String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
         
         command += " " 
                 + seqType + " "
                 + leftInput + " "
                 + rightInput + " "
-                + outputDir + " "
-                + outfileName;
+                + outputDir;
 
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -233,6 +243,8 @@ public class RNAseqJob {
         String insLen = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
         //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
         
         command += " " 
                 + seqType + " "
@@ -240,10 +252,9 @@ public class RNAseqJob {
                 + rightInput + " "
                 + kmer + " "
                 + insLen + " "
-                + outputDir + " "
-                + outfileName;
+                + outputDir;
 
-        executeCommand(command);
+        executeCommand(command, outputName);
     }
     
     /**
@@ -256,19 +267,20 @@ public class RNAseqJob {
         String kmer = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
         
         command += " " 
                 + leftInput + " "
                 + rightInput + " "
                 + kmer + " "
-                + outputDir + " "
-                + outfileName;
+                + outputDir;
                 
-        executeCommand(command);
+        executeCommand(command, outputName);
        
     }
     
-    private void executeSOAPdenovoTrans(){
+     private void executeSOAPdenovoTrans(){
         String leftInput = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
         String rightInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
         
@@ -277,6 +289,8 @@ public class RNAseqJob {
         String insLen = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
         //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
         
         WriteConfig configFile = new WriteConfig(seqType, insLen, leftInput, rightInput);
         try {
@@ -287,18 +301,47 @@ public class RNAseqJob {
         
         command += " " 
                 + kmer + " "
-                + outputDir + " "
-                + outfileName;
+                + outputDir;
                 
-        executeCommand(command);
+        executeCommand(command, outputName);
+    }
+    
+    /**
+     * Retrieves parameters and executes aligns transcripts to an assembly 
+     * previously performed using Bowtie and estimates abundance using RSEM.
+     */
+    private void executeAbundanceEstimation() {
+        String fasta = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+        String leftInput = getUtilityBean().getSelectedTool().getInputList().get(1).getValue();
+        String rightInput = getUtilityBean().getSelectedTool().getInputList().get(2).getValue();
+        
+        String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = prefix;
+        
+        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        
+        command += " " 
+                + fasta + " "
+                + leftInput + " "
+                + rightInput + " "
+                + seqType + " "
+                + outputDir + " "
+                + prefix;
+                
+        executeCommand(command, outputName);
+       
     }
 
+    
     /**
      * Executes shell command
      * @param command full command to execute
      * @return 
      */
-    private void executeCommand(String command) {
+    private void executeCommand(String command, String[] outputName) {
 
         Jobhistory newJob;
         newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command);
@@ -332,9 +375,11 @@ public class RNAseqJob {
             //Create two threads, one to perform the the job and another to return to projects page
             jobThread waitThread = new jobThread("waitThread");
             waitThread.setP(p);
+            waitThread.setOutputName(outputName);
             waitThread.setToolEnum(getUtilityBean().getSelectedTool().getToolEnum());
             waitThread.setUpdateJob(newJob);
             waitThread.setJobHistoryFacade(jobHistoryFacade);
+            waitThread.setFilesFacade(filesFacade);
             jobThread returnThread = new jobThread("returnThread");
             
             waitThread.start();
@@ -373,33 +418,6 @@ public class RNAseqJob {
     //return output.toString();
 }
     
-    /*private class StreamGobbler extends Thread {
-
-        InputStream is;
-        String type;
-
-        private StreamGobbler(InputStream is, String type) {
-            this.is = is;
-            this.type = type;
-        }
-
-        @Override
-        public void run() {
-            try {
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
-                String line = null;
-                while ((line = br.readLine()) != null) {
-                    System.out.println(type + "> " + line);
-                }
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-        }
-    }*/
-    
-    
-    
     /**
      * Appends path to executable file to the command
      */
@@ -436,4 +454,6 @@ public class RNAseqJob {
         this.jobHistoryFacade = jobHistoryFacade;
     }
 }
+
+
 
