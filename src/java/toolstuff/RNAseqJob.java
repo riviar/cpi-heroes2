@@ -332,6 +332,7 @@ public class RNAseqJob {
             //Create two threads, one to perform the the job and another to return to projects page
             jobThread waitThread = new jobThread("waitThread");
             waitThread.setP(p);
+            waitThread.setToolEnum(getUtilityBean().getSelectedTool().getToolEnum());
             waitThread.setUpdateJob(newJob);
             waitThread.setJobHistoryFacade(jobHistoryFacade);
             jobThread returnThread = new jobThread("returnThread");

@@ -132,9 +132,10 @@
                                                 <p class="subtool">#{job.jobname}</p>
                                                 <p>#{job.commandused}</p>
                                                 
-                                                <c:if test="#{job.processid>0}"><p style="color:orange">RUNNING</p>
-                                                <!--<p>{}</p>--></c:if>
-                                                <c:if test="#{job.processid==-1}"><p style="color:green">FINISHED</p></c:if>                                               
+                                                <c:if test="#{job.processid>0}"><p style="color:orange"><b>RUNNING</b></p>
+                                                <p>Starting time and total running time</p></c:if>
+                                                <c:if test="#{job.processid==0}"><p style="color:green"><b>FINISHED</b></p></c:if>
+                                                <c:if test="#{job.processid==-1}"><p style="color:red"><b>ERROR</b></p></c:if>                                               
                                                
                                             </div></li>
                                     </c:forEach>  
