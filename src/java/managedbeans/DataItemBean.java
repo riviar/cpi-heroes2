@@ -104,41 +104,41 @@ public class DataItemBean {
 
         switch (jobsTool) {
             case FASTQC:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "/home/vmuser/CPI/results/" + jobid + "/fastqc.html", jobsTool));
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "../results/" + jobid + "/fastqc.html", jobsTool));
                 break;
 
             case TRIMMOMATIC_TRIM:
-                outputsList.add(new GenericOutput("Forward paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_paired", jobsTool));
-                outputsList.add(new GenericOutput("Forward unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
-                outputsList.add(new GenericOutput("Reverse paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
-                outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_upaired", jobsTool));
+                outputsList.add(new GenericOutput("Forward paired", EOutputType.CSV, "../results/" + jobid + "/fw_paired", jobsTool));
+                outputsList.add(new GenericOutput("Forward unpaired", EOutputType.CSV, "../results/" + jobid + "/fw_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse paired", EOutputType.CSV, "../results/" + jobid + "/r_paired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.CSV, "../results/" + jobid + "/r_upaired", jobsTool));
                 break;
 
             case TRIMMOMATIC_ADAPT:
-                outputsList.add(new GenericOutput("Forward paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_paired", jobsTool));
-                outputsList.add(new GenericOutput("Forward unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
-                outputsList.add(new GenericOutput("Reverse paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
-                outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_upaired", jobsTool));
+                outputsList.add(new GenericOutput("Forward paired", EOutputType.CSV, "../results/" + jobid + "/fw_paired", jobsTool));
+                outputsList.add(new GenericOutput("Forward unpaired", EOutputType.CSV, "../results/" + jobid + "/fw_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse paired", EOutputType.CSV, "../results/" + jobid + "/r_paired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.CSV, "../results/" + jobid + "/r_upaired", jobsTool));
                 break;
 
             case SEECER:
-                outputsList.add(new GenericOutput("Left Corrected", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/leftCorrected.fa", jobsTool));
-                outputsList.add(new GenericOutput("Right Corrected", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/rightCorrected.fa", jobsTool));
+                outputsList.add(new GenericOutput("Left Corrected", EOutputType.CSV, "../results/" + jobid + "/leftCorrected.fa", jobsTool));
+                outputsList.add(new GenericOutput("Right Corrected", EOutputType.CSV, "../results/" + jobid + "/rightCorrected.fa", jobsTool));
                 break;
 
             case TRINITY:
-                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
-                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/stats.fa", jobsTool));
+                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "../results/" + jobid + "/transcripts.fa", jobsTool));
+                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "../results/" + jobid + "/stats.fa", jobsTool));
                 break;
 
             case VELVET:
-                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
-                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/stats.fa", jobsTool));
+                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "../results/" + jobid + "/transcripts.fa", jobsTool));
+                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "../results/" + jobid + "/stats.fa", jobsTool));
                 break;
 
             case TRANSABYSS:
-                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
-                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/stats.fa", jobsTool));
+                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "../results/" + jobid + "/transcripts.fa", jobsTool));
+                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "../results/" + jobid + "/stats.fa", jobsTool));
                 break;
 
         }
@@ -202,6 +202,7 @@ public class DataItemBean {
         for (GenericOutput output : outputsList) {
             if (output.getName().equals(outputName)) {
                 utilityBean.setSelectedOutput(output);
+                System.out.println("Trying to show file " + output.getPath());
                 return "data_item";
             }
         }
