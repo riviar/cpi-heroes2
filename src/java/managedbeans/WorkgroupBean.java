@@ -203,7 +203,7 @@ public class WorkgroupBean {
             return "invaliddataerrorpage";
         } else {
             project.setOwner(utilityBean.getUser());
-            project.setWorkgroupid(workgroup);
+            project.setWorkgroup(workgroup);
             projectFacade.create(project);
             Collection<Projects> projects = workgroup.getProjectsCollection();
             projects.add(project);
