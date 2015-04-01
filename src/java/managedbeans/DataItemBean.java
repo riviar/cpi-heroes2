@@ -68,8 +68,8 @@ public class DataItemBean {
      */
     public DataItemBean() {
         //test job can be assigned here, but i have no jobs on my machine
-        detectTool();
-        outputsList = getJobOutputFiles();
+        ///detectTool();
+        //outputsList = getJobOutputFiles();
         //check for and assign ETool, check if job.path contains tool path
     }
 
@@ -77,9 +77,11 @@ public class DataItemBean {
      * Detects which tool was used to generate this jobhistory
      */
     private void detectTool() {
+        System.out.println("Detecting tool for " + utilityBean.getSelectedJob().getJobname());
         String command = utilityBean.getSelectedJob().getCommandused();
         ToolsBase toolsBase = new ToolsBase();
         for (Tool tool : toolsBase.getAllTools()) {
+            System.out.println("Comparing " + command + " with " + tool.getPath());
             if (command.contains(tool.getPath())) {
                 jobsTool = tool.getToolEnum();
                 return;
@@ -94,7 +96,8 @@ public class DataItemBean {
      *
      * @return
      */
-    private List<GenericOutput> getJobOutputFiles() {
+    public List<GenericOutput> getJobOutputFiles() {
+        detectTool();
         outputsList = new ArrayList();
         String jobid = Integer.toString(utilityBean.getSelectedJob().getIdjobs());
 

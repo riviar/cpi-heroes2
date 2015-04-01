@@ -172,12 +172,10 @@ public class JobHistoryBean {
      * @return 
      */
     public String selectJobHistoryItem() {
+        System.out.println("Looking for job with id " + selectedJobId);
         Jobhistory selectedJobHistoryItem = jobHistoryFacade.findJobHistoryById(Integer.valueOf(selectedJobId));
+        System.out.println("Found job with name " + selectedJobHistoryItem.getJobname());
         utilityBean.setSelectedJob(selectedJobHistoryItem);
-        return "job_output";
-    }
-    
-    public String gotoOutput() {
         return "job_output";
     }
    
