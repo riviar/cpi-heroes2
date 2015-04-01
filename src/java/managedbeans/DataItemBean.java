@@ -19,6 +19,7 @@ import toolstuff.util.ETool;
 import toolstuff.util.EToolType;
 import toolstuff.util.Tool;
 import toolstuff.util.ToolsBase;
+import toolstuff.util.ToolsBaseFactory;
 
 /**
  * Managed bean for managing tool output page
@@ -79,7 +80,7 @@ public class DataItemBean {
     private void detectTool() {
         System.out.println("Detecting tool for " + utilityBean.getSelectedJob().getJobname());
         String command = utilityBean.getSelectedJob().getCommandused();
-        ToolsBase toolsBase = new ToolsBase();
+        ToolsBase toolsBase = ToolsBaseFactory.initializeToolsBase();
         for (Tool tool : toolsBase.getAllTools()) {
             System.out.println("Comparing " + command + " with " + tool.getPath());
             if (command.contains(tool.getPath())) {
