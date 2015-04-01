@@ -82,6 +82,9 @@ public class RNAseqJob {
             case ABUNDANCE_ESTIMATION:
                 executeAbundanceEstimation();
                 break;
+            case DEG:
+                executeDeg();
+                break;
             default:
                 throw new AssertionError(getUtilityBean().getSelectedTool().getToolEnum().name());
         }
@@ -260,7 +263,8 @@ public class RNAseqJob {
         String rightInput = getUtilityBean().getSelectedTool().getInputList().get(2).getValue();
         
         String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String estMethod = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
         //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
@@ -269,12 +273,60 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + seqType + " "
+                + estMethod + " "
                 + outputDir + " "
                 + prefix;
                 
         executeCommand(command);
        
     }
+    
+    private void executeDeg() {
+       String filesIsoforms = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+
+        String estMethod = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String pvalue = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String cFoldChange = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
+        String maxDeg = getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(4).getValue();
+        String files = getUtilityBean().getSelectedTool().getParameterList().get(5).getValue();
+       
+        
+//String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        
+        System.out.println(estMethod);
+        System.out.println(pvalue);
+        System.out.println(cFoldChange);
+        System.out.println(maxDeg);
+        System.out.println(prefix);
+        System.out.println(files);
+        
+        
+        
+        command += " " 
+                + files + " "
+                + estMethod + " "
+                + pvalue + " "
+                + cFoldChange + " "
+                + maxDeg + " "
+                + prefix + " "
+                + outputDir;
+                
+        executeCommand(command);
+       
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     /**
      * Executes shell command
