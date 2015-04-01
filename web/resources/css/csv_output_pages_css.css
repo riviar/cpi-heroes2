@@ -106,14 +106,16 @@ h5 {font-size:10px}
 #menu ul li a:hover, #menu ul li a#active, #menu ul li a:active {color:#fff; border:1px solid #fff; background:#000; text-decoration:none}
 
 /* CONTENT AND COLUMNS */
-#content {background:#f3f2f0 url('../images/bg_page_html_output.gif') repeat-y top left}
+#content {background:#f3f2f0 url('../images/bg_page_csv_output.gif') repeat-y top left}
 #content a:link, #content a:visited {text-decoration:none; color:#1c4851; font-weight:bold}
 #cA {float:left; width:270px; margin:0 11px 0 30px; display:inline}
+.Ctopleft {background:url('../images/corners_top.gif') no-repeat top left; width:9px; height:9px; overflow:hidden; float:left}
 #search {background:#a4c0ba; padding:10px 15px}
 #tools {background:#a4c0ba; padding:10px 15px}
 #cA img {padding:4px; border:1px solid #d3cfce; margin:4px 7px 0 0}
 .subtool {padding:2px; font:normal 10px arial,sans-serif}
 #cB {float:right; width:679px; margin:0 8px 0 0; display:inline}
+.Ctopright {background:url('../images/corners_top.gif') no-repeat top right; width:9px; height:9px; overflow:hidden; float:right}
 #cB1 {width:340px; float:left; padding:0 10px 5px 10px}
 .news {border-bottom:1px solid #e6e1dd; border-top:1px solid #fcfafb; padding:10px 15px 5px 15px}
 #cB2 {width:309px; float:right; margin:0}
@@ -133,6 +135,16 @@ h5 {font-size:10px}
 #newsletter-text {font:normal 10px arial,serif; position:absolute; bottom:10px; left:10px; width:209px}
 #newsletter-text a {color:#35393f!important}
 .cb {margin:0 8px 0 30px}
+.Cbottomleft {background:url('../images/corners_bottom.gif') no-repeat top left; width:9px; height:9px; overflow:hidden; float:left; display:inline}
+.Cbottom {
+	width:942px;
+	height:9px;
+	overflow:hidden;
+	display:inline;
+	float:left;
+	background:url('../images/bg_page_csv_output.gif') repeat-y -39px 0
+	}
+.Cbottomright {background:url('../images/corners_bottom.gif') no-repeat top right; width:9px; height:9px; overflow:hidden; float:right; display:inline}
 
 /* Footer */
 #footer {height:95px; width:100%; margin:0; background:url('../images/bg_footer.gif') no-repeat bottom center}

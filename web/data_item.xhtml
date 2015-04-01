@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -11,6 +12,15 @@
 
             <ui:define name="title">
                 RNAseq &ndash; Data Item
+            </ui:define>
+            
+            <ui:define name="customStylesheet">
+                <c:if test="#{utilityBean.selectedOutput.outputType == 'HTML'}">
+                    <link href="#{facesContext.externalContext.requestContextPath}/resources/css/html_output_pages_css.css" rel="stylesheet" type="text/css" />
+                </c:if>
+                <c:if test="#{utilityBean.selectedOutput.outputType == 'CSV'}">
+                    <link href="#{facesContext.externalContext.requestContextPath}/resources/css/csv_output_pages_css.css" rel="stylesheet" type="text/css" />
+                </c:if>
             </ui:define>
 
             <ui:define name="center">
