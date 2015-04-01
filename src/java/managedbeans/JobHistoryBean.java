@@ -176,5 +176,9 @@ public class JobHistoryBean {
         utilityBean.setSelectedJob(selectedJobHistoryItem);
         return "job_output";
     }
+    
+    public String gotoOutput() {
+        return "job_output";
+    }
    
 }

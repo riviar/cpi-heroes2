@@ -131,6 +131,7 @@
                                             <li><div id="job">
                                                     <h:form>
                                                         <p class="subtool">
+                                                            <h:link value="Go to Output" outcome="#{jobHistoryBean.gotoOutput()}"/><br/>
                                                             <h:commandLink value="#{job.jobname}" action="#{jobHistoryBean.selectJobHistoryItem()}">
                                                                 <f:param name="selectedJob" value="#{job.idjobs}"/>
                                                             </h:commandLink>
