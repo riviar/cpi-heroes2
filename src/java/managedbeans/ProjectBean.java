@@ -7,7 +7,6 @@ package managedbeans;
 
 import entitybeans.Files;
 import entitybeans.Projects;
-import entitybeans.Users;
 import entitybeans.Workgroups;
 import java.util.Collection;
 import javax.ejb.EJB;
@@ -74,11 +73,6 @@ public class ProjectBean {
      * Creates a new instance of ProjectBean
      */
     public ProjectBean() {
-        //TODO: code taken from AuthenticationBean - should call it there instead!
-        // get current session
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
-        // set user attribute of session
 
     }
 
@@ -125,7 +119,6 @@ public class ProjectBean {
     }
 
     public String createProject() {
-        System.err.println("nPV: " + newProjectVisibility);
         Projects project = new Projects();
         project.setProjectname(newProjectName);
         project.setOwner(utilityBean.getUser());

@@ -7,17 +7,13 @@ package managedbeans;
 
 import entitybeans.Users;
 import java.util.Collection;
-import java.util.Iterator;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import sessionbeans.AccountSessionFacade;
 
 /**
