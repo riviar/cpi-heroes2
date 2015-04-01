@@ -56,11 +56,6 @@ public class AuthenticationBean {
         return redirectpage;
     }
 
-    public Users getLoggedInUser() {
-        // set user attribute of session
-        return utilityBean.getUser();
-    }
-
     public String loginUser(String username, String password) {
         // lookup username/password combination in database
         Users user = accountFacade.checkUserLogin(username, password);
@@ -79,10 +74,6 @@ public class AuthenticationBean {
         }
     }
 
-    public boolean isLoggedIn() {
-        //returns true if user attribute for current session is not null
-        return (utilityBean.getUser() != null);
-    }
 
     public Users getNewUser() {
         return newUser;
