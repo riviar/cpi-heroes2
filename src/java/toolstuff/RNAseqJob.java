@@ -85,6 +85,9 @@ public class RNAseqJob {
             case DEG:
                 executeDeg();
                 break;
+            case CLUSTERS:
+                executeClusters();
+                break;
             default:
                 throw new AssertionError(getUtilityBean().getSelectedTool().getToolEnum().name());
         }
@@ -316,8 +319,25 @@ public class RNAseqJob {
         executeCommand(command);
        
     }
-    
-    
+    private void executeClusters() {
+        String RDataFile = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+
+        String ptree = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+               
+        
+        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+
+        
+        
+        command += " " 
+                + RDataFile + " "
+                + ptree + " "
+                + outputDir;
+                
+        executeCommand(command);
+       
+    }
     
     
     

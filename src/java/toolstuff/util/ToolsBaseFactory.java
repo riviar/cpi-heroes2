@@ -225,6 +225,24 @@ public class ToolsBaseFactory {
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
         
+        
+        //CLUSTERS
+        inputs.clear();
+        inputs.add(new ToolAttributes("Select RDATA file", "fasta"));
+
+        parameters.clear();
+        parameters.add(new ToolAttributes("Percent of height to cut tree", "60"));
+        
+        //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
+        //fullToolsList.add(tool);
+        fullToolsList.add(new Tool("Clusters by cutting dendrogram", 
+                ETool.CLUSTERS, 
+                EToolType.DOWNSTREAM, 
+                "Help me", 
+                "shell_scripts/do_clusters.sh", 
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));
+        
         //finished creating tools
         //initializing base
         ToolsBase base = new ToolsBase();
