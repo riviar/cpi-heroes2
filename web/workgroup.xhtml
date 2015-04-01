@@ -72,7 +72,7 @@
                                         <br/>
                                         <h:commandLink value="Remove Project" action="#{workgroupBean.removeProjectFromWorkgroup()}">
                                             <f:param name="selectedProject" value="#{project.idprojects}"/>
-                                        </h:commandLink>                                        
+                                        </h:commandLink>
                                     </p></li>
                             </c:forEach>
                         </h:form>
@@ -102,10 +102,12 @@
                     <h3>Create new project</h3>
                     <h:form>
                         <h:outputText value="Project name"/><br/>
-                        <p:inputText class="regInput" value="#{workgroupBean.newProjectName}"/><br/>
-                        <h:commandButton id="createProjectButton" action="#{workgroupBean.addProjectToWorkgroup()}" class="centerButton" value="Create"/>
+                        <p:inputText class="regInput" value="#{projectBean.newProjectName}"/><br/>
+                        <c:set target="#{projectBean}" value="#{utilityBean.selectedWorkgroup}" property="newProjectWorkgroup"/>
+                        <c:set target="#{projectBean}" value="WORKGROUP" property="newProjectVisibility"/>
+                        <h:commandButton id="createProjectButton" action="#{projectBean.createProject()}" class="centerButton" value="Create"/>
                     </h:form>
-                </p:dialog>
+                </p:dialog> 
 
 
             </ui:define>
