@@ -56,7 +56,7 @@ public class AccountSessionFacade extends AbstractFacade<Users> {
     }
 
     public Users checkUserLogin(String username, String password) {
-        Query q = em.createQuery("SELECT u FROM Users u WHERE (u.username = :username AND u.password = :password)");
+        Query q = em.createNamedQuery("Users.checkPasswordHash");
         q.setParameter("username", username);
         q.setParameter("password", hashPassword(password));
         try {
@@ -67,7 +67,7 @@ public class AccountSessionFacade extends AbstractFacade<Users> {
     }
 
     public boolean userExists(String username) {
-        Query q = em.createQuery("SELECT u FROM Users u WHERE u.username=:username");
+        Query q = em.createNamedQuery("Users.findByUsername");
         q.setParameter("username", username);
         try {
             // return true if any record matching username is found in database
