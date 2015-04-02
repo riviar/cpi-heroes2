@@ -76,9 +76,9 @@ public class ToolsBaseFactory {
         dropdownList.add(new DropDownParamStruct("TruSeq2-PE", "/home/vmuser/CPI/tools/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/adapters/TruSeq2-PE.fa"));
         dropdownList.add(new DropDownParamStruct("NexteraPE-PE.fa", "/home/vmuser/CPI/tools/TRINITY/trinityrnaseq-2.0.5/trinity-plugins/Trimmomatic-0.32/adapters/NexteraPE-PE.fa"));
         parameters.add(new ToolAttributes("Adapters", EToolParamType.DROPDOWN, "Select adapters", dropdownList, null));
-        parameters.add(new ToolAttributes("Seed mismatches", "2", null));
-        parameters.add(new ToolAttributes("Palindrome Clip Thresshold", "30", null));
-        parameters.add(new ToolAttributes("Simple Clip Thresshold", "10", null));
+        parameters.add(new ToolAttributes("Seed mismatches", "2", ToolHelp.getTrimmomaticAdapterSeedMismatches()));
+        parameters.add(new ToolAttributes("Palindrome Clip Thresshold", "30", ToolHelp.getPalindromeClipTreshold()));
+        parameters.add(new ToolAttributes("Simple Clip Thresshold", "10", ToolHelp.getSimpleClipTreshold()));
         parameters.add(new ToolAttributes("Forward paired file name", "fw_paired.fq", null));
         parameters.add(new ToolAttributes("Forward unpaired file name", "fw_unpaired.fq", null));
         parameters.add(new ToolAttributes("Reverse paired file name", "r_paired.fq", null));
@@ -92,14 +92,14 @@ public class ToolsBaseFactory {
                 "shell_scripts/do_trimmomatic-adapt.sh", //change for VM
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
-                null));
+                ToolHelp.getTrimmomaticAdapterHelp()));
         
         //SEECER
         inputs.clear();
         inputs.add(new ToolAttributes("Left reads", "fasta", null));
         inputs.add(new ToolAttributes("Right reads", "fasta", null));
         parameters.clear();
-        parameters.add(new ToolAttributes("Kmer", "15", ToolHelp.getSeecerKmer()));
+        parameters.add(new ToolAttributes("Kmer", "17", ToolHelp.getSeecerKmer()));
         parameters.add(new ToolAttributes("Output file name", "output_from_seecer.fa", null));
         parameters.add(new ToolAttributes("Left corrected reads name", "leftCorrected.fa", null));
         parameters.add(new ToolAttributes("Right corrected reads name", "rightCorrected.fa", null));
@@ -149,7 +149,7 @@ public class ToolsBaseFactory {
         parameters.add(new ToolAttributes("Sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList, null));
         //parameters.add(new ToolAttributes("Sequence Type", "fastq"));
         parameters.add(new ToolAttributes("Kmer", "31", ToolHelp.getVelvetKmer() ));
-        parameters.add(new ToolAttributes("Insert length", "170", ToolHelp.getVelvetInsertLEngth()));
+        parameters.add(new ToolAttributes("Insert length", "170", ToolHelp.getVelvetInsertLength()));
         parameters.add(new ToolAttributes("Output file name", "transcripts.fa", null));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);

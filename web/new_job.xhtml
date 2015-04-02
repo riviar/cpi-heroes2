@@ -35,13 +35,15 @@
                         <h4>Inputs</h4>
                         <c:forEach items="#{utilityBean.selectedTool.inputList}" var="input">
 
-<!--<h:outputText value ="#{input.paramHelp}"/> <br/>-->
+
                             <h:panelGrid columns="2">
                                 <h:outputText value="#{input.name}"/>
                                 <h:form>
                                     <h:commandButton id="helpButton2" onclick="PF('toolHelp2').show();
-                                        return false" class="centerButton" value="?"/>
+                                            return false" class="centerButton" value="?"/>
+
                                 </h:form>
+
                             </h:panelGrid>
                             <h:selectOneMenu class="regInput" value="#{input.value}" style="width: 200px">
                                 <f:selectItems value="#{filesBean.getFilesMap()}"/>
@@ -49,21 +51,22 @@
                                         <f:selectItem itemLabel="{file}" itemValue="{file}"/>
                                     </c:forEach> -->
                             </h:selectOneMenu><br/>
-                             <p:dialog resizable="false" minHeight="80" header="Help" widgetVar="toolHelp2" modal="true">
-                    <h:outputText value="#{input.paramHelp}"/> <br/>
-                </p:dialog>
+
                         </c:forEach>
                     </div>
                     <div class="news">
                         <h4>Parameters</h4>
                         <c:forEach items="#{utilityBean.selectedTool.parameterList}" var="param">
-                            
+
                             <h:panelGrid columns="2">
                                 <h:outputText value="#{param.name}"/>
                                 <h:form>
                                     <h:commandButton id="helpButton3" onclick="PF('toolHelp3').show();
-                                        return false" class="centerButton" value="?"/>
+                                            return false" class="centerButton" value="?"/>
                                 </h:form>
+                                <p:dialog  resizable="false" minHeight="80" header="Help" widgetVar="toolHelp3" modal="true">
+                                    <h:outputText value="#{param.paramHelp}"/> <br/>
+                                </p:dialog>
                             </h:panelGrid>
 
                             <c:if test="#{param.inputType == 'TEXTFIELD'}">    
@@ -76,9 +79,9 @@
                                     </c:forEach>
                                 </h:selectOneMenu><br/><br/>
                             </c:if>
-                             <p:dialog resizable="false" minHeight="80" header="Help" widgetVar="toolHelp3" modal="true">
-                    <h:outputText value="#{param.paramHelp}"/> <br/>
-                </p:dialog>
+                            <p:dialog resizable="false" minHeight="80" header="Help" widgetVar="toolHelp3" modal="true">
+                                <h:outputText value="#{param.paramHelp}"/> <br/>
+                            </p:dialog>
                         </c:forEach>
                     </div>
                     <div class="news">
@@ -86,16 +89,18 @@
                     </div>
                 </h:form>
 
-                <p:dialog resizable="false" minHeight="80" header="Help" widgetVar="toolHelp1" modal="true">
-                    <h:outputText value="#{utilityBean.selectedTool.toolHelp }"/> <br/>
-                </p:dialog>
-                
-                <p:dialog resizable="false" minHeight="80" header="Help" widgetVar="toolHelp2" modal="true">
+
+                <p:dialog resizable="true" dynamic ="true" width="400" minHeight="80" header="#{utilityBean.selectedTool.name} help " widgetVar="toolHelp1" modal="true">
+                    <h:outputText escape="false" value="#{utilityBean.selectedTool.toolHelp }"/> <br/>
+                </p:dialog> 
+                <p:dialog dynamic ="true" resizable="false" minHeight="80" header="Help" widgetVar="toolHelp2" modal="true">
+                    <h:outputText value="toolHelp2"/>                    
                     <h:outputText value="#{input.paramHelp}"/> <br/>
                 </p:dialog>
-                
-                <p:dialog resizable="false" minHeight="80" header="Help" widgetVar="toolHelp3" modal="true">
+
+                <p:dialog  dynamic="true" resizable="false" minHeight="80" header="Help" widgetVar="toolHelp3" modal="true">
                     <h:outputText value="#{param.paramHelp}"/> <br/>
+                    <h:outputText value="toolHelp3"/>
                 </p:dialog>
 
             </ui:define>
