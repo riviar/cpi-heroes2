@@ -14,12 +14,13 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import outputview.EOutputType;
 import outputview.GenericOutput;
-import tools.FileReader;
+import utils.FileReader;
 import toolstuff.util.ETool;
 import toolstuff.util.EToolType;
 import toolstuff.util.Tool;
 import toolstuff.util.ToolsBase;
 import toolstuff.util.ToolsBaseFactory;
+import utils.FileEditor;
 
 /**
  * Managed bean for managing tool output page
@@ -174,6 +175,7 @@ public class DataItemBean {
      */
     private String displayFastQC() {
         String path = utilityBean.getSelectedOutput().getPath();
+        FileEditor.editFastQCHTML(path);
         return "<iframe id=\"frame\" src=\"" + path + "\" frameborder=\"0\" width=\"100%\" height=\"750px\"></iframe>";
     }
 

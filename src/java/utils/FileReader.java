@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 
-package tools;
+package utils;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -25,19 +27,13 @@ public final class FileReader {
     }
     
     /**
-     * Reads file indicated by chosen filepath and return its raw contents
+     * Reads file indicated by chosen filepath and return chosen number of lines
      * @param filepath path to the file to be read
      * @param numberOfLines number of lines to return
      * @return raw contents of the file as string
      * @throws FileNotFoundException there is no file under specified filepath
      */
     public static String readFile(String filepath, int numberOfLines) throws FileNotFoundException {
-//        BufferedReader bfReader = new BufferedReader(new java.io.FileReader(filepath));
-//        String line;
-//        int i = 0;
-//        
-//        while((line = bfReader.readLine() != null) && i >)
-        
         StringBuilder stringBuffer = new StringBuilder();
         int i = 0;
         File file = new File(filepath);
@@ -51,5 +47,26 @@ public final class FileReader {
         fileStream.close();
         
         return stringBuffer.toString();
+    }
+    
+    /**
+     * Reads file indicated by chosen filepath and list of lines
+     * @param filepath path to the file to be read
+     * @return raw contents of the file as string
+     * @throws FileNotFoundException there is no file under specified filepath
+     */
+    public static List<String> readFileToLineList(String filepath) throws FileNotFoundException {
+        
+        List<String> lineList = new ArrayList();
+        File file = new File(filepath);
+        Scanner fileStream = new Scanner(file);
+        
+        while (fileStream.hasNext()) {
+            lineList.add(fileStream.nextLine());
+        }
+        
+        fileStream.close();
+        
+        return lineList;
     }
 }
