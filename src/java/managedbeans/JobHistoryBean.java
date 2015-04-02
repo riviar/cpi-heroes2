@@ -28,7 +28,7 @@ import toolstuff.TestToolBean;
 public class JobHistoryBean {
 
     private String jobName;
-
+        
     //private Jobhistory newJob;// = new Jobhistory("New Job 2");
     private Jobhistory newJob = new Jobhistory("New Job 2");
 
@@ -39,23 +39,23 @@ public class JobHistoryBean {
     public void setNewJob(Jobhistory newJob) {
         this.newJob = newJob;
     }
-
+    
     @EJB
     JobHistoryFacade jobHistoryFacade;
-
+    
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
-
+    
     @ManagedProperty(value = "#{param.currentJob}")
     private String currentJob;
-
+    
     @ManagedProperty(value = "#{param.selectedJob}")
     private String selectedJobId;
-
+    
     public void setcurrentJob(String currentJob) {
         this.setCurrentJob(currentJob);
     }
-
+    
     public void setUtilityBean(UtilityBean utilityBean) {
         this.utilityBean = utilityBean;
     }
@@ -67,7 +67,8 @@ public class JobHistoryBean {
     public void setSelectedJobId(String selectedJobId) {
         this.selectedJobId = selectedJobId;
     }
-
+    
+    
     /**
      * Creates a new instance of JobHistoryBean
      */
@@ -75,93 +76,96 @@ public class JobHistoryBean {
         //this.newJob = new Jobhistory();
         //jobHistoryFacade = new JobHistoryFacade();
     }
-
+    
     public JobHistoryBean(Jobhistory newJob) {
         this.newJob = newJob;
     }
-
+    
     public String addJob2History() {
         //check if user with specified login already exists
         /*if (jobHistoryFacade.jobExists(newJob.getJobname())) {
-         FacesContext.getCurrentInstance().addMessage(null,
-         new FacesMessage("This job already exists!"));
-         } else {*/
-        System.out.println("Job Name " + newJob.getJobname());
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("This job already exists!"));
+        } else {*/
+        System.out.println("Job Name "+newJob.getJobname());
         //jobHistoryFacade = new JobHistoryFacade();
-        if (jobHistoryFacade != null) {
+        if(jobHistoryFacade != null){
             jobHistoryFacade.addJob(newJob);
-        } else {
+        }else{
             jobHistoryFacade = new JobHistoryFacade();
             jobHistoryFacade.addJob(newJob);
         }
-
+        
+        
+        
         //}
         return "project";
     }
-
-    /**
+    
+      
+     /**
      * @param jobName the jobName to set
      */
     public void setJobName(String jobName) {
         this.jobName = jobName;
         //System.out.println(jobName);
     }
-
+    
     public List<Jobhistory> getJobs() {
         //List<String> list = new ArrayList();
         //List<Integer> jobs = jobHistoryFacade.getAllJobs();
         List<Jobhistory> jobs = jobHistoryFacade.getAllJobs();
         /*for (Jobhistory job:jobs) {
-         list.add(job.getJobname());
-         }*/
-        return jobs;
+            list.add(job.getJobname());
+        }*/
+        return jobs;        
     }
-
-    public List<Jobhistory> getProjectJobs() {
+    
+     public List<Jobhistory> getProjectJobs() {
         //List<Jobhistory> jobs = jobHistoryFacade.getAllJobs();
         List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(utilityBean.getSelectedProject().getIdprojects());
         List<Jobhistory> list = new ArrayList(jobs.size());
         //List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(151);
-        for (int i = jobs.size() - 1; i >= 0; i--) {
+        for (int i = jobs.size()-1; i>=0; i--) {
             //System.out.println(job.getProjectid().getIdprojects());
             //System.out.println(Integer.getInteger(selectedProject));
             //if(job.getProjectid().getIdprojects()==Integer.getInteger(selectedProject)){
-            //list.add(job);
+                 //list.add(job);
             //}
             list.add(jobs.get(i));
-
+           
         }
         //return jobs;
-        return list;
+        return list;             
     }
-
+    
     public List<String> getJobName() {
         List<String> list = new ArrayList();
         //List<Integer> jobs = jobHistoryFacade.getAllJobs();
         List<Jobhistory> jobs = jobHistoryFacade.getAllJobs();
-        for (Jobhistory job : jobs) {
+        for (Jobhistory job:jobs) {
             list.add(job.getJobname());
         }
-        return list;
+        return list;        
     }
-
+    
     public List<String> getJobCommand() {
         List<String> list = new ArrayList();
         //List<Integer> jobs = jobHistoryFacade.getAllJobs();
         List<Jobhistory> jobs = jobHistoryFacade.getAllJobs();
-        for (Jobhistory job : jobs) {
+        for (Jobhistory job:jobs) {
             list.add(job.getCommandused());
         }
-        return list;
+        return list;        
     }
-
-    public int getJobPID(String jobName) {
-        System.out.println(jobName);
+    
+    public int getJobPID(String jobName){
+         System.out.println(jobName);
         return jobHistoryFacade.getJobPID(getCurrentJob());
     }
-
-    public String getJobRunningTime(int PID) {
-
+    
+    public String getJobRunningTime(int PID){
+        
         List<String> commandList = new ArrayList(5);
         commandList.add("ps");
         commandList.add("-p");
@@ -173,38 +177,41 @@ public class JobHistoryBean {
         Process p = null;
         StringBuffer output = new StringBuffer();
         try {
-            p = pb.start();
+            p = pb.start();  
             p.waitFor();
-
+            
             InputStreamReader isr = new InputStreamReader(p.getInputStream());
             BufferedReader br = new BufferedReader(isr);
             String line = null;
-
+            
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
-                if (!line.contains("ELAPSED")) {
+                if(!line.contains("ELAPSED")){
                     output.append(line);
                 }
-
+                
             }
-
+            
+            
             /*StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
 
-             StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+            StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
 
-             // start gobblers
-             outputGobbler.start();
-             errorGobbler.start();*/
+            // start gobblers
+            outputGobbler.start();
+            errorGobbler.start();*/
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
+        
         return output.toString();
     }
-
+    
     /*public String getJobPID(){
-     return Integer.toString(jobHistoryFacade.getJobPID(currentJob));
-     }*/
+        return Integer.toString(jobHistoryFacade.getJobPID(currentJob));
+    }*/
+
     /**
      * @param currentJob the currentJob to set
      */
@@ -212,19 +219,10 @@ public class JobHistoryBean {
         System.out.println("Constructor: " + currentJob);
         this.currentJob = currentJob;
     }
-
+    
     /**
-     * @return the currentJob
-     */
-    public String getCurrentJob() {
-        return currentJob;
-    }
-
-    /**
-     * Sets selected jobHistory item in utility bean and redirects to output
-     * page
-     *
-     * @return
+     * Sets selected jobHistory item in utility bean and redirects to output page
+     * @return 
      */
     public String selectJobHistoryItem() {
         System.out.println("Looking for job with id " + selectedJobId);
@@ -232,5 +230,12 @@ public class JobHistoryBean {
         System.out.println("Found job with name " + selectedJobHistoryItem.getJobname());
         utilityBean.setSelectedJob(selectedJobHistoryItem);
         return "job_output";
+
+    /**
+     * @return the currentJob
+     */
+    public String getCurrentJob() {
+        return currentJob;
     }
+   
 }
