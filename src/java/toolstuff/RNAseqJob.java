@@ -43,20 +43,22 @@ public class RNAseqJob {
     private UtilityBean utilityBean;
     private JobHistoryFacade jobHistoryFacade;
     private FilesFacade filesFacade;
+    private ProjectSessionFacade projectFacade;
     
     public RNAseqJob(String jobName) {
         this.jobName = jobName;
-        //this.command = "/home/vmuser/CPI/tools/";
-        this.command = "/home/pitas/SOAPdenovo-Trans";
+        this.command = "/home/vmuser/CPI/tools/";
+        //this.command = "/home/pitas/SOAPdenovo-Trans";
     }
     
-    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, FilesFacade filesFacade, String jobName) {
+    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, FilesFacade filesFacade, ProjectSessionFacade projectFacade, String jobName) {
         this.jobHistoryFacade = jobHistoryFacade;
         this.utilityBean = utilityBean;
         this.filesFacade = filesFacade;
+        this.projectFacade = projectFacade;
         this.jobName = jobName;
-        //this.command = "/home/vmuser/CPI/tools/";
-        this.command = "/home/pitas/SOAPdenovo-Trans";
+        this.command = "/home/vmuser/CPI/tools/";
+        //this.command = "/home/pitas/SOAPdenovo-Trans";
     }
 
      /**
@@ -378,8 +380,10 @@ public class RNAseqJob {
             waitThread.setOutputName(outputName);
             waitThread.setToolEnum(getUtilityBean().getSelectedTool().getToolEnum());
             waitThread.setUpdateJob(newJob);
+            waitThread.setProject(getUtilityBean().getSelectedProject());
             waitThread.setJobHistoryFacade(jobHistoryFacade);
             waitThread.setFilesFacade(filesFacade);
+            waitThread.setProjectFacade(projectFacade);
             jobThread returnThread = new jobThread("returnThread");
             
             waitThread.start();

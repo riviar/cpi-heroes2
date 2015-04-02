@@ -26,7 +26,7 @@ public class WriteConfig {
     }
     
     public void write() throws Exception {
-        java.io.File file = new java.io.File("/home/pitas/Deskargak/config_file");
+        java.io.File file = new java.io.File("/home/vmuser/CPI/tools/SOAPdenovo-Trans/config_file");
         
         java.io.PrintWriter output = new java.io.PrintWriter(file);
                 

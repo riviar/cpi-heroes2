@@ -32,6 +32,7 @@ public abstract class AbstractFacade<T> {
     public void edit(T entity) {
         System.out.println("edit called");
         getEntityManager().merge(entity);
+        System.out.println("edited");
     }
 
     public void remove(T entity) {

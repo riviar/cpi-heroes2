@@ -191,7 +191,7 @@ public class ToolsBaseFactory {
                 ETool.SOAPdenovo_Trans, 
                 EToolType.ASSEMBLY, 
                 "Help me", 
-                /*"shell_scripts*/"/do_SOAPdenovo-Trans.sh", 
+                "shell_scripts/do_SOAPdenovo-Trans.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
                       

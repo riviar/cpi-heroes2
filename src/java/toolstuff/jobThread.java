@@ -13,11 +13,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
+import java.util.Collection;
 import javax.swing.JOptionPane;
 import managedbeans.UtilityBean;
 import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
+import sessionbeans.ProjectSessionFacade;
 import toolstuff.util.ETool;
 
 /**
@@ -33,12 +34,10 @@ public class jobThread extends Thread {
     private ETool toolEnum;
     private JobHistoryFacade jobHistoryFacade;
     private FilesFacade filesFacade;
-    
-    private final long startingTime;
-    
+    private ProjectSessionFacade projectFacade;
+           
     public jobThread(String string) {
-        super(string);
-        startingTime = System.currentTimeMillis();
+        super(string);        
     }
     
     
@@ -90,7 +89,12 @@ public class jobThread extends Thread {
         Files output3 = new Files();
         Files output4 = new Files();
         
+        //Projects updateProject = project;
+        Collection<Files> projectFiles = project.getFilesCollection();
+        
+        
         ArrayList<Projects> fileProject = new ArrayList(1);
+        System.out.println("Project " + project.getProjectname());
         fileProject.add(project);
         
         switch (toolEnum) {
@@ -102,6 +106,11 @@ public class jobThread extends Thread {
                 //Add a mock filetype. In the future it has to mean HTML
                 output1.setFiletype(new Filetype(1));
                 output1.setProjectsCollection(fileProject);
+                
+                //Add output files to project table
+                projectFiles.add(output1);
+                project.setFilesCollection(projectFiles);
+                projectFacade.edit(project);
                 
                 //Add output to database
                 filesFacade.create(output1);
@@ -136,7 +145,15 @@ public class jobThread extends Thread {
                 output4.setFiletype(new Filetype(2));
                 output4.setProjectsCollection(fileProject);
                 
-                //Add outputs to database
+                //Add output files to project table
+                projectFiles.add(output1);
+                projectFiles.add(output2);
+                projectFiles.add(output3);
+                projectFiles.add(output4);
+                project.setFilesCollection(projectFiles);
+                projectFacade.edit(project);
+                                
+                //Add outputs to files table
                 filesFacade.create(output1);
                 filesFacade.create(output2);
                 filesFacade.create(output3);
@@ -172,6 +189,14 @@ public class jobThread extends Thread {
                 output4.setFiletype(new Filetype(3));
                 output4.setProjectsCollection(fileProject);
                 
+                //Add output files to project table
+                projectFiles.add(output1);
+                projectFiles.add(output2);
+                projectFiles.add(output3);
+                projectFiles.add(output4);
+                project.setFilesCollection(projectFiles);
+                projectFacade.edit(project);
+                
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
@@ -194,6 +219,12 @@ public class jobThread extends Thread {
                 output2.setFiletype(new Filetype(2));
                 output2.setProjectsCollection(fileProject);
                 
+                //Add output files to project table
+                projectFiles.add(output1);
+                projectFiles.add(output2);
+                project.setFilesCollection(projectFiles);
+                projectFacade.edit(project);
+                              
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
@@ -214,6 +245,12 @@ public class jobThread extends Thread {
                 output2.setFiletype(new Filetype(2));
                 output2.setProjectsCollection(fileProject);
                 
+                //Add output files to project table
+                projectFiles.add(output1);
+                projectFiles.add(output2);
+                project.setFilesCollection(projectFiles);
+                projectFacade.edit(project);
+                               
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
@@ -234,6 +271,12 @@ public class jobThread extends Thread {
                 output2.setFiletype(new Filetype(2));
                 output2.setProjectsCollection(fileProject);
                 
+                //Add output files to project table
+                projectFiles.add(output1);
+                projectFiles.add(output2);
+                project.setFilesCollection(projectFiles);
+                projectFacade.edit(project);
+                                
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
@@ -254,6 +297,12 @@ public class jobThread extends Thread {
                 output2.setFiletype(new Filetype(2));
                 output2.setProjectsCollection(fileProject);
                 
+                //Add output files to project table
+                projectFiles.add(output1);
+                projectFiles.add(output2);
+                project.setFilesCollection(projectFiles);
+                projectFacade.edit(project);
+                
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
@@ -261,18 +310,24 @@ public class jobThread extends Thread {
             case SOAPdenovo_Trans:
                 //TRANSCRIPTS
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
-                output1.setDisplayname(outputName[0]);
+                output1.setDisplayname(outputName[0] + " transcripts");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
                 //Add a mock filetype. In the future it has to mean FASTA
                 output1.setFiletype(new Filetype(2));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
-                output2.setDisplayname(outputName[1]);
+                output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
                 //Add a mock filetype. In the future it has to mean FASTA
                 output2.setFiletype(new Filetype(2));
                 output2.setProjectsCollection(fileProject);
+                
+                //Add output files to project table
+                projectFiles.add(output1);
+                projectFiles.add(output2);
+                project.setFilesCollection(projectFiles);
+                projectFacade.edit(project);
                 
                 //Add outputs to database
                 filesFacade.create(output1);
@@ -286,6 +341,11 @@ public class jobThread extends Thread {
                 output1.setFiletype(new Filetype(4));
                 output1.setProjectsCollection(fileProject);
                 
+                //Add output files to project table
+                projectFiles.add(output1);
+                project.setFilesCollection(projectFiles);
+                projectFacade.edit(project);
+                                
                 //Add outputs to database
                 filesFacade.create(output1);
                 break;
@@ -294,16 +354,7 @@ public class jobThread extends Thread {
         }
 }
     
-    public String calculateRunningTime(){
-        
-        long runningTime = System.currentTimeMillis() - startingTime;
-                
-        return String.format("%d min, %d sec", 
-    TimeUnit.MILLISECONDS.toMinutes(runningTime),
-    TimeUnit.MILLISECONDS.toSeconds(runningTime) - 
-    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(runningTime)));
-    }
-    
+   
     /**
      * @return the p
      */
@@ -397,9 +448,16 @@ public class jobThread extends Thread {
     }
 
     /**
-     * @return the startingTime
+     * @return the projectFacade
      */
-    public long getStartingTime() {
-        return startingTime;
+    public ProjectSessionFacade getProjectFacade() {
+        return projectFacade;
+    }
+
+    /**
+     * @param projectFacade the projectFacade to set
+     */
+    public void setProjectFacade(ProjectSessionFacade projectFacade) {
+        this.projectFacade = projectFacade;
     }
 }

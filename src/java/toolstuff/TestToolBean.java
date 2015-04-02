@@ -78,7 +78,7 @@ public class TestToolBean {
     public String runJob() {
         //System.out.println(utilityBean.getSelectedTool().getName());
         //RNAseqJob job = new RNAseqJob(newJobName);
-        RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, filesFacade, newJobName);
+        RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, filesFacade, projectFacade, newJobName);
         job.execute();
         //System.out.println("Yes");
         return "project";
