@@ -103,12 +103,15 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
     
     /**
      * It retrieves the PID of a job given its name
+     * @param currentJob
      * @return 
      */
     public int getJobPID(String currentJob){
-        //System.out.println(currentJob);
-        Query q = em.createNamedQuery("Jobhistory.findJobPID(currentJob)");
-        return Integer.parseInt(q.getResultList().get(0).toString());
+       // System.out.println(currentJob);
+        
+        Query q = em.createNamedQuery("Jobhistory.findByJobname");
+        q.setParameter("jobname", currentJob);
+        return Integer.parseInt(q.getResultList().get(0).toString());        
     }
 
     /**
@@ -149,6 +152,22 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
         // should never reach here, so trap with assert, but return true anyway as IDE complains otherwise
         assert false;
         return true;
+    }
+    
+    /**
+     * Retrieve Jobhistory item by id
+     * @param id
+     * @return 
+     */
+    public Jobhistory findJobHistoryById(int id) {
+        Query q = em.createNamedQuery("Jobhistory.findByIdjobs");
+        q.setParameter("idjobs", id);
+        try {
+            return (Jobhistory) q.getSingleResult();
+        }
+        catch (NoResultException e) {
+            return null;
+        }
     }
     
     // Add business logic below. (Right-click in editor and choose

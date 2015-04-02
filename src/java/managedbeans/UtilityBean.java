@@ -11,6 +11,7 @@ import entitybeans.Users;
 import entitybeans.Workgroups;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import outputview.GenericOutput;
 import toolstuff.util.Tool;
 
 /**
@@ -28,6 +29,8 @@ public class UtilityBean {
     private Projects selectedProject;
     private Tool selectedTool;
     private Jobhistory newJob;
+    private Jobhistory selectedJob;
+    private GenericOutput selectedOutput;
 
     public Users getUser() {
         return user;
@@ -69,6 +72,24 @@ public class UtilityBean {
         System.out.println("utilbean.setselecteduser called");
         this.selectedUser = selectedUser;
     }
+
+    public Jobhistory getSelectedJob() {
+        return selectedJob;
+    }
+
+    public void setSelectedJob(Jobhistory selectedJob) {
+        this.selectedJob = selectedJob;
+    }
+
+    public GenericOutput getSelectedOutput() {
+        return selectedOutput;
+    }
+
+    public void setSelectedOutput(GenericOutput selectedOutput) {
+        this.selectedOutput = selectedOutput;
+    }
+    
+    
     
     /**
      * Creates a new instance of UtilityBean

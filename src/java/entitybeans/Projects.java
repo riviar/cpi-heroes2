@@ -177,4 +177,8 @@ public class Projects implements Serializable {
         this.jobhistoryCollection = jobhistoryCollection;
     }
 
+    public void setWorkgroup(Workgroups workgroup) {
+        this.workgroupid=workgroup;
+    }
+
 }
