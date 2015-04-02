@@ -93,6 +93,12 @@ public class RNAseqJob {
                 break;
             case ABUNDANCE_ESTIMATION:
                 executeAbundanceEstimation();
+            case DEG:
+                executeDeg();
+                break;
+            case CLUSTERS:
+                executeClusters();
+                break;
             default:
                 throw new AssertionError(getUtilityBean().getSelectedTool().getToolEnum().name());
         }
@@ -318,7 +324,8 @@ public class RNAseqJob {
         String rightInput = getUtilityBean().getSelectedTool().getInputList().get(2).getValue();
         
         String seqType = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
-        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String estMethod = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
         String[] outputName = new String[1];
         outputName[0] = prefix;
         
@@ -330,13 +337,71 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + seqType + " "
+                + estMethod + " "
                 + outputDir + " "
                 + prefix;
                 
         executeCommand(command, outputName);
        
     }
+    
+     private void executeDeg() {
+       String filesIsoforms = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
 
+        String estMethod = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+        String pvalue = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        String cFoldChange = getUtilityBean().getSelectedTool().getParameterList().get(2).getValue();
+        String maxDeg = getUtilityBean().getSelectedTool().getParameterList().get(3).getValue();
+        String prefix = getUtilityBean().getSelectedTool().getParameterList().get(4).getValue();
+        String files = getUtilityBean().getSelectedTool().getParameterList().get(5).getValue();
+       
+        
+//String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        
+        System.out.println(estMethod);
+        System.out.println(pvalue);
+        System.out.println(cFoldChange);
+        System.out.println(maxDeg);
+        System.out.println(prefix);
+        System.out.println(files);
+        
+        
+        
+        command += " " 
+                + files + " "
+                + estMethod + " "
+                + pvalue + " "
+                + cFoldChange + " "
+                + maxDeg + " "
+                + prefix + " "
+                + outputDir;
+                
+        executeCommand(command, new String[1]);
+       
+    }
+    private void executeClusters() {
+        String RDataFile = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+
+        String ptree = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
+               
+        
+        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+
+        
+        
+        command += " " 
+                + RDataFile + " "
+                + ptree + " "
+                + outputDir;
+                
+        executeCommand(command, new String[1]);
+       
+    }
+    
+    
+    
     /**
      * Executes shell command
      * @param command full command to execute
@@ -436,3 +501,14 @@ public class RNAseqJob {
         this.jobHistoryFacade = jobHistoryFacade;
     }
 }
+
+ 
+   
+    
+   
+    
+    
+    
+    
+    
+    

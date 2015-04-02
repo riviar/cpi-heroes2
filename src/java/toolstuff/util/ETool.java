@@ -18,5 +18,7 @@ public enum ETool {
     VELVET,
     TRANSABYSS,
     SOAPdenovo_Trans,
-    ABUNDANCE_ESTIMATION
+    ABUNDANCE_ESTIMATION,
+    DEG,
+    CLUSTERS
 }

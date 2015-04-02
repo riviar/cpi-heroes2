@@ -27,6 +27,31 @@ public class ToolsBaseFactory {
         
         //starting creating tools
         
+        
+              
+         //SOAPdenovo-Trans
+        inputs.clear();
+        inputs.add(new ToolAttributes("Left reads", "fasta"));
+        inputs.add(new ToolAttributes("Right reads", "fasta"));
+        parameters.clear();
+        dropdownList = new ArrayList();
+        dropdownList.add(new DropDownParamStruct("FASTQ", "fastq"));
+        dropdownList.add(new DropDownParamStruct("FASTA", "fasta"));
+        parameters.add(new ToolAttributes("Sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
+        
+        parameters.add(new ToolAttributes("Kmer", "31"));
+        parameters.add(new ToolAttributes("Insert length", "170"));
+        parameters.add(new ToolAttributes("Output file name", "transcripts.fa"));
+        fullToolsList.add(new Tool("SOAPdenovo-Trans", 
+                ETool.SOAPdenovo_Trans, 
+                EToolType.ASSEMBLY, 
+                "Help me", 
+                "shell_scripts/do_SOAPdenovo-Trans.sh", 
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));
+                      
+        
+
         //FastQC
         inputs.clear();
         inputs.add(new ToolAttributes("Fasta file", EToolParamType.DROPDOWN, "fasta", null));
@@ -35,7 +60,7 @@ public class ToolsBaseFactory {
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("FastQC", 
                 ETool.FASTQC, 
-                EToolType.PREPROCESSING,
+                EToolType.PREPROCESSING, 
                 "Performs initial analysis of fastqc quality", 
                 //"Preprocessing/FastQC/fastqc", 
                 "shell_scripts/do_fastqc.sh",
@@ -174,38 +199,21 @@ public class ToolsBaseFactory {
                 new ArrayList<>(parameters)));
         
         
-         //SOAPdenovo-Trans
-        inputs.clear();
-        inputs.add(new ToolAttributes("Left reads", "fasta"));
-        inputs.add(new ToolAttributes("Right reads", "fasta"));
-        parameters.clear();
-        dropdownList.clear();
-        dropdownList.add(new DropDownParamStruct("FASTQ", "fastq"));
-        dropdownList.add(new DropDownParamStruct("FASTA", "fasta"));
-        parameters.add(new ToolAttributes("Sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
-        
-        parameters.add(new ToolAttributes("Kmer", "31"));
-        parameters.add(new ToolAttributes("Insert length", "170"));
-        parameters.add(new ToolAttributes("Output file name", "transcripts.fa"));
-        fullToolsList.add(new Tool("SOAPdenovo-Trans", 
-                ETool.SOAPdenovo_Trans, 
-                EToolType.ASSEMBLY, 
-                "Help me", 
-                "shell_scripts/do_SOAPdenovo-Trans.sh", 
-                new ArrayList<>(inputs), 
-                new ArrayList<>(parameters)));
-                      
-        //RSEM
+        //ABUNDANCE ESTIMATION
         inputs.clear();
         inputs.add(new ToolAttributes("Fasta file", "fasta"));
         inputs.add(new ToolAttributes("Left reads", "fasta"));
         inputs.add(new ToolAttributes("Right reads", "fasta"));
         parameters.clear();
         dropdownList = new ArrayList();
-        dropdownList.add(new DropDownParamStruct("FASTQ", "fq"));
-        dropdownList.add(new DropDownParamStruct("FASTA", "fa"));
+        dropdownList.add(new DropDownParamStruct("fq", "fq"));
+        dropdownList.add(new DropDownParamStruct("fa", "fa"));
         parameters.add(new ToolAttributes("Reads sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList));
-        parameters.add(new ToolAttributes("Prefix for isoforms file", "sample"));
+        dropdownList = new ArrayList();
+        dropdownList.add(new DropDownParamStruct("RSEM", "RSEM"));
+        dropdownList.add(new DropDownParamStruct("eXpress", "eXpress"));
+        parameters.add(new ToolAttributes("Estimation method", EToolParamType.DROPDOWN, "RSEM", dropdownList));
+        parameters.add(new ToolAttributes("Prefix for isoforms file", "sample.RSEM"));
         //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
         //fullToolsList.add(tool);
         fullToolsList.add(new Tool("Abundance estimation", 
@@ -213,6 +221,50 @@ public class ToolsBaseFactory {
                 EToolType.DOWNSTREAM, 
                 "Help me", 
                 "shell_scripts/do_abundanceEstimation.sh", 
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));
+
+        //DEG
+        inputs.clear();
+//        inputs.add(new ToolAttributes("Abundance estimation files (select as many as you want to compare)", "/home/vmuser/CPI/datasets/1M_READS_sample/Sp_ds.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_log.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_hs.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_plat.isoforms.results"));
+        inputs.add(new ToolAttributes("Abundance estimation files (select as many as you want to compare)", "/home/vmuser/CPI/datasets/1M_READS_sample/Sp_plat.isoforms.results"));
+
+        parameters.clear();
+        dropdownList = new ArrayList();
+        dropdownList.add(new DropDownParamStruct("RSEM", "RSEM"));
+        dropdownList.add(new DropDownParamStruct("eXpress", "eXpress"));
+        parameters.add(new ToolAttributes("Estimation method used for abundance estimation", EToolParamType.DROPDOWN, "RSEM", dropdownList));
+        parameters.add(new ToolAttributes("P-value cutoff for FDR", "0.001"));
+        parameters.add(new ToolAttributes("Minimum log2(a/b) fold change (Default value 2 means 2^(2) or 4-fold", "2"));
+        parameters.add(new ToolAttributes("Maximum differentially expressed genes per comparison", "10"));
+        parameters.add(new ToolAttributes("Prefix for output files", "deg_samples"));
+        parameters.add(new ToolAttributes("Abundance estimation files (select as many as you want to compare)", "/home/vmuser/CPI/datasets/1M_READS_sample/Sp_ds.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_log.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_hs.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_plat.isoforms.results"));
+
+        //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
+        //fullToolsList.add(tool);
+        fullToolsList.add(new Tool("Differential gene expression", 
+                ETool.DEG, 
+                EToolType.DOWNSTREAM, 
+                "Help me", 
+                "shell_scripts/do_deg.sh", 
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters)));
+        
+        
+        //CLUSTERS
+        inputs.clear();
+        inputs.add(new ToolAttributes("Select RDATA file", "fasta"));
+
+        parameters.clear();
+        parameters.add(new ToolAttributes("Percent of height to cut tree", "60"));
+        
+        //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
+        //fullToolsList.add(tool);
+        fullToolsList.add(new Tool("Clusters by cutting dendrogram", 
+                ETool.CLUSTERS, 
+                EToolType.DOWNSTREAM, 
+                "Help me", 
+                "shell_scripts/do_clusters.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters)));
         

@@ -349,6 +349,10 @@ public class jobThread extends Thread {
                 //Add outputs to database
                 filesFacade.create(output1);
                 break;
+            case DEG:
+                break;
+            case CLUSTERS:
+                break;
             default:
                 throw new AssertionError(toolEnum.name());
         }
