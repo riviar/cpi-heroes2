@@ -61,7 +61,7 @@ public class Workgroups implements Serializable {
                 @JoinColumn(name = "workgroups_idworkgroups", referencedColumnName = "idworkgroups")}
     )
     private Collection<Users> usersCollection;
-    @OneToMany(mappedBy = "workgroupid")
+    @OneToMany(mappedBy = "workgroup")
     private Collection<Projects> projectsCollection;
     @JoinColumn(name = "owner", referencedColumnName = "idusers")
     @ManyToOne(optional = false)

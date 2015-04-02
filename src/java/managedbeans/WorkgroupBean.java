@@ -17,8 +17,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import sessionbeans.AccountSessionFacade;
 import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
@@ -202,14 +200,15 @@ public class WorkgroupBean {
     }
 
     public String createWorkgroup() {
-        if (workgroup == null) {
-            return "invaliddataerrorpage";
-        } else {
-            newWorkgroup = new Workgroups();
-            newWorkgroup.setWorkgroupname(newWorkgroupName);
-            newWorkgroup = getNewWorkgroup(newWorkgroup);
-            workgroupFacade.createWorkgroup(newWorkgroup);
-        }
+        newWorkgroup = new Workgroups();
+        newWorkgroup.setWorkgroupname(newWorkgroupName);
+        Users currentuser = utilityBean.getUser();
+        newWorkgroup.setOwner(currentuser);
+        ArrayList<Users> users = new ArrayList(1);
+        users.add(currentuser);
+        newWorkgroup.setUsersCollection(users);
+        workgroupFacade.createWorkgroup(newWorkgroup);
+
         return "workgroupspage";
     }
 

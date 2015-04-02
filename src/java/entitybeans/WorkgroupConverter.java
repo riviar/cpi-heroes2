@@ -25,7 +25,7 @@ public class WorkgroupConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String workgroupTextID) {
-        workgroupTextID = workgroupTextID.replace("entitybeans.Workgroups[ idworkgroups", "");
+        workgroupTextID = workgroupTextID.replace("entitybeans.Workgroups[ idworkgroups=", "");
         workgroupTextID = workgroupTextID.replace(" ]", "");
         int workgroupID = Integer.valueOf(workgroupTextID);
         Workgroups workgroup = workgroupFacade.find(workgroupID);
