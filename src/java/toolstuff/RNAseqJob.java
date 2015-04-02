@@ -1,4 +1,3 @@
- <<<<<<< HEAD
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -53,9 +52,11 @@ public class RNAseqJob {
         this.command = "/home/vmuser/CPI/tools/";
     }
 
-    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, String jobName) {
+    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, FilesFacade filesFacade, ProjectSessionFacade projectFacade, String jobName) {
         this.jobHistoryFacade = jobHistoryFacade;
         this.utilityBean = utilityBean;
+        this.filesFacade = filesFacade;
+        this.projectFacade = projectFacade;
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/";
     }

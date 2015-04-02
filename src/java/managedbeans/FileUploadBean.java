@@ -24,7 +24,7 @@ import org.primefaces.event.FileUploadEvent;
 @ManagedBean
 public class FileUploadBean {
    ///private String destination="/home/pitas/Deskargak";
-    private String destination="/home/vmuser/CPI/uploads";
+    private String destination="/home/vmuser/CPI/uploads/";
  
     public void upload(FileUploadEvent event) {  
         FacesMessage msg = new FacesMessage("Success! ", event.getFile().getFileName() + " is uploaded.");  

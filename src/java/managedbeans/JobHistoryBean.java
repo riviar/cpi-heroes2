@@ -230,7 +230,7 @@ public class JobHistoryBean {
         System.out.println("Found job with name " + selectedJobHistoryItem.getJobname());
         utilityBean.setSelectedJob(selectedJobHistoryItem);
         return "job_output";
-
+     }
     /**
      * @return the currentJob
      */
