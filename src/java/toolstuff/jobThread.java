@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 import managedbeans.UtilityBean;
 import sessionbeans.FilesFacade;
@@ -33,8 +34,11 @@ public class jobThread extends Thread {
     private JobHistoryFacade jobHistoryFacade;
     private FilesFacade filesFacade;
     
+    private final long startingTime;
+    
     public jobThread(String string) {
         super(string);
+        startingTime = System.currentTimeMillis();
     }
     
     
@@ -290,6 +294,16 @@ public class jobThread extends Thread {
         }
 }
     
+    public String calculateRunningTime(){
+        
+        long runningTime = System.currentTimeMillis() - startingTime;
+                
+        return String.format("%d min, %d sec", 
+    TimeUnit.MILLISECONDS.toMinutes(runningTime),
+    TimeUnit.MILLISECONDS.toSeconds(runningTime) - 
+    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(runningTime)));
+    }
+    
     /**
      * @return the p
      */
@@ -380,5 +394,12 @@ public class jobThread extends Thread {
      */
     public void setFilesFacade(FilesFacade filesFacade) {
         this.filesFacade = filesFacade;
+    }
+
+    /**
+     * @return the startingTime
+     */
+    public long getStartingTime() {
+        return startingTime;
     }
 }

@@ -103,12 +103,15 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
     
     /**
      * It retrieves the PID of a job given its name
+     * @param currentJob
      * @return 
      */
     public int getJobPID(String currentJob){
-        //System.out.println(currentJob);
-        Query q = em.createNamedQuery("Jobhistory.findJobPID(currentJob)");
-        return Integer.parseInt(q.getResultList().get(0).toString());
+       // System.out.println(currentJob);
+        
+        Query q = em.createNamedQuery("Jobhistory.findByJobname");
+        q.setParameter("jobname", currentJob);
+        return Integer.parseInt(q.getResultList().get(0).toString());        
     }
 
     /**

@@ -6,6 +6,8 @@
 package managedbeans;
 
 import entitybeans.Jobhistory;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -88,6 +90,7 @@ public class JobHistoryBean {
         return "project";
     }
     
+      
      /**
      * @param jobName the jobName to set
      */
@@ -144,15 +147,72 @@ public class JobHistoryBean {
         return list;        
     }
     
-    public int getJobPID(){
-        return jobHistoryFacade.getJobPID(currentJob);
+    public int getJobPID(String jobName){
+         System.out.println(jobName);
+        return jobHistoryFacade.getJobPID(getCurrentJob());
     }
+    
+    public String getJobRunningTime(int PID){
+        
+        List<String> commandList = new ArrayList(5);
+        commandList.add("ps");
+        commandList.add("-p");
+        commandList.add(Integer.toString(PID));
+        commandList.add("-o");
+        commandList.add("etime");
+        ProcessBuilder pb = new ProcessBuilder().command(commandList);
+        //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
+        Process p = null;
+        StringBuffer output = new StringBuffer();
+        try {
+            p = pb.start();  
+            p.waitFor();
+            
+            InputStreamReader isr = new InputStreamReader(p.getInputStream());
+            BufferedReader br = new BufferedReader(isr);
+            String line = null;
+            
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+                if(!line.contains("ELAPSED")){
+                    output.append(line);
+                }
+                
+            }
+            
+            
+            /*StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
+
+            StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+
+            // start gobblers
+            outputGobbler.start();
+            errorGobbler.start();*/
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        
+        return output.toString();
+    }
+    
+    /*public String getJobPID(){
+        return Integer.toString(jobHistoryFacade.getJobPID(currentJob));
+    }*/
 
     /**
      * @param currentJob the currentJob to set
      */
     public void setCurrentJob(String currentJob) {
+        System.out.println("Constructor: " + currentJob);
         this.currentJob = currentJob;
+    }
+
+    /**
+     * @return the currentJob
+     */
+    public String getCurrentJob() {
+        return currentJob;
     }
    
 }

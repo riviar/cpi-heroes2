@@ -130,14 +130,15 @@
                             <div id="hiddenDiv" class="about">
                                 <h:form>
                                 <ul>
-
+                                    
                                     <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
+                                        
                                         <li><div id="job">
                                                 <p class="subtool">#{job.jobname}</p>
                                                 <p>#{job.commandused}</p>
-                                                
+                                                                                                
                                                 <c:if test="#{job.processid>0}"><p style="color:orange"><b>RUNNING</b></p>
-                                                <p>Starting time and total running time</p></c:if>
+                                                <p>Running time: #{jobHistoryBean.getJobRunningTime(job.processid)}</p></c:if>
                                                 <c:if test="#{job.processid==0}"><p style="color:green"><b>FINISHED</b></p></c:if>
                                                 <c:if test="#{job.processid==-1}"><p style="color:red"><b>ERROR</b></p></c:if>                                               
                                                

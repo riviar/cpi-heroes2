@@ -38,10 +38,10 @@ public class TestToolBean {
 
     @EJB
     ProjectSessionFacade projectFacade;
-    
+
     @EJB
     private JobHistoryFacade jobHistoryFacade;
-    
+
     @EJB
     private FilesFacade filesFacade;
 //    @EJB
@@ -72,7 +72,8 @@ public class TestToolBean {
 
     /**
      * Creates new job instance and executes it using selectedTool (UtilityBean)
-     * @return 
+     *
+     * @return
      */
     public String runJob() {
         //System.out.println(utilityBean.getSelectedTool().getName());
@@ -110,7 +111,7 @@ public class TestToolBean {
     public void setNewJobName(String newJobName) {
         this.newJobName = newJobName;
     }
-    
+
     public Jobhistory getNewJob() {
         return newJob;
     }
@@ -133,7 +134,7 @@ public class TestToolBean {
     public UtilityBean getUtilityBean() {
         return utilityBean;
     }
-    
+
     public void setUtilityBean(UtilityBean utilityBean) {
         this.utilityBean = utilityBean;
     }
@@ -144,7 +145,7 @@ public class TestToolBean {
     public String getSelectedProject() {
         return selectedProject;
     }
-    
+
     public void setSelectedProject(String selectedProject) {
         this.selectedProject = selectedProject;
     }
