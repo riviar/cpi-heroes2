@@ -97,13 +97,17 @@
                                             </p></li>
                                     </c:forEach>  
                                 </ul>
-                                <li><p class=""><strong>Annotation</strong></p></li>
-                                <ul>
-                                    <li><p class="subtool">Tool 1</p></li>
-                                    <li><p class="subtool">Tool 2</p></li>
-                                    <li><p class="subtool">Tool 3</p></li>
-                                </ul>
                                 <li><p class=""><strong>Downstream Analysis</strong></p></li>
+                                <ul>
+                                    <c:forEach items="#{toolsSidebarBean.getDownstreamToolNames()}" var="toolName">
+                                        <li><p class="subtool">
+                                                <h:commandLink value="#{toolName}" action="#{toolsSidebarBean.selectTool()}">
+                                                    <f:param name="tool" value="#{toolName}"/>
+                                                </h:commandLink>
+                                        </p></li>
+                                    </c:forEach>
+                                </ul>
+                                <li><p class=""><strong>Annotation</strong></p></li>
                                 <ul>
                                     <li><p class="subtool">Tool 1</p></li>
                                     <li><p class="subtool">Tool 2</p></li>
@@ -125,25 +129,27 @@
                             <h3>Workflow History</h3>
                             <div id="hiddenDiv" class="about">
                                 <h:form>
-                                    <ul>
-
-                                        <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
-                                            <li><div id="job">
-                                                        <p class="subtool">
+                                <ul>
+                                    
+                                    <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
+                                        
+                                        <li><div id="job">
+                                                <p class="subtool">
                                                             <h:commandLink value="#{job.jobname}" action="#{jobHistoryBean.selectJobHistoryItem()}">
                                                                 <f:param name="selectedJob" value="#{job.idjobs}"/>
                                                             </h:commandLink>
                                                         </p>
-                                                    <p>#{job.commandused}</p>
-
-                                                    <c:if test="#{job.processid>0}"><p style="color:orange">RUNNING</p>
-                                                        <!--<p>{}</p>--></c:if>
-                                                    <c:if test="#{job.processid==-1}"><p style="color:green">FINISHED</p></c:if>                                               
-
-                                                </div></li>
-                                        </c:forEach>  
-
-                                    </ul>
+                                                <p>#{job.commandused}</p>
+                                                                                                
+                                                <c:if test="#{job.processid>0}"><p style="color:orange"><b>RUNNING</b></p>
+                                                <p>Running time: #{jobHistoryBean.getJobRunningTime(job.processid)}</p></c:if>
+                                                <c:if test="#{job.processid==0}"><p style="color:green"><b>FINISHED</b></p></c:if>
+                                                <c:if test="#{job.processid==-1}"><p style="color:red"><b>ERROR</b></p></c:if>                                               
+                                               
+                                            </div></li>
+                                    </c:forEach>  
+                                                                        
+                                </ul>
                                 </h:form>
                             </div>
                         </div><!-- cB2 end -->

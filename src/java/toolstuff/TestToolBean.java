@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import managedbeans.UtilityBean;
 import sessionbeans.AccountSessionFacade;
+import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
 import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
@@ -37,9 +38,12 @@ public class TestToolBean {
 
     @EJB
     ProjectSessionFacade projectFacade;
-    
+
     @EJB
     private JobHistoryFacade jobHistoryFacade;
+
+    @EJB
+    private FilesFacade filesFacade;
 //    @EJB
 //    AuthenticationBean authBean;
     @ManagedProperty(value = "#{utilityBean}")
@@ -68,12 +72,13 @@ public class TestToolBean {
 
     /**
      * Creates new job instance and executes it using selectedTool (UtilityBean)
-     * @return 
+     *
+     * @return
      */
     public String runJob() {
         //System.out.println(utilityBean.getSelectedTool().getName());
         //RNAseqJob job = new RNAseqJob(newJobName);
-        RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, newJobName);
+        RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, filesFacade, projectFacade, newJobName);
         job.execute();
         //System.out.println("Yes");
         return "project";
@@ -106,7 +111,7 @@ public class TestToolBean {
     public void setNewJobName(String newJobName) {
         this.newJobName = newJobName;
     }
-    
+
     public Jobhistory getNewJob() {
         return newJob;
     }
@@ -129,7 +134,7 @@ public class TestToolBean {
     public UtilityBean getUtilityBean() {
         return utilityBean;
     }
-    
+
     public void setUtilityBean(UtilityBean utilityBean) {
         this.utilityBean = utilityBean;
     }
@@ -140,7 +145,7 @@ public class TestToolBean {
     public String getSelectedProject() {
         return selectedProject;
     }
-    
+
     public void setSelectedProject(String selectedProject) {
         this.selectedProject = selectedProject;
     }

@@ -16,5 +16,7 @@ public enum ETool {
     SEECER,
     TRINITY,
     VELVET,
-    TRANSABYSS
+    TRANSABYSS,
+    SOAPdenovo_Trans,
+    ABUNDANCE_ESTIMATION
 }
