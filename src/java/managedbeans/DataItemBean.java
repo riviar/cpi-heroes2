@@ -105,7 +105,7 @@ public class DataItemBean {
 
         switch (jobsTool) {
             case FASTQC:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "/home/vmuser/CPI/results/" + jobid + "/fastqc.html", jobsTool));
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "../results/" + jobid + "/fastqc.html", jobsTool));
                 break;
 
             case TRIMMOMATIC_TRIM:
@@ -176,7 +176,6 @@ public class DataItemBean {
     private String displayFastQC() {
         String path = utilityBean.getSelectedOutput().getPath();
         FileEditor.editFastQCHTML(path);
-        path = "../" + path.substring(16); //or 15, check that
         return "<iframe id=\"frame\" src=\"" + path + "\" frameborder=\"0\" width=\"100%\" height=\"750px\"></iframe>";
     }
 
