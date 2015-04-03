@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import sessionbeans.ProjectSessionFacade;
@@ -22,7 +23,7 @@ import sessionbeans.ProjectSessionFacade;
  * @author user
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class ProjectBean {
 
     private Projects project;
