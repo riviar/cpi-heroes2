@@ -25,7 +25,7 @@ public class ProjectConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String projectTextID) {
-        projectTextID = projectTextID.replace("entitybeans.Projects[ idprojects", "");
+        projectTextID = projectTextID.replace("entitybeans.Projects[ idprojects=", "");
         projectTextID = projectTextID.replace(" ]", "");
         int projectID = Integer.valueOf(projectTextID);
         Projects project = projectFacade.find(projectID);
@@ -34,6 +34,7 @@ public class ProjectConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
+        if(value == null) return null;
         return value.toString();
     }
     

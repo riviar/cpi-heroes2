@@ -8,15 +8,18 @@ package managedbeans;
 import entitybeans.Files;
 import entitybeans.Projects;
 import entitybeans.Workgroups;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
+import sessionbeans.FilesFacade;
 import sessionbeans.ProjectSessionFacade;
+import sessionbeans.WorkGroupSessionFacade;
 
 /**
  *
@@ -31,13 +34,31 @@ public class ProjectBean {
     private String newProjectName;
     private Workgroups newProjectWorkgroup;
     private String newProjectVisibility;
-
+    private List<Projects> userVisibleProjects;
+    
     @EJB
     ProjectSessionFacade projectFacade;
-
+    @EJB
+    WorkGroupSessionFacade workgroupFacade;
+    @EJB
+    FilesFacade fileFacade;
+    
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
+//    @ManagedProperty(value = "#{param.selectedProject}")
+    private Projects selectedProject;
+//    @ManagedProperty(value = "#{param.fakeProperty}")
 
+    public Projects getSelectedProject() {
+        System.err.println("PB.getSelectedProject = " + selectedProject);
+        return selectedProject;
+    }
+
+    public void setSelectedProject(Projects selectedProject) {       
+        this.selectedProject = selectedProject;
+        System.err.println("PB.setSelectedProject = " + selectedProject);
+    }
+    
     public String getNewProjectName() {
         return newProjectName;
     }
@@ -95,8 +116,11 @@ public class ProjectBean {
         return "projectpage";
     }
 
-    public Collection<Projects> getUserVisibleProjects() {
-        return projectFacade.getUserVisibleProjects(utilityBean.getUser());
+    public List<Projects> getUserVisibleProjects() {
+        if(userVisibleProjects == null) {
+            userVisibleProjects = (List<Projects>) projectFacade.getUserVisibleProjects(utilityBean.getUser());
+        }
+        return userVisibleProjects;
     }
 
     public Collection<Projects> getUserOwnedProjects() {
@@ -128,4 +152,46 @@ public class ProjectBean {
         projectFacade.create(project);
         return "projects_menu";
     }
+    
+    /**
+     * Deletes the project currently represented by bean parameter <code>selectedProject</code>.
+     * Removes associations between workgroups/files and deleted workgroup, but 
+     * does not delete the associated workgroups/files themselves.
+     * @return String "projects_menu"
+     */
+    
+    public String deleteProject() {
+        Projects project = selectedProject;
+        // update workgroup associated with deleted project
+        Workgroups workgroup = project.getWorkgroup();
+        // test for non-null workgroup rather than project visibility
+        // in case of future security model changes
+        if(workgroup != null) {
+            Collection<Projects> projects = workgroup.getProjectsCollection();
+            projects.remove(project);
+            workgroup.setProjectsCollection(projects);
+            workgroupFacade.updateWorkgroup(workgroup);
+        }
+        // update files associatee with deleted project
+        for(Files file: project.getFilesCollection()) {
+            Collection<Projects> projects = file.getProjectsCollection();
+            projects.remove(project);
+            file.setProjectsCollection(projects);
+            fileFacade.edit(file);
+        }
+        // delete project, which should now have no foreign keys associated
+        projectFacade.remove(project);
+        return "projects_menu";
+    }
+    
+     /**
+     * Selects projects and redirects to its page
+     * @return
+     */
+    public String selectProject() {
+        System.err.println("PB.selectProject = " + selectedProject.toString());
+        utilityBean.setSelectedProject(selectedProject);
+        return "project";
+    }
+    
 }

@@ -18,100 +18,72 @@
             <ui:define name="center">
                 <h3>Projects Menu</h3>
                 <div class="news">
-                    <h4>Your projects</h4>
-                    <br/>
-                    <h:form>
-                        <ul>
-                            <c:forEach items="#{projectBean.allPublicProjects}" var="project">
-                                <li>
-                                    <p>
-                                        <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
-                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
-                                        </h:commandLink>
-                                        &ndash; visible to all users
-                                    </p>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </h:form>
-                    <h:form>
-                        <ul>                                    
-                            <c:forEach items="#{projectBean.protectedProjects}" var="project">
-                                <li>
-                                    <p>
-                                        <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
-                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
-                                        </h:commandLink>
-                                        &ndash; visible to members of 
-                                        <h:commandLink value="#{project.workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
-                                            <f:param name="selectedWorkgroup" value="#{project.workgroup.idworkgroups}"/>
-                                        </h:commandLink>
-                                    </p>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </h:form>
-                    <h:form>
-                        <ul>
-                            <c:forEach items="#{projectBean.privateProjects}" var="project">
-                                <li>
-                                    <p>
-
-                                        <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
-                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
-                                        </h:commandLink>
-                                        &ndash; only visible to you
-                                    </p>
-                                </li>
-                            </c:forEach>
-                        </ul>
-                    </h:form>
-                </div>
-                <div class="news">
-                    <h4>Other projects</h4>
-                    <br/>
-                    <h:form>
-                        <ul>
-                            <c:forEach items="#{projectBean.allPublicProjects}" var="project">
-                                <c:if test="#{!project.owner.equals(utilityBean.user)}">
-                                    <li>
-                                        <p>
-                                            <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
-                                                <f:param name="selectedProject" value="#{project.idprojects}"/>
-                                            </h:commandLink>
-                                            &ndash; visible to all users
-                                        </p>
-                                    </li>
-                                </c:if>
-                            </c:forEach>
-                        </ul>
-                    </h:form>
-                    <h:form>
-                        <ul>                                    
-                            <c:forEach items="#{projectBean.userVisibleProjects}" var="project">
-                                <c:if test="#{project.visibility == 'PROTECTED' and !project.owner.equals(utilityBean.user)} ">
-                                    <li>
-                                    <p>
-                                        <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
-                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
-                                        </h:commandLink>
-                                        &ndash; visible to members of 
-                                        <h:commandLink value="#{project.workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
-                                            <f:param name="selectedWorkgroup" value="#{project.workgroup.idworkgroups}"/>
-                                        </h:commandLink>
-                                    </p>
-                                </li>
-                                </c:if>
-                            </c:forEach>
-                        </ul>
-                    </h:form>
-                </div>
-                <div class="news">
                     <h:form>
                         <h:commandButton id="openCreateWkDial" onclick="PF('createProjectDial').show();
-                                return false;" class="centerButton" value="Create Project"/>
+                                return false;" class="centerButton" value="Create New Project"/>
                     </h:form>
                 </div>
+                <div class="news">
+                    <h:form id="projects">
+                        <p:dataTable var="project" value="#{projectBean.userVisibleProjects}">
+                            <p:column headerText="Name" sortBy="#{project.projectname}">
+                                <h:outputText value="#{project.projectname}"/>
+                            </p:column>
+                            <p:column headerText="Visibility" sortBy="#{project.visibility}">
+                                <h:outputText value="#{project.visibility}"/>
+                            </p:column>
+                            <p:column headerText="Workgroup" sortBy="#{project.workgroup.workgroupname}">
+                                <c:if test="true">
+                                    <h:outputText value="#{project.workgroup.workgroupname}"/>
+                                </c:if>
+                            </p:column>
+                            <p:column headerText="Creation Date">
+                                <h:outputText value="0000-00-00"/>
+                            </p:column>
+                            <p:column headerText="Owner" sortBy="#{project.owner.username}">
+                                <h:outputText value="#{project.owner.username}"/>
+                            </p:column>
+                            <p:column headerText="View" width="30">
+                                <p:commandButton update=":projects" icon="ui-icon-search" title="View" action="#{projectBean.selectProject()}">
+                                    <f:param name="selectedProject" value="#{project}"/>
+                                    <f:metadata name = "selectedProject">
+                                        <f:viewParam name="selectedProject" value="#{projectBean.selectedProject}" required="true" converter="projectConverter"/>
+                                    </f:metadata>
+                                </p:commandButton>
+                            </p:column>                       
+                            <p:column headerText="Delete" width="30">
+                                <p:commandButton update=":projects" icon="ui-icon-delete" title="Delete" onclick="PF('confirmDeleteProject#{project.idprojects}').show();
+                                        return false;">
+                                    <f:param name="fakeProperty" value="#{project}"/>
+                                    <f:metadata>
+                                        <f:viewParam name="fakeProperty" value="#{projectBean.fakeProperty}" required="true" converter="projectConverter"/>
+                                    </f:metadata>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </div>
+
+                
+                <ui:repeat value="#{projectBean.userVisibleProjects}" var="project">
+                <h:form>
+                    <p:confirmDialog id="confirmDialog" widgetVar="confirmDeleteProject#{project.idprojects}" message="Are you sure you want to delete project #{project.projectname}?">
+                        <h3>Delete Project</h3>
+                        <p:commandButton id="confirmRemoveButton"
+                                         action="#{projectBean.deleteProject()}"
+                                         class="centerButton" 
+                                         ajax="false"
+                                         value="Delete">
+                            <f:param name="selectedProject" value="#{project}"/>
+                        </p:commandButton>
+                        <p:commandButton id="cancelRemoveButton" 
+                                         onclick="PF('confirmDeleteProject').hide();return false;" 
+                                         class="centerButton" 
+                                         value="Cancel"/>
+                    </p:confirmDialog>
+                </h:form>
+                </ui:repeat>
+
 
                 <p:dialog resizable="false" minHeight="80" header="Create Project" widgetVar="createProjectDial" modal="true">
                     <h3>Create new project</h3>

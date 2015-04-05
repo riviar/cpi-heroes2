@@ -9,9 +9,9 @@ import entitybeans.Files;
 import entitybeans.Projects;
 import entitybeans.Users;
 import entitybeans.Workgroups;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -110,7 +110,7 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
     }
 
     public Collection<Projects> getUserVisibleProjects(Users user) {
-        Collection<Projects> userVisibleProjects = new HashSet();
+        Collection<Projects> userVisibleProjects = new ArrayList();
         Query q = em.createNamedQuery("Projects.findInUsersWorkgroup", Projects.class);
         q.setParameter(1, user.getIdusers());
         userVisibleProjects.addAll(q.getResultList());
