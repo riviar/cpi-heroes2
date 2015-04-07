@@ -32,26 +32,8 @@
                             <c:forEach items="#{filesBean.getFilesNames()}"  var="file">
                                 <li><h:outputText value="#{file}"/></li>
                             </c:forEach>
-                        </c:if>
+                        </c:if>                        
                         
-                        <h:form>
-                            <h:commandLink value="Trimmomatic" action="#{testToolBean.doTrimmomatic()}" >
-                                <f:param name="selectedProject" value="#{utilityBean.selectedProject.idprojects}"/>
-                            </h:commandLink>
-                        </h:form>
-                        
-                        <h:form>
-                            <h:commandLink value="Velvet" action="#{testToolBean.doVelvet()}" >
-                                <f:param name="selectedProject" value="#{utilityBean.selectedProject.idprojects}"/>
-                            </h:commandLink>
-                        </h:form>
-                        
-                        <h:form>
-                            <h:commandLink value="Trinity" action="#{testToolBean.doTrinity()}" >
-                                <f:param name="selectedProject" value="#{utilityBean.selectedProject.idprojects}"/>
-                            </h:commandLink>
-                        </h:form>
-
                     </ul>
                 </div>
                 <div class="news">

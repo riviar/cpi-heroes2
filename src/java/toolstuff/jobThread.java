@@ -20,6 +20,8 @@ import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
 import sessionbeans.ProjectSessionFacade;
 import toolstuff.util.ETool;
+import java.sql.Date;
+import java.sql.Time;
 
 /**
  *
@@ -31,6 +33,7 @@ public class jobThread extends Thread {
     private String[] outputName; 
     private Jobhistory updateJob;
     private Projects project;
+    private long currentTime;
     private ETool toolEnum;
     private JobHistoryFacade jobHistoryFacade;
     private FilesFacade filesFacade;
@@ -61,11 +64,15 @@ public class jobThread extends Thread {
 
                 //Update the status to finished (0) or error (-1)
                 if(p.exitValue()==0){
+                    //Running time
+                    //updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
+                    updateJob.setRunningtime(new java.sql.Time(90000000000L-3600000));
+                                        
                     //Normal termination
                     updateJob.setProcessid(0);
                     
                     //Add the output files to the database
-                    addOutputToDB();
+                   // addOutputToDB();
                 }else{
                     //Error
                     updateJob.setProcessid(-1);
@@ -459,5 +466,19 @@ public class jobThread extends Thread {
      */
     public void setProjectFacade(ProjectSessionFacade projectFacade) {
         this.projectFacade = projectFacade;
+    }
+
+    /**
+     * @return the currentTime
+     */
+    public long getCurrentTime() {
+        return currentTime;
+    }
+
+    /**
+     * @param currentTime the currentTime to set
+     */
+    public void setCurrentTime(long currentTime) {
+        this.currentTime = currentTime;        
     }
 }
