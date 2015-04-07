@@ -182,7 +182,7 @@ public class WorkgroupBean {
     public String addProjectToWorkgroup() {
         project = projectFacade.retrieveProjectById(Integer.valueOf(selectedProject));
         workgroup = workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup));
-        project.setWorkgroupid(workgroup);
+        project.setWorkgroup(workgroup);
         projectFacade.updateProject(project);
         Collection<Projects> projects = workgroup.getProjectsCollection();
         projects.add(project);
