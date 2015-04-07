@@ -82,16 +82,16 @@ public class ProjectBean {
         } else {
             projectFacade.addFileToProject(file, project);
         }
-        return "projectpage";
+        return "projectpage?faces-redirect=true";
     }
 
     public String removeFileFromProject() {
         if (file == null || project == null) {
-            return "errorpage";
+            return "errorpage?faces-redirect=true";
         } else {
             projectFacade.removeFileFromProject(file, project);
         }
-        return "projectpage";
+        return "projectpage?faces-redirect=true";
     }
 
     public Collection<Projects> getUserVisibleProjects() {
@@ -125,6 +125,6 @@ public class ProjectBean {
         project.setWorkgroup(newProjectWorkgroup);
         project.setVisibility(newProjectVisibility);
         projectFacade.create(project);
-        return "projects_menu";
+        return "projects_menu?faces-redirect=true";
     }
 }

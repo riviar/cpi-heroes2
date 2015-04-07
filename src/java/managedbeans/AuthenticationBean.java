@@ -91,7 +91,7 @@ public class AuthenticationBean {
             // set user attribute in utilitybean
             utilityBean.setUser(user);
             newUser = user;
-            return "home";
+            return "home?faces-redirect=true";
         }
     }
 
@@ -113,13 +113,13 @@ public class AuthenticationBean {
         } else {
             accountFacade.registerUser(newUser);
         }
-        return "index";
+        return "index?faces-redirect=true";
     }
     
     public String logOut() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                     .getExternalContext().getSession(false);
         session.invalidate();
-        return "index";
+        return "index?faces-redirect=true";
     }
 }

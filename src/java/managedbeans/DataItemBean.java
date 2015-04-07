@@ -206,10 +206,10 @@ public class DataItemBean {
             if (output.getName().equals(outputName)) {
                 utilityBean.setSelectedOutput(output);
                 System.out.println("Trying to show file " + output.getPath());
-                return "data_item";
+                return "data_item?faces-redirect=true";
             }
         }
-        return "job_output";
+        return "job_output?faces-redirect=true";
     }
 
 }
