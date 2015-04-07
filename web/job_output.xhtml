@@ -23,9 +23,9 @@
                             <h:form>
                                 <c:forEach items="#{dataItemBean.getReportFiles()}" var="reportFile">  
                                     <p>#{reportFile.name} &ndash;
-                                        <h:commandButton class="centerButton" value="See report" action="#{dataItemBean.selectOutputFile()}">
+                                        <h:commandLink style="color: #103C20;" target="newPopup" class="centerButton" value="View report" action="#{dataItemBean.selectOutputFile()}">
                                             <f:param name="output" value="#{outputFile.name}"/>
-                                        </h:commandButton>
+                                        </h:commandLink>
                                         <h:commandButton class="centerButton" style="margin-left: 5px;" value="Download" action="#{dataItemBean.downloadFile()}">
                                             <f:param name="output" value="#{outputFile.name}"/>
                                         </h:commandButton>    

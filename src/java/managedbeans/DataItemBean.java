@@ -15,6 +15,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +35,7 @@ import utils.FileEditor;
  * @author Fox
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class DataItemBean {
 
     private Jobhistory job;
@@ -208,6 +209,7 @@ public class DataItemBean {
      * @return
      */
     public String selectOutputFile() {
+        //getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff, probably could be fixed with viewscoped
         for (GenericOutput output : outputsList) {
             if (output.getName().equals(outputName)) {
                 utilityBean.setSelectedOutput(output);
@@ -224,7 +226,7 @@ public class DataItemBean {
      * @return
      */
     public boolean containsReportFile() {
-        getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff
+        //getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff
         for (GenericOutput output : outputsList) {
             if (output.getOutputType() == EOutputType.HTML
                     || output.getOutputType() == EOutputType.TXT) {
@@ -240,7 +242,7 @@ public class DataItemBean {
      * @return
      */
     public List<GenericOutput> getReportFiles() {
-        getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff
+        //getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff
         List<GenericOutput> reports = new ArrayList();
         for (GenericOutput output : outputsList) {
             if (output.getOutputType() == EOutputType.HTML
