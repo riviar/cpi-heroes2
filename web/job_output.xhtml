@@ -19,20 +19,20 @@
                 <c:if test="#{dataItemBean.containsReportFile()}">
                     <div class="news">
                         <h4>Job report:</h4>
-                    <ul>
-                        <h:form>
-                            <c:forEach items="#{dataItemBean.getReportFiles()}" var="reportFile">  
-                                <p>#{reportFile.name} &ndash;
-                                <h:commandButton class="centerButton" value="See report" action="#{dataItemBean.selectOutputFile()}">
-                                    <f:param name="output" value="#{outputFile.name}"/>
-                                </h:commandButton>
-                                <h:commandButton class="centerButton" style="margin-left: 5px;" value="Download" action="#{dataItemBean.selectOutputFile()}">
-                                    <f:param name="output" value="#{outputFile.name}"/>
-                                </h:commandButton>    
-                                </p>
-                            </c:forEach>
-                        </h:form>
-                    </ul>
+                        <ul>
+                            <h:form>
+                                <c:forEach items="#{dataItemBean.getReportFiles()}" var="reportFile">  
+                                    <p>#{reportFile.name} &ndash;
+                                        <h:commandButton class="centerButton" value="See report" action="#{dataItemBean.selectOutputFile()}">
+                                            <f:param name="output" value="#{outputFile.name}"/>
+                                        </h:commandButton>
+                                        <h:commandButton class="centerButton" style="margin-left: 5px;" value="Download" action="#{dataItemBean.downloadFile()}">
+                                            <f:param name="output" value="#{outputFile.name}"/>
+                                        </h:commandButton>    
+                                    </p>
+                                </c:forEach>
+                            </h:form>
+                        </ul>
                     </div>
                 </c:if>
                 <div class="news">
@@ -41,9 +41,9 @@
                         <h:form>
                             <c:forEach items="#{dataItemBean.getJobOutputFiles()}" var="outputFile">
                                 <p>#{outputFile.name} &ndash;
-                                <h:commandButton class="centerButton" value="Download" action="job_output?faces-redirect=true">
-                                    <f:param name="output" value="#{outputFile.name}"/>
-                                </h:commandButton>
+                                    <h:commandButton class="centerButton" value="Download" action="#{dataItemBean.downloadFile()}">
+                                        <f:param name="output" value="#{outputFile.name}"/>
+                                    </h:commandButton>
                                 </p>
                             </c:forEach>
                         </h:form>

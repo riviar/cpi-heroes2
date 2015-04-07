@@ -6,12 +6,18 @@
 package managedbeans;
 
 import entitybeans.Jobhistory;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import outputview.EOutputType;
 import outputview.GenericOutput;
 import utils.FileReader;
@@ -105,7 +111,7 @@ public class DataItemBean {
 
         switch (jobsTool) {
             case FASTQC:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "/home/vmuser/CPI/results/" + jobid + "/fastqc.html", jobsTool));
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "../results/" + jobid + "/fastqc.html", jobsTool));
                 break;
 
             case TRIMMOMATIC_TRIM:
@@ -176,7 +182,7 @@ public class DataItemBean {
     private String displayFastQC() {
         String path = utilityBean.getSelectedOutput().getPath();
         //FileEditor.editFastQCHTML(path);
-        path = "../" + path.substring(16); //or 15, check that
+        //path = "../" + path.substring(16); //or 15, check that
         return "<iframe id=\"frame\" src=\"" + path + "\" frameborder=\"0\" width=\"100%\" height=\"750px\"></iframe>";
     }
 
@@ -211,36 +217,77 @@ public class DataItemBean {
         }
         return "job_output?faces-redirect=true";
     }
-    
+
     /**
      * Returns true if lists of outputs contains any file usable as reports
-     * @return 
+     *
+     * @return
      */
     public boolean containsReportFile() {
         getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff
-        for (GenericOutput output:outputsList) {
-            if (output.getOutputType() == EOutputType.HTML ||
-                    output.getOutputType() == EOutputType.TXT) {
+        for (GenericOutput output : outputsList) {
+            if (output.getOutputType() == EOutputType.HTML
+                    || output.getOutputType() == EOutputType.TXT) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * Returns list of files usable as reports
-     * @return 
+     *
+     * @return
      */
     public List<GenericOutput> getReportFiles() {
         getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff
         List<GenericOutput> reports = new ArrayList();
-        for (GenericOutput output:outputsList) {
-            if (output.getOutputType() == EOutputType.HTML ||
-                    output.getOutputType() == EOutputType.TXT) {
+        for (GenericOutput output : outputsList) {
+            if (output.getOutputType() == EOutputType.HTML
+                    || output.getOutputType() == EOutputType.TXT) {
                 reports.add(output);
             }
         }
         return reports;
+    }
+
+    /**
+     * Downloads selected file, method from unknown source, test it on VM
+     * @return 
+     */
+    public String downloadFile() {
+        selectOutputFile();
+        String path = utilityBean.getSelectedOutput().getPath();
+        
+        File file = new File(path);
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+
+        response.setHeader("Content-Disposition", "attachment;filename=" + utilityBean.getSelectedOutput().getName());
+        response.setContentLength((int) file.length());
+        ServletOutputStream out = null;
+        try {
+            FileInputStream input = new FileInputStream(file);
+            byte[] buffer = new byte[1024];
+            out = response.getOutputStream();
+            int i = 0;
+            while ((i = input.read(buffer)) != -1) {
+                out.write(buffer);
+                out.flush();
+            }
+            FacesContext.getCurrentInstance().getResponseComplete();
+        } catch (IOException err) {
+            err.printStackTrace();
+            return "error";
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException err) {
+                err.printStackTrace();
+            }
+            return "job_output?faces-redirect=true";
+        }
     }
 
 }
