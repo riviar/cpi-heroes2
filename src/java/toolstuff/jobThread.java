@@ -20,6 +20,7 @@ import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
 import sessionbeans.ProjectSessionFacade;
 import toolstuff.util.ETool;
+import utils.FileEditor;
 
 /**
  *
@@ -114,6 +115,7 @@ public class jobThread extends Thread {
                 
                 //Add output to database
                 filesFacade.create(output1);
+                FileEditor.editFastQCHTML("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fastqc.html");
                 break;
             case TRIMMOMATIC_TRIM:
                 //PAIRED FORWARD
