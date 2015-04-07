@@ -410,7 +410,8 @@ public class RNAseqJob {
     private void executeCommand(String command, String[] outputName) {
 
         Jobhistory newJob;
-        newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command);
+        long currentTime = System.currentTimeMillis();
+        newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command, currentTime);
         jobHistoryFacade.create(newJob);
         
         //Job results are stored in a directory named after the job ID
@@ -425,8 +426,8 @@ public class RNAseqJob {
         }
         commandList.add(jobID);
 
-        ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
-        //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
+        //ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
+        ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
         Process p;
         try {
             p = pb.start();
@@ -441,7 +442,7 @@ public class RNAseqJob {
             //Create two threads, one to perform the the job and another to return to projects page
             jobThread waitThread = new jobThread("waitThread");
             waitThread.setP(p);
-            waitThread.setOutputName(outputName);
+            waitThread.setCurrentTime(currentTime);
             waitThread.setToolEnum(getUtilityBean().getSelectedTool().getToolEnum());
             waitThread.setUpdateJob(newJob);
             waitThread.setProject(getUtilityBean().getSelectedProject());
