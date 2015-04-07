@@ -129,17 +129,17 @@ public class DataItemBean {
 
             case TRINITY:
                 outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
-                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/stats.fa", jobsTool));
+                outputsList.add(new GenericOutput("Stats", EOutputType.TXT, "/home/vmuser/CPI/results/" + jobid + "/stats.txt", jobsTool));
                 break;
 
             case VELVET:
                 outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
-                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/stats.fa", jobsTool));
+                outputsList.add(new GenericOutput("Stats", EOutputType.TXT, "/home/vmuser/CPI/results/" + jobid + "/stats.txt", jobsTool));
                 break;
 
             case TRANSABYSS:
                 outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
-                outputsList.add(new GenericOutput("Stats", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/stats.fa", jobsTool));
+                outputsList.add(new GenericOutput("Stats", EOutputType.TXT, "/home/vmuser/CPI/results/" + jobid + "/stats.txt", jobsTool));
                 break;
 
         }
@@ -210,6 +210,37 @@ public class DataItemBean {
             }
         }
         return "job_output?faces-redirect=true";
+    }
+    
+    /**
+     * Returns true if lists of outputs contains any file usable as reports
+     * @return 
+     */
+    public boolean containsReportFile() {
+        getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff
+        for (GenericOutput output:outputsList) {
+            if (output.getOutputType() == EOutputType.HTML ||
+                    output.getOutputType() == EOutputType.TXT) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Returns list of files usable as reports
+     * @return 
+     */
+    public List<GenericOutput> getReportFiles() {
+        getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff
+        List<GenericOutput> reports = new ArrayList();
+        for (GenericOutput output:outputsList) {
+            if (output.getOutputType() == EOutputType.HTML ||
+                    output.getOutputType() == EOutputType.TXT) {
+                reports.add(output);
+            }
+        }
+        return reports;
     }
 
 }
