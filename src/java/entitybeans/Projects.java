@@ -7,6 +7,7 @@ package entitybeans;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,6 +24,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -65,8 +68,13 @@ public class Projects implements Serializable {
     @Size(max = 9999)
     @Column(name = "description")
     private String description;
+    @Temporal(DATE)
+    @Column(name = "creationdate")
+    @NotNull
+    private Date creationdate;
     @Size(max = 9)
     @Column(name = "visibility")
+    @NotNull
     private String visibility;
     @JoinColumn(name = "owner", referencedColumnName = "idusers")
     @ManyToOne(optional = false)
@@ -117,6 +125,14 @@ public class Projects implements Serializable {
 
     public void setVisibility(String visibility) {
         this.visibility = visibility;
+    }
+
+    public Date getCreationdate() {
+        return creationdate;
+    }
+
+    public void setCreationdate(Date creationdate) {
+        this.creationdate = creationdate;
     }
 
     public Users getOwner() {

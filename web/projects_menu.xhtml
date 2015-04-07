@@ -38,7 +38,7 @@
                                 </c:if>
                             </p:column>
                             <p:column headerText="Creation Date">
-                                <h:outputText value="0000-00-00"/>
+                                <h:outputText value="#{project.creationdate}"/>
                             </p:column>
                             <p:column headerText="Owner" sortBy="#{project.owner.username}">
                                 <h:outputText value="#{project.owner.username}"/>
@@ -47,17 +47,13 @@
                                 <p:commandButton update=":projects" icon="ui-icon-search" title="View" action="#{projectBean.selectProject()}">
                                     <f:param name="selectedProject" value="#{project}"/>
                                     <f:metadata name = "selectedProject">
-                                        <f:viewParam name="selectedProject" value="#{projectBean.selectedProject}" required="true" converter="projectConverter"/>
+                                        <f:viewParam name="selectedProject" value="#{projectBean.selectedProject}" converter="projectConverter"/>
                                     </f:metadata>
                                 </p:commandButton>
                             </p:column>                       
                             <p:column headerText="Delete" width="30">
                                 <p:commandButton update=":projects" icon="ui-icon-delete" title="Delete" onclick="PF('confirmDeleteProject#{project.idprojects}').show();
                                         return false;">
-                                    <f:param name="fakeProperty" value="#{project}"/>
-                                    <f:metadata>
-                                        <f:viewParam name="fakeProperty" value="#{projectBean.fakeProperty}" required="true" converter="projectConverter"/>
-                                    </f:metadata>
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>

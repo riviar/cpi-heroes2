@@ -8,14 +8,13 @@ package managedbeans;
 import entitybeans.Files;
 import entitybeans.Projects;
 import entitybeans.Workgroups;
-import java.util.ArrayList;
+import java.time.Instant;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import sessionbeans.FilesFacade;
 import sessionbeans.ProjectSessionFacade;
@@ -149,6 +148,8 @@ public class ProjectBean {
         project.setOwner(utilityBean.getUser());
         project.setWorkgroup(newProjectWorkgroup);
         project.setVisibility(newProjectVisibility);
+        Date today = Date.from(Instant.now());
+        project.setCreationdate(today);
         projectFacade.create(project);
         return "projects_menu";
     }
