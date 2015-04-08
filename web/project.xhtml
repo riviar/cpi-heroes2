@@ -23,15 +23,34 @@
                     <br/>
 
                     <ul id="datasetList">
-
+                    <!--<ul>-->
                         <c:if test="#{filesBean.getFilesNames() == null}">
-                            <p>{No datasets exist}</p>
+                            <p>There are no datasets associted with this project. Please upload one to start working.</p>
                         </c:if>
                         <c:if test="#{filesBean.getFilesNames() != null}">
-                            <p>There's something </p>
-                            <c:forEach items="#{filesBean.getFilesNames()}"  var="file">
+                            <!--<c:forEach items="{filesBean.getFilesNames()}"  var="file">
+                                <li><h:outputText value="{file}"/></li>
+                            </c:forEach>-->
+                            <c:if test="#{filesBean.getRawFilesNames().size() != 0}">
+                            <p><h5>Raw files:</h5>
+                            <c:forEach items="#{filesBean.getRawFilesNames()}"  var="file">
                                 <li><h:outputText value="#{file}"/></li>
-                            </c:forEach>
+                            </c:forEach></p>
+                            </c:if>
+                                
+                            <c:if test="#{filesBean.getPreprocessedFilesNames().size() != 0}">    
+                            <p><h5>Preprocessed files:</h5>
+                            <c:forEach items="#{filesBean.getPreprocessedFilesNames()}"  var="file">
+                                <li><h:outputText value="#{file}"/></li>
+                            </c:forEach></p>
+                            </c:if>                                    
+                                
+                            <c:if test="#{filesBean.getAssembledFilesNames().size() != 0}">    
+                            <p><h5>Assembled files:</h5>
+                            <c:forEach items="#{filesBean.getAssembledFilesNames()}"  var="file">
+                                <li><h:outputText value="#{file}"/></li>
+                            </c:forEach></p>
+                            </c:if>
                         </c:if>                        
                         
                     </ul>

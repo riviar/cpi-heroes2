@@ -110,8 +110,8 @@ public class jobThread extends Thread {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fastqc.html");
                 output1.setDisplayname(outputName[0]);
                 output1.setDescription("FastQC output for " + updateJob.getJobname());
-                //Add a mock filetype. In the future it has to mean HTML
-                output1.setFiletype(new Filetype(1));
+                //FastQC output HTML report filetype (3)
+                output1.setFiletype(new Filetype(3));
                 output1.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -127,29 +127,29 @@ public class jobThread extends Thread {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_paired");
                 output1.setDisplayname(outputName[0]);
                 output1.setDescription("Trimmed forward paired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
-                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
-                output1.setFiletype(new Filetype(2));
+                //Trimmed file filetype (1)
+                output1.setFiletype(new Filetype(1));
                 output1.setProjectsCollection(fileProject);
                 //PAIRED REVERSE
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_paired");
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Trimmed reverse paired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
-                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
-                output2.setFiletype(new Filetype(2));
+                //Trimmed file filetype (1)
+                output2.setFiletype(new Filetype(1));
                 output2.setProjectsCollection(fileProject);
                 //UNPAIRED FORWARD
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_unpaired");
                 output3.setDisplayname(outputName[2]);
                 output3.setDescription("Trimmed forward unpaired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
-                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
-                output3.setFiletype(new Filetype(2));
+                //Trimmed file filetype (1)
+                output3.setFiletype(new Filetype(1));
                 output3.setProjectsCollection(fileProject);
                 //UNPAIRED REVERSE
                 output4.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_unpaired");
                 output4.setDisplayname(outputName[3]);
                 output4.setDescription("Trimmed reverse unpaired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
-                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
-                output4.setFiletype(new Filetype(2));
+                //Trimmed file filetype (1)
+                output4.setFiletype(new Filetype(1));
                 output4.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -171,29 +171,29 @@ public class jobThread extends Thread {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_paired");
                 output1.setDisplayname(outputName[0]);
                 output1.setDescription("Adapters removed from the forward paired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
-                output1.setFiletype(new Filetype(3));
+                //File without adapters filetype (2)
+                output1.setFiletype(new Filetype(2));
                 output1.setProjectsCollection(fileProject);
                 //PAIRED REVERSE
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_paired");
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Adapters removed from the reverse paired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
-                output2.setFiletype(new Filetype(3));
+                //File without adapters filetype (2)
+                output2.setFiletype(new Filetype(2));
                 output2.setProjectsCollection(fileProject);
                 //UNPAIRED FORWARD
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_unpaired");
                 output3.setDisplayname(outputName[2]);
                 output3.setDescription("Adapters removed from the forward unpaired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
-                output3.setFiletype(new Filetype(3));
+                //File without adapters filetype (2)
+                output3.setFiletype(new Filetype(2));
                 output3.setProjectsCollection(fileProject);
                 //UNPAIRED REVERSE
                 output4.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_unpaired");
                 output4.setDisplayname(outputName[3]);
                 output4.setDescription("Adapters removed from the reverse unpaired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                //Add a mock filetype. In the future it has to mean FASTA or FASTQ (The same as input type)
-                output4.setFiletype(new Filetype(3));
+                //File without adapters filetype (2)
+                output4.setFiletype(new Filetype(2));
                 output4.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -215,15 +215,15 @@ public class jobThread extends Thread {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/leftCorrected.fa");
                 output1.setDisplayname(outputName[0]);
                 output1.setDescription("Trimmed left reads from " + updateJob.getJobname() + " processed with SEECER.");
-                //Add a mock filetype. In the future it has to mean FASTA
-                output1.setFiletype(new Filetype(2));
+                //Trimmed file filetype (1)
+                output1.setFiletype(new Filetype(1));
                 output1.setProjectsCollection(fileProject);
                 //PAIRED 2
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/rightCorrected.fa");
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Trimmed right reads from " + updateJob.getJobname() + " processed with SEECER.");
-                //Add a mock filetype. In the future it has to mean FASTA
-                output2.setFiletype(new Filetype(2));
+                //Trimmed file filetype (1)
+                output2.setFiletype(new Filetype(1));
                 output2.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -241,15 +241,15 @@ public class jobThread extends Thread {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
                 output1.setDisplayname(outputName[0]);
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trinity.");
-                //Add a mock filetype. In the future it has to mean FASTA
-                output1.setFiletype(new Filetype(2));
+                //Assembled transcripts filetype (4)
+                output1.setFiletype(new Filetype(4));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Trinity.");
-                //Add a mock filetype. In the future it has to mean FASTA
-                output2.setFiletype(new Filetype(2));
+                //Assembly statistics filetype (5)
+                output2.setFiletype(new Filetype(5));
                 output2.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -267,15 +267,15 @@ public class jobThread extends Thread {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
                 output1.setDisplayname(outputName[0]);
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Velvet.");
-                //Add a mock filetype. In the future it has to mean FASTA
-                output1.setFiletype(new Filetype(2));
+                //Assembled transcripts filetype (4)
+                output1.setFiletype(new Filetype(4));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Velvet.");
-                //Add a mock filetype. In the future it has to mean FASTA
-                output2.setFiletype(new Filetype(2));
+                //Assembly statistics filetype (5)
+                output2.setFiletype(new Filetype(5));
                 output2.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -293,15 +293,15 @@ public class jobThread extends Thread {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
                 output1.setDisplayname(outputName[0]);
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trans-ABySS.");
-                //Add a mock filetype. In the future it has to mean FASTA
-                output1.setFiletype(new Filetype(2));
+                //Assembled transcripts filetype (4)
+                output1.setFiletype(new Filetype(4));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Trans-ABySS.");
-                //Add a mock filetype. In the future it has to mean FASTA
-                output2.setFiletype(new Filetype(2));
+                //Assemblye statistics filetype (5)
+                output2.setFiletype(new Filetype(5));
                 output2.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -319,15 +319,15 @@ public class jobThread extends Thread {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
                 output1.setDisplayname(outputName[0] + " transcripts");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
-                //Add a mock filetype. In the future it has to mean FASTA
-                output1.setFiletype(new Filetype(2));
+                //Assembled transcripts filetype (4)
+                output1.setFiletype(new Filetype(4));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
                 output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
-                //Add a mock filetype. In the future it has to mean FASTA
-                output2.setFiletype(new Filetype(2));
+                //Assemblye statistics filetype (5)
+                output2.setFiletype(new Filetype(5));
                 output2.setProjectsCollection(fileProject);
                 
                 //Add output files to project table

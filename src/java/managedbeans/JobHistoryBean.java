@@ -173,7 +173,7 @@ public class JobHistoryBean {
             String line = null;
             
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+                //System.out.println(line);
                 if(!line.contains("ELAPSED")){
                     output.append(line);
                 }

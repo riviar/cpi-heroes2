@@ -6,6 +6,7 @@
 package sessionbeans;
 
 import entitybeans.Files;
+import entitybeans.Filetype;
 import entitybeans.Projects;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -39,6 +40,22 @@ public class FilesFacade extends AbstractFacade<Files> {
         //System.out.println("--------idProject: "+idProject);
         return q.getResultList();
         
+    }
+    
+    public List<Files> getTypeFiles(int filetypeid) {
+            
+        Query q = em.createNamedQuery("Files.findByType");
+        q.setParameter("filetypeid", new Filetype(filetypeid));
+        //System.out.println("--------idProject: "+idProject);
+        return q.getResultList();        
+    }
+    
+    public List<Files> getFilesForTool(int idProject, int filetypeid){
+        Query q = em.createNamedQuery("Files.findByProjAndType");
+        q.setParameter("idprojects", idProject);
+        q.setParameter("filetypeid", new Filetype(filetypeid));
+        //System.out.println("--------idProject: "+idProject);
+        return q.getResultList(); 
     }
     
 }
