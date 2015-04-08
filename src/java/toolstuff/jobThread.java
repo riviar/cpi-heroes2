@@ -64,16 +64,19 @@ public class jobThread extends Thread {
                 p.waitFor();
 
                 //Update the status to finished (0) or error (-1)
+                System.out.println("Current exit value: " + p.exitValue());
                 if(p.exitValue()==0){
                     //Running time
+                    System.out.println("Trying to set running time");
                     updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
                     //updateJob.setRunningtime(new java.sql.Time(90000000000L-3600000));
                                         
                     //Normal termination
+                    System.out.println("Trying to set process id to 0");
                     updateJob.setProcessid(0);
                     
                     //Add the output files to the database
-                    addOutputToDB();
+                    //addOutputToDB();
                 }else{
                     //Error
                     updateJob.setProcessid(-1);
@@ -105,6 +108,7 @@ public class jobThread extends Thread {
         System.out.println("Project " + project.getProjectname());
         fileProject.add(project);
         
+        //problem in switch, toolEnum never assigned any value
         switch (toolEnum) {
             case FASTQC:
                 //HTML
