@@ -22,39 +22,87 @@
                     <br/>
                     <h:form>
                         <ul>
-                            <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">            
-                                <c:forEach items="#{workgroup.getProjectsCollection()}" var="project">
-                                    <li><p>
-                                            <!--<h:outputText value="{project.projectname}"/>&ndash; -->
-                                            <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
-                                                    <f:param name="selectedProject" value="#{project.idprojects}"/>
-                                            </h:commandLink>  
-                                            
-                                            
-                                            &ndash;
-                                            
-                                            <!--<h:outputText value=" [{workgroup.workgroupname}]"/>-->
-                                            <h:commandLink value="#{workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
-                                                    <f:param name="selectedWorkgroup" value="#{workgroup.idworkgroups}"/>
-                                            </h:commandLink>  
-                                            
-                                    </p></li>
-                                    
-                                </c:forEach>
+                            <c:forEach items="#{projectBean.allPublicProjects}" var="project">
+                                <li>
+                                    <p>
+                                        <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
+                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                        </h:commandLink>
+                                        &ndash; visible to all users
+                                    </p>
+                                </li>
                             </c:forEach>
-                            
-                                            
-                         
-                            
-                            <!--<li><p><h:link value="Project 1" outcome="project.xhtml?projectNum=3" includeViewParams="true"> 
+                        </ul>
+                    </h:form>
+                    <h:form>
+                        <ul>                                    
+                            <c:forEach items="#{projectBean.protectedProjects}" var="project">
+                                <li>
+                                    <p>
+                                        <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
+                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                        </h:commandLink>
+                                        &ndash; visible to members of 
+                                        <h:commandLink value="#{project.workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
+                                            <f:param name="selectedWorkgroup" value="#{project.workgroup.idworkgroups}"/>
+                                        </h:commandLink>
+                                    </p>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </h:form>
+                    <h:form>
+                        <ul>
+                            <c:forEach items="#{projectBean.privateProjects}" var="project">
+                                <li>
+                                    <p>
 
-                                    </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
-
-                            <li><p><h:link value="Project 2" outcome="project?projectNum=4" includeViewParams="true"> 
-
-                                    </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li> -->
-
-
+                                        <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
+                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                        </h:commandLink>
+                                        &ndash; only visible to you
+                                    </p>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </h:form>
+                </div>
+                <div class="news">
+                    <h4>Other projects</h4>
+                    <br/>
+                    <h:form>
+                        <ul>
+                            <c:forEach items="#{projectBean.allPublicProjects}" var="project">
+                                <c:if test="#{!project.owner.equals(utilityBean.user)}">
+                                    <li>
+                                        <p>
+                                            <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
+                                                <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                            </h:commandLink>
+                                            &ndash; visible to all users
+                                        </p>
+                                    </li>
+                                </c:if>
+                            </c:forEach>
+                        </ul>
+                    </h:form>
+                    <h:form>
+                        <ul>                                    
+                            <c:forEach items="#{projectBean.userVisibleProjects}" var="project">
+                                <c:if test="#{project.visibility == 'PROTECTED' and !project.owner.equals(utilityBean.user)} ">
+                                    <li>
+                                    <p>
+                                        <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
+                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                        </h:commandLink>
+                                        &ndash; visible to members of 
+                                        <h:commandLink value="#{project.workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
+                                            <f:param name="selectedWorkgroup" value="#{project.workgroup.idworkgroups}"/>
+                                        </h:commandLink>
+                                    </p>
+                                </li>
+                                </c:if>
+                            </c:forEach>
                         </ul>
                     </h:form>
                 </div>
@@ -69,10 +117,25 @@
                     <h3>Create new project</h3>
                     <h:form>
                         <h:outputText value="Project name"/><br/>
-                        <p:inputText class="regInput" value="projectname"/><br/>
-                        <h:outputText value="Workgroup name"/><br/>
-                        <p:inputText class="regInput" value="workgroupname"/><br/>
-                        <p:commandButton id="createProjectButton" action="projects_menu" class="centerButton" value="Create"/>
+                        <p:inputText class="regInput" value="#{projectBean.newProjectName}"/><br/>
+                        <h:outputText value="Project visibility"/><br/>
+                        <p:selectOneMenu class="regInput" value="#{projectBean.newProjectVisibility}">
+                            <f:selectItem itemValue="PUBLIC" itemLabel="Public - visible to all users"/>
+                            <f:selectItem itemValue="WORKGROUP" itemLabel="Protected - visible only to workgroup members"/>
+                            <f:selectItem itemValue="PRIVATE" itemLabel="Private - visible only to you"/>
+                            <f:ajax immediate="true" event="change" render="workgroups" execute="@form"/>
+                        </p:selectOneMenu><br/>
+                        <h:panelGroup id="workgroups">
+                            <h:outputText value="Workgroup for new project"
+                                          rendered="${projectBean.newProjectVisibility == 'WORKGROUP'}"/><br/>
+                            <p:selectOneMenu rendered="${projectBean.newProjectVisibility == 'WORKGROUP'}"
+                                             converter="workgroupConverter"
+                                             class="regInput"
+                                             value="#{projectBean.newProjectWorkgroup}">
+                                <f:selectItems value="#{workgroupBean.workgroupsForUser}" var="item" itemLabel="#{item.workgroupname}"/>
+                            </p:selectOneMenu><br/>
+                        </h:panelGroup>
+                        <p:commandButton ajax="false" id="createProjectButton" action="#{projectBean.createProject()}" class="centerButton" value="Create"/>
                     </h:form>
                 </p:dialog>
             </ui:define>

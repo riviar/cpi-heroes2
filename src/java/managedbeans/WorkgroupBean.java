@@ -17,8 +17,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import sessionbeans.AccountSessionFacade;
 import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
@@ -161,14 +159,14 @@ public class WorkgroupBean {
         System.out.println("adduser called");
         Users user = utilityBean.getSelectedUser();
         if (user == null || workgroup == null) {
-            return "invaliddataerrorpage";
+            return "invaliddataerrorpage?faces-redirect=true";
         } else {
             Collection<Users> users = workgroup.getUsersCollection();
             users.add(user);
             workgroup.setUsersCollection(users);
             workgroupFacade.updateWorkgroup(workgroup);
         }
-        return "workgroup.xhtml";
+        return "workgroup?faces-redirect=true";
     }
 
     public String removeUserFromWorkgroup() {
@@ -176,7 +174,7 @@ public class WorkgroupBean {
         users.remove(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
         workgroup.setUsersCollection(users);
         workgroupFacade.updateWorkgroup(workgroup);
-        return "workgroup.xhtml";
+        return "workgroup?faces-redirect=true";
     }
 
     public String addProjectToWorkgroup() {
@@ -188,7 +186,7 @@ public class WorkgroupBean {
         projects.add(project);
         workgroup.setProjectsCollection(projects);
         workgroupFacade.updateWorkgroup(workgroup);
-        return "workgroupspage";
+        return "workgroup?faces-redirect=true";
     }
 
     public String removeProjectFromWorkgroup() {
@@ -198,28 +196,29 @@ public class WorkgroupBean {
         workgroup.setProjectsCollection(projects);
         workgroupFacade.updateWorkgroup(workgroup);
 
-        return "workgroupspage";
+        return "workgroup?faces-redirect=true";
     }
 
     public String createWorkgroup() {
-        if (workgroup == null) {
-            return "invaliddataerrorpage";
-        } else {
-            newWorkgroup = new Workgroups();
-            newWorkgroup.setWorkgroupname(newWorkgroupName);
-            newWorkgroup = getNewWorkgroup(newWorkgroup);
-            workgroupFacade.createWorkgroup(newWorkgroup);
-        }
-        return "workgroupspage";
+        newWorkgroup = new Workgroups();
+        newWorkgroup.setWorkgroupname(newWorkgroupName);
+        Users currentuser = utilityBean.getUser();
+        newWorkgroup.setOwner(currentuser);
+        ArrayList<Users> users = new ArrayList(1);
+        users.add(currentuser);
+        newWorkgroup.setUsersCollection(users);
+        workgroupFacade.createWorkgroup(newWorkgroup);
+
+        return "workgroup?faces-redirect=true";
     }
 
     public String removeWorkgroup() {
         if (workgroup == null) {
-            return "invaliddataerrorpage";
+            return "invaliddataerrorpage?faces-redirect=true";
         } else {
             workgroupFacade.removeWorkgroup(workgroup);
         }
-        return "workgroupspage";
+        return "workgroup?faces-redirect=true";
     }
 
     public Collection<Workgroups> getWorkgroupsForUser() {
@@ -246,7 +245,7 @@ public class WorkgroupBean {
      */
     public String selectWorkgroup() {
         utilityBean.setSelectedWorkgroup(workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup)));
-        return "workgroup";
+        return "workgroup?faces-redirect=true";
     }
 
     /**
@@ -255,11 +254,11 @@ public class WorkgroupBean {
      */
     public String selectProject() {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
-        return "project";
+        return "project?faces-redirect=true";
     }
 
     public String selectUser() {
         utilityBean.setSelectedUser(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
-        return "project";
+        return "project?faces-redirect=true";
     }
 }

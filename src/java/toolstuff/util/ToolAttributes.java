@@ -17,6 +17,7 @@ public class ToolAttributes {
     private EToolParamType inputType;
     
     private String value;
+    private String paramHelp;
     
     /**
      * Holds values to display in dropdown list if EToolParamType favours this type of input
@@ -24,19 +25,21 @@ public class ToolAttributes {
     private List<DropDownParamStruct> dropdownList;
 
     //constructor for textfields
-    public ToolAttributes(String name, String value) {
+    public ToolAttributes(String name, String value, String paramHelp) {
         this.name = name;
         this.inputType = EToolParamType.TEXTFIELD;
         this.value = value;
         this.dropdownList = null;
+        this.paramHelp = paramHelp;
     }
     
     public ToolAttributes(String name, EToolParamType inputType,
-            String value, List<DropDownParamStruct> dropdownList) {
+            String value, List<DropDownParamStruct> dropdownList, String paramHelp) {
         this.name = name;
         this.inputType = inputType;
         this.value = value;
         this.dropdownList = dropdownList;
+        this.paramHelp = paramHelp;
     }
     
     public String getName() {
@@ -70,5 +73,21 @@ public class ToolAttributes {
     public void setInputType(EToolParamType inputType) {
         this.inputType = inputType;
     }
+
+    /**
+     * @return the paramHelp
+     */
+    public String getParamHelp() {
+        return paramHelp;
+    }
+
+    /**
+     * @param paramHelp the paramHelp to set
+     */
+    public void setParamHelp(String paramHelp) {
+        this.paramHelp = paramHelp;
+    }
+    
+    
     
 }

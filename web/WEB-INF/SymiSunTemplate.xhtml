@@ -24,7 +24,7 @@
 
             <div id="header">
                 <div id="logo">
-                    <h:link outcome="index" ><h:graphicImage library="images" width="318" height="85" alt="RNAseq" name="logo.gif" /></h:link><span id="logo-text"><h:link value="RNAseq logo" outcome="index"/></span>
+                    <h:link outcome="index" ><h:graphicImage library="images" width="318" height="85" alt="Cranfield Logo" name="logo.gif" /></h:link>
                 </div>
                 <div id="menu">
                     <ul>
@@ -59,7 +59,7 @@
                 </div>
                 <div id="headerimage">
                     <div id="slogan">
-                        Our cute super slogan
+                        Productivity is the fruit of understanding
                     </div>
                 </div><!-- headerimage end -->
             </div><!-- header end -->
@@ -142,9 +142,13 @@
                                                 <p>#{job.commandused}</p>
                                                                                                 
                                                 <c:if test="#{job.processid>0}"><p style="color:orange"><b>RUNNING</b></p>
+                                                <p>Starting date: #{job.startingdate} #{job.startingtime}</p>
                                                 <p>Running time: #{jobHistoryBean.getJobRunningTime(job.processid)}</p></c:if>
-                                                <c:if test="#{job.processid==0}"><p style="color:green"><b>FINISHED</b></p></c:if>
-                                                <c:if test="#{job.processid==-1}"><p style="color:red"><b>ERROR</b></p></c:if>                                               
+                                                <c:if test="#{job.processid==0}"><p style="color:green"><b>FINISHED</b></p>
+                                                    <p>Starting date: #{job.startingdate} #{job.startingtime}</p>
+                                                <p>Running time: #{job.runningtime}</p></c:if>
+                                                <c:if test="#{job.processid==-1}"><p style="color:red"><b>ERROR</b></p>
+                                                <p>Starting date: #{job.startingdate} #{job.startingtime}</p></c:if>                                               
                                                
                                             </div></li>
                                     </c:forEach>  

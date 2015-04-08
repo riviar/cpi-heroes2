@@ -15,15 +15,36 @@
             </ui:define>
 
             <ui:define name="center">
-                <h3><h:outputText value="#{utilityBean.selectedJob.jobname}" /> &ndash; Output</h3>  
+                <h3><h:outputText value="#{utilityBean.selectedJob.jobname}" /> &ndash; Output</h3>
+                <c:if test="#{dataItemBean.containsReportFile()}">
+                    <div class="news">
+                        <h4>Job report:</h4>
+                        <ul>
+                            <h:form>
+                                <c:forEach items="#{dataItemBean.getReportFiles()}" var="reportFile">  
+                                    <p>#{reportFile.name} &ndash;
+                                        <h:commandLink style="color: #103C20;" target="newPopup" class="centerButton" value="View report" action="#{dataItemBean.selectOutputFile()}">
+                                            <f:param name="output" value="#{outputFile.name}"/>
+                                        </h:commandLink>
+                                        <h:commandButton class="centerButton" style="margin-left: 5px;" value="Download" action="#{dataItemBean.downloadFile()}">
+                                            <f:param name="output" value="#{outputFile.name}"/>
+                                        </h:commandButton>    
+                                    </p>
+                                </c:forEach>
+                            </h:form>
+                        </ul>
+                    </div>
+                </c:if>
                 <div class="news">
+                    <h4>All job output files:</h4>
                     <ul>
                         <h:form>
                             <c:forEach items="#{dataItemBean.getJobOutputFiles()}" var="outputFile">
-                                <h:commandLink value="#{outputFile.name}" action="#{dataItemBean.selectOutputFile()}">
-                                    <f:param name="output" value="#{outputFile.name}"/>
-                                </h:commandLink>
-                                <br/>
+                                <p>#{outputFile.name} &ndash;
+                                    <h:commandButton class="centerButton" value="Download" action="#{dataItemBean.downloadFile()}">
+                                        <f:param name="output" value="#{outputFile.name}"/>
+                                    </h:commandButton>
+                                </p>
                             </c:forEach>
                         </h:form>
                     </ul>

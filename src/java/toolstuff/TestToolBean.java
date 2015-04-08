@@ -56,13 +56,6 @@ public class TestToolBean {
      * Creates a new instance of WorkgroupBean
      */
     public TestToolBean() {
-
-        //TODO: code taken from AuthenticationBean - should call it there instead!
-        // get current session
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
-        // set user attribute of session
-
         project = new Projects();
     }
 
@@ -81,7 +74,7 @@ public class TestToolBean {
         RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, filesFacade, projectFacade, newJobName);
         job.execute();
         //System.out.println("Yes");
-        return "project";
+        return "project?faces-redirect=true";
     }
 
     /**

@@ -45,8 +45,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Projects.findByDescription", query = "SELECT p FROM Projects p WHERE p.description = :description"),
     @NamedQuery(name = "Projects.findByVisibility", query = "SELECT p FROM Projects p WHERE p.visibility = :visibility"),
     @NamedQuery(name = "Projects.findByOwner", query = "SELECT p FROM Projects p WHERE p.owner = :user"),
-    //@NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w JOIN w.usersCollection u WHERE u.idusers = :user"),
-    @NamedQuery(name = "Projects.findInWorkgroupOwnedByUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w WHERE w.owner = :user")})
+    //@NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p JOIN p.workgroup w JOIN w.usersCollection u WHERE u.idusers = :user"),
+    //@NamedQuery(name = "Projects.findInWorkgroupOwnedByUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w WHERE w.owner = :user")})
+})
 
 public class Projects implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectid")
@@ -72,7 +73,7 @@ public class Projects implements Serializable {
     private Users owner;
     @JoinColumn(name = "workgroupid", referencedColumnName = "idworkgroups")
     @ManyToOne
-    private Workgroups workgroupid;
+    private Workgroups workgroup;
     @ManyToMany
     @JoinTable(name = "project_has_files", joinColumns = {
         @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")}, inverseJoinColumns = {
@@ -126,12 +127,12 @@ public class Projects implements Serializable {
         this.owner = owner;
     }
 
-    public Workgroups getWorkgroupid() {
-        return workgroupid;
+    public Workgroups getWorkgroup() {
+        return workgroup;
     }
 
-    public void setWorkgroupid(Workgroups workgroupid) {
-        this.workgroupid = workgroupid;
+    public void setWorkgroup(Workgroups workgroup) {
+        this.workgroup = workgroup;
     }
 
     @XmlTransient
