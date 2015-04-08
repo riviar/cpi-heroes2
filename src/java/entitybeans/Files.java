@@ -33,6 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Files.findByProj", query = "SELECT f FROM Files f INNER JOIN f.projectsCollection proj WHERE proj.idprojects= :idprojects"),
+    @NamedQuery(name = "Files.findByType", query = "SELECT f FROM Files f WHERE f.filetype= :filetypeid"),
+    @NamedQuery(name = "Files.findByProjAndType", query = "SELECT f FROM Files f INNER JOIN f.projectsCollection proj WHERE proj.idprojects= :idprojects AND f.filetype= :filetypeid"),
     @NamedQuery(name = "Files.findAll", query = "SELECT f FROM Files f"),    
     @NamedQuery(name = "Files.findByIdresources", query = "SELECT f FROM Files f WHERE f.idresources = :idresources"),
     @NamedQuery(name = "Files.findByPath", query = "SELECT f FROM Files f WHERE f.path = :path"),

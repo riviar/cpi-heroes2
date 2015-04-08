@@ -54,6 +54,40 @@ public class FilesBean {
         return list;
     }
     
+    public List<String> getRawFilesNames(){
+        List<String> list=new ArrayList();
+        List<Files> files=filesFacade.getTypeFiles(7);
+        for (Files file:files){
+            list.add(file.getDisplayname());            
+        }
+        return list;
+    }
+    
+    public List<String> getPreprocessedFilesNames(){
+        List<String> list=new ArrayList();
+        
+        //File types 1, 2 and 3 correspond to preprocessed files
+        List<Files> files=filesFacade.getTypeFiles(1);
+        files.addAll(filesFacade.getTypeFiles(2));
+        files.addAll(filesFacade.getTypeFiles(3));
+                
+        for (Files file:files){
+            list.add(file.getDisplayname());            
+        }
+        return list;
+    }
+    
+    public List<String> getAssembledFilesNames(){
+        List<String> list=new ArrayList();
+        List<Files> files=filesFacade.getTypeFiles(4);
+        files.addAll(filesFacade.getTypeFiles(5));
+        for (Files file:files){
+            list.add(file.getDisplayname());            
+        }
+        return list;
+    }
+    
+       
     public List<String> getFilesDescription(){
         List<String> list=new ArrayList();
         List<Files> files=filesFacade.getProjectFiles(utilityBean.getSelectedProject().getIdprojects());
@@ -79,7 +113,56 @@ public class FilesBean {
     private static Map<String,Object> filesMap;
     public Map<String,Object> getFilesMap() {
         filesMap = new LinkedHashMap<>();
-        List<Files> files=filesFacade.getProjectFiles(utilityBean.getSelectedProject().getIdprojects());
+        ArrayList<Integer> usefulFiletypes = new ArrayList();
+        switch (utilityBean.getSelectedTool().getName()) {
+            case "FastQC":
+                usefulFiletypes.add(7);
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(2);
+                break;
+            case "Trimmomatic - Trimming":
+                usefulFiletypes.add(7);
+                usefulFiletypes.add(2);
+                break;
+            case "Trimmomatic - Adapters":
+                usefulFiletypes.add(7);
+                usefulFiletypes.add(1);
+                break;
+            case "Seecer":
+                usefulFiletypes.add(7);
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(2);
+                break;
+            case "Trinity":
+                usefulFiletypes.add(7);
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(2);
+                break;
+            case "Velvet + Oases":
+                usefulFiletypes.add(7);
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(2);
+                break;
+            case "Trans-ABySS":
+                usefulFiletypes.add(7);
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(2);
+                break;
+            case "SOAPdenovo-Trans":
+                usefulFiletypes.add(7);
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(2);
+                break;
+            default:
+                usefulFiletypes.add(4);
+                break;
+        }
+            
+        //List<Files> files=filesFacade.getProjectFiles(utilityBean.getSelectedProject().getIdprojects());
+        List<Files> files=filesFacade.getFilesForTool(utilityBean.getSelectedProject().getIdprojects(), usefulFiletypes.get(0));
+        for(int i=1; i<usefulFiletypes.size(); i++){
+            files.addAll(filesFacade.getFilesForTool(utilityBean.getSelectedProject().getIdprojects(), usefulFiletypes.get(i)));
+        }
         for (Files file:files){
             filesMap.put(file.getDisplayname(), file.getPath());
         }        

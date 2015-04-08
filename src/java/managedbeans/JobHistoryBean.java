@@ -99,7 +99,7 @@ public class JobHistoryBean {
         
         
         //}
-        return "project?faces-redirect=true";
+        return "project";
     }
     
       
