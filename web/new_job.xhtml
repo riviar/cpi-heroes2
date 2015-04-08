@@ -85,7 +85,10 @@
                         </c:forEach>
                     </div>
                     <div class="news">
-                        <h:commandButton value="Submit" class="centerButton" action="#{testToolBean.runJob()}"/>
+                        <h:panelGrid columns="2">
+                            <h:commandButton value="Back" class="centerButton" action="project?faces-redirect=true"/>
+                            <h:commandButton value="Submit" class="centerButton" action="#{testToolBean.runJob()}"/>
+                        </h:panelGrid>
                     </div>
                 </h:form>
 

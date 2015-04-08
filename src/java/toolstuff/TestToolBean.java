@@ -74,7 +74,7 @@ public class TestToolBean {
         RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, filesFacade, projectFacade, newJobName);
         job.execute();
         //System.out.println("Yes");
-        return "project";
+        return "project?faces-redirect=true";
     }
 
     /**

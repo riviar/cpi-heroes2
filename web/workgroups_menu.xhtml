@@ -17,6 +17,13 @@
 
             <ui:define name="center">
                 <h3>Workgroups Menu</h3>
+                <div class="news">
+                    <h4>Workgroups</h4>
+                    <br/>
+                    <p>You are currently in <strong>workgroups menu</strong>.</p>
+                    <p>Workgroups allow you to organise your work with other people.</p>
+                    <p>All members of a workgroup are able to see and make their input to any projects under given workgroup.</p>
+                </div>
                 <div class="news"> 
                     <h4>My Groups</h4>
                     <c:if test="#{workgroupBean.getWorkgroupsForUser() == null}">

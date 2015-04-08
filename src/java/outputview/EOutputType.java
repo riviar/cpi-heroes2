@@ -12,5 +12,6 @@ package outputview;
 public enum EOutputType {
     HTML,
     CSV,
+    TXT,
     MAGIC
 }

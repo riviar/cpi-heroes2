@@ -71,6 +71,6 @@ public class ToolsSidebarBean {
     
     public String selectTool() {
         utilityBean.setSelectedTool(tools.getToolByName(selectedToolName));
-        return "new_job";
+        return "new_job?faces-redirect=true";
     }
 }

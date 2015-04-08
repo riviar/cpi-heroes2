@@ -99,7 +99,7 @@ public class JobHistoryBean {
         
         
         //}
-        return "project";
+        return "project?faces-redirect=true";
     }
     
       
@@ -229,7 +229,7 @@ public class JobHistoryBean {
         Jobhistory selectedJobHistoryItem = jobHistoryFacade.findJobHistoryById(Integer.valueOf(selectedJobId));
         System.out.println("Found job with name " + selectedJobHistoryItem.getJobname());
         utilityBean.setSelectedJob(selectedJobHistoryItem);
-        return "job_output";
+        return "job_output?faces-redirect=true";
      }
     /**
      * @return the currentJob
