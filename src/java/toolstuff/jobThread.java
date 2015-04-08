@@ -66,8 +66,8 @@ public class jobThread extends Thread {
                 //Update the status to finished (0) or error (-1)
                 if(p.exitValue()==0){
                     //Running time
-                    //updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
-                    updateJob.setRunningtime(new java.sql.Time(90000000000L-3600000));
+                    updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
+                    //updateJob.setRunningtime(new java.sql.Time(90000000000L-3600000));
                                         
                     //Normal termination
                     updateJob.setProcessid(0);

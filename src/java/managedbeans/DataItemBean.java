@@ -209,8 +209,10 @@ public class DataItemBean {
      * @return
      */
     public String selectOutputFile() {
+        System.out.println("Inside select output file method");
         getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff, probably could be fixed with viewscoped
         for (GenericOutput output : outputsList) {
+            System.out.println("Trying to match output: " + output.getName() + " with output: " + outputName);
             if (output.getName().equals(outputName)) {
                 utilityBean.setSelectedOutput(output);
                 System.out.println("Trying to show file " + output.getPath());
@@ -259,7 +261,9 @@ public class DataItemBean {
      */
     public String downloadFile() {
         selectOutputFile();
+        System.out.println("Trying to get path of output file..");
         String path = utilityBean.getSelectedOutput().getPath();
+        System.out.println("Retrieving file from: " + path);
         
         File file = new File(path);
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
@@ -288,8 +292,8 @@ public class DataItemBean {
             } catch (IOException err) {
                 err.printStackTrace();
             }
-            return "job_output?faces-redirect=true";
         }
+        return "job_output?faces-redirect=true";
     }
 
 }
