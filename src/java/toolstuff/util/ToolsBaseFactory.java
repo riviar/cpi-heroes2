@@ -48,7 +48,8 @@ public class ToolsBaseFactory {
                 "Help me", 
                 "shell_scripts/do_SOAPdenovo-Trans.sh", 
                 new ArrayList<>(inputs), 
-                new ArrayList<>(parameters), null));
+                new ArrayList<>(parameters),
+                ToolHelp.getSOAPdeNovoTransHelp()));
                       
         
 
@@ -203,7 +204,8 @@ public class ToolsBaseFactory {
                 "Help me", 
                 "shell_scripts/do_transabyss.sh", 
                 new ArrayList<>(inputs), 
-                new ArrayList<>(parameters), null));
+                new ArrayList<>(parameters),
+                ToolHelp.getTransabyssHelp()));
         
         
         //ABUNDANCE ESTIMATION
@@ -229,7 +231,8 @@ public class ToolsBaseFactory {
                 "Help me", 
                 "shell_scripts/do_abundanceEstimation.sh", 
                 new ArrayList<>(inputs), 
-                new ArrayList<>(parameters), null));
+                new ArrayList<>(parameters),
+                ToolHelp.getAbundanceEstimationHelp()));
 
         //DEG
         inputs.clear();
@@ -255,7 +258,8 @@ public class ToolsBaseFactory {
                 "Help me", 
                 "shell_scripts/do_deg.sh", 
                 new ArrayList<>(inputs), 
-                new ArrayList<>(parameters), null));
+                new ArrayList<>(parameters),
+                ToolHelp.getDGEHelp()));
         
         
         //CLUSTERS
@@ -273,7 +277,8 @@ public class ToolsBaseFactory {
                 "Help me", 
                 "shell_scripts/do_clusters.sh", 
                 new ArrayList<>(inputs), 
-                new ArrayList<>(parameters), null));
+                new ArrayList<>(parameters),
+                ToolHelp.getClusteringHelp()));
         
         //finished creating tools
         //initializing base

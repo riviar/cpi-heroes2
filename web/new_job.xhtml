@@ -38,11 +38,7 @@
 
                             <h:panelGrid columns="2">
                                 <h:outputText value="#{input.name}"/>
-                                <h:form>
-                                    <h:commandButton id="helpButton2" onclick="PF('toolHelp2').show();
-                                            return false" class="centerButton" value="?"/>
-
-                                </h:form>
+                                
 
                             </h:panelGrid>
                             <h:selectOneMenu class="regInput" value="#{input.value}" style="width: 200px">
@@ -60,10 +56,7 @@
 
                             <h:panelGrid columns="2">
                                 <h:outputText value="#{param.name}"/>
-                                <h:form>
-                                    <h:commandButton id="helpButton3" onclick="PF('toolHelp3').show();
-                                            return false" class="centerButton" value="?"/>
-                                </h:form>
+                                
                                 <p:dialog  resizable="false" minHeight="80" header="Help" widgetVar="toolHelp3" modal="true">
                                     <h:outputText value="#{param.paramHelp}"/> <br/>
                                 </p:dialog>
