@@ -73,7 +73,7 @@ public class jobThread extends Thread {
                     updateJob.setProcessid(0);
                     
                     //Add the output files to the database
-                   // addOutputToDB();
+                    addOutputToDB();
                 }else{
                     //Error
                     updateJob.setProcessid(-1);
@@ -122,6 +122,7 @@ public class jobThread extends Thread {
                 
                 //Add output to database
                 filesFacade.create(output1);
+                System.out.println("Editing file: " + "/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fastqc.html");
                 FileEditor.editFastQCHTML("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fastqc.html");
                 break;
             case TRIMMOMATIC_TRIM:
