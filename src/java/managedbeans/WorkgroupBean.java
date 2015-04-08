@@ -209,7 +209,7 @@ public class WorkgroupBean {
         newWorkgroup.setUsersCollection(users);
         workgroupFacade.createWorkgroup(newWorkgroup);
 
-        return "workgroup?faces-redirect=true";
+        return "workgroups_menu?faces-redirect=true";
     }
 
     public String removeWorkgroup() {

@@ -105,7 +105,7 @@
                         <p:inputText class="regInput" value="#{projectBean.newProjectName}"/><br/>
                         <c:set target="#{projectBean}" value="#{utilityBean.selectedWorkgroup}" property="newProjectWorkgroup"/>
                         <c:set target="#{projectBean}" value="WORKGROUP" property="newProjectVisibility"/>
-                        <h:commandButton id="createProjectButton" action="#{projectBean.createProject()}" class="centerButton" value="Create"/>
+                        <h:commandButton id="createProjectButton" action="#{projectBean.createProjectWG()}" class="centerButton" value="Create"/>
                     </h:form>
                 </p:dialog> 
 

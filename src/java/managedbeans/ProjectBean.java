@@ -118,6 +118,11 @@ public class ProjectBean {
         return projectFacade.getUsersPrivateProjects(utilityBean.getUser());
     }
 
+    public String crateProjectWG() {
+        createProject();
+        return "workgroup?faces-redirect=true";
+    }
+    
     public String createProject() {
         Projects project = new Projects();
         project.setProjectname(newProjectName);
