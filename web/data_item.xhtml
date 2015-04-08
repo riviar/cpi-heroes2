@@ -24,6 +24,10 @@
             </ui:define>
 
             <ui:define name="center">
+                <h:form>
+                    <h:commandButton value="Back to project" class="centerButton" action="project?faces-redirect=true"/>
+                </h:form>
+                <br/>
                 <h:outputText value="#{dataItemBean.generateDataItemPage()}" escape="false"/>
                 <!--<div class="news">
                     <h:panelGrid columns="2">
