@@ -103,16 +103,16 @@ public class ProjectBean {
         } else {
             projectFacade.addFileToProject(file, project);
         }
-        return "projectpage";
+        return "projectpage?faces-redirect=true";
     }
 
     public String removeFileFromProject() {
         if (file == null || project == null) {
-            return "errorpage";
+            return "errorpage?faces-redirect=true";
         } else {
             projectFacade.removeFileFromProject(file, project);
         }
-        return "projectpage";
+        return "projectpage?faces-redirect=true";
     }
 
     public List<Projects> getUserVisibleProjects() {
@@ -142,6 +142,18 @@ public class ProjectBean {
         return projectFacade.getUsersPrivateProjects(utilityBean.getUser());
     }
 
+    public String crateProjectWG() {
+        createProject();
+        return "workgroup?faces-redirect=true";
+    }
+    
+    /**
+     * Creates a new project owned by currently logged-in user. Parameters
+     * <code>newProjectName</code> and <code>newProjectVisibility</code> must
+     * be set to required values, <code>newProjectWorkgroup</code> must be set if
+     * newProjctVisibility is set to Workgroup.
+     * @return String projects_menu
+     */
     public String createProject() {
         Projects project = new Projects();
         project.setProjectname(newProjectName);
@@ -151,7 +163,7 @@ public class ProjectBean {
         Date today = Date.from(Instant.now());
         project.setCreationdate(today);
         projectFacade.create(project);
-        return "projects_menu";
+        return "projects_menu?faces-redirect=true";
     }
     
     /**
@@ -190,7 +202,6 @@ public class ProjectBean {
      * @return
      */
     public String selectProject() {
-        System.err.println("PB.selectProject = " + selectedProject.toString());
         utilityBean.setSelectedProject(selectedProject);
         return "project";
     }
