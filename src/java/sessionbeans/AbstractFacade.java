@@ -24,6 +24,7 @@ public abstract class AbstractFacade<T> {
     public void create(T entity) {
         System.out.println("create called");
         getEntityManager().persist(entity);
+        getEntityManager().flush();
         System.out.println("Introduced");
         //}
         
