@@ -147,6 +147,13 @@ public class ProjectBean {
         return "workgroup?faces-redirect=true";
     }
     
+    /**
+     * Creates a new project owned by currently logged-in user. Parameters
+     * <code>newProjectName</code> and <code>newProjectVisibility</code> must
+     * be set to required values, <code>newProjectWorkgroup</code> must be set if
+     * newProjctVisibility is set to Workgroup.
+     * @return String projects_menu
+     */
     public String createProject() {
         Projects project = new Projects();
         project.setProjectname(newProjectName);
