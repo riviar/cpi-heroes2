@@ -187,7 +187,7 @@ public class ProjectBean {
         }
         // delete project, which should now have no foreign keys associated
         projectFacade.remove(project);
-        return "projects_menu";
+        return "projects_menu?faces-redirect=true";
     }
     
      /**
@@ -197,7 +197,7 @@ public class ProjectBean {
     public String selectProject() {
         System.err.println("PB.selectProject = " + selectedProject.toString());
         utilityBean.setSelectedProject(selectedProject);
-        return "project";
+        return "project?faces-redirect=true";
     }
     
 }
