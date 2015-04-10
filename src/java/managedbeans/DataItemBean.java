@@ -116,38 +116,54 @@ public class DataItemBean {
                 break;
 
             case TRIMMOMATIC_TRIM:
-                outputsList.add(new GenericOutput("Forward paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_paired", jobsTool));
-                outputsList.add(new GenericOutput("Forward unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
-                outputsList.add(new GenericOutput("Reverse paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
-                outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Forward paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_paired", jobsTool));
+                outputsList.add(new GenericOutput("Forward unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
                 break;
 
             case TRIMMOMATIC_ADAPT:
-                outputsList.add(new GenericOutput("Forward paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_paired", jobsTool));
-                outputsList.add(new GenericOutput("Forward unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
-                outputsList.add(new GenericOutput("Reverse paired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
-                outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Forward paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_paired", jobsTool));
+                outputsList.add(new GenericOutput("Forward unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
+                outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
                 break;
 
             case SEECER:
-                outputsList.add(new GenericOutput("Left Corrected", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/leftCorrected.fa", jobsTool));
-                outputsList.add(new GenericOutput("Right Corrected", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/rightCorrected.fa", jobsTool));
+                outputsList.add(new GenericOutput("Left Corrected", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/leftCorrected.fa", jobsTool));
+                outputsList.add(new GenericOutput("Right Corrected", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/rightCorrected.fa", jobsTool));
                 break;
 
             case TRINITY:
-                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
+                outputsList.add(new GenericOutput("Transcripts", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
                 outputsList.add(new GenericOutput("Stats", EOutputType.TXT, "/home/vmuser/CPI/results/" + jobid + "/stats.txt", jobsTool));
                 break;
 
             case VELVET:
-                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
+                outputsList.add(new GenericOutput("Transcripts", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
                 outputsList.add(new GenericOutput("Stats", EOutputType.TXT, "/home/vmuser/CPI/results/" + jobid + "/stats.txt", jobsTool));
                 break;
 
             case TRANSABYSS:
-                outputsList.add(new GenericOutput("Transcripts", EOutputType.CSV, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
+                outputsList.add(new GenericOutput("Transcripts", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
                 outputsList.add(new GenericOutput("Stats", EOutputType.TXT, "/home/vmuser/CPI/results/" + jobid + "/stats.txt", jobsTool));
                 break;
+            case SOAPdenovo_Trans:
+                //missing
+                break;
+            case ABUNDANCE_ESTIMATION:
+                outputsList.add(new GenericOutput("Abudance Estimation Report", EOutputType.PDF, "/home/vmuser/CPI/results/" + jobid + "/abundance_estimation.pdf", jobsTool));
+                outputsList.add(new GenericOutput("Isoforms", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/isoforms.results", jobsTool));
+                outputsList.add(new GenericOutput("Top expressed", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/top_expressed.fa", jobsTool));
+                break;
+            case DEG:
+                outputsList.add(new GenericOutput("DEG Report", EOutputType.PDF, "/home/vmuser/CPI/results/" + jobid + "/DEG.pdf", jobsTool));
+                outputsList.add(new GenericOutput("DEG.RData", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/DEG.RData", jobsTool));
+                outputsList.add(new GenericOutput("Metadata", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/metadata.zip", jobsTool));
+                break;
+            case CLUSTERS:
+                outputsList.add(new GenericOutput("Clusters Report", EOutputType.PDF, "/home/vmuser/CPI/results/" + jobid + "/clusters.pdf", jobsTool));
+                outputsList.add(new GenericOutput("Metadata", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/metadata.zip", jobsTool));
 
         }
         return outputsList;
@@ -165,8 +181,10 @@ public class DataItemBean {
         switch (utilityBean.getSelectedOutput().getOutputType()) {
             case HTML:
                 return displayFastQC();
-            case CSV:
-                return displayCSVOutput();
+            case NO_DISPLAY:
+                return null;
+            case PDF:
+                return displayPDFOutput();
             case MAGIC:
                 return "'tis be magics. No common folk should be able to see that message";
             default:
@@ -176,7 +194,7 @@ public class DataItemBean {
     }
 
     /**
-     * Returns html code to generate fastqc data item page
+     * Returns html code to generate fastqc iframe
      *
      * @return
      */
@@ -185,6 +203,16 @@ public class DataItemBean {
         //FileEditor.editFastQCHTML(path);
         //path = "../" + path.substring(16); //or 15, check that
         return "<iframe id=\"frame\" src=\"" + path + "\" frameborder=\"0\" width=\"100%\" height=\"750px\"></iframe>";
+    }
+    
+    /**
+     * Returns html code to generate pdf output iframe
+     * @return 
+     */
+    private String displayPDFOutput() {
+        String path = utilityBean.getSelectedOutput().getPath();
+        String src = "http://docs.google.com/gview?url=" + path + "&embedded=true";
+        return "<iframe id=\"frame\" src=\"" + src + "\" frameborder=\"0\" width=\"100%\" height=\"750px\"></iframe>";
     }
 
     /**
@@ -231,7 +259,8 @@ public class DataItemBean {
         getJobOutputFiles(); //ensure initializing outputs list, since it can't be initialized in constuctor - bean stuff
         for (GenericOutput output : outputsList) {
             if (output.getOutputType() == EOutputType.HTML
-                    || output.getOutputType() == EOutputType.TXT) {
+                    || output.getOutputType() == EOutputType.TXT
+                    || output.getOutputType() == EOutputType.PDF) {
                 return true;
             }
         }
@@ -248,7 +277,8 @@ public class DataItemBean {
         List<GenericOutput> reports = new ArrayList();
         for (GenericOutput output : outputsList) {
             if (output.getOutputType() == EOutputType.HTML
-                    || output.getOutputType() == EOutputType.TXT) {
+                    || output.getOutputType() == EOutputType.TXT
+                    || output.getOutputType() == EOutputType.PDF) {
                 reports.add(output);
             }
         }
