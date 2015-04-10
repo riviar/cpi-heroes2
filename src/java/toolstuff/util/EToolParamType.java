@@ -11,5 +11,6 @@ package toolstuff.util;
  */
 public enum EToolParamType {
     TEXTFIELD,
-    DROPDOWN
+    DROPDOWN,
+    MULTIPLE
 }

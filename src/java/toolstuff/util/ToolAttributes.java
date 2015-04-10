@@ -16,7 +16,14 @@ public class ToolAttributes {
     private String name;
     private EToolParamType inputType;
     
+    /**
+     * Single value
+     */
     private String value;
+    /**
+     * Array of values - if type allows
+     */
+    private String[] values;
     private String paramHelp;
     
     /**
@@ -29,6 +36,7 @@ public class ToolAttributes {
         this.name = name;
         this.inputType = EToolParamType.TEXTFIELD;
         this.value = value;
+        this.values = null;
         this.dropdownList = null;
         this.paramHelp = paramHelp;
     }
@@ -38,6 +46,24 @@ public class ToolAttributes {
         this.name = name;
         this.inputType = inputType;
         this.value = value;
+        this.values = null;
+        this.dropdownList = dropdownList;
+        this.paramHelp = paramHelp;
+    }
+    /**
+     * Constructor for attribute with array of values
+     * @param name
+     * @param inputType
+     * @param values
+     * @param dropdownList
+     * @param paramHelp 
+     */
+    public ToolAttributes(String name, EToolParamType inputType,
+            String[] values, List<DropDownParamStruct> dropdownList, String paramHelp) {
+        this.name = name;
+        this.inputType = inputType;
+        this.values = values;
+        this.value = null;
         this.dropdownList = dropdownList;
         this.paramHelp = paramHelp;
     }
@@ -86,6 +112,14 @@ public class ToolAttributes {
      */
     public void setParamHelp(String paramHelp) {
         this.paramHelp = paramHelp;
+    }
+
+    public String[] getValues() {
+        return values;
+    }
+
+    public void setValues(String[] values) {
+        this.values = values;
     }
     
     

@@ -346,7 +346,12 @@ public class RNAseqJob {
     }
     
      private void executeDeg() {
-       String filesIsoforms = getUtilityBean().getSelectedTool().getInputList().get(0).getValue();
+       String filesIsoforms = "";
+       for (String filepath:getUtilityBean().getSelectedTool().getInputList().get(0).getValues()) {
+           filesIsoforms = filesIsoforms.concat(filepath + ",");
+       }
+       //remove last comma
+       filesIsoforms = filesIsoforms.substring(0, filesIsoforms.length()-1);
 
         String estMethod = getUtilityBean().getSelectedTool().getParameterList().get(0).getValue();
         String pvalue = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
