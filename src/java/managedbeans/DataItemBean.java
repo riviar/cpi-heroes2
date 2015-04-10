@@ -149,7 +149,8 @@ public class DataItemBean {
                 outputsList.add(new GenericOutput("Stats", EOutputType.TXT, "/home/vmuser/CPI/results/" + jobid + "/stats.txt", jobsTool));
                 break;
             case SOAPdenovo_Trans:
-                //missing
+                outputsList.add(new GenericOutput("Transcripts", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/transcripts.fa", jobsTool));
+                outputsList.add(new GenericOutput("Stats", EOutputType.TXT, "/home/vmuser/CPI/results/" + jobid + "/stats.txt", jobsTool));
                 break;
             case ABUNDANCE_ESTIMATION:
                 outputsList.add(new GenericOutput("Abudance Estimation Report", EOutputType.PDF, "/home/vmuser/CPI/results/" + jobid + "/abundance_estimation.pdf", jobsTool));
