@@ -155,7 +155,9 @@ public class LoginStatusFilter implements Filter {
                 || uri.contains("faces/project.xhtml")
                 || uri.contains("faces/projects_menu.xhtml")
                 || uri.contains("faces/workgroup.xhtml")
-                || uri.contains("faces/workgroups_menu.xhtml")) {
+                || uri.contains("faces/workgroups_menu.xhtml")
+                || uri.contains("faces/job_output.xhtml")
+                || uri.contains("faces/data_item.xhtml")) {
             return true;
         }
         return false;
