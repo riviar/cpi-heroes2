@@ -202,7 +202,6 @@ public class ProjectBean {
      * @return
      */
     public String selectProject() {
-        System.err.println("PB.selectProject = " + selectedProject.toString());
         utilityBean.setSelectedProject(selectedProject);
         return "project";
     }
