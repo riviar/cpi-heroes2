@@ -10,18 +10,22 @@ import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * Contains methods to manipulate contents of the files
+ * Static class used to manipulate contents of the files
  *
- * @author Fox
+ * @author Rafal Kural
+ * @version 1.0
  */
 public class FileEditor {
 
+    /**
+     * Private constructor that will not allows to create instance of this class
+     */
     private FileEditor() {
 
     }
 
     /**
-     * Removed css and injects link to new css file for FastQC output html file
+     * Removes css and injects link to new css file for FastQC output html file
      *
      * @param path
      */

@@ -21,8 +21,9 @@ import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
 
 /**
- *
- * @author user
+ * Managed bean for project-related operations
+ * @author Rafal Kural
+ * @version 1.0
  */
 @ManagedBean
 @ViewScoped
@@ -147,6 +148,10 @@ public class ProjectBean {
         return "workgroup?faces-redirect=true";
     }
     
+    /**
+     * Creates new project from current user and newProjectName, newProjectWorkgroup and newProjectVisibility
+     * @return redirect string to projects_menu
+     */
     public String createProject() {
         Projects project = new Projects();
         project.setProjectname(newProjectName);

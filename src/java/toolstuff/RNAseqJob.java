@@ -26,16 +26,26 @@ import sessionbeans.ProjectSessionFacade;
  * Universal job class. Used to execute job using currently selected tool
  * (UtilityBean).
  *
- * @author Fox
+ * @author Rafal Kural
+ * @version 1.0
  */
 
 
 public class RNAseqJob {
 
+    /**
+     * Name of the job
+     */
     private String jobName;
 
+    /**
+     * Command used to run the job
+     */
     private String command;
     private String output;
+    /**
+     * Directory for output files
+     */
     private String outputDir = "/home/vmuser/CPI/results";
 
     /**
@@ -52,6 +62,14 @@ public class RNAseqJob {
         this.command = "/home/vmuser/CPI/tools/";
     }
 
+    /**
+     * Creates job object
+     * @param utilityBean utility bean with session data
+     * @param jobHistoryFacade 
+     * @param filesFacade
+     * @param projectFacade
+     * @param jobName 
+     */
     public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, FilesFacade filesFacade, ProjectSessionFacade projectFacade, String jobName) {
         this.jobHistoryFacade = jobHistoryFacade;
         this.utilityBean = utilityBean;

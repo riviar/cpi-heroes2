@@ -32,14 +32,21 @@ import utils.FileEditor;
 /**
  * Managed bean for managing tool output page
  *
- * @author Fox
+ * @author Rafal Kural
+ * @version 1.0
  */
 @ManagedBean
 @RequestScoped
 public class DataItemBean {
 
     private Jobhistory job;
+    /**
+     * Tool enum of selected workflow history item
+     */
     private ETool jobsTool;
+    /**
+     * List of outputs produced from chosen workflow history item
+     */
     private List<GenericOutput> outputsList;
 
     @ManagedProperty(value = "#{utilityBean}")

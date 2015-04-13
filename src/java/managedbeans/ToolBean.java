@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package toolstuff;
+package managedbeans;
 
 import entitybeans.Jobhistory;
 import entitybeans.Projects;
@@ -20,14 +20,16 @@ import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
 import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
+import toolstuff.RNAseqJob;
 
 /**
- *
- * @author Fox
+ * Managed bean for running tool jobs
+ * @author Rafal Kural
+ * @version 1.0
  */
 @ManagedBean//(name = "TestToolBean")
 @RequestScoped
-public class TestToolBean {
+public class ToolBean {
 
     private Projects project;
 
@@ -55,7 +57,7 @@ public class TestToolBean {
     /**
      * Creates a new instance of WorkgroupBean
      */
-    public TestToolBean() {
+    public ToolBean() {
         project = new Projects();
     }
 
@@ -66,7 +68,7 @@ public class TestToolBean {
     /**
      * Creates new job instance and executes it using selectedTool (UtilityBean)
      *
-     * @return
+     * @return redirect string to go back to project page
      */
     public String runJob() {
         //System.out.println(utilityBean.getSelectedTool().getName());

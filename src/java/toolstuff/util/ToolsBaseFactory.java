@@ -9,14 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Fox
+ * Factory class for ToolsBase.
+ * @author Rafal Kural
+ * @version 1.06
  */
 public class ToolsBaseFactory {
     
     private ToolsBaseFactory(){}
     
-    //return ToolsBase instance populated with tools
+    /**
+     * Returns instance of ToolsBase populated with tools
+     * @return populated ToolsBase instance
+     */
     public static ToolsBase initializeToolsBase() {
         //initializing variables
         Tool tool;

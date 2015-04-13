@@ -6,8 +6,9 @@
 package outputview;
 
 /**
- * Enum for recognizing types of output to display
- * @author Fox
+ * Enum for recognizing types of outputs
+ * @author Rafal Kural
+ * @version 1.0
  */
 public enum EOutputType {
     HTML,

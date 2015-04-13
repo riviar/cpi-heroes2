@@ -29,7 +29,7 @@
                 <h:form>
                     <div class="news">
                         <h4>Job Name</h4><br/>
-                        <p:inputText class="regInput" value="#{testToolBean.newJobName}"/>
+                        <p:inputText class="regInput" value="#{toolBean.newJobName}"/>
                     </div>
                     <div class="news">
                         <h4>Inputs</h4>
@@ -89,7 +89,7 @@
                     <div class="news">
                         <h:panelGrid columns="2">
                             <h:commandButton value="Back" class="centerButton" action="project?faces-redirect=true"/>
-                            <h:commandButton value="Submit" class="centerButton" action="#{testToolBean.runJob()}"/>
+                            <h:commandButton value="Submit" class="centerButton" action="#{toolBean.runJob()}"/>
                         </h:panelGrid>
                     </div>
                 </h:form>

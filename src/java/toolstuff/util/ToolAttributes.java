@@ -9,19 +9,27 @@ import java.util.List;
 
 /**
  * Tool Attributes
- * @author Fox
+ * @author Rafal Kural
+ * @version 1.03
  */
 public class ToolAttributes {
     
+    /**
+     * Name of the attribute
+     */
     private String name;
+    /**
+     * Type of the input that will decide behavior connected to this attribute
+     */
     private EToolParamType inputType;
     
+    //Single attribute can possibly hold both single value and array of values, inputType is used to decide which one to use
     /**
-     * Single value
+     * Attribute single value
      */
     private String value;
     /**
-     * Array of values - if type allows
+     * Attribute array of values
      */
     private String[] values;
     private String paramHelp;
@@ -31,7 +39,12 @@ public class ToolAttributes {
      */
     private List<DropDownParamStruct> dropdownList;
 
-    //constructor for textfields
+    /**
+     * Constructor for textfield-input attribute
+     * @param name attribute name
+     * @param value attribute default value
+     * @param paramHelp help text
+     */
     public ToolAttributes(String name, String value, String paramHelp) {
         this.name = name;
         this.inputType = EToolParamType.TEXTFIELD;
@@ -41,6 +54,14 @@ public class ToolAttributes {
         this.paramHelp = paramHelp;
     }
     
+    /**
+     * More flexible constructor. Allows choosing inputType for attribute and specify drop-down list contents
+     * @param name attribute name
+     * @param inputType attribute input type
+     * @param value attribute default value
+     * @param dropdownList attribute drop-down list contents (can be null for TEXTFIELD type)
+     * @param paramHelp help text
+     */
     public ToolAttributes(String name, EToolParamType inputType,
             String value, List<DropDownParamStruct> dropdownList, String paramHelp) {
         this.name = name;
@@ -51,12 +72,12 @@ public class ToolAttributes {
         this.paramHelp = paramHelp;
     }
     /**
-     * Constructor for attribute with array of values
-     * @param name
-     * @param inputType
-     * @param values
-     * @param dropdownList
-     * @param paramHelp 
+     * Constructor for attribute that holds array of values (MULTIPLE type)
+     * @param name attribute name
+     * @param inputType attribute input type (should be only MULTIPLE for now, consider removing it from constructor)
+     * @param values default attribute values
+     * @param dropdownList attribute drop-down list contents (not used for MULTIPLE type, can be null, consider removing from constructor)
+     * @param paramHelp help text
      */
     public ToolAttributes(String name, EToolParamType inputType,
             String[] values, List<DropDownParamStruct> dropdownList, String paramHelp) {
