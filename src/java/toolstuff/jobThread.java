@@ -22,6 +22,7 @@ import sessionbeans.ProjectSessionFacade;
 import toolstuff.util.ETool;
 import java.sql.Date;
 import java.sql.Time;
+import utils.FileEditor;
 
 /**
  *
@@ -121,6 +122,8 @@ public class jobThread extends Thread {
                 
                 //Add output to database
                 filesFacade.create(output1);
+                System.out.println("Editing file: " + "/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fastqc.html");
+                FileEditor.editFastQCHTML("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fastqc.html");
                 break;
             case TRIMMOMATIC_TRIM:
                 //PAIRED FORWARD

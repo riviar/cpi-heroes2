@@ -7,6 +7,7 @@ package entitybeans;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,6 +24,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -36,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "projects")
 @XmlRootElement
 @NamedNativeQuery(name = "Projects.findInUsersWorkgroup",
-    query = "SELECT * FROM projects p LEFT JOIN users_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
+    query = "SELECT * FROM projects p LEFT JOIN user_has_workgroups uw ON p.workgroupid=uw.workgroups_idworkgroups WHERE users_idusers=?",
     resultClass = Projects.class)
 @NamedQueries({
     @NamedQuery(name = "Projects.findAll", query = "SELECT p FROM Projects p"),
@@ -45,8 +48,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Projects.findByDescription", query = "SELECT p FROM Projects p WHERE p.description = :description"),
     @NamedQuery(name = "Projects.findByVisibility", query = "SELECT p FROM Projects p WHERE p.visibility = :visibility"),
     @NamedQuery(name = "Projects.findByOwner", query = "SELECT p FROM Projects p WHERE p.owner = :user"),
-    //@NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w JOIN w.usersCollection u WHERE u.idusers = :user"),
-    @NamedQuery(name = "Projects.findInWorkgroupOwnedByUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w WHERE w.owner = :user")})
+    //@NamedQuery(name = "Projects.findVisibleToUser", query = "SELECT p FROM Projects p JOIN p.workgroup w JOIN w.usersCollection u WHERE u.idusers = :user"),
+    //@NamedQuery(name = "Projects.findInWorkgroupOwnedByUser", query = "SELECT p FROM Projects p JOIN p.workgroupid w WHERE w.owner = :user")})
+})
 
 public class Projects implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectid")
@@ -64,15 +68,20 @@ public class Projects implements Serializable {
     @Size(max = 9999)
     @Column(name = "description")
     private String description;
+    @Temporal(DATE)
+    @Column(name = "creationdate")
+    @NotNull
+    private Date creationdate;
     @Size(max = 9)
     @Column(name = "visibility")
+    @NotNull
     private String visibility;
     @JoinColumn(name = "owner", referencedColumnName = "idusers")
     @ManyToOne(optional = false)
     private Users owner;
     @JoinColumn(name = "workgroupid", referencedColumnName = "idworkgroups")
     @ManyToOne
-    private Workgroups workgroupid;
+    private Workgroups workgroup;
     @ManyToMany
     @JoinTable(name = "project_has_files", joinColumns = {
         @JoinColumn(name = "projects_idprojects", referencedColumnName = "idprojects")}, inverseJoinColumns = {
@@ -118,6 +127,14 @@ public class Projects implements Serializable {
         this.visibility = visibility;
     }
 
+    public Date getCreationdate() {
+        return creationdate;
+    }
+
+    public void setCreationdate(Date creationdate) {
+        this.creationdate = creationdate;
+    }
+
     public Users getOwner() {
         return owner;
     }
@@ -126,12 +143,12 @@ public class Projects implements Serializable {
         this.owner = owner;
     }
 
-    public Workgroups getWorkgroupid() {
-        return workgroupid;
+    public Workgroups getWorkgroup() {
+        return workgroup;
     }
 
-    public void setWorkgroupid(Workgroups workgroupid) {
-        this.workgroupid = workgroupid;
+    public void setWorkgroup(Workgroups workgroup) {
+        this.workgroup = workgroup;
     }
 
     @XmlTransient

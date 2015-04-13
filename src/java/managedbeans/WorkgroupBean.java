@@ -17,8 +17,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import sessionbeans.AccountSessionFacade;
 import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
@@ -46,8 +44,9 @@ public class WorkgroupBean {
     ProjectSessionFacade projectFacade;
     @EJB
     AccountSessionFacade usersFacade;
+
     @ManagedProperty(value = "#{authenticationBean}")
-    AuthenticationBean authenticationBean;
+    private AuthenticationBean authenticationBean;
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     //Stores ID of the workgroup
@@ -56,19 +55,19 @@ public class WorkgroupBean {
     //Stored ID of the project
     @ManagedProperty(value = "#{param.selectedProject}")
     private String selectedProject;
-    @ManagedProperty(value="#{param.selectedUser}")
+    @ManagedProperty(value = "#{param.selectedUser}")
     private String selectedUser;
-    
+
     /*
     Creates a HashMap to use it in workgroups.xhtml
     */
-    private static Map<String,Object> userMap;
-    public Map<String,Object> getUsersMap() {
+    private static Map<String, Object> userMap;
+    public Map<String, Object> getUsersMap() {
         userMap = new LinkedHashMap<>();
-        List<Users> users=usersFacade.findAll();
-        for (Users user:users){
+        List<Users> users = usersFacade.findAll();
+        for (Users user : users) {
             userMap.put(user.getUsername(), user);
-        }        
+        }
         return userMap;
     }
 
@@ -83,7 +82,6 @@ public class WorkgroupBean {
     public void setSelectedUser(String selectedUser) {
         this.selectedUser = selectedUser;
     }
- 
 
     public String getNewWorkgroupName() {
         return newWorkgroupName;
@@ -93,15 +91,6 @@ public class WorkgroupBean {
         this.newWorkgroupName = newWorkgroupName;
     }
 
-    
-    public Workgroups getNewWorkgroup() {
-        return newWorkgroup;
-    }
-
-    public void setNewWorkgroup(Workgroups newWorkgroup) {
-        this.newWorkgroup = newWorkgroup;
-    }
-    
     public void setSelectedProject(String selectedProject) {
         this.selectedProject = selectedProject;
     }
@@ -112,14 +101,6 @@ public class WorkgroupBean {
 
     public void setSelectedWorkgroup(String selectedWorkgroup) {
         this.selectedWorkgroup = selectedWorkgroup;
-    }
-
-    public String getNewProjectName() {
-        return newProjectName;
-    }
-
-    public void setNewProjectName(String newProjectName) {
-        this.newProjectName = newProjectName;
     }
 
     public String getNewUserName() {
@@ -135,12 +116,7 @@ public class WorkgroupBean {
      */
     public WorkgroupBean() {
 
-        //TODO: code taken from AuthenticationBean - should call it there instead!
-        // get current session
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
-        // set user attribute of session
-        user = (Users) session.getAttribute("user");
+        //user = utilityBean.getUser();
 
         workgroup = new Workgroups();
 
@@ -183,70 +159,66 @@ public class WorkgroupBean {
         System.out.println("adduser called");
         Users user = utilityBean.getSelectedUser();
         if (user == null || workgroup == null) {
-            return "invaliddataerrorpage";
+            return "invaliddataerrorpage?faces-redirect=true";
         } else {
             Collection<Users> users = workgroup.getUsersCollection();
             users.add(user);
             workgroup.setUsersCollection(users);
             workgroupFacade.updateWorkgroup(workgroup);
         }
-        return "workgroup.xhtml";
+        return "workgroup?faces-redirect=true";
     }
 
-    public String removeUserFromWorkgroup() {           
-            Collection<Users> users = workgroup.getUsersCollection();
-            users.remove(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
-            workgroup.setUsersCollection(users);
-            workgroupFacade.updateWorkgroup(workgroup);
-        return "workgroup.xhtml";
+    public String removeUserFromWorkgroup() {
+        Collection<Users> users = workgroup.getUsersCollection();
+        users.remove(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
+        workgroup.setUsersCollection(users);
+        workgroupFacade.updateWorkgroup(workgroup);
+        return "workgroup?faces-redirect=true";
     }
 
     public String addProjectToWorkgroup() {
-        project = new Projects();
-        project.setProjectname(newProjectName);
-        if (project == null || workgroup == null) {
-            return "invaliddataerrorpage";
-        } else {
-            project.setOwner(utilityBean.getUser());
-            project.setWorkgroupid(workgroup);
-            projectFacade.create(project);
-            Collection<Projects> projects = workgroup.getProjectsCollection();
-            projects.add(project);
-            workgroup.setProjectsCollection(projects);
-            workgroupFacade.updateWorkgroup(workgroup);
-        }
-        return "workgroupspage";
+        project = projectFacade.retrieveProjectById(Integer.valueOf(selectedProject));
+        workgroup = workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup));
+        project.setWorkgroup(workgroup);
+        projectFacade.updateProject(project);
+        Collection<Projects> projects = workgroup.getProjectsCollection();
+        projects.add(project);
+        workgroup.setProjectsCollection(projects);
+        workgroupFacade.updateWorkgroup(workgroup);
+        return "workgroup?faces-redirect=true";
     }
 
     public String removeProjectFromWorkgroup() {
-        
-            Collection<Projects> projects = workgroup.getProjectsCollection();
-            projects.remove(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
-            workgroup.setProjectsCollection(projects);
-            workgroupFacade.updateWorkgroup(workgroup);
-        
-        return "workgroupspage";
+
+        Collection<Projects> projects = workgroup.getProjectsCollection();
+        projects.remove(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
+        workgroup.setProjectsCollection(projects);
+        workgroupFacade.updateWorkgroup(workgroup);
+
+        return "workgroup?faces-redirect=true";
     }
 
     public String createWorkgroup() {
-        if (newWorkgroup == null) {
-            return "invaliddataerrorpage";
-        } else {
-            newWorkgroup = new Workgroups();
-            newWorkgroup.setWorkgroupname(newWorkgroupName);
-            newWorkgroup = getNewWorkgroup(newWorkgroup);
-            workgroupFacade.createWorkgroup(newWorkgroup);
-        }
-        return "workgroupspage";
+        newWorkgroup = new Workgroups();
+        newWorkgroup.setWorkgroupname(newWorkgroupName);
+        Users currentuser = utilityBean.getUser();
+        newWorkgroup.setOwner(currentuser);
+        ArrayList<Users> users = new ArrayList(1);
+        users.add(currentuser);
+        newWorkgroup.setUsersCollection(users);
+        workgroupFacade.createWorkgroup(newWorkgroup);
+
+        return "workgroups_menu?faces-redirect=true";
     }
 
     public String removeWorkgroup() {
         if (workgroup == null) {
-            return "invaliddataerrorpage";
+            return "invaliddataerrorpage?faces-redirect=true";
         } else {
             workgroupFacade.removeWorkgroup(workgroup);
         }
-        return "workgroupspage";
+        return "workgroup?faces-redirect=true";
     }
 
     public Collection<Workgroups> getWorkgroupsForUser() {
@@ -269,27 +241,24 @@ public class WorkgroupBean {
 
     /**
      * Selects workgroup and redirects to its page
-     *
      * @return
      */
     public String selectWorkgroup() {
         utilityBean.setSelectedWorkgroup(workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup)));
-        return "workgroup";
+        return "workgroup?faces-redirect=true";
     }
 
     /**
      * Selects projects and redirects to its page
-     *
      * @return
      */
     public String selectProject() {
         utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
-        return "project";        
+        return "project?faces-redirect=true";
     }
-    
+
     public String selectUser() {
         utilityBean.setSelectedUser(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
-        return "project";
+        return "project?faces-redirect=true";
     }
-   
 }

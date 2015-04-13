@@ -123,4 +123,24 @@ public class ToolsBase {
         return null;
     }
     
+    /**
+     * Returns list of all tools
+     * @return 
+     */
+    public List<Tool> getAllTools() {
+        List<Tool> allTools = new ArrayList();
+        for (Tool tool:preprocessingTools) {
+            allTools.add(tool);
+        }
+        for (Tool tool:assemblyTools) {
+            allTools.add(tool);
+        }
+        for (Tool tool:annotationTools) {
+            allTools.add(tool);
+        }
+        for (Tool tool:downsteamTools) {
+            allTools.add(tool);
+        }
+        return allTools;
+    }
 }

@@ -49,6 +49,9 @@ public class JobHistoryBean {
     @ManagedProperty(value = "#{param.currentJob}")
     private String currentJob;
     
+    @ManagedProperty(value = "#{param.selectedJob}")
+    private String selectedJobId;
+    
     public void setcurrentJob(String currentJob) {
         this.setCurrentJob(currentJob);
     }
@@ -56,6 +59,15 @@ public class JobHistoryBean {
     public void setUtilityBean(UtilityBean utilityBean) {
         this.utilityBean = utilityBean;
     }
+
+    public String getSelectedJobId() {
+        return selectedJobId;
+    }
+
+    public void setSelectedJobId(String selectedJobId) {
+        this.selectedJobId = selectedJobId;
+    }
+    
     
     /**
      * Creates a new instance of JobHistoryBean
@@ -173,7 +185,7 @@ public class JobHistoryBean {
             String line = null;
             
             while ((line = br.readLine()) != null) {
-                //System.out.println(line);
+                System.out.println(line);
                 if(!line.contains("ELAPSED")){
                     output.append(line);
                 }
@@ -207,7 +219,18 @@ public class JobHistoryBean {
         System.out.println("Constructor: " + currentJob);
         this.currentJob = currentJob;
     }
-
+    
+    /**
+     * Sets selected jobHistory item in utility bean and redirects to output page
+     * @return 
+     */
+    public String selectJobHistoryItem() {
+        System.out.println("Looking for job with id " + selectedJobId);
+        Jobhistory selectedJobHistoryItem = jobHistoryFacade.findJobHistoryById(Integer.valueOf(selectedJobId));
+        System.out.println("Found job with name " + selectedJobHistoryItem.getJobname());
+        utilityBean.setSelectedJob(selectedJobHistoryItem);
+        return "job_output?faces-redirect=true";
+     }
     /**
      * @return the currentJob
      */

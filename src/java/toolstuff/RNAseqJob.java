@@ -31,20 +31,21 @@ import sessionbeans.ProjectSessionFacade;
 import toolstuff.util.Tool;
 
 /**
- * Universal job class. 
- * Used to execute job using currently selected tool (UtilityBean).
+ * Universal job class. Used to execute job using currently selected tool
+ * (UtilityBean).
+ *
  * @author Fox
  */
-@Stateful
+
+
 public class RNAseqJob {
 
     private String jobName;
 
     private String command;
     private String output;
-    private String outputDir="/home/vmuser/CPI/results";
-    
-    
+    private String outputDir = "/home/vmuser/CPI/results";
+
     /**
      * provides access to session bean UtilityBean (here for selectedTool)
      */
@@ -72,14 +73,13 @@ public class RNAseqJob {
     /*private UtilityBean utilityBean;
     private JobHistoryFacade jobHistoryFacade;
     private FilesFacade filesFacade;
-    private ProjectSessionFacade projectFacade;*/
-    
-    /*public RNAseqJob(String jobName) {
+    private ProjectSessionFacade projectFacade;
+
+    public RNAseqJob(String jobName) {
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/";
-        //this.command = "/home/pitas/SOAPdenovo-Trans";
     }
-    
+
     public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, FilesFacade filesFacade, ProjectSessionFacade projectFacade, String jobName) {
         this.jobHistoryFacade = jobHistoryFacade;
         this.utilityBean = utilityBean;
@@ -87,10 +87,9 @@ public class RNAseqJob {
         this.projectFacade = projectFacade;
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/";
-        //this.command = "/home/pitas/SOAPdenovo-Trans";
-    }*/
+    }
 
-     /**
+    /**
      * Executes Job based on selected tool.
      */
     @Asynchronous
@@ -123,12 +122,17 @@ public class RNAseqJob {
                 break;
             case ABUNDANCE_ESTIMATION:
                 executeAbundanceEstimation();
+            case DEG:
+                executeDeg();
+                break;
+            case CLUSTERS:
+                executeClusters();
                 break;
             default:
                 throw new AssertionError(selectedTool.getToolEnum().name());
         }
     }
-    
+
     /**
      * Retrieves parameters and executes FastQC job
      */
@@ -143,9 +147,10 @@ public class RNAseqJob {
         
         executeCommand(command, outputName);
     }
-    
+
     /**
-     * Retrieves parameters and executes Trimmomatic job for trimming using sliding window
+     * Retrieves parameters and executes Trimmomatic job for trimming using
+     * sliding window
      */
     private void executeTrimmomaticTrim() {
         String leftInput = selectedTool.getInputList().get(0).getValue();
@@ -173,7 +178,7 @@ public class RNAseqJob {
         
         executeCommand(command, outputName);
     }
-    
+
     /**
      * Retrieves parameters and executes Trimmomatic job for removing adapters
      */
@@ -208,7 +213,7 @@ public class RNAseqJob {
         
         executeCommand(command, outputName);
     }
-    
+
     /**
      * Retrieves parameters and executes Seecer job
      */
@@ -239,10 +244,10 @@ public class RNAseqJob {
 
         executeCommand(command, outputName);
     }
-    
+
     /**
-     * Retrieves parameters and executes Trinity job
-     * Be mindful of reversed right/left order!
+     * Retrieves parameters and executes Trinity job Be mindful of reversed
+     * right/left order!
      */
     private void executeTrinity() {
         String leftInput = selectedTool.getInputList().get(0).getValue();
@@ -262,7 +267,7 @@ public class RNAseqJob {
 
         executeCommand(command, outputName);
     }
-    
+
     /**
      * Retrieves parameters and executes Velvet job
      */
@@ -288,7 +293,7 @@ public class RNAseqJob {
 
         executeCommand(command, outputName);
     }
-    
+
     /**
      * Retrieves parameters and executes Velvet job
      */
@@ -348,7 +353,8 @@ public class RNAseqJob {
         String rightInput = selectedTool.getInputList().get(2).getValue();
         
         String seqType = selectedTool.getParameterList().get(0).getValue();
-        String prefix = selectedTool.getParameterList().get(1).getValue();
+        String estMethod = selectedTool.getParameterList().get(1).getValue();
+        String prefix = selectedTool.getParameterList().get(2).getValue();
         String[] outputName = new String[1];
         outputName[0] = prefix;
         
@@ -360,13 +366,70 @@ public class RNAseqJob {
                 + leftInput + " "
                 + rightInput + " "
                 + seqType + " "
-                + outputDir + " "
-                + prefix;
+                + estMethod + " "
+                + outputDir;
                 
         executeCommand(command, outputName);
        
     }
+    
+     private void executeDeg() {
+       String filesIsoforms = selectedTool.getInputList().get(0).getValue();
 
+        String estMethod = selectedTool.getParameterList().get(0).getValue();
+        String pvalue = selectedTool.getParameterList().get(1).getValue();
+        String cFoldChange = selectedTool.getParameterList().get(2).getValue();
+        String maxDeg = selectedTool.getParameterList().get(3).getValue();
+        String prefix = selectedTool.getParameterList().get(4).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = prefix;
+        String files = selectedTool.getParameterList().get(5).getValue();
+       
+        
+//String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+        
+        System.out.println(estMethod);
+        System.out.println(pvalue);
+        System.out.println(cFoldChange);
+        System.out.println(maxDeg);
+        System.out.println(prefix);
+        System.out.println(files);
+        
+        
+        
+        command += " " 
+                + files + " "
+                + estMethod + " "
+                + pvalue + " "
+                + cFoldChange + " "
+                + maxDeg + " "
+                + outputDir;
+                
+        executeCommand(command, outputName);
+       
+    }
+    private void executeClusters() {
+        String RDataFile = selectedTool.getInputList().get(0).getValue();
+
+        String ptree = selectedTool.getParameterList().get(0).getValue();
+               
+        
+        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
+        //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
+
+        
+        
+        command += " " 
+                + RDataFile + " "
+                + ptree + " "
+                + outputDir;
+                
+        executeCommand(command, new String[1]);
+       
+    }
+    
+    
     
     /**
      * Executes shell command
@@ -396,8 +459,8 @@ public class RNAseqJob {
         }
         commandList.add(jobID);
 
-        //ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
-        ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
+        ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
+        //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
         Process p;
         try {
             p = pb.start();
@@ -466,27 +529,6 @@ public class RNAseqJob {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        //InputStream stdOut = p.getInputStream();
-        /*StringBuffer output = new StringBuffer();
-
-         Process p;
-         try {
-
-         p = Runtime.getRuntime().exec(command+" "+jobProjectID);
-            
-         p.waitFor();
-         BufferedReader reader
-         = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-         String line = "";
-         while ((line = reader.readLine()) != null) {
-         output.append(line + "\n");
-         }*/
-   
-
-        //System.out.println(output.toString());
-    //return output.toString();
 }
     
     public void addOutputToDB(Jobhistory updateJob, String[] outputName){
@@ -755,6 +797,9 @@ public class RNAseqJob {
                 //Add outputs to database
                 filesFacade.create(output1);
                 break;
+            case DEG:
+                
+            case CLUSTERS:    
             default:
                 throw new AssertionError(selectedTool.getToolEnum().name());
         }
@@ -765,7 +810,7 @@ public class RNAseqJob {
      */
     private void appentExecutable() {
         System.out.println(selectedTool.getName());
-        command += selectedTool.getPath();              
+        command += selectedTool.getPath();
     }
 
     /**
@@ -797,5 +842,13 @@ public class RNAseqJob {
     }
 }
 
-
-
+ 
+   
+    
+   
+    
+    
+    
+    
+    
+    

@@ -16,21 +16,39 @@
             </ui:define>
 
             <ui:define name="center">
-                <h3>Workgroup <h:outputText value="#{utilityBean.selectedWorkgroup.workgroupname}"/></h3>
+                <h3>Workgroup: <h:outputText value="#{utilityBean.selectedWorkgroup.workgroupname}"/></h3>
                 <div class="news">
                     <h4>Members:</h4>
-                       <br/>
+                    <br/>
                     <ul>
-                        <c:forEach items="#{workgroupBean.getUsersInWorkgroup()}" var="user">
+                        <ui:repeat id="userlist" value="#{workgroupBean.getUsersInWorkgroup()}" var="user" >
                             <li><p>                                   
                                     <h:outputText converter="userConverter" style="font-weight: bold" value="#{user.username}"/>                                     
-                                    <h:form>
-                                        <h:commandLink action="#{workgroupBean.removeUserFromWorkgroup()}" value="Remove User">
-                                            <f:param name="selectedUser" value="#{user.idusers}"/>
-                                        </h:commandLink>
-                                    </h:form>
+                                    <h:button id="removeUserButton"
+                                              onclick="PF('confirmRemoveUser#{user.idusers}').show();
+                                                    return false;" 
+                                              value="Remove User">
+                                    </h:button>
+                                    
+                                        <h:form>
+                                            <p:confirmDialog id="confirmDialog" widgetVar="confirmRemoveUser#{user.idusers}" message="Are you sure you want to remove user #{user.username}?">
+                                                <h3>Remove User</h3>
+                                                <p:commandButton id="confirmRemoveButton"
+                                                                 action="#{workgroupBean.removeUserFromWorkgroup()}"
+                                                                 class="centerButton" 
+                                                                 ajax="false"
+                                                                 value="ConfirmIt!">
+                                                    <f:param name="selectedUser" value="#{user.idusers}"/>
+                                                </p:commandButton>
+                                                <p:commandButton id="cancelRemoveButton" 
+                                                                 onclick="PF('confirmRemoveUser').hide();
+                                                                         return false;" 
+                                                                 class="centerButton" 
+                                                                 value="Cancel"/>
+                                            </p:confirmDialog>
+                                        </h:form>
                                 </p></li>
-                        </c:forEach>
+                        </ui:repeat>
                     </ul>
                 </div>
                 <div class="news">
@@ -52,7 +70,7 @@
                                         <br/>
                                         <h:commandLink value="Remove Project" action="#{workgroupBean.removeProjectFromWorkgroup()}">
                                             <f:param name="selectedProject" value="#{project.idprojects}"/>
-                                        </h:commandLink>                                        
+                                        </h:commandLink>
                                     </p></li>
                             </c:forEach>
                         </h:form>
@@ -82,10 +100,14 @@
                     <h3>Create new project</h3>
                     <h:form>
                         <h:outputText value="Project name"/><br/>
-                        <p:inputText class="regInput" value="#{workgroupBean.newProjectName}"/><br/>
-                        <h:commandButton id="createProjectButton" action="#{workgroupBean.addProjectToWorkgroup()}" class="centerButton" value="Create"/>
+                        <p:inputText class="regInput" value="#{projectBean.newProjectName}"/><br/>
+                        <c:set target="#{projectBean}" value="#{utilityBean.selectedWorkgroup}" property="newProjectWorkgroup"/>
+                        <c:set target="#{projectBean}" value="WORKGROUP" property="newProjectVisibility"/>
+                        <h:commandButton id="createProjectButton" action="#{projectBean.createProjectWG()}" class="centerButton" value="Create"/>
                     </h:form>
-                </p:dialog>
+                </p:dialog> 
+
+
             </ui:define>
 
         </ui:composition>

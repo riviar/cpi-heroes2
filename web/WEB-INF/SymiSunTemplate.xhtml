@@ -24,7 +24,7 @@
 
             <div id="header">
                 <div id="logo">
-                    <h:link outcome="index" ><h:graphicImage library="images" width="318" height="85" alt="RNAseq" name="logo.gif" /></h:link><span id="logo-text"><h:link value="RNAseq logo" outcome="index"/></span>
+                    <h:link outcome="index" ><h:graphicImage library="images" width="318" height="85" alt="Cranfield Logo" name="logo.gif" /></h:link>
                 </div>
                 <div id="menu">
                     <ul>
@@ -38,28 +38,28 @@
                 </div>
                 <div id="logincontrol">
                     <c:if test="#{utilityBean.user == null}">
-                            <h:form>
-                                <h:panelGrid styleClass="loginPanel" columns="5" >
-                                    <h:outputText value="Username: "/>
-                                    <p:inputText value="#{authenticationBean.newUser.username}"/>
-                                    <h:outputText value="Password: "/>
-                                    <p:password value="#{authenticationBean.newUser.password}"/>
-                                    <h:commandButton id="logInButton" action="#{authenticationBean.loginUser()}" class="login" value="Log In"/>
-                                </h:panelGrid>
-                            </h:form>
-                        </c:if>
-                        <c:if test="#{utilityBean.user != null}">
-                            <h:form>
-                                <h:panelGrid styleClass="loginPanel" columns="3" >
-                                    Logged in as <h:outputText style="font-weight:bold" value="#{utilityBean.user.username} "/>
-                                    <h:commandButton id="logInButton" action="#{authenticationBean.logOut()}" class="login" value="Log Out"/>
-                                </h:panelGrid>
-                            </h:form>
-                        </c:if>
-                    </div>
+                        <h:form>
+                            <h:panelGrid styleClass="loginPanel" columns="5" >
+                                <h:outputText value="Username: "/>
+                                <p:inputText value="#{authenticationBean.newUser.username}"/>
+                                <h:outputText value="Password: "/>
+                                <p:password value="#{authenticationBean.newUser.password}"/>
+                                <h:commandButton id="logInButton" action="#{authenticationBean.loginUser()}" class="login" value="Log In"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </c:if>
+                    <c:if test="#{utilityBean.user != null}">
+                        <h:form>
+                            <h:panelGrid styleClass="loginPanel" columns="3" >
+                                Logged in as <h:outputText style="font-weight:bold" value="#{utilityBean.user.username} "/>
+                                <h:commandButton id="logInButton" action="#{authenticationBean.logOut()}" class="login" value="Log Out"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </c:if>
+                </div>
                 <div id="headerimage">
                     <div id="slogan">
-                        Our cute super slogan
+                        Comprehensive transcriptome analysis for non-model organisms
                     </div>
                 </div><!-- headerimage end -->
             </div><!-- header end -->
@@ -84,9 +84,9 @@
                                                 <h:commandLink value="#{toolName}" action="#{toolsSidebarBean.selectTool()}">
                                                     <f:param name="tool" value="#{toolName}"/>
                                                 </h:commandLink>
-                                        </p></li>
+                                            </p></li>
                                     </c:forEach>                                  
-                                </ul>
+                               </ul>
                                 <li><p class=""><strong>Assembly</strong></p></li>
                                 <ul>
                                     <c:forEach items="#{toolsSidebarBean.getAssemblyToolNames()}" var="toolName">
@@ -94,7 +94,7 @@
                                                 <h:commandLink value="#{toolName}" action="#{toolsSidebarBean.selectTool()}">
                                                     <f:param name="tool" value="#{toolName}"/>
                                                 </h:commandLink>
-                                        </p></li>
+                                            </p></li>
                                     </c:forEach>  
                                 </ul>
                                 <li><p class=""><strong>Downstream Analysis</strong></p></li>
@@ -134,7 +134,11 @@
                                     <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
                                         
                                         <li><div id="job">
-                                                <p class="subtool">#{job.jobname}</p>
+                                                <p class="subtool">
+                                                            <h:commandLink value="#{job.jobname}" action="#{jobHistoryBean.selectJobHistoryItem()}">
+                                                                <f:param name="selectedJob" value="#{job.idjobs}"/>
+                                                            </h:commandLink>
+                                                        </p>
                                                 <p>#{job.commandused}</p>
                                                                                                 
                                                 <c:if test="#{job.processid>0}"><p style="color:orange"><b>RUNNING</b></p>

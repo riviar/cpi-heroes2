@@ -19,6 +19,7 @@ public class Tool {
     private String path;
     private List<ToolAttributes> inputList;
     private List<ToolAttributes> parameterList;
+    private String toolHelp;
 
     public String getName() {
         return name;
@@ -76,10 +77,23 @@ public class Tool {
         this.inputList = inputList;
     }
     
+    /**
+     * pls help
+     * @return the help
+     */
+    public String getToolHelp() {
+        return toolHelp;
+    }
     
-    
+    /**
+     * @param help the help to set
+     */
+    public void setToolHelp(String help) {
+        this.toolHelp = help;
+    }
+
     public Tool(String name, ETool toolEnum, EToolType toolType, String description, 
-            String path, List<ToolAttributes> inputList, List<ToolAttributes> parametersList) {
+            String path, List<ToolAttributes> inputList, List<ToolAttributes> parametersList, String help) {
         this.name = name;
         this.toolEnum = toolEnum;
         this.toolType = toolType;
@@ -87,5 +101,6 @@ public class Tool {
         this.path = path;
         this.inputList = inputList;
         this.parameterList = parametersList;
+        this.toolHelp = help;
     }
 }

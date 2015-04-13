@@ -7,17 +7,13 @@ package managedbeans;
 
 import entitybeans.Users;
 import java.util.Collection;
-import java.util.Iterator;
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import sessionbeans.AccountSessionFacade;
 
 /**
@@ -81,11 +77,6 @@ public class AuthenticationBean {
         return redirectpage;
     }
 
-    public Users getLoggedInUser() {
-        // set user attribute of session
-        return utilityBean.getUser();
-    }
-
     public String loginUser(String username, String password) {
         // lookup username/password combination in database
         Users user = accountFacade.checkUserLogin(username, password);
@@ -97,23 +88,13 @@ public class AuthenticationBean {
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Logged In Successfully!"));
-            // get current session
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                    .getExternalContext().getSession(false);
-            // set user attribute of session
+            // set user attribute in utilitybean
             utilityBean.setUser(user);
             newUser = user;
-            return "home";
+            return "home?faces-redirect=true";
         }
     }
 
-    public boolean isLoggedIn() {
-        //gets current session
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                .getExternalContext().getSession(false);
-        //returns true if user attribute for current session is not null
-        return (utilityBean.getUser() != null);
-    }
 
     public Users getNewUser() {
         return newUser;
@@ -132,13 +113,13 @@ public class AuthenticationBean {
         } else {
             accountFacade.registerUser(newUser);
         }
-        return "index";
+        return "index?faces-redirect=true";
     }
     
     public String logOut() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                     .getExternalContext().getSession(false);
         session.invalidate();
-        return "index";
+        return "index?faces-redirect=true";
     }
 }

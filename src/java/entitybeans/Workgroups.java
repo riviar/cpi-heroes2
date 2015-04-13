@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "workgroups")
 @XmlRootElement
 @NamedNativeQuery(name = "Workgroups.findByUsersMember", 
-        query = "SELECT * FROM workgroups w LEFT JOIN users_has_workgroups uw ON w.idworkgroups=uw.workgroups_idworkgroups WHERE uw.users_idusers=?",
+        query = "SELECT * FROM workgroups w LEFT JOIN user_has_workgroups uw ON w.idworkgroups=uw.workgroups_idworkgroups WHERE uw.users_idusers=?",
         resultClass = Workgroups.class)
 @NamedQueries({
     @NamedQuery(name = "Workgroups.findAll", query = "SELECT w FROM Workgroups w"),
@@ -61,7 +61,7 @@ public class Workgroups implements Serializable {
                 @JoinColumn(name = "workgroups_idworkgroups", referencedColumnName = "idworkgroups")}
     )
     private Collection<Users> usersCollection;
-    @OneToMany(mappedBy = "workgroupid")
+    @OneToMany(mappedBy = "workgroup")
     private Collection<Projects> projectsCollection;
     @JoinColumn(name = "owner", referencedColumnName = "idusers")
     @ManyToOne(optional = false)

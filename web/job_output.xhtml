@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/SymiSunTemplate.xhtml">
+
+            <ui:define name="title">
+                Tool Output
+            </ui:define>
+
+            <ui:define name="center">
+                <h3><h:outputText value="#{utilityBean.selectedJob.jobname}" /> &ndash; Output</h3>
+                <c:if test="#{dataItemBean.containsReportFile()}">
+                    <div class="news">
+                        <h4>Job report:</h4>
+                        <h:messages />
+                        <ul>
+                            <h:form>
+                                <ui:repeat value="#{dataItemBean.getReportFiles()}" var="reportFile">  
+                                    <p>#{reportFile.name} &ndash;
+                                        <h:commandLink style="color: #103C20;" target="newPopup" class="centerButton" value="View report" action="#{dataItemBean.selectOutputFile()}">
+                                            <f:param name="output" value="#{reportFile.name}"/>
+                                        </h:commandLink>
+                                        <h:commandButton class="centerButton" style="margin-left: 5px;" value="Download" action="#{dataItemBean.downloadFile()}">
+                                            <f:param name="output" value="#{reportFile.name}"/>
+                                        </h:commandButton>    
+                                    </p>
+                                </ui:repeat>
+                            </h:form>
+                        </ul>
+                    </div>
+                </c:if>
+                <div class="news">
+                    <h4>All job output files:</h4>
+                    <ul>
+                        <h:form>
+                            <c:forEach items="#{dataItemBean.getJobOutputFiles()}" var="outputFile">
+                                <p>#{outputFile.name} &ndash;
+                                    <h:commandButton class="centerButton" value="Download" action="#{dataItemBean.downloadFile()}">
+                                        <f:param name="output" value="#{outputFile.name}"/>
+                                    </h:commandButton>
+                                </p>
+                            </c:forEach>
+                        </h:form>
+                    </ul>
+                </div>
+                <div class="news">
+                    <h:form>
+                        <h:commandButton value="Back to project" class="centerButton" action="project?faces-redirect=true"/>
+                    </h:form>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

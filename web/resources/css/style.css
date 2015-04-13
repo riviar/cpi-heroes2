@@ -78,7 +78,7 @@ h5 {font-size:10px}
 #logincontrol {width:632px; height:31px; float:right; display:inline; padding:15px 0 0 0; text-align:center; color:#888}
 #logincontrols:after {content:"."; display:block; height:0; clear:both; visibility:hidden}
 #headerimage {width:998px; height:233px; background:url('../images/bg_header.jpg') no-repeat top left; float:left; position:relative}
-#slogan {color:#000; font:normal 20px arial,serif; position:absolute; bottom:35px; left:320px}
+#slogan {color:#ffffff; font:normal 20px arial,serif; position:absolute; bottom:35px; left:320px; text-shadow: 2px 2px #000000}
 #registerFloater {width:189px; height:59px; margin:128px 0 0 0; background:url('../images/download.gif') no-repeat top left; float:left}
 #download-text {color:#fff; font:bold 15px/22px arial,serif; width:187px; display:block; text-align:center; padding:8px 2px 0 0}
 #icons {width:97px; height:90px; background:url('../images/bg_icon_lines.gif') no-repeat top right; margin:126px 0 0 0; float:right}
@@ -120,9 +120,9 @@ h5 {font-size:10px}
 .news {border-bottom:1px solid #e6e1dd; border-top:1px solid #fcfafb; padding:10px 15px 5px 15px}
 #cB2 {width:309px; float:right; margin:0}
 #job { padding: 5px; width: available; background: #EEE}
-.about {background:#c6d6d6; border:1px solid #a4c0ba; padding:5px; margin:0 0 10px 0; color:#282627;}
+.about {background:#c6d6d6; border:1px solid #a4c0ba; padding:5px;  color:#282627;}
 .about ul {list-style-type:none}
-.about li {padding:0 0 0 20px; margin:5px 0; background:url('../images/check.gif') no-repeat 0 50%}
+.about li { margin:5px 0;}
 #newsletter {
 	width:309px;
 	height:86px;

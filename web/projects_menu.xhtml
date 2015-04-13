@@ -18,61 +18,109 @@
             <ui:define name="center">
                 <h3>Projects Menu</h3>
                 <div class="news">
+                    <h4>Projects</h4>
+                    <br/>
+                    <p>You are currently in <strong>projects menu</strong>.</p>
+                    <p>Projects help you to organise and keep track of your experiments jobs.</p>
+                    <p>To run a job, first you need to create and select a project.</p>
+                    <p>Types of projects:</p>
+                    <p>
+                        <ul style="list-style-type: disc">
+                            <li>Private &ndash; visible only to its owner</li>
+                            <li>Protected &ndash; visible to its assigned workgroup</li>
+                            <li>Public &ndash; visible to all users</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="news">
                     <h4>Your projects</h4>
                     <br/>
                     <h:form>
-                        <ul>
-                            <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">            
-                                <c:forEach items="#{workgroup.getProjectsCollection()}" var="project">
-                                    <li><p>
-                                            <!--<h:outputText value="{project.projectname}"/>&ndash; -->
-                                            <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
-                                                    <f:param name="selectedProject" value="#{project.idprojects}"/>
-                                            </h:commandLink>  
-                                            
-                                            
-                                            &ndash;
-                                            
-                                            <!--<h:outputText value=" [{workgroup.workgroupname}]"/>-->
-                                            <h:commandLink value="#{workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
-                                                    <f:param name="selectedWorkgroup" value="#{workgroup.idworkgroups}"/>
-                                            </h:commandLink>  
-                                            
-                                    </p></li>
-                                    
-                                </c:forEach>
-                            </c:forEach>
-                            
-                                            
-                         
-                            
-                            <!--<li><p><h:link value="Project 1" outcome="project.xhtml?projectNum=3" includeViewParams="true"> 
-
-                                    </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li>
-
-                            <li><p><h:link value="Project 2" outcome="project?projectNum=4" includeViewParams="true"> 
-
-                                    </h:link>&ndash; <h:link value=" [Workgroup 1]" outcome="workgroup"/></p></li> -->
-
-
-                        </ul>
+                        <h:commandButton id="openCreateWkDial" onclick="PF('createProjectDial').show();
+                                return false;" class="centerButton" value="Create New Project"/>
                     </h:form>
                 </div>
                 <div class="news">
-                    <h:form>
-                        <h:commandButton id="openCreateWkDial" onclick="PF('createProjectDial').show();
-                                return false;" class="centerButton" value="Create Project"/>
+                    <h:form id="projects">
+                        <p:dataTable var="project" value="#{projectBean.userVisibleProjects}">
+                            <p:column headerText="Name" sortBy="#{project.projectname}">
+                                <h:outputText value="#{project.projectname}"/>
+                            </p:column>
+                            <p:column headerText="Visibility" sortBy="#{project.visibility}">
+                                <h:outputText value="#{project.visibility}"/>
+                            </p:column>
+                            <p:column headerText="Workgroup" sortBy="#{project.workgroup.workgroupname}">
+                                <c:if test="true">
+                                    <h:outputText value="#{project.workgroup.workgroupname}"/>
+                                </c:if>
+                            </p:column>
+                            <p:column headerText="Creation Date">
+                                <h:outputText value="#{project.creationdate}"/>
+                            </p:column>
+                            <p:column headerText="Owner" sortBy="#{project.owner.username}">
+                                <h:outputText value="#{project.owner.username}"/>
+                            </p:column>
+                            <p:column headerText="View" width="30">
+                                <p:commandButton update=":projects" icon="ui-icon-search" title="View" action="#{projectBean.selectProject()}">
+                                    <f:param name="selectedProject" value="#{project}"/>
+                                    <f:metadata name = "selectedProject">
+                                        <f:viewParam name="selectedProject" value="#{projectBean.selectedProject}" converter="projectConverter"/>
+                                    </f:metadata>
+                                </p:commandButton>
+                            </p:column>                       
+                            <p:column headerText="Delete" width="30">
+                                <p:commandButton update=":projects" icon="ui-icon-trash" title="Delete" onclick="PF('confirmDeleteProject#{project.idprojects}').show();
+                                        return false;">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
                     </h:form>
                 </div>
+
+                
+                <ui:repeat value="#{projectBean.userVisibleProjects}" var="project">
+                <h:form>
+                    <p:confirmDialog id="confirmDialog" widgetVar="confirmDeleteProject#{project.idprojects}" message="Are you sure you want to delete project #{project.projectname}?">
+                        <h3>Delete Project</h3>
+                        <p:commandButton id="confirmRemoveButton"
+                                         action="#{projectBean.deleteProject()}"
+                                         class="centerButton" 
+                                         ajax="false"
+                                         value="Delete">
+                            <f:param name="selectedProject" value="#{project}"/>
+                        </p:commandButton>
+                        <p:commandButton id="cancelRemoveButton" 
+                                         onclick="PF('confirmDeleteProject').hide();return false;" 
+                                         class="centerButton" 
+                                         value="Cancel"/>
+                    </p:confirmDialog>
+                </h:form>
+                </ui:repeat>
+
 
                 <p:dialog resizable="false" minHeight="80" header="Create Project" widgetVar="createProjectDial" modal="true">
                     <h3>Create new project</h3>
                     <h:form>
                         <h:outputText value="Project name"/><br/>
-                        <p:inputText class="regInput" value="projectname"/><br/>
-                        <h:outputText value="Workgroup name"/><br/>
-                        <p:inputText class="regInput" value="workgroupname"/><br/>
-                        <p:commandButton id="createProjectButton" action="projects_menu" class="centerButton" value="Create"/>
+                        <p:inputText class="regInput" value="#{projectBean.newProjectName}"/><br/>
+                        <h:outputText value="Project visibility"/><br/>
+                        <p:selectOneMenu class="regInput" value="#{projectBean.newProjectVisibility}">
+                            <f:selectItem itemValue="PUBLIC" itemLabel="Public - visible to all users"/>
+                            <f:selectItem itemValue="WORKGROUP" itemLabel="Protected - visible only to workgroup members"/>
+                            <f:selectItem itemValue="PRIVATE" itemLabel="Private - visible only to you"/>
+                            <f:ajax immediate="true" event="change" render="workgroups" execute="@form"/>
+                        </p:selectOneMenu><br/>
+                        <h:panelGroup id="workgroups">
+                            <h:outputText value="Workgroup for new project"
+                                          rendered="${projectBean.newProjectVisibility == 'WORKGROUP'}"/><br/>
+                            <p:selectOneMenu rendered="${projectBean.newProjectVisibility == 'WORKGROUP'}"
+                                             converter="workgroupConverter"
+                                             class="regInput"
+                                             value="#{projectBean.newProjectWorkgroup}">
+                                <f:selectItems value="#{workgroupBean.workgroupsForUser}" var="item" itemLabel="#{item.workgroupname}"/>
+                            </p:selectOneMenu><br/>
+                        </h:panelGroup>
+                        <p:commandButton ajax="false" id="createProjectButton" action="#{projectBean.createProject()}" class="centerButton" value="Create"/>
                     </h:form>
                 </p:dialog>
             </ui:define>

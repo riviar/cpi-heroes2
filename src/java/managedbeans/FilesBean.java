@@ -87,6 +87,30 @@ public class FilesBean {
         return list;
     }
     
+    public List<String> getDownstreamFilesNames(){
+        List<String> list=new ArrayList();
+        List<Files> files=filesFacade.getTypeFiles(9);
+        files.addAll(filesFacade.getTypeFiles(11));
+        files.addAll(filesFacade.getTypeFiles(19));
+        files.addAll(filesFacade.getTypeFiles(20));
+        files.addAll(filesFacade.getTypeFiles(21));
+        for (Files file:files){
+            list.add(file.getDisplayname());            
+        }
+        return list;
+    }
+    
+    public List<String> getAnnotatedFilesNames(){
+        List<String> list=new ArrayList();
+        List<Files> files=filesFacade.getTypeFiles(16);
+        files.addAll(filesFacade.getTypeFiles(17));
+        files.addAll(filesFacade.getTypeFiles(18));
+        for (Files file:files){
+            list.add(file.getDisplayname());            
+        }
+        return list;
+    }
+    
        
     public List<String> getFilesDescription(){
         List<String> list=new ArrayList();

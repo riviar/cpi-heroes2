@@ -16,7 +16,9 @@
         -->
         <meta http-equiv="imagetoolbar" content="no" /><!-- disable IE's image toolbar -->
         <!--<link rel="stylesheet" media="screen" href="css/style.css" /> -->
-        <link href="#{facesContext.externalContext.requestContextPath}/resources/css/html_output_pages_css.css" rel="stylesheet" type="text/css" />
+        <ui:insert name="customStylesheet">
+            <link href="#{facesContext.externalContext.requestContextPath}/resources/css/html_output_pages_css.css" rel="stylesheet" type="text/css" />
+        </ui:insert>
     </h:head>
 
     <h:body>
@@ -59,14 +61,18 @@
                 </div>
                 <div id="headerimage">
                     <div id="slogan">
-                        Our cute super slogan
+                        Comprehensive transcriptome analysis for non-model organisms
                     </div>
                 </div><!-- headerimage end -->
             </div><!-- header end -->
-            <div id="content">
+            <div id="content" style="padding-left: 30px;">
+                <div class="Ctopleft"></div>
+                <div class="Ctopright" style="margin-right: 8px;"></div>
+                <ui:insert name="center">Center text</ui:insert>
 
-                    <ui:insert name="center">Center text</ui:insert>
-
+                <div class="Cpad">
+                    <br class="clear" /><div class="Cbottomleft"></div><div class="Cbottom"></div><div class="Cbottomright" style="margin-right: 8px;"></div>
+                </div><!-- Cpad end -->
             </div><!-- content end -->
             <div id="properspace"></div><!-- properspace -->
         </div><!-- daddy end -->    

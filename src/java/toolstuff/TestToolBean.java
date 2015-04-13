@@ -37,7 +37,7 @@ public class TestToolBean {
 
     private String outputFile = "none";
 
-    @EJB
+    //@EJB
     RNAseqJob job;
     
     @EJB
@@ -87,7 +87,7 @@ public class TestToolBean {
         job.init(utilityBean.getSelectedProject(), utilityBean.getSelectedTool(), newJobName);
         job.execute();
         //System.out.println("Yes");
-        return "project";
+        return "project?faces-redirect=true";
     }
 
     /**

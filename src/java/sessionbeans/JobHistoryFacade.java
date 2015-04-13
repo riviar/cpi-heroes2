@@ -154,6 +154,22 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
         return true;
     }
     
+    /**
+     * Retrieve Jobhistory item by id
+     * @param id
+     * @return 
+     */
+    public Jobhistory findJobHistoryById(int id) {
+        Query q = em.createNamedQuery("Jobhistory.findByIdjobs");
+        q.setParameter("idjobs", id);
+        try {
+            return (Jobhistory) q.getSingleResult();
+        }
+        catch (NoResultException e) {
+            return null;
+        }
+    }
+    
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }
