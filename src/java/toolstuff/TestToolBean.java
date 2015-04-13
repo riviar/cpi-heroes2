@@ -8,6 +8,7 @@ package toolstuff;
 import entitybeans.Jobhistory;
 import entitybeans.Projects;
 import java.util.regex.Pattern;
+import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -37,6 +38,9 @@ public class TestToolBean {
     private String outputFile = "none";
 
     @EJB
+    RNAseqJob job;
+    
+    @EJB
     ProjectSessionFacade projectFacade;
 
     @EJB
@@ -56,6 +60,13 @@ public class TestToolBean {
      * Creates a new instance of WorkgroupBean
      */
     public TestToolBean() {
+
+        //TODO: code taken from AuthenticationBean - should call it there instead!
+        // get current session
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(false);
+        // set user attribute of session
+
         project = new Projects();
     }
 
@@ -68,13 +79,15 @@ public class TestToolBean {
      *
      * @return
      */
+    //@Asynchronous
     public String runJob() {
         //System.out.println(utilityBean.getSelectedTool().getName());
         //RNAseqJob job = new RNAseqJob(newJobName);
-        RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, filesFacade, projectFacade, newJobName);
+        //RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, filesFacade, projectFacade, newJobName);
+        job.init(utilityBean.getSelectedProject(), utilityBean.getSelectedTool(), newJobName);
         job.execute();
         //System.out.println("Yes");
-        return "project?faces-redirect=true";
+        return "project";
     }
 
     /**
