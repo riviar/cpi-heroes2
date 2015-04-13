@@ -380,7 +380,7 @@ public class RNAseqJob {
         //newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command, currentTime);
         newJob = new Jobhistory(jobName, 1, selectedProject.getIdprojects(), command, currentTime);
         
-        System.out.println(jobHistoryFacade.findAll().size());
+        System.out.println("jobHistoryFacade.findAll().size() =" + jobHistoryFacade.findAll().size());
         jobHistoryFacade.create(newJob);
         
         
@@ -396,8 +396,8 @@ public class RNAseqJob {
         }
         commandList.add(jobID);
 
-        //ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
-        ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
+        ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
+        //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
         Process p;
         try {
             p = pb.start();
