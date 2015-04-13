@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contains information about all tools available in the system (should!)
+ * Holds data on available tools
  *
- * @author Fox
+ * @author Rafal Kural
+ * @version 1.02
  */
 public class ToolsBase {
 

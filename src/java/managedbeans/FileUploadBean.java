@@ -32,8 +32,8 @@ import sessionbeans.ProjectSessionFacade;
   
 @ManagedBean
 public class FileUploadBean {
-   private String destination="/home/pitas/Deskargak/";
-    //private String destination="/home/vmuser/CPI/uploads/";
+   //private String destination="/home/pitas/Deskargak/";
+    private String destination="/home/vmuser/CPI/uploads/";
     
     @EJB
     private FilesFacade filesFacade;

@@ -8,17 +8,39 @@ package toolstuff.util;
 import java.util.List;
 
 /**
- * Tools entity class
- * @author Fox
+ * Tools entity class. Not from database
+ * @author Rafal Kural
+ * @version 1.0
  */
 public class Tool {
     private String name;
+    /**
+     * Tool enum (fastqc, seecer, etc)
+     */
     private ETool toolEnum;
+    /**
+     * Defines tool family it belongs to (preprocessing, assembly, etc)
+     */
     private EToolType toolType;
+    /**
+     * Tool description
+     */
     private String description;
+    /**
+     * Path to executable
+     */
     private String path;
+    /**
+     * List of files inputs
+     */
     private List<ToolAttributes> inputList;
+    /**
+     * List of parameter inputs
+     */
     private List<ToolAttributes> parameterList;
+    /**
+     * Tool help text
+     */
     private String toolHelp;
 
     public String getName() {
@@ -92,6 +114,17 @@ public class Tool {
         this.toolHelp = help;
     }
 
+    /**
+     * Constructor for tool entity
+     * @param name tool name
+     * @param toolEnum tool enum
+     * @param toolType tool family enum
+     * @param description description
+     * @param path path to executable
+     * @param inputList list of files inputs
+     * @param parametersList list of paramerers inputs
+     * @param help help text
+     */
     public Tool(String name, ETool toolEnum, EToolType toolType, String description, 
             String path, List<ToolAttributes> inputList, List<ToolAttributes> parametersList, String help) {
         this.name = name;

@@ -17,7 +17,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import sessionbeans.JobHistoryFacade;
-import toolstuff.TestToolBean;
 
 /**
  *

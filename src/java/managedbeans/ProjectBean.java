@@ -21,8 +21,9 @@ import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
 
 /**
- *
- * @author user
+ * Managed bean for project-related operations
+ * @author Rafal Kural
+ * @version 1.0
  */
 @ManagedBean
 @ViewScoped
@@ -147,6 +148,10 @@ public class ProjectBean {
         return "workgroup?faces-redirect=true";
     }
     
+    /**
+     * Creates new project from current user and newProjectName, newProjectWorkgroup and newProjectVisibility
+     * @return redirect string to projects_menu
+     */
     public String createProject() {
         Projects project = new Projects();
         project.setProjectname(newProjectName);
@@ -188,7 +193,7 @@ public class ProjectBean {
         }
         // delete project, which should now have no foreign keys associated
         projectFacade.remove(project);
-        return "projects_menu";
+        return "projects_menu?faces-redirect=true";
     }
     
      /**
@@ -198,7 +203,7 @@ public class ProjectBean {
     public String selectProject() {
         System.err.println("PB.selectProject = " + selectedProject.toString());
         utilityBean.setSelectedProject(selectedProject);
-        return "project";
+        return "project?faces-redirect=true";
     }
     
 }

@@ -6,13 +6,24 @@
 package toolstuff.util;
 
 /**
- * Class that allow to hold different label and value states
- * @author Fox
+ * Param class that holds different label and value states
+ * @author Rafal Kural
  */
 public class DropDownParamStruct {
+    /**
+     * Param label
+     */
     private String label;
+    /**
+     * Param value
+     */
     private String value;
 
+    /**
+     * Constructor
+     * @param label param label
+     * @param value param value
+     */
     public DropDownParamStruct(String label, String value) {
         this.label = label;
         this.value = value;

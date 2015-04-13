@@ -16,6 +16,7 @@ import java.util.Scanner;
 /**
  * Class that allows retrieving contents of files
  * @author Rafal Kural
+ * @version 1.0
  */
 public final class FileReader {
     

@@ -178,7 +178,9 @@ public class FilesBean {
                 usefulFiletypes.add(2);
                 break;
             default:
-                usefulFiletypes.add(4);
+                usefulFiletypes.add(7);
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(2);
                 break;
         }
             

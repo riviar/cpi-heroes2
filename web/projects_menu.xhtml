@@ -33,14 +33,14 @@
                     </p>
                 </div>
                 <div class="news">
-                    <h4>Your projects</h4>
-                    <br/>
                     <h:form>
                         <h:commandButton id="openCreateWkDial" onclick="PF('createProjectDial').show();
                                 return false;" class="centerButton" value="Create New Project"/>
                     </h:form>
                 </div>
                 <div class="news">
+                    <h4>Your projects</h4>
+                    <br/>
                     <h:form id="projects">
                         <p:dataTable var="project" value="#{projectBean.userVisibleProjects}">
                             <p:column headerText="Name" sortBy="#{project.projectname}">

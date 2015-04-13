@@ -6,10 +6,12 @@
 package toolstuff.util;
 
 /**
- * Enum for param type (textfield or dropdown list for now)
- * @author Fox
+ * Enum for input param type
+ * @author Rafal Kural
+ * @version 1.0
  */
 public enum EToolParamType {
     TEXTFIELD,
-    DROPDOWN
+    DROPDOWN,
+    MULTIPLE
 }

@@ -34,16 +34,26 @@ import toolstuff.util.Tool;
  * Universal job class. Used to execute job using currently selected tool
  * (UtilityBean).
  *
- * @author Fox
+ * @author Rafal Kural
+ * @version 1.0
  */
 
-
+@Stateful
 public class RNAseqJob {
 
+    /**
+     * Name of the job
+     */
     private String jobName;
 
+    /**
+     * Command used to run the job
+     */
     private String command;
     private String output;
+    /**
+     * Directory for output files
+     */
     private String outputDir = "/home/vmuser/CPI/results";
 
     /**
@@ -62,7 +72,11 @@ public class RNAseqJob {
     
     Projects selectedProject;
     Tool selectedTool;
+
+    public RNAseqJob() {
+    }
     
+        
     public void init(Projects selectedProject, Tool selectedTool, String jobName) {
         this.selectedProject = selectedProject;
         this.selectedTool = selectedTool;
@@ -80,14 +94,22 @@ public class RNAseqJob {
         this.command = "/home/vmuser/CPI/tools/";
     }
 
-    public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, FilesFacade filesFacade, ProjectSessionFacade projectFacade, String jobName) {
+    /**
+     * Creates job object
+     * @param utilityBean utility bean with session data
+     * @param jobHistoryFacade 
+     * @param filesFacade
+     * @param projectFacade
+     * @param jobName 
+     */
+    /*public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, FilesFacade filesFacade, ProjectSessionFacade projectFacade, String jobName) {
         this.jobHistoryFacade = jobHistoryFacade;
         this.utilityBean = utilityBean;
         this.filesFacade = filesFacade;
         this.projectFacade = projectFacade;
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/";
-    }
+    }*/
 
     /**
      * Executes Job based on selected tool.
@@ -374,7 +396,12 @@ public class RNAseqJob {
     }
     
      private void executeDeg() {
-       String filesIsoforms = selectedTool.getInputList().get(0).getValue();
+       String filesIsoforms = "";
+       for (String filepath:selectedTool.getInputList().get(0).getValues()) {
+           filesIsoforms = filesIsoforms.concat(filepath + ",");
+       }
+       //remove last comma
+       filesIsoforms = filesIsoforms.substring(0, filesIsoforms.length()-1);
 
         String estMethod = selectedTool.getParameterList().get(0).getValue();
         String pvalue = selectedTool.getParameterList().get(1).getValue();
