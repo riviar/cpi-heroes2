@@ -160,7 +160,7 @@ public class ProjectBean {
         project.setOwner(utilityBean.getUser());
         project.setWorkgroup(newProjectWorkgroup);
         project.setVisibility(newProjectVisibility);
-        Date today = Date.from(Instant.now());
+        Date today = new Date(System.currentTimeMillis());
         project.setCreationdate(today);
         projectFacade.create(project);
         return "projects_menu?faces-redirect=true";
