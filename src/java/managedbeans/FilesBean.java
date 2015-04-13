@@ -177,10 +177,16 @@ public class FilesBean {
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(2);
                 break;
+            case "ABUNDANCE_ESTIMATION":
+                usefulFiletypes.add(4);
+                break;
+            case "DEG":
+                usefulFiletypes.add(9);
+                break;
+            case "CLUSTERS":
+                usefulFiletypes.add(11);                
+                break;
             default:
-                usefulFiletypes.add(7);
-                usefulFiletypes.add(1);
-                usefulFiletypes.add(2);
                 break;
         }
             
