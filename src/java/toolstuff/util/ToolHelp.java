@@ -6,7 +6,8 @@
 package toolstuff.util;
 
 /**
- *
+ *Contains the string variables of the output texts for the help dialog boxes
+ * 
  * @author Gergely
  */
 public class ToolHelp {
@@ -76,9 +77,9 @@ public class ToolHelp {
     
     private static String SOAPdeNovoTrans = "<b>Version:</b> 1.0.4"
             + "</br></br> <b>Tool description:</b> <br>SOAPdenovo-Trans is a de novo transcriptome assembler basing on the SOAPdenovo framework, adapt to alternative splicing and different expression level among transcripts."
-            + "</br></br> <b>K-mer:</b> The value is always depended on data size and its transcript features." 
-            + "SOAPdenovo-Trans accepts odd Kmer value from 13 to 127.\n" 
+            + "</br></br> <b>K-mer:</b> The value is always depended on data size and its transcript features. SOAPdenovo-Trans accepts odd Kmer value from 13 to 127." 
             + "Ordinarily, SOAPdenovo-Trans always assembles the RNA-seq data by small kmer (~35-mer) as some of the transcripts are in low expression level."
+            + "</br></br> <b>K-mer:</b> This value indicates the average insert size of this library or the peak value position in the insert size distribution figure."
             + "</br></br> <b>Web page:</b> " + "<a href=\"http://soap.genomics.org.cn/SOAPdenovo-Trans.html\" target=\"_blank\">Soap de Novo-Trans home page (in a new window)</a>";
     
     private static String abundanceEstimation = "<b> Tool description:</b> </br>To compute abundance estimates, the original reads are aligned to the transcripts. "
