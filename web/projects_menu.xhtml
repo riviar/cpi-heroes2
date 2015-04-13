@@ -55,7 +55,9 @@
                                 </c:if>
                             </p:column>
                             <p:column headerText="Creation Date">
-                                <h:outputText value="#{project.creationdate}"/>
+                                <h:outputText value="#{project.creationdate}">
+                                    <f:convertDateTime type="date" dateStyle="medium"/>
+                                </h:outputText>
                             </p:column>
                             <p:column headerText="Owner" sortBy="#{project.owner.username}">
                                 <h:outputText value="#{project.owner.username}"/>
