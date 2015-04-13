@@ -8,7 +8,6 @@ package managedbeans;
 import entitybeans.Files;
 import entitybeans.Projects;
 import entitybeans.Workgroups;
-import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +20,9 @@ import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
 
 /**
- *
- * @author user
+ * Managed bean for project-related operations
+ * @author Rafal Kural
+ * @version 1.0
  */
 @ManagedBean
 @ViewScoped
@@ -194,7 +194,7 @@ public class ProjectBean {
         }
         // delete project, which should now have no foreign keys associated
         projectFacade.remove(project);
-        return "projects_menu";
+        return "projects_menu?faces-redirect=true";
     }
     
      /**
@@ -203,7 +203,7 @@ public class ProjectBean {
      */
     public String selectProject() {
         utilityBean.setSelectedProject(selectedProject);
-        return "project";
+        return "project?faces-redirect=true";
     }
     
 }

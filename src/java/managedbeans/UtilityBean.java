@@ -17,19 +17,44 @@ import toolstuff.util.Tool;
 /**
  * Bean used to store information about session
  *
- * @author Fox
+ * @author Rafal Kural
+ * @version 1.0
  */
 @ManagedBean
 @SessionScoped
 public class UtilityBean {
 
+    /**
+     * Currently logged in user
+     */
     private Users user;
+    /**
+     * Currently selected user
+     */
     private Users selectedUser;
+    /**
+     * Currently selected workgroup
+     */
     private Workgroups selectedWorkgroup;
+    /**
+     * Currently selected project
+     */
     private Projects selectedProject;
+    /**
+     * Currently selected tool
+     */
     private Tool selectedTool;
+    /**
+     * new job
+     */
     private Jobhistory newJob;
+    /**
+     * Currently selected job
+     */
     private Jobhistory selectedJob;
+    /**
+     * Currently selected output
+     */
     private GenericOutput selectedOutput;
 
     public Users getUser() {

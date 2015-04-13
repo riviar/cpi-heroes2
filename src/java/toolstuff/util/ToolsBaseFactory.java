@@ -9,14 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author Fox
+ * Factory class for ToolsBase.
+ * @author Rafal Kural
+ * @version 1.06
  */
 public class ToolsBaseFactory {
     
     private ToolsBaseFactory(){}
     
-    //return ToolsBase instance populated with tools
+    /**
+     * Returns instance of ToolsBase populated with tools
+     * @return populated ToolsBase instance
+     */
     public static ToolsBase initializeToolsBase() {
         //initializing variables
         Tool tool;
@@ -237,7 +241,7 @@ public class ToolsBaseFactory {
         //DEG
         inputs.clear();
 //        inputs.add(new ToolAttributes("Abundance estimation files (select as many as you want to compare)", "/home/vmuser/CPI/datasets/1M_READS_sample/Sp_ds.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_log.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_hs.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_plat.isoforms.results"));
-        inputs.add(new ToolAttributes("Abundance estimation files (select as many as you want to compare)", "/home/vmuser/CPI/datasets/1M_READS_sample/Sp_plat.isoforms.results", null));
+        inputs.add(new ToolAttributes("Abundance estimation files (select as many as you want to compare)", EToolParamType.MULTIPLE, "", null, null));
 
         parameters.clear();
         dropdownList = new ArrayList();

@@ -20,11 +20,11 @@ import javax.faces.bean.RequestScoped;
 import sessionbeans.AccountSessionFacade;
 import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
-import toolstuff.TestToolBean;
 
 /**
- *
- * @author user
+ * Managed bean for workgroup-related operations
+ * @author Rafal Kural
+ * @version 1.0
  */
 @ManagedBean
 @RequestScoped

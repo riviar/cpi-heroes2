@@ -29,7 +29,7 @@
                 <h:form>
                     <div class="news">
                         <h4>Job Name</h4><br/>
-                        <p:inputText class="regInput" value="#{testToolBean.newJobName}"/>
+                        <p:inputText class="regInput" value="#{toolBean.newJobName}"/>
                     </div>
                     <div class="news">
                         <h4>Inputs</h4>
@@ -38,15 +38,24 @@
 
                             <h:panelGrid columns="2">
                                 <h:outputText value="#{input.name}"/>
-                                
+
 
                             </h:panelGrid>
-                            <h:selectOneMenu class="regInput" value="#{input.value}" style="width: 200px">
-                                <f:selectItems value="#{filesBean.getFilesMap()}"/>
-                                <!--<c:forEach items="{MockLists.inputs}" var="file"> 
-                                        <f:selectItem itemLabel="{file}" itemValue="{file}"/>
-                                    </c:forEach> -->
-                            </h:selectOneMenu><br/>
+
+                            <c:if test="#{(input.inputType == 'TEXTFIELD') || (input.inputType == 'DROPDOWN')}">
+                                <h:selectOneMenu class="regInput" value="#{input.value}" style="width: 200px">
+                                    <f:selectItems value="#{filesBean.getFilesMap()}"/>
+                                    <!--<c:forEach items="{MockLists.inputs}" var="file"> 
+                                            <f:selectItem itemLabel="{file}" itemValue="{file}"/>
+                                        </c:forEach> -->
+                                </h:selectOneMenu><br/>
+                            </c:if>
+
+                            <c:if test="#{input.inputType == 'MULTIPLE'}">
+                                <h:selectManyListbox value="#{input.values}">
+                                    <f:selectItems value="#{filesBean.getFilesMap()}"/>
+                                </h:selectManyListbox>
+                            </c:if>
 
                         </c:forEach>
                     </div>
@@ -56,7 +65,7 @@
 
                             <h:panelGrid columns="2">
                                 <h:outputText value="#{param.name}"/>
-                                
+
                                 <p:dialog  resizable="false" minHeight="80" header="Help" widgetVar="toolHelp3" modal="true">
                                     <h:outputText value="#{param.paramHelp}"/> <br/>
                                 </p:dialog>

@@ -16,8 +16,9 @@ import toolstuff.util.ToolsBase;
 import toolstuff.util.ToolsBaseFactory;
 
 /**
- *
- * @author Fox
+ * Managed bean for displaying and choosing tools
+ * @author Rafal Kural
+ * @version 1.0
  */
 @ManagedBean
 @RequestScoped

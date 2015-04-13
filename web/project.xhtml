@@ -51,6 +51,20 @@
                                 <li><h:outputText value="#{file}"/></li>
                             </c:forEach></p>
                             </c:if>
+                            
+                            <c:if test="#{filesBean.getDownstreamFilesNames().size() != 0}">    
+                            <p><h5>Downstream analysis files:</h5>
+                            <c:forEach items="#{filesBean.getDownstreamFilesNames()}"  var="file">
+                                <li><h:outputText value="#{file}"/></li>
+                            </c:forEach></p>
+                            </c:if>
+                            
+                            <c:if test="#{filesBean.getAnnotatedFilesNames().size() != 0}">    
+                            <p><h5>Annotated files:</h5>
+                            <c:forEach items="#{filesBean.getAnnotatedFilesNames()}"  var="file">
+                                <li><h:outputText value="#{file}"/></li>
+                            </c:forEach></p>
+                            </c:if>
                         </c:if>                        
                         
                     </ul>
@@ -87,7 +101,7 @@
  
     <!--<p:commandButton value="Submit" ajax="false" actionListener="{fileUploadBean.upload}" disabled="false" />-->
     <p:fileUpload fileUploadListener="#{fileUploadBean.upload}"
-allowTypes="/(\.|\/)(gif|jpe?g|pdf)$/" sizeLimit="100000" />
+  sizeLimit="100000" /> <!--allowTypes="/(\.|\/)(gif|jpe?g|pdf)$/"-->
  
 </h:form>
             </p:dialog>
