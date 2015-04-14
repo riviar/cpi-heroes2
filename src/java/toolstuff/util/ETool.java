@@ -21,5 +21,7 @@ public enum ETool {
     SOAPdenovo_Trans,
     ABUNDANCE_ESTIMATION,
     DEG,
-    CLUSTERS
+    CLUSTERS,
+    BLAST,
+    HMMER
 }

@@ -150,6 +150,10 @@ public class RNAseqJob {
             case CLUSTERS:
                 executeClusters();
                 break;
+            case BLAST:
+                break;
+            case HMMER:
+                break;
             default:
                 throw new AssertionError(selectedTool.getToolEnum().name());
         }
@@ -300,7 +304,6 @@ public class RNAseqJob {
         String seqType = selectedTool.getParameterList().get(0).getValue();
         String kmer = selectedTool.getParameterList().get(1).getValue();
         String insLen = selectedTool.getParameterList().get(2).getValue();
-        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         String outfileName = selectedTool.getParameterList().get(3).getValue();
         String[] outputName = new String[1];
         outputName[0] = outfileName;
@@ -376,19 +379,18 @@ public class RNAseqJob {
         
         String seqType = selectedTool.getParameterList().get(0).getValue();
         String estMethod = selectedTool.getParameterList().get(1).getValue();
-        String prefix = selectedTool.getParameterList().get(2).getValue();
+        String topGenes = selectedTool.getParameterList().get(2).getValue();
+        String prefix = selectedTool.getParameterList().get(3).getValue();
         String[] outputName = new String[1];
         outputName[0] = prefix;
-        
-        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
-        //String outfileName = selectedTool.getParameterList().get(1).getValue();
-        
+
         command += " " 
                 + fasta + " "
                 + leftInput + " "
                 + rightInput + " "
                 + seqType + " "
                 + estMethod + " "
+                + topGenes + " "
                 + outputDir;
                 
         executeCommand(command, outputName);
@@ -454,6 +456,55 @@ public class RNAseqJob {
                 
         executeCommand(command, new String[1]);
        
+    }
+    
+    
+    private void executeBlast(){
+        String query = selectedTool.getInputList().get(0).getValue();
+        
+        String blastVersion = selectedTool.getParameterList().get(0).getValue();
+        String database = selectedTool.getParameterList().get(1).getValue();
+        String eValue = selectedTool.getParameterList().get(2).getValue();
+        String windowSize = selectedTool.getParameterList().get(3).getValue();
+        String maxHits = selectedTool.getParameterList().get(4).getValue();
+        
+        String outfileName = selectedTool.getParameterList().get(5).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
+        
+        command += " " 
+                + blastVersion + " "
+                + query + " "
+                + database + " "
+                + eValue + " "
+                + windowSize + " "
+                + maxHits + " "
+                + outputDir;
+                
+        executeCommand(command, outputName);
+    }
+    
+    
+    private void executeHmmer(){
+        String query = selectedTool.getInputList().get(0).getValue();
+        
+        String database = selectedTool.getParameterList().get(1).getValue();
+        String minProt = selectedTool.getParameterList().get(2).getValue();
+        String eValue = selectedTool.getParameterList().get(3).getValue();
+
+        String outfileName = selectedTool.getParameterList().get(4).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
+  
+        
+        command += " " 
+                + query + " "
+                + database + " "
+                + minProt + " "
+                + eValue + " "
+                + outputDir;
+                
+        executeCommand(command, outputName);
     }
     
     
@@ -740,7 +791,7 @@ public class RNAseqJob {
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
-                output2.setDisplayname(outputName[1]);
+                output2.setDisplayname(outputName[0]);
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Velvet.");
                 //Assembly statistics filetype (5)
                 output2.setFiletype(new Filetype(5));

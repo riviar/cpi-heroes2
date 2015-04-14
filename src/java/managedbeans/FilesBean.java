@@ -67,9 +67,13 @@ public class FilesBean {
         List<String> list=new ArrayList();
         
         //File types 1, 2 and 3 correspond to preprocessed files
-        List<Files> files=filesFacade.getTypeFiles(1);
-        files.addAll(filesFacade.getTypeFiles(2));
-        files.addAll(filesFacade.getTypeFiles(3));
+        //List<Files> files=filesFacade.getTypeFiles(1);
+        List<Files> files = filesFacade.getFilesForTool(utilityBean.getSelectedProject().getIdprojects(),1);
+        //files.addAll(filesFacade.getTypeFiles(2));
+        files.addAll(filesFacade.getFilesForTool(utilityBean.getSelectedProject().getIdprojects(),2));        
+        //files.addAll(filesFacade.getTypeFiles(3));
+        files.addAll(filesFacade.getFilesForTool(utilityBean.getSelectedProject().getIdprojects(),3));
+        
                 
         for (Files file:files){
             list.add(file.getDisplayname());            
@@ -102,9 +106,12 @@ public class FilesBean {
     
     public List<String> getAnnotatedFilesNames(){
         List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getTypeFiles(16);
-        files.addAll(filesFacade.getTypeFiles(17));
-        files.addAll(filesFacade.getTypeFiles(18));
+        //List<Files> files=filesFacade.getTypeFiles(16);
+        List<Files> files = filesFacade.getFilesForTool(utilityBean.getSelectedProject().getIdprojects(),16);
+        //files.addAll(filesFacade.getTypeFiles(17));
+        files.addAll(filesFacade.getFilesForTool(utilityBean.getSelectedProject().getIdprojects(),17));
+        //files.addAll(filesFacade.getTypeFiles(18));
+        files.addAll(filesFacade.getFilesForTool(utilityBean.getSelectedProject().getIdprojects(),18));
         for (Files file:files){
             list.add(file.getDisplayname());            
         }

@@ -71,7 +71,7 @@ public class ToolsBaseFactory {
                 "shell_scripts/do_fastqc.sh",
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
-                ToolHelp.getFactqcHelp()));        
+                ToolHelp.getFastqcHelp()));        
         
         
         //TRIMMOMATIC-TRIM
@@ -214,56 +214,54 @@ public class ToolsBaseFactory {
         
         //ABUNDANCE ESTIMATION
         inputs.clear();
-        inputs.add(new ToolAttributes("Fasta file", "fasta", null));
+        inputs.add(new ToolAttributes("Assembled fasta file", "fasta", null));
         inputs.add(new ToolAttributes("Left reads", "fasta", null));
         inputs.add(new ToolAttributes("Right reads", "fasta", null));
+        
         parameters.clear();
         dropdownList = new ArrayList();
-        dropdownList.add(new DropDownParamStruct("fq", "fq"));
-        dropdownList.add(new DropDownParamStruct("fa", "fa"));
-        parameters.add(new ToolAttributes("Reads sequence type", EToolParamType.DROPDOWN, "FASTQ", dropdownList, null));
+        dropdownList.add(new DropDownParamStruct("fq", "FASTQ"));
+        dropdownList.add(new DropDownParamStruct("fa", "FASTA"));
+        parameters.add(new ToolAttributes("Reads file format", EToolParamType.DROPDOWN, "FASTQ", dropdownList, null));
         dropdownList = new ArrayList();
         dropdownList.add(new DropDownParamStruct("RSEM", "RSEM"));
         dropdownList.add(new DropDownParamStruct("eXpress", "eXpress"));
         parameters.add(new ToolAttributes("Estimation method", EToolParamType.DROPDOWN, "RSEM", dropdownList, null));
-        parameters.add(new ToolAttributes("Prefix for isoforms file", "sample.RSEM", null));
-        //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
-        //fullToolsList.add(tool);
+        parameters.add(new ToolAttributes("Percent of top genes to show", "20", null));
+        parameters.add(new ToolAttributes("Name for output", "sample.RSEM", null));
         fullToolsList.add(new Tool("Abundance estimation", 
                 ETool.ABUNDANCE_ESTIMATION, 
                 EToolType.DOWNSTREAM, 
-                "Help me", 
+                "Estimate abundance of isoforms using the reads and the assembled fasta file", 
                 "shell_scripts/do_abundanceEstimation.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getAbundanceEstimationHelp()));
 
-        //DEG
+        //Differential gene expression
         inputs.clear();
-//        inputs.add(new ToolAttributes("Abundance estimation files (select as many as you want to compare)", "/home/vmuser/CPI/datasets/1M_READS_sample/Sp_ds.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_log.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_hs.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_plat.isoforms.results"));
         inputs.add(new ToolAttributes("Abundance estimation files (select as many as you want to compare)", EToolParamType.MULTIPLE, "", null, null));
 
         parameters.clear();
         dropdownList = new ArrayList();
         dropdownList.add(new DropDownParamStruct("RSEM", "RSEM"));
         dropdownList.add(new DropDownParamStruct("eXpress", "eXpress"));
-        parameters.add(new ToolAttributes("Estimation method used for abundance estimation", EToolParamType.DROPDOWN, "RSEM", dropdownList, null));
+        parameters.add(new ToolAttributes("Method used for abundance estimation", EToolParamType.DROPDOWN, "RSEM", dropdownList, null));
         parameters.add(new ToolAttributes("P-value cutoff for FDR", "0.001", null));
-        parameters.add(new ToolAttributes("Minimum log2(a/b) fold change (Default value 2 means 2^(2) or 4-fold", "2", null));
+        parameters.add(new ToolAttributes("Minimum fold change", "2", null));
         parameters.add(new ToolAttributes("Maximum differentially expressed genes per comparison", "10", null));
         parameters.add(new ToolAttributes("Prefix for output files", "deg_samples", null));
-        parameters.add(new ToolAttributes("Abundance estimation files (select as many as you want to compare)", "/home/vmuser/CPI/datasets/1M_READS_sample/Sp_ds.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_log.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_hs.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_plat.isoforms.results", null));
+        parameters.add(new ToolAttributes("Abundance estimation files (TEST)", "/home/vmuser/CPI/datasets/1M_READS_sample/Sp_ds.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_log.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_hs.isoforms.results,/home/vmuser/CPI/datasets/1M_READS_sample/Sp_plat.isoforms.results", null));
 
-        //tool = new Tool("Seecer", EToolType.PREPROCESSING, "Performs seecering", "There should be path I don't remember", inputs, parameters);
-        //fullToolsList.add(tool);
+
         fullToolsList.add(new Tool("Differential gene expression", 
                 ETool.DEG, 
                 EToolType.DOWNSTREAM, 
-                "Help me", 
+                "", 
                 "shell_scripts/do_deg.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
-                ToolHelp.getDGEHelp()));
+                ToolHelp.getDifferentialGeneExpressionHelp()));
         
         
         //CLUSTERS
@@ -283,6 +281,65 @@ public class ToolsBaseFactory {
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getClusteringHelp()));
+        
+        
+        // BLAST
+        inputs.clear();       
+        inputs.add(new ToolAttributes("Query", "fasta", null));
+                
+        parameters.clear();
+        dropdownList = new ArrayList();
+        dropdownList.add(new DropDownParamStruct("blastn", "blastn"));
+        dropdownList.add(new DropDownParamStruct("blastx", "blastx"));
+        dropdownList.add(new DropDownParamStruct("tblastx", "tblastx"));
+        parameters.add(new ToolAttributes("Blast version", EToolParamType.DROPDOWN, "RSEM", dropdownList, null));
+        dropdownList = new ArrayList();
+        dropdownList.add(new DropDownParamStruct("nr", "nr"));
+        dropdownList.add(new DropDownParamStruct("TAIR10_seq", "TAIR10_seq"));
+        dropdownList.add(new DropDownParamStruct("TAIR10_cds", "TAIR10_cds"));
+        dropdownList.add(new DropDownParamStruct("TAIR10_exon", "TAIR10_exon"));
+        dropdownList.add(new DropDownParamStruct("TAIR10_cdna", "TAIR10_cdna"));
+        dropdownList.add(new DropDownParamStruct("TAIR10_pep", "TAIR10_pep"));
+        parameters.add(new ToolAttributes("Database", EToolParamType.DROPDOWN, "RSEM", dropdownList, null));
+        parameters.add(new ToolAttributes("Expectation value threshold", "10", ToolHelp.getSeecerKmer()));
+        parameters.add(new ToolAttributes("Window size", "28", null));
+        parameters.add(new ToolAttributes("Maximum number of hits per sequence", "5", null));
+
+        fullToolsList.add(new Tool("BLAST", 
+                ETool.BLAST, 
+                EToolType.ANNOTATION, 
+                "Performs seecering", 
+                "shell_scripts/do_blast.sh",
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters),
+                ToolHelp.getSeecerHelp()));
+        
+        
+        
+         // HMMER
+        inputs.clear();       
+        inputs.add(new ToolAttributes("Query", "fasta", null));
+                
+        parameters.clear();
+        dropdownList = new ArrayList();
+        dropdownList.add(new DropDownParamStruct("Pfam-A", "/mnt/SATA2/PFAM/Pfam-A.hmm"));
+        dropdownList.add(new DropDownParamStruct("Pfam-B", "/mnt/SATA2/PFAM/Pfam-B.hmm"));
+        parameters.add(new ToolAttributes("Database", EToolParamType.DROPDOWN, "RSEM", dropdownList, null));
+        parameters.add(new ToolAttributes("Minimum protein length", "100", null));
+        parameters.add(new ToolAttributes("Sequence e-value threshold", "0.01", null));
+
+        fullToolsList.add(new Tool("HMMER", 
+                ETool.HMMER, 
+                EToolType.ANNOTATION, 
+                "Performs seecering", 
+                "shell_scripts/do_hmmer.sh",
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters),
+                ToolHelp.getSeecerHelp()));
+
+        
+        
+        
         
         //finished creating tools
         //initializing base
