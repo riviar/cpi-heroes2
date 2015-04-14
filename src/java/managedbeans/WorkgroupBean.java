@@ -55,8 +55,8 @@ public class WorkgroupBean {
     //Stored ID of the project
     //@ManagedProperty(value = "#{param.selectedProject}")
     private Projects selectedProject;
-    @ManagedProperty(value = "#{param.selectedUser}")
-    private String selectedUser;
+    //@ManagedProperty(value = "#{param.selectedUser}")
+    private Users selectedUser;
 
     /*
     Creates a HashMap to use it in workgroups.xhtml
@@ -79,7 +79,7 @@ public class WorkgroupBean {
         return authenticationBean;
     }
 
-    public void setSelectedUser(String selectedUser) {
+    public void setSelectedUser(Users selectedUser) {
         this.selectedUser = selectedUser;
     }
 
@@ -171,7 +171,7 @@ public class WorkgroupBean {
 
     public String removeUserFromWorkgroup() {
         Collection<Users> users = workgroup.getUsersCollection();
-        users.remove(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
+        users.remove(selectedUser);
         workgroup.setUsersCollection(users);
         workgroupFacade.updateWorkgroup(workgroup);
         return "workgroup?faces-redirect=true";
@@ -258,7 +258,7 @@ public class WorkgroupBean {
     }
 
     public String selectUser() {
-        utilityBean.setSelectedUser(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
+        utilityBean.setSelectedUser(selectedUser);
         return "project?faces-redirect=true";
     }
 }
