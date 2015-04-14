@@ -35,7 +35,7 @@
                                 <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">
                                     <li><p>
                                             <h:commandLink value="#{workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
-                                                <f:param name="selectedWorkgroup" value="#{workgroup}"/>
+                                                <f:param name="selectedWorkgroup" value="#{workgroup.idworkgroups}"/>
                                             </h:commandLink>                                         
                                         </p></li>
                                 </c:forEach>

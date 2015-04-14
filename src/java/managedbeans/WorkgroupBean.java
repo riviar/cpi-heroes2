@@ -50,8 +50,8 @@ public class WorkgroupBean {
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     //Stores ID of the workgroup
-    //@ManagedProperty(value = "#{param.selectedWorkgroup}")
-    private Workgroups selectedWorkgroup;
+    @ManagedProperty(value = "#{param.selectedWorkgroup}")
+    private String selectedWorkgroup;
     //Stored ID of the project
     //@ManagedProperty(value = "#{param.selectedProject}")
     private Projects selectedProject;
@@ -99,7 +99,7 @@ public class WorkgroupBean {
         this.utilityBean = utilityBean;
     }
 
-    public void setSelectedWorkgroup(Workgroups selectedWorkgroup) {
+    public void setSelectedWorkgroup(String selectedWorkgroup) {
         this.selectedWorkgroup = selectedWorkgroup;
     }
 
@@ -179,7 +179,7 @@ public class WorkgroupBean {
 
     public String addProjectToWorkgroup() {
         project = selectedProject;
-        workgroup = selectedWorkgroup;
+        workgroup = workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup));
         project.setWorkgroup(workgroup);
         projectFacade.updateProject(project);
         Collection<Projects> projects = workgroup.getProjectsCollection();
@@ -244,7 +244,7 @@ public class WorkgroupBean {
      * @return
      */
     public String selectWorkgroup() {
-        utilityBean.setSelectedWorkgroup(selectedWorkgroup);
+        utilityBean.setSelectedWorkgroup(workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup)));
         return "workgroup?faces-redirect=true";
     }
 
