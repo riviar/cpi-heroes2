@@ -20,6 +20,10 @@
     </h:head>
 
     <h:body>
+        <f:metadata>
+            <f:viewParam name="selectedJob" value="#{jobHistoryBean.selectedJob}" converter="jobHistoryConverter"/>
+        </f:metadata>
+
         <div id="daddy">
 
             <div id="header">
@@ -84,7 +88,7 @@
                                                 </h:commandLink>
                                             </p></li>
                                     </c:forEach>                                  
-                               </ul>
+                                </ul>
                                 <li><p class=""><strong>Assembly</strong></p></li>
                                 <ul>
                                     <c:forEach items="#{toolsSidebarBean.getAssemblyToolNames()}" var="toolName">
@@ -102,7 +106,7 @@
                                                 <h:commandLink value="#{toolName}" action="#{toolsSidebarBean.selectTool()}">
                                                     <f:param name="tool" value="#{toolName}"/>
                                                 </h:commandLink>
-                                        </p></li>
+                                            </p></li>
                                     </c:forEach>
                                 </ul>
                                 <li><p class=""><strong>Annotation</strong></p></li>
@@ -112,7 +116,7 @@
                                                 <h:commandLink value="#{toolName}" action="#{toolsSidebarBean.selectTool()}">
                                                     <f:param name="tool" value="#{toolName}"/>
                                                 </h:commandLink>
-                                        </p></li>
+                                            </p></li>
                                     </c:forEach>
                                 </ul>
                             </ul>
@@ -131,31 +135,31 @@
                             <h3>Workflow History</h3>
                             <div id="hiddenDiv" class="about" style="height:500px; overflow-y: scroll">
                                 <h:form>
-                                <ul>
-                                    
-                                    <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
-                                        
-                                        <li><div id="job">
-                                                <p class="subtool">
-                                                            <h:commandLink value="#{job.jobname}" action="#{jobHistoryBean.selectJobHistoryItem()}">
-                                                                <f:param name="selectedJob" value="#{job}"/>
-                                                            </h:commandLink>
-                                                        </p>
-                                                <p>#{job.commandused}</p>
-                                                                                                
-                                                <c:if test="#{job.processid>0}"><p style="color:orange"><b>RUNNING</b></p>
-                                                <p>Starting date: #{job.startingdate} #{job.startingtime}</p>
-                                                <p>Running time: #{jobHistoryBean.getJobRunningTime(job.processid)}</p></c:if>
-                                                <c:if test="#{job.processid==0}"><p style="color:green"><b>FINISHED</b></p>
-                                                    <p>Starting date: #{job.startingdate} #{job.startingtime}</p>
-                                                <p>Running time: #{job.runningtime}</p></c:if>
-                                                <c:if test="#{job.processid==-1}"><p style="color:red"><b>ERROR</b></p>
-                                                <p>Starting date: #{job.startingdate} #{job.startingtime}</p></c:if>                                               
-                                               
-                                            </div></li>
-                                    </c:forEach>  
-                                                                        
-                                </ul>
+                                    <ul>
+
+                                        <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
+
+                                            <li><div id="job">
+                                                    <p class="subtool">
+                                                        <h:commandLink value="#{job.jobname}" action="#{jobHistoryBean.selectJobHistoryItem()}">
+                                                            <f:param name="selectedJob" value="#{job}"/>
+                                                        </h:commandLink>
+                                                    </p>
+                                                    <p>#{job.commandused}</p>
+
+                                                    <c:if test="#{job.processid>0}"><p style="color:orange"><b>RUNNING</b></p>
+                                                        <p>Starting date: #{job.startingdate} #{job.startingtime}</p>
+                                                        <p>Running time: #{jobHistoryBean.getJobRunningTime(job.processid)}</p></c:if>
+                                                    <c:if test="#{job.processid==0}"><p style="color:green"><b>FINISHED</b></p>
+                                                        <p>Starting date: #{job.startingdate} #{job.startingtime}</p>
+                                                        <p>Running time: #{job.runningtime}</p></c:if>
+                                                    <c:if test="#{job.processid==-1}"><p style="color:red"><b>ERROR</b></p>
+                                                        <p>Starting date: #{job.startingdate} #{job.startingtime}</p></c:if>                                               
+
+                                                </div></li>
+                                        </c:forEach>  
+
+                                    </ul>
                                 </h:form>
                             </div>
                         </div><!-- cB2 end -->
