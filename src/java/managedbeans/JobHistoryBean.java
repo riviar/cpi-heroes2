@@ -48,8 +48,8 @@ public class JobHistoryBean {
     @ManagedProperty(value = "#{param.currentJob}")
     private String currentJob;
     
-    @ManagedProperty(value = "#{param.selectedJob}")
-    private String selectedJobId;
+    //@ManagedProperty(value = "#{param.selectedJob}")
+    private Jobhistory selectedJobId;
     
     public void setcurrentJob(String currentJob) {
         this.setCurrentJob(currentJob);
@@ -59,11 +59,11 @@ public class JobHistoryBean {
         this.utilityBean = utilityBean;
     }
 
-    public String getSelectedJobId() {
+    public Jobhistory getSelectedJobId() {
         return selectedJobId;
     }
 
-    public void setSelectedJobId(String selectedJobId) {
+    public void setSelectedJobId(Jobhistory selectedJobId) {
         this.selectedJobId = selectedJobId;
     }
     
@@ -224,10 +224,8 @@ public class JobHistoryBean {
      * @return 
      */
     public String selectJobHistoryItem() {
-        System.out.println("Looking for job with id " + selectedJobId);
-        Jobhistory selectedJobHistoryItem = jobHistoryFacade.findJobHistoryById(Integer.valueOf(selectedJobId));
-        System.out.println("Found job with name " + selectedJobHistoryItem.getJobname());
-        utilityBean.setSelectedJob(selectedJobHistoryItem);
+        Jobhistory jobHistoryItem = selectedJobId;
+        utilityBean.setSelectedJob(jobHistoryItem);
         return "job_output?faces-redirect=true";
      }
     /**
