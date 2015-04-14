@@ -16,6 +16,10 @@
             </ui:define>
 
             <ui:define name="center">
+                <f:metadata name = "selectedUser">
+                    <f:viewParam name="selectedWorkgroup" value="#{workgroupBean.selectedWorkgroup}" converter="workgroupConverter"/>
+                </f:metadata>
+                
                 <h3>Workgroups Menu</h3>
                 <div class="news">
                     <h4>Workgroups</h4>
@@ -35,7 +39,7 @@
                                 <c:forEach items="#{workgroupBean.getWorkgroupsForUser()}" var="workgroup">
                                     <li><p>
                                             <h:commandLink value="#{workgroup.workgroupname}" action="#{workgroupBean.selectWorkgroup()}">
-                                                <f:param name="selectedWorkgroup" value="#{workgroup.idworkgroups}"/>
+                                                <f:param name="selectedWorkgroup" value="#{workgroup}"/>
                                             </h:commandLink>                                         
                                         </p></li>
                                 </c:forEach>

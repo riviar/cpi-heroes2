@@ -117,6 +117,7 @@ public class DataItemBean {
         outputsList = new ArrayList();
         String jobid = Integer.toString(utilityBean.getSelectedJob().getIdjobs());
 
+        outputsList.add(new GenericOutput("Log", EOutputType.TXT, "/home/vmuser/CPI/log/" + jobid + ".log", jobsTool));
         switch (jobsTool) {
             case FASTQC:
                 outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "../results/" + jobid + "/fastqc.html", jobsTool));
@@ -139,6 +140,7 @@ public class DataItemBean {
             case SEECER:
                 outputsList.add(new GenericOutput("Left Corrected", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/leftCorrected.fa", jobsTool));
                 outputsList.add(new GenericOutput("Right Corrected", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/rightCorrected.fa", jobsTool));
+                //outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, jobid, jobsTool));
                 break;
 
             case TRINITY:

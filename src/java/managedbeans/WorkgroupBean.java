@@ -17,6 +17,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import sessionbeans.AccountSessionFacade;
 import sessionbeans.ProjectSessionFacade;
 import sessionbeans.WorkGroupSessionFacade;
@@ -27,7 +28,7 @@ import sessionbeans.WorkGroupSessionFacade;
  * @version 1.0
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class WorkgroupBean {
 
     private Workgroups workgroup;
@@ -45,18 +46,16 @@ public class WorkgroupBean {
     @EJB
     AccountSessionFacade usersFacade;
 
-    @ManagedProperty(value = "#{authenticationBean}")
-    private AuthenticationBean authenticationBean;
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     //Stores ID of the workgroup
-    @ManagedProperty(value = "#{param.selectedWorkgroup}")
-    private String selectedWorkgroup;
+    //@ManagedProperty(value = "#{param.selectedWorkgroup}")
+    private Workgroups selectedWorkgroup;
     //Stored ID of the project
-    @ManagedProperty(value = "#{param.selectedProject}")
-    private String selectedProject;
-    @ManagedProperty(value = "#{param.selectedUser}")
-    private String selectedUser;
+    //@ManagedProperty(value = "#{param.selectedProject}")
+    private Projects selectedProject;
+    //@ManagedProperty(value = "#{param.selectedUser}")
+    private Users selectedUser;
 
     /*
     Creates a HashMap to use it in workgroups.xhtml
@@ -71,16 +70,12 @@ public class WorkgroupBean {
         return userMap;
     }
 
-    public void setAuthenticationBean(AuthenticationBean authBean) {
-        this.authenticationBean = authBean;
-    }
-
-    public AuthenticationBean getAuthenticationBean() {
-        return authenticationBean;
-    }
-
-    public void setSelectedUser(String selectedUser) {
+    public void setSelectedUser(Users selectedUser) {
         this.selectedUser = selectedUser;
+    }
+    
+    public Users getSelectedUser() {
+        return selectedUser;
     }
 
     public String getNewWorkgroupName() {
@@ -91,18 +86,26 @@ public class WorkgroupBean {
         this.newWorkgroupName = newWorkgroupName;
     }
 
-    public void setSelectedProject(String selectedProject) {
+    public void setSelectedProject(Projects selectedProject) {
         this.selectedProject = selectedProject;
+    }
+
+    public Projects getSelectedProject() {
+        return selectedProject;
     }
 
     public void setUtilityBean(UtilityBean utilityBean) {
         this.utilityBean = utilityBean;
     }
 
-    public void setSelectedWorkgroup(String selectedWorkgroup) {
+    public void setSelectedWorkgroup(Workgroups selectedWorkgroup) {
         this.selectedWorkgroup = selectedWorkgroup;
     }
 
+    public Workgroups getSelectedWorkgroup() {
+        return selectedWorkgroup;
+    }
+    
     public String getNewUserName() {
         return newUserName;
     }
@@ -171,15 +174,16 @@ public class WorkgroupBean {
 
     public String removeUserFromWorkgroup() {
         Collection<Users> users = workgroup.getUsersCollection();
-        users.remove(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
+        System.out.println("Trying to remove user " + selectedUser.getUsername());
+        users.remove(selectedUser);
         workgroup.setUsersCollection(users);
         workgroupFacade.updateWorkgroup(workgroup);
         return "workgroup?faces-redirect=true";
     }
 
     public String addProjectToWorkgroup() {
-        project = projectFacade.retrieveProjectById(Integer.valueOf(selectedProject));
-        workgroup = workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup));
+        project = selectedProject;
+        workgroup = selectedWorkgroup;
         project.setWorkgroup(workgroup);
         projectFacade.updateProject(project);
         Collection<Projects> projects = workgroup.getProjectsCollection();
@@ -192,7 +196,7 @@ public class WorkgroupBean {
     public String removeProjectFromWorkgroup() {
 
         Collection<Projects> projects = workgroup.getProjectsCollection();
-        projects.remove(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
+        projects.remove(selectedProject);
         workgroup.setProjectsCollection(projects);
         workgroupFacade.updateWorkgroup(workgroup);
 
@@ -244,7 +248,7 @@ public class WorkgroupBean {
      * @return
      */
     public String selectWorkgroup() {
-        utilityBean.setSelectedWorkgroup(workgroupFacade.retrieveWorkgroupById(Integer.valueOf(selectedWorkgroup)));
+        utilityBean.setSelectedWorkgroup(selectedWorkgroup);
         return "workgroup?faces-redirect=true";
     }
 
@@ -253,12 +257,12 @@ public class WorkgroupBean {
      * @return
      */
     public String selectProject() {
-        utilityBean.setSelectedProject(projectFacade.retrieveProjectById(Integer.valueOf(selectedProject)));
+        utilityBean.setSelectedProject(selectedProject);
         return "project?faces-redirect=true";
     }
 
     public String selectUser() {
-        utilityBean.setSelectedUser(workgroupFacade.retrieveUserById(Integer.valueOf(selectedUser)));
+        utilityBean.setSelectedUser(selectedUser);
         return "project?faces-redirect=true";
     }
 }
