@@ -8,6 +8,7 @@ package sessionbeans;
 import entitybeans.Files;
 import entitybeans.Filetype;
 import entitybeans.Projects;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -58,4 +59,15 @@ public class FilesFacade extends AbstractFacade<Files> {
         return q.getResultList(); 
     }
     
+    public void deleteFile(Files file) {
+        Collection<Projects> projects = file.getProjectsCollection();
+        // remove file from all projects to which it belongs
+        for (Projects project: projects) {
+            Collection<Files> files = project.getFilesCollection();
+            files.remove(file);
+            project.setFilesCollection(files);
+        }
+        // remove database entry for the file itself
+        remove(file);
+    }
 }
