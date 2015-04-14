@@ -65,11 +65,11 @@
                             <c:forEach items="#{workgroupBean.getProjectsInWorkgroup()}" var="project">
                                 <li><p>
                                         <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
-                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                            <f:param name="selectedProject" value="#{project}"/>
                                         </h:commandLink>
                                         <br/>
                                         <h:commandLink value="Remove Project" action="#{workgroupBean.removeProjectFromWorkgroup()}">
-                                            <f:param name="selectedProject" value="#{project.idprojects}"/>
+                                            <f:param name="selectedProject" value="#{project}"/>
                                         </h:commandLink>
                                     </p></li>
                             </c:forEach>
