@@ -9,6 +9,7 @@ import entitybeans.Files;
 import entitybeans.Filetype;
 import entitybeans.Projects;
 import java.util.List;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,7 +19,8 @@ import javax.persistence.Query;
  *
  * @author lestelles
  */
-@Stateless
+//@Stateless
+@Stateful
 public class FilesFacade extends AbstractFacade<Files> {
 
     @PersistenceContext(unitName = "RNAseqPU")

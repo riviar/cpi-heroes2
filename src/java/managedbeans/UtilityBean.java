@@ -74,6 +74,7 @@ public class UtilityBean {
     }
 
     public Projects getSelectedProject() {
+        //System.out.println("Selected Project " + selectedProject);
         return selectedProject;
     }
 

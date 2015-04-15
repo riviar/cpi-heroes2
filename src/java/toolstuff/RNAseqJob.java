@@ -491,8 +491,8 @@ public class RNAseqJob {
         }
         commandList.add(jobID);
 
-        ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
-        //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
+        //ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
+        ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
         Process p;
         try {
             p = pb.start();
@@ -504,38 +504,37 @@ public class RNAseqJob {
             //Update job with the complete command and the pid
             jobHistoryFacade.edit(newJob);
             
-            
-            StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
+            StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR", newJob.getIdjobs());
 
-                StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+            StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT", newJob.getIdjobs());
 
-                // start gobblers
-                outputGobbler.start();
-                errorGobbler.start();
-                
-                p.waitFor();
+            // start gobblers
+            outputGobbler.start();
+            errorGobbler.start();
 
-                //Update the status to finished (0) or error (-1)
-                if(p.exitValue()==0){
+            p.waitFor();
+
+            //Update the status to finished (0) or error (-1)
+            if (p.exitValue() == 0) {
                     //Running time
-                    //updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
-                    newJob.setRunningtime(new java.sql.Time(90000000000L-3600000));
-                                        
-                    //Normal termination
-                    newJob.setProcessid(0);
-                    
-                    //Add the output files to the database
-                    addOutputToDB(newJob, outputName);
-                }else{
-                    //Error
-                    newJob.setProcessid(-1);
-                    
-                    //Delete the job directory and everything it contains 
-                    Process removeFiles = Runtime.getRuntime().exec("rm -r /home/vmuser/CPI/results/"+ newJob.getIdjobs());
-                }
-                
-                jobHistoryFacade.edit(newJob);
-            
+                //updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
+                newJob.setRunningtime(new java.sql.Time(86410000L - 3600000));
+
+                //Normal termination
+                newJob.setProcessid(0);
+
+                //Add the output files to the database
+                addOutputToDB(newJob, outputName);
+            } else {
+                //Error
+                newJob.setProcessid(-1);
+
+                //Delete the job directory and everything it contains 
+                Process removeFiles = Runtime.getRuntime().exec("rm -r /home/vmuser/CPI/results/" + newJob.getIdjobs());
+            }
+
+            jobHistoryFacade.edit(newJob);
+
             //Create two threads, one to perform the the job and another to return to projects page
             /*jobThread waitThread = new jobThread("waitThread");
             waitThread.setP(p);
@@ -581,7 +580,7 @@ public class RNAseqJob {
             case FASTQC:
                 //HTML
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fastqc.html");
-                output1.setDisplayname(outputName[0]);
+                output1.setDisplayname(updateJob.getJobname() + "_"+ outputName[0] + ".html");
                 output1.setDescription("FastQC output for " + updateJob.getJobname());
                 //FastQC output HTML report filetype (3)
                 output1.setFiletype(new Filetype(3));
@@ -610,6 +609,13 @@ public class RNAseqJob {
                 //Trimmed file filetype (1)
                 output2.setFiletype(new Filetype(1));
                 output2.setProjectsCollection(fileProject);
+                //HTML with the FastQC quality report images before and after trimming
+                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
+                output3.setDisplayname(outputName[2] + "_quality_comparison.html");
+                output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with Trimmomatic.");
+                output3.setFiletype(new Filetype(3));
+                output3.setProjectsCollection(fileProject);
+
                 //UNPAIRED FORWARD
                 /*output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_unpaired");
                 output3.setDisplayname(outputName[2]);
@@ -628,16 +634,16 @@ public class RNAseqJob {
                 //Add output files to project table
                 projectFiles.add(output1);
                 projectFiles.add(output2);
-                /*projectFiles.add(output3);
-                projectFiles.add(output4);*/
+                projectFiles.add(output3);
+                /*projectFiles.add(output4);*/
                 selectedProject.setFilesCollection(projectFiles);
                 projectFacade.edit(selectedProject);
                                 
                 //Add outputs to files table
                 filesFacade.create(output1);
                 filesFacade.create(output2);
-                /*filesFacade.create(output3);
-                filesFacade.create(output4);*/
+                filesFacade.create(output3);
+                /*filesFacade.create(output4);*/
                 break;
             case TRIMMOMATIC_ADAPT:
                 //PAIRED FORWARD
@@ -654,6 +660,13 @@ public class RNAseqJob {
                 //File without adapters filetype (2)
                 output2.setFiletype(new Filetype(2));
                 output2.setProjectsCollection(fileProject);
+                //HTML with the FastQC quality report images before and after removing adapters
+                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
+                output3.setDisplayname(outputName[2] + "_quality_comparison.html");
+                output3.setDescription("Quality per base report before and after removing adapters from " + updateJob.getJobname() + " processed with Trimmomatic.");
+                output3.setFiletype(new Filetype(3));
+                output3.setProjectsCollection(fileProject);
+                
                 //UNPAIRED FORWARD
                 /*output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_unpaired");
                 output3.setDisplayname(outputName[2]);
@@ -672,16 +685,16 @@ public class RNAseqJob {
                 //Add output files to project table
                 projectFiles.add(output1);
                 projectFiles.add(output2);
-                /*projectFiles.add(output3);
-                projectFiles.add(output4);*/
+                projectFiles.add(output3);
+                /*projectFiles.add(output4);*/
                 selectedProject.setFilesCollection(projectFiles);
                 projectFacade.edit(selectedProject);
                 
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
-                /*filesFacade.create(output3);
-                filesFacade.create(output4);*/
+                filesFacade.create(output3);
+                /*filesFacade.create(output4);*/
                 break;
             case SEECER:
                 //PAIRED 1
@@ -698,28 +711,36 @@ public class RNAseqJob {
                 //Trimmed file filetype (1)
                 output2.setFiletype(new Filetype(1));
                 output2.setProjectsCollection(fileProject);
+                //HTML with the FastQC quality report images before and after preprocessing
+                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
+                output3.setDisplayname(outputName[2] + "_quality_comparison.html");
+                output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with SEECER.");
+                output3.setFiletype(new Filetype(3));
+                output3.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
                 projectFiles.add(output1);
                 projectFiles.add(output2);
+                projectFiles.add(output3);
                 selectedProject.setFilesCollection(projectFiles);
                 projectFacade.edit(selectedProject);
                               
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
+                filesFacade.create(output3);
                 break;
             case TRINITY:
                 //TRANSCRIPTS
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
-                output1.setDisplayname(outputName[0]);
+                output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trinity.");
                 //Assembled transcripts filetype (4)
                 output1.setFiletype(new Filetype(4));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
-                output2.setDisplayname(outputName[1]);
+                output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Trinity.");
                 //Assembly statistics filetype (5)
                 output2.setFiletype(new Filetype(5));
@@ -738,14 +759,14 @@ public class RNAseqJob {
             case VELVET:
                 //TRANSCRIPTS
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
-                output1.setDisplayname(outputName[0]);
+                output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Velvet.");
                 //Assembled transcripts filetype (4)
                 output1.setFiletype(new Filetype(4));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
-                output2.setDisplayname(outputName[1]);
+                output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Velvet.");
                 //Assembly statistics filetype (5)
                 output2.setFiletype(new Filetype(5));
@@ -764,14 +785,14 @@ public class RNAseqJob {
             case TRANSABYSS:
                 //TRANSCRIPTS
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
-                output1.setDisplayname(outputName[0]);
+                output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trans-ABySS.");
                 //Assembled transcripts filetype (4)
                 output1.setFiletype(new Filetype(4));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
-                output2.setDisplayname(outputName[1]);
+                output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Trans-ABySS.");
                 //Assembly statistics filetype (5)
                 output2.setFiletype(new Filetype(5));
@@ -790,7 +811,7 @@ public class RNAseqJob {
             case SOAPdenovo_Trans:
                 //TRANSCRIPTS
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
-                output1.setDisplayname(outputName[0] + " transcripts");
+                output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
                 //Assembled transcripts filetype (4)
                 output1.setFiletype(new Filetype(4));
