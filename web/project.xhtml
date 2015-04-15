@@ -22,52 +22,25 @@
                     <h4>Datasets</h4>
                     <br/>
 
-                    <ul id="datasetList">
-                    <!--<ul>-->
-                        <c:if test="#{filesBean.getFilesNames() == null}">
-                            <p>There are no datasets associated with this project. Please upload one to start working.</p>
-                        </c:if>
-                        <c:if test="#{filesBean.getFilesNames() != null}">
-                            <!--<c:forEach items="{filesBean.getFilesNames()}"  var="file">
-                                <li><h:outputText value="{file}"/></li>
-                            </c:forEach>-->
-                            <c:if test="#{filesBean.getRawFilesNames().size() != 0}">
-                            <p><h5>Raw files:</h5>
-                            <c:forEach items="#{filesBean.getRawFilesNames()}"  var="file">
-                                <li><h:outputText value="#{file}"/></li>
-                            </c:forEach></p>
-                            </c:if>
-                                
-                            <c:if test="#{filesBean.getPreprocessedFilesNames().size() != 0}">    
-                            <p><h5>Preprocessed files:</h5>
-                            <c:forEach items="#{filesBean.getPreprocessedFilesNames()}"  var="file">
-                                <li><h:outputText value="#{file}"/></li>
-                            </c:forEach></p>
-                            </c:if>                                    
-                                
-                            <c:if test="#{filesBean.getAssembledFilesNames().size() != 0}">    
-                            <p><h5>Assembled files:</h5>
-                            <c:forEach items="#{filesBean.getAssembledFilesNames()}"  var="file">
-                                <li><h:outputText value="#{file}"/></li>
-                            </c:forEach></p>
-                            </c:if>
-                            
-                            <c:if test="#{filesBean.getDownstreamFilesNames().size() != 0}">    
-                            <p><h5>Downstream analysis files:</h5>
-                            <c:forEach items="#{filesBean.getDownstreamFilesNames()}"  var="file">
-                                <li><h:outputText value="#{file}"/></li>
-                            </c:forEach></p>
-                            </c:if>
-                            
-                            <c:if test="#{filesBean.getAnnotatedFilesNames().size() != 0}">    
-                            <p><h5>Annotated files:</h5>
-                            <c:forEach items="#{filesBean.getAnnotatedFilesNames()}"  var="file">
-                                <li><h:outputText value="#{file}"/></li>
-                            </c:forEach></p>
-                            </c:if>
-                        </c:if>                        
-                        
-                    </ul>
+                    <h:form id="files">
+                        <p:dataTable var="file" value="#{filesBean.filesForProject}">
+                            <p:column headerText="Name" sortBy="#{file.displayname}">
+                                <h:outputText value="#{file.displayname}"/>
+                            </p:column>
+                            <p:column headerText="Type" sortBy="#{file.filetype}">
+                                <h:outputText value="#{file.filetype.description}"/>
+                            </p:column>
+                            <p:column headerText="Download" width="30">
+                                <p:commandButton update=":files" icon="ui-icon-arrowthickstop-1-s" title="Download" action="project" ajax="false">
+                                    <p:fileDownload value="#{filesBean.downloadFile()}"/>
+                                    <f:param name="selectedFile" value="#{file}"/>
+                                    <f:metadata name = "selectedFile">
+                                        <f:viewParam name="selectedFile" value="#{filesBean.selectedFile}" converter="fileConverter"/>
+                                    </f:metadata>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
                 </div>
                 <div class="news">
                     <h:form>
@@ -78,33 +51,31 @@
 
                 <p:dialog resizable="false" minHeight="80" header="Upload Dataset" widgetVar="addDatasetDialog" modal="true">
                     <h3>Upload dataset</h3>
-                   <!-- <h:form enctype="multipart/form-data">  
-                        <p:messages showDetail="true"/>  
-                        <p:fileUpload value="file" />  
-                        <h:commandButton value="Submit" class="centerButton" actionListener="backendaction"/>  
-                    </h:form>  -->
-                
-                
-            <!--<form method="POST" action="upload" enctype="multipart/form-data" >
-            File:
-            <input type="file" name="file" id="file" /> <br>
-            Destination:
-            <input type="text" value="/Output" name="destination"/><br>
-            
-            <input type="submit" value="Upload" name="upload" id="upload" />
-        </form>-->
-            
-            <h:form enctype="multipart/form-data">
-    <p:growl id="messages" showDetail="true" />
- 
-  <!-- <p:fileUpload value="{fileUploadBean.file}" mode="simple"/>-->
- 
-    <!--<p:commandButton value="Submit" ajax="false" actionListener="{fileUploadBean.upload}" disabled="false" />-->
-    <p:fileUpload fileUploadListener="#{fileUploadBean.upload}"
-  sizeLimit="100000" /> <!--allowTypes="/(\.|\/)(gif|jpe?g|pdf)$/"-->
- 
-</h:form>
-            </p:dialog>
+                    <!-- <h:form enctype="multipart/form-data">
+                         <p:messages showDetail="true"/>
+                         <p:fileUpload value="file" />
+                         <h:commandButton value="Submit" class="centerButton" actionListener="backendaction"/>
+                     </h:form>  -->
+
+
+                    <!--<form method="POST" action="upload" enctype="multipart/form-data" >
+                    File:
+                    <input type="file" name="file" id="file" /> <br>
+                    Destination:
+                    <input type="text" value="/Output" name="destination"/><br>
+                    
+                    <input type="submit" value="Upload" name="upload" id="upload" />
+                </form>-->
+
+                    <h:form enctype="multipart/form-data">
+                        <p:growl id="messages" showDetail="true" />
+
+                        <!-- <p:fileUpload value="{fileUploadBean.file}" mode="simple"/>-->
+
+                        <!--<p:commandButton value="Submit" ajax="false" actionListener="{fileUploadBean.upload}" disabled="false" />-->
+                        <p:fileUpload fileUploadListener="#{fileUploadBean.upload}"/> <!--allowTypes="/(\.|\/)(gif|jpe?g|pdf)$/"-->
+                    </h:form>
+                </p:dialog>
 
             </ui:define>
 

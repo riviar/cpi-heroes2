@@ -6,15 +6,22 @@
 package managedbeans;
 
 import entitybeans.Files;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import sessionbeans.FilesFacade;
 
 /**
@@ -22,7 +29,7 @@ import sessionbeans.FilesFacade;
  * @author lestelles
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class FilesBean {
     
     @EJB
@@ -31,7 +38,8 @@ public class FilesBean {
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
     
-    
+    private Files selectedFile;
+
     public FilesBean(){
         
     }
@@ -52,6 +60,32 @@ public class FilesBean {
             list.add(file.getDisplayname());            
         }
         return list;
+    }
+    
+    public Files getSelectedFile() {
+        return selectedFile;
+    }
+
+    public void setSelectedFile(Files selectedFile) {
+        this.selectedFile = selectedFile;
+    }
+    
+    public StreamedContent downloadFile() throws IOException {
+        Files file = selectedFile;
+        FileInputStream stream;
+        try {
+            stream = new FileInputStream(file.getPath());
+        } catch (FileNotFoundException ex) {
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.sendRedirect("errorpage.xhtml");
+            return new DefaultStreamedContent();                     
+        }
+        DefaultStreamedContent downloadStream = new DefaultStreamedContent(stream, "application/octet-stream", file.getDisplayname());
+        return downloadStream;
+    }
+    
+    public Collection<Files> getFilesForProject(){
+        return utilityBean.getSelectedProject().getFilesCollection();
     }
     
     public List<String> getRawFilesNames(){
