@@ -228,15 +228,6 @@ public class WorkgroupBean {
         }
     }
 
-    public Workgroups getNewWorkgroup(Workgroups workgroup) {
-        user = utilityBean.getUser();
-        workgroup.setOwner(user);
-        ArrayList<Users> users = new ArrayList();
-        users.add(user);
-        workgroup.setUsersCollection(users);
-        return workgroup;
-    }
-
     /**
      * Selects workgroup and redirects to its page
      * @return
