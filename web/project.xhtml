@@ -28,7 +28,7 @@
                                 <h:outputText value="#{file.displayname}"/>
                             </p:column>
                             <p:column headerText="Type" sortBy="#{file.filetype}">
-                                <h:outputText value="#{file.filetype.description}"/>
+                                <h:outputText value="#{filesBean.getFileSupertype(file)}"/>
                             </p:column>
                             <p:column headerText="Download" width="30">
                                 <p:commandButton update=":files" icon="ui-icon-arrowthickstop-1-s" title="Download" action="project" ajax="false">

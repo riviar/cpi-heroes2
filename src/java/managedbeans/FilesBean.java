@@ -88,64 +88,33 @@ public class FilesBean {
         return utilityBean.getSelectedProject().getFilesCollection();
     }
     
-    public List<String> getRawFilesNames(){
-        List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getTypeFiles(7);
-        for (Files file:files){
-            list.add(file.getDisplayname());            
+    public String getFileSupertype(Files file) {
+        String supertype;
+        switch(file.getFiletype().getFiletypeid()) {
+            case 1:
+            case 2:
+            case 3:
+                supertype = "Raw file";
+                break;
+            case 4:
+            case 5:
+                supertype = "Assembled file";
+                break;
+            case 6:
+            case 7:
+                supertype = "Downstream file";
+                break;
+            case 8:
+            case 9:
+                supertype = "Anotated file";
+                break;
+            default:
+                supertype = "Unknown file type";
+                break;
         }
-        return list;
+        return supertype;
     }
-    
-    public List<String> getPreprocessedFilesNames(){
-        List<String> list=new ArrayList();
-        
-        //File types 1, 2 and 3 correspond to preprocessed files
-        List<Files> files=filesFacade.getTypeFiles(1);
-        files.addAll(filesFacade.getTypeFiles(2));
-        files.addAll(filesFacade.getTypeFiles(3));
-                
-        for (Files file:files){
-            list.add(file.getDisplayname());            
-        }
-        return list;
-    }
-    
-    public List<String> getAssembledFilesNames(){
-        List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getTypeFiles(4);
-        files.addAll(filesFacade.getTypeFiles(5));
-        for (Files file:files){
-            list.add(file.getDisplayname());            
-        }
-        return list;
-    }
-    
-    public List<String> getDownstreamFilesNames(){
-        List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getTypeFiles(9);
-        files.addAll(filesFacade.getTypeFiles(11));
-        files.addAll(filesFacade.getTypeFiles(19));
-        files.addAll(filesFacade.getTypeFiles(20));
-        files.addAll(filesFacade.getTypeFiles(21));
-        for (Files file:files){
-            list.add(file.getDisplayname());            
-        }
-        return list;
-    }
-    
-    public List<String> getAnnotatedFilesNames(){
-        List<String> list=new ArrayList();
-        List<Files> files=filesFacade.getTypeFiles(16);
-        files.addAll(filesFacade.getTypeFiles(17));
-        files.addAll(filesFacade.getTypeFiles(18));
-        for (Files file:files){
-            list.add(file.getDisplayname());            
-        }
-        return list;
-    }
-    
-       
+
     public List<String> getFilesDescription(){
         List<String> list=new ArrayList();
         List<Files> files=filesFacade.getProjectFiles(utilityBean.getSelectedProject().getIdprojects());
