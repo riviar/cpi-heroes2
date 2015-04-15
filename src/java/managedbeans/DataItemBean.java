@@ -117,6 +117,7 @@ public class DataItemBean {
         outputsList = new ArrayList();
         String jobid = Integer.toString(utilityBean.getSelectedJob().getIdjobs());
 
+        outputsList.add(new GenericOutput("Log", EOutputType.TXT, "/home/vmuser/CPI/log/" + jobid + ".log", jobsTool));
         switch (jobsTool) {
             case FASTQC:
                 outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "../results/" + jobid + "/fastqc.html", jobsTool));
@@ -127,6 +128,7 @@ public class DataItemBean {
                 outputsList.add(new GenericOutput("Forward unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "/home/vmuser/CPI/results/" + jobid + "/" + jobid + "_quality_comparison.html", jobsTool));
                 break;
 
             case TRIMMOMATIC_ADAPT:
@@ -134,6 +136,7 @@ public class DataItemBean {
                 outputsList.add(new GenericOutput("Forward unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "/home/vmuser/CPI/results/" + jobid + "/" + jobid + "_quality_comparison.html", jobsTool));
                 break;
 
             case SEECER:
@@ -172,7 +175,17 @@ public class DataItemBean {
             case CLUSTERS:
                 outputsList.add(new GenericOutput("Clusters Report", EOutputType.PDF, "/home/vmuser/CPI/results/" + jobid + "/clusters.pdf", jobsTool));
                 outputsList.add(new GenericOutput("Metadata", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/metadata.zip", jobsTool));
-
+                break;
+            case HMMER:
+                outputsList.add(new GenericOutput("Longest Orfs", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/longest_orfs.pep", jobsTool));
+                outputsList.add(new GenericOutput("Output hmmer", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/output_hmmer.txt", jobsTool));
+                outputsList.add(new GenericOutput("Per domain hits", EOutputType.TXT, "/home/vmuser/CPI/results/" + jobid + "/per_domain_hits_hmmer.txt", jobsTool));
+                outputsList.add(new GenericOutput("Per sequence hits", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/per_sequence_hits_hmmer.txt", jobsTool));
+                break;
+            case BLAST:
+                outputsList.add(new GenericOutput("Blast results XML", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/blast_results.xml", jobsTool));
+                outputsList.add(new GenericOutput("Blast results Table", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/blast_results.tab", jobsTool));
+                break;
         }
         return outputsList;
     }
