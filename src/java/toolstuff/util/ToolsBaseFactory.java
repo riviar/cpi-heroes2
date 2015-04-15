@@ -220,8 +220,8 @@ public class ToolsBaseFactory {
         
         parameters.clear();
         dropdownList = new ArrayList();
-        dropdownList.add(new DropDownParamStruct("fq", "FASTQ"));
-        dropdownList.add(new DropDownParamStruct("fa", "FASTA"));
+        dropdownList.add(new DropDownParamStruct("FASTQ", "fq"));
+        dropdownList.add(new DropDownParamStruct("FASTA", "fa"));
         parameters.add(new ToolAttributes("Reads file format", EToolParamType.DROPDOWN, "FASTQ", dropdownList, null));
         dropdownList = new ArrayList();
         dropdownList.add(new DropDownParamStruct("RSEM", "RSEM"));
@@ -304,6 +304,7 @@ public class ToolsBaseFactory {
         parameters.add(new ToolAttributes("Expectation value threshold", "10", ToolHelp.getSeecerKmer()));
         parameters.add(new ToolAttributes("Window size", "28", null));
         parameters.add(new ToolAttributes("Maximum number of hits per sequence", "5", null));
+        parameters.add(new ToolAttributes("Output name", "blast results", null));
 
         fullToolsList.add(new Tool("BLAST", 
                 ETool.BLAST, 
@@ -327,7 +328,8 @@ public class ToolsBaseFactory {
         parameters.add(new ToolAttributes("Database", EToolParamType.DROPDOWN, "RSEM", dropdownList, null));
         parameters.add(new ToolAttributes("Minimum protein length", "100", null));
         parameters.add(new ToolAttributes("Sequence e-value threshold", "0.01", null));
-
+        parameters.add(new ToolAttributes("Output name", "hmmer results", null));
+        
         fullToolsList.add(new Tool("HMMER", 
                 ETool.HMMER, 
                 EToolType.ANNOTATION, 

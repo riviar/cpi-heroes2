@@ -144,6 +144,7 @@ public class RNAseqJob {
                 break;
             case ABUNDANCE_ESTIMATION:
                 executeAbundanceEstimation();
+                break;
             case DEG:
                 executeDeg();
                 break;
@@ -151,8 +152,10 @@ public class RNAseqJob {
                 executeClusters();
                 break;
             case BLAST:
+                executeBlast();
                 break;
             case HMMER:
+                executeHmmer();
                 break;
             default:
                 throw new AssertionError(selectedTool.getToolEnum().name());
@@ -463,11 +466,15 @@ public class RNAseqJob {
         String query = selectedTool.getInputList().get(0).getValue();
         
         String blastVersion = selectedTool.getParameterList().get(0).getValue();
+        System.out.println(blastVersion);
         String database = selectedTool.getParameterList().get(1).getValue();
+        System.out.println(database);
         String eValue = selectedTool.getParameterList().get(2).getValue();
+        System.out.println(eValue);
         String windowSize = selectedTool.getParameterList().get(3).getValue();
+        System.out.println(windowSize);
         String maxHits = selectedTool.getParameterList().get(4).getValue();
-        
+        System.out.println(maxHits);
         String outfileName = selectedTool.getParameterList().get(5).getValue();
         String[] outputName = new String[1];
         outputName[0] = outfileName;
@@ -488,11 +495,11 @@ public class RNAseqJob {
     private void executeHmmer(){
         String query = selectedTool.getInputList().get(0).getValue();
         
-        String database = selectedTool.getParameterList().get(1).getValue();
-        String minProt = selectedTool.getParameterList().get(2).getValue();
-        String eValue = selectedTool.getParameterList().get(3).getValue();
+        String database = selectedTool.getParameterList().get(0).getValue();
+        String minProt = selectedTool.getParameterList().get(1).getValue();
+        String eValue = selectedTool.getParameterList().get(2).getValue();
 
-        String outfileName = selectedTool.getParameterList().get(4).getValue();
+        String outfileName = selectedTool.getParameterList().get(3).getValue();
         String[] outputName = new String[1];
         outputName[0] = outfileName;
   
@@ -862,18 +869,31 @@ public class RNAseqJob {
             case ABUNDANCE_ESTIMATION:
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/" + outputName[0] + ".isoforms.results");
                 output1.setDisplayname(outputName[0]);
-                output1.setDescription("Abundance sttimation output from " + updateJob.getJobname() + " using RSEM.");
+                output1.setDescription("Abundance estimation output from " + updateJob.getJobname() + " using RSEM.");
                 //Add a mock filetype. In the future it has to mean TAB
                 output1.setFiletype(new Filetype(4));
                 output1.setProjectsCollection(fileProject);
                 
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/abundance_estimation.pdf");
+                output2.setDisplayname(outputName[0] + " pdf report");
+                output2.setDescription("Abundance estimation report from " + updateJob.getJobname() + " using " + outputName[0]);
+                output2.setFiletype(new Filetype(19));
+                output2.setProjectsCollection(fileProject);
+                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/top_expressed.fa");
+                output3.setDisplayname(outputName[0] + " top expressed gene list");
+                output3.setDescription("Top expressed gene list from " + updateJob.getJobname() + " using " + outputName[0]);
+                output3.setFiletype(new Filetype(1));
+                output3.setProjectsCollection(fileProject);
                 //Add output files to project table
                 projectFiles.add(output1);
+                projectFiles.add(output2);
+                projectFiles.add(output3);
                 selectedProject.setFilesCollection(projectFiles);
                 projectFacade.edit(selectedProject);
-                                
                 //Add outputs to database
                 filesFacade.create(output1);
+                filesFacade.create(output2);
+                filesFacade.create(output3);
                 break;
             case DEG:
                 
