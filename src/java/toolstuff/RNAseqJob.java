@@ -491,8 +491,8 @@ public class RNAseqJob {
         }
         commandList.add(jobID);
 
-        //ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
-        ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
+        ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
+        //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
         Process p;
         try {
             p = pb.start();
@@ -517,8 +517,8 @@ public class RNAseqJob {
             //Update the status to finished (0) or error (-1)
             if (p.exitValue() == 0) {
                     //Running time
-                //updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
-                newJob.setRunningtime(new java.sql.Time(86410000L - 3600000));
+                newJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
+                //newJob.setRunningtime(new java.sql.Time(86410000L - 3600000));
 
                 //Normal termination
                 newJob.setProcessid(0);
@@ -712,23 +712,23 @@ public class RNAseqJob {
                 output2.setFiletype(new Filetype(1));
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after preprocessing
-                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
+                /*output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
                 output3.setDisplayname(outputName[2] + "_quality_comparison.html");
                 output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with SEECER.");
                 output3.setFiletype(new Filetype(3));
-                output3.setProjectsCollection(fileProject);
+                output3.setProjectsCollection(fileProject);*/
                 
                 //Add output files to project table
                 projectFiles.add(output1);
                 projectFiles.add(output2);
-                projectFiles.add(output3);
+                //projectFiles.add(output3);
                 selectedProject.setFilesCollection(projectFiles);
                 projectFacade.edit(selectedProject);
                               
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
-                filesFacade.create(output3);
+                //filesFacade.create(output3);
                 break;
             case TRINITY:
                 //TRANSCRIPTS

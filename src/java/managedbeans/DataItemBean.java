@@ -128,6 +128,7 @@ public class DataItemBean {
                 outputsList.add(new GenericOutput("Forward unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "/home/vmuser/CPI/results/" + jobid + "/" + jobid + "_quality_comparison.html", jobsTool));
                 break;
 
             case TRIMMOMATIC_ADAPT:
@@ -135,12 +136,12 @@ public class DataItemBean {
                 outputsList.add(new GenericOutput("Forward unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
+                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "/home/vmuser/CPI/results/" + jobid + "/" + jobid + "_quality_comparison.html", jobsTool));
                 break;
 
             case SEECER:
                 outputsList.add(new GenericOutput("Left Corrected", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/leftCorrected.fa", jobsTool));
                 outputsList.add(new GenericOutput("Right Corrected", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/rightCorrected.fa", jobsTool));
-                //outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, jobid, jobsTool));
                 break;
 
             case TRINITY:

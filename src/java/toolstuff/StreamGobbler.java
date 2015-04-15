@@ -37,8 +37,8 @@ public class StreamGobbler extends Thread {
                 InputStreamReader isr = new InputStreamReader(is);
                 BufferedReader br = new BufferedReader(isr);
                 String line = null;
-                java.io.File file = new java.io.File("/home/pitas/Deskargak/" + logfile + ".log");
-                //java.io.File file = new java.io.File("/home/vmuser/CPI/log/" + logfile + ".log");
+                //java.io.File file = new java.io.File("/home/pitas/Deskargak/" + logfile + ".log");
+                java.io.File file = new java.io.File("/home/vmuser/CPI/log/" + logfile + ".log");
                 java.io.PrintWriter outputfile = new java.io.PrintWriter(file);
                 while ((line = br.readLine()) != null) {
                     System.out.println(type + "> " + line);
