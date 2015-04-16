@@ -22,6 +22,6 @@ public enum ETool {
     ABUNDANCE_ESTIMATION,
     DEG,
     CLUSTERS,
-    HMMER,
-    BLAST
+    BLAST,
+    HMMER
 }

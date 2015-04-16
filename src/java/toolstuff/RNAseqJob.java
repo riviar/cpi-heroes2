@@ -160,6 +160,12 @@ public class RNAseqJob {
             case CLUSTERS:
                 executeClusters();
                 break;
+            case BLAST:
+                executeBlast();
+                break;
+            case HMMER:
+                executeHmmer();
+                break;
             default:
                 throw new AssertionError(selectedTool.getToolEnum().name());
         }
@@ -310,7 +316,6 @@ public class RNAseqJob {
         String seqType = selectedTool.getParameterList().get(0).getValue();
         String kmer = selectedTool.getParameterList().get(1).getValue();
         String insLen = selectedTool.getParameterList().get(2).getValue();
-        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         String outfileName = selectedTool.getParameterList().get(3).getValue();
         String[] outputName = new String[1];
         outputName[0] = outfileName;
@@ -386,21 +391,26 @@ public class RNAseqJob {
         
         String seqType = selectedTool.getParameterList().get(0).getValue();
         String estMethod = selectedTool.getParameterList().get(1).getValue();
-        String prefix = selectedTool.getParameterList().get(2).getValue();
+        String topGenes = selectedTool.getParameterList().get(2).getValue();
+        String prefix = selectedTool.getParameterList().get(3).getValue();
+
         String[] outputName = new String[2];
         outputName[0] = prefix;
+
         //Pass the estimation methon to include it in the description within the database
         outputName[1] = estMethod;
         
         //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         //String outfileName = selectedTool.getParameterList().get(1).getValue();
         
+
         command += " " 
                 + fasta + " "
                 + leftInput + " "
                 + rightInput + " "
                 + seqType + " "
                 + estMethod + " "
+                + topGenes + " "
                 + outputDir;
                 
         executeCommand(command, outputName);
@@ -472,6 +482,59 @@ public class RNAseqJob {
     }
     
     
+    private void executeBlast(){
+        String query = selectedTool.getInputList().get(0).getValue();
+        
+        String blastVersion = selectedTool.getParameterList().get(0).getValue();
+        System.out.println(blastVersion);
+        String database = selectedTool.getParameterList().get(1).getValue();
+        System.out.println(database);
+        String eValue = selectedTool.getParameterList().get(2).getValue();
+        System.out.println(eValue);
+        String windowSize = selectedTool.getParameterList().get(3).getValue();
+        System.out.println(windowSize);
+        String maxHits = selectedTool.getParameterList().get(4).getValue();
+        System.out.println(maxHits);
+        String outfileName = selectedTool.getParameterList().get(5).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
+        
+        command += " " 
+                + blastVersion + " "
+                + query + " "
+                + database + " "
+                + eValue + " "
+                + windowSize + " "
+                + maxHits + " "
+                + outputDir;
+                
+        executeCommand(command, outputName);
+    }
+    
+    
+    private void executeHmmer(){
+        String query = selectedTool.getInputList().get(0).getValue();
+        
+        String database = selectedTool.getParameterList().get(0).getValue();
+        String minProt = selectedTool.getParameterList().get(1).getValue();
+        String eValue = selectedTool.getParameterList().get(2).getValue();
+
+        String outfileName = selectedTool.getParameterList().get(3).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
+  
+        
+        command += " " 
+                + query + " "
+                + database + " "
+                + minProt + " "
+                + eValue + " "
+                + outputDir;
+                
+        executeCommand(command, outputName);
+    }
+    
+    
     
     /**
      * Executes shell command
@@ -501,8 +564,8 @@ public class RNAseqJob {
         }
         commandList.add(jobID);
 
-        //ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
-        ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
+        ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
+        //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
         Process p;
         try {
             p = pb.start();
@@ -529,8 +592,8 @@ public class RNAseqJob {
             //Update the status to finished (0) or error (-1)
             if (p.exitValue() == 0) {
                     //Running time
-                //updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
-                newJob.setRunningtime(new java.sql.Time(86410000L - 3600000));
+                newJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
+                //newJob.setRunningtime(new java.sql.Time(86410000L - 3600000));
 
                 //Normal termination
                 newJob.setProcessid(0);
@@ -646,7 +709,7 @@ public class RNAseqJob {
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after trimming
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
-                output3.setDisplayname(outputName[2] + "_quality_comparison.html");
+                output3.setDisplayname(updateJob.getJobname() + "_quality_comparison.html");
                 output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with Trimmomatic.");
                 output3.setFiletype(new Filetype(3));
                 output3.setProjectsCollection(fileProject);
@@ -747,23 +810,23 @@ public class RNAseqJob {
                 output2.setFiletype(new Filetype(1));
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after preprocessing
-                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
+                /*output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
                 output3.setDisplayname(outputName[2] + "_quality_comparison.html");
                 output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with SEECER.");
                 output3.setFiletype(new Filetype(3));
-                output3.setProjectsCollection(fileProject);
+                output3.setProjectsCollection(fileProject);*/
                 
                 //Add output files to project table
                 projectFiles.add(output1);
                 projectFiles.add(output2);
-                projectFiles.add(output3);
+                //projectFiles.add(output3);
                 selectedProject.setFilesCollection(projectFiles);
                 projectFacade.edit(selectedProject);
                               
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
-                filesFacade.create(output3);
+                //filesFacade.create(output3);
                 break;
             case TRINITY:
                 //TRANSCRIPTS
@@ -801,6 +864,7 @@ public class RNAseqJob {
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
+
                 output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Velvet.");
                 //Assembly statistics filetype (5)
@@ -870,10 +934,12 @@ public class RNAseqJob {
                 filesFacade.create(output2);
                 break;
             case ABUNDANCE_ESTIMATION:
+
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/isoforms.results");
                 output1.setDisplayname(outputName[0] + ".isoforms.results");
                 output1.setDescription("Abundance estimation of the isoforms from " + updateJob.getJobname() + " using " + outputName[1]);
                 output1.setFiletype(new Filetype(9));
+
                 output1.setProjectsCollection(fileProject);
                 
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/abundance_estimation.pdf");
@@ -888,13 +954,22 @@ public class RNAseqJob {
                 output3.setFiletype(new Filetype(7));//FASTA FILE
                 output3.setProjectsCollection(fileProject);
                 
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/abundance_estimation.pdf");
+                output2.setDisplayname(outputName[0] + " pdf report");
+                output2.setDescription("Abundance estimation report from " + updateJob.getJobname() + " using " + outputName[0]);
+                output2.setFiletype(new Filetype(19));
+                output2.setProjectsCollection(fileProject);
+                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/top_expressed.fa");
+                output3.setDisplayname(outputName[0] + " top expressed gene list");
+                output3.setDescription("Top expressed gene list from " + updateJob.getJobname() + " using " + outputName[0]);
+                output3.setFiletype(new Filetype(1));
+                output3.setProjectsCollection(fileProject);
                 //Add output files to project table
                 projectFiles.add(output1);
                 projectFiles.add(output2);
                 projectFiles.add(output3);
                 selectedProject.setFilesCollection(projectFiles);
                 projectFacade.edit(selectedProject);
-                                
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);

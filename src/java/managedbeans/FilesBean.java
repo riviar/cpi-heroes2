@@ -165,6 +165,7 @@ public class FilesBean {
     public Map<String,Object> getFilesMap() {
         filesMap = new LinkedHashMap<>();
         ArrayList<Integer> usefulFiletypes = new ArrayList();
+        
         switch (utilityBean.getSelectedTool().getName()) {
             case "FastQC":
                 usefulFiletypes.add(7);
@@ -204,19 +205,32 @@ public class FilesBean {
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(2);
                 break;
-            case "ABUNDANCE_ESTIMATION":
+            case "Abundance estimation":
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
-                break;
-            case "DEG":
+                usefulFiletypes.add(5);
+            case "Differential gene expression":
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(7);
                 usefulFiletypes.add(9);
                 break;
-            case "CLUSTERS":
-                usefulFiletypes.add(11);                
+            case "Clusters by cutting dendrogram":
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(7);
+                break;
+            case "BLAST":
+                usefulFiletypes.add(4);
+                usefulFiletypes.add(1);
+                break;
+            case "HMMER":
+                usefulFiletypes.add(4);
+                usefulFiletypes.add(1);
                 break;
             default:
                 break;
         }
-            
+        
         //List<Files> files=filesFacade.getProjectFiles(utilityBean.getSelectedProject().getIdprojects());
         List<Files> files=filesFacade.getFilesForTool(utilityBean.getSelectedProject().getIdprojects(), usefulFiletypes.get(0));
         for(int i=1; i<usefulFiletypes.size(); i++){
@@ -224,6 +238,7 @@ public class FilesBean {
         }
         for (Files file:files){
             filesMap.put(file.getDisplayname(), file.getPath());
+            System.out.println(file);
         }        
         return filesMap;
     }

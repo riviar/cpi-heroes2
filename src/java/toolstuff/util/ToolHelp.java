@@ -11,7 +11,7 @@ package toolstuff.util;
  */
 public class ToolHelp {
 
-    private static String factqcHelp = "<b>Version:</b> 0.11.3 </br></br><b>Tool description:</b> </br>A quality control tool for high throughput sequence data. Performs simple quality control checks. "
+    private static String fastqcHelp = "<b>Version:</b> 0.11.3 </br></br><b>Tool description:</b> </br>A quality control tool for high throughput sequence data. Performs simple quality control checks. "
             + "The left hand side of the main interactive display or the top of the HTML report show a summary of the modules which were run, and a quick evaluation."
             + "</br></br> <b>Web page:</b> " + "<a href=\"http://www.bioinformatics.babraham.ac.uk/projects/fastqc/\" target=\"_blank\">FastQC home page (opens in a new window)</a>";
 
@@ -52,7 +52,7 @@ public class ToolHelp {
             + " </br></br> <b>Insert Length:</b> is understood to be the length of the sequenced fragment, i.e. it includes the length of the reads themselves."
             + "</br></br> <b>Web page:</b> " + "<a href=\"https://www.ebi.ac.uk/~zerbino/velvet/\" target=\"_blank\">Velvet home page (in a new window)</a>";
     private static String velvetKmer = "K-mer: also known as hash length corresponds to the length, in base pairs, of the words being hashed. Experience shows that k-mer coverage should be above 10 to start getting decent results. If Ck is above 20, you might be \"wasting\" coverage.";
-    private static String velvetInsertLength = "Inser length: is understood to be the length of the sequenced fragment, i.e. it includes the length of the reads themselves.";
+    private static String velvetInsertLength = "Insert length: is understood to be the length of the sequenced fragment, i.e. it includes the length of the reads themselves.";
 
     private static String trinityHelp = "<b>Version:</b> 2.0.5"
             + "</br></br><b>Tool description:</b> "
@@ -74,67 +74,113 @@ public class ToolHelp {
             + "</br></br> <b>Web page:</b> " + "<a href=\"http://www.bcgsc.ca/platform/bioinfo/software/trans-abyss\" target=\"_blank\">TransAbyss home page (in a new window)</a>";
     private static String transabyssKmer = "K-mer: default 32, k=32 has a good trade-off for assembling both rare and common transcripts. Using larger k-mers improve the assembly quality of common transcripts and transcripts with repetitive regions, but the assembly of rare transcripts may suffer.";
     
-    private static String SOAPdeNovoTrans = "<b>Version:</b> 1.0.4"
+    private static String SOAPdeNovoTransHelp = "<b>Version:</b> 1.0.4"
             + "</br></br> <b>Tool description:</b> <br>SOAPdenovo-Trans is a de novo transcriptome assembler basing on the SOAPdenovo framework, adapt to alternative splicing and different expression level among transcripts."
             + "</br></br> <b>K-mer:</b> The value is always depended on data size and its transcript features." 
             + "SOAPdenovo-Trans accepts odd Kmer value from 13 to 127.\n" 
             + "Ordinarily, SOAPdenovo-Trans always assembles the RNA-seq data by small kmer (~35-mer) as some of the transcripts are in low expression level."
             + "</br></br> <b>Web page:</b> " + "<a href=\"http://soap.genomics.org.cn/SOAPdenovo-Trans.html\" target=\"_blank\">Soap de Novo-Trans home page (in a new window)</a>";
+            
+        
+
+ 
     
-    private static String abundanceEstimation = "<b> Tool description:</b> </br>To compute abundance estimates, the original reads are aligned to the transcripts. "
-            + "Either RSEM or eXpress are executed to estimate expression values based on the resulting alignments."
-            + "</br></br> <b>Estimation methods:</b>"
-            + "</br> <b>RSEM:</b> (RNA-Seq by Expectation-Maximization). RSEM is a software package for estimating gene and isoform expression levels from RNA-Seq data. The unique feature of RSEM is, the read depth plots can be stacked, with read depth contributed to unique reads shown in black and contributed to multi-reads shown in red."
-            + "</br> <b>eXpress:</b> eXpress is a streaming tool for quantifying the abundances of a set of target sequences from sampled subsequences. It is based on an online-EM algorithm. The underlying model is based on probabilistic models developed for RNA-Seq. "
-            + "</br></br> <b>Inputs:</b> Fasta file: Select your assembled sequence. Left reads and right reads: select your input read files respectivly."
-            + "</br></br> <b>Reads sequence type:</b> Select fa for fasta or fq for fastq accordingly to your read input file types."
-            + "</br></br> <b>Web page:</b> " + "<a href=\"http://http://trinityrnaseq.github.io/analysis/abundance_estimation.html\" target=\"_blank\">Trinity abundance estimation help page (in a new window)</a>";
+
     
-    private static String DGE = "<b>Tool description:</b> </br>The identification of differentially expressed transcripts relies on using the EdgeR Bioconductor package. This package identifies differentially expressed transcripts and clustering transcripts according to expression profiles and makes available examination their corresponding expression patterns."
-            + "</br></br>One of the steps in analyzing differential expression is to extract those transcripts that are most differentially expressed <b>(most significant P-values for FDR and fold-changes)</b> and to cluster the transcripts according to their patterns of differential expression across the samples. "
-            + ""
-            + "</br></br> <b>Web page:</b> " + "<a href=\"http://trinityrnaseq.github.io/analysis/diff_expression_analysis.html\" target=\"_blank\">Trinity DGE help page (in a new window)</a>" ;
     
-    private static String clustering = "<b>Tool description:</b> </br>Run this tool to automatically split the data set into a sets of transcripts with related expression patterns by partitioning the hierarchically clustered transcript tree."
-            + "</br></br><b>Percent of height to cut tree:</b> cut tree based on this percent of max(height) of tree."
+    //abundance estimation help 
+    private static String abEstFastaInputHelp="This fasta file is generated in the assembly of the reads.";
+    private static String abEstReadsHelp="These are the right and left corresponding to the assembled fasta file.";
+    private static String abEstReadTypeHelp="Select if the reads are in FASTA or FASTQ format." ;
+    private static String abEstMethodHelp="Choose an estimation method for abundance estimation." ;
+    private static String abEstTopGenes="Select the percentage of top expressed genes that you wand to include in your report and in a fasta file." ;
+    private static String abEstNameHelp="Write a name for your output files." ;
+    private static String abundanceEstimationHelp="<b>Tool description: </b>"
+            + "The first step that needs to be performed for downstream analysis to estimate the abundance of the isoforms generated by the assembly. For this purpose, the reads are mapped to the assembled contigs using Bowtie and quantification of expression is performed using RSEM or eXpress (depending on the user's selection). Additionally, the user can extract the percentage they desire of the  top expressed isoforms."
+            + "</br></br> <b>Assembled fasta file: </b>" + abEstFastaInputHelp
+            + "</br></br> <b>Left and right reads: </b>" + abEstReadsHelp
+            + "</br></br> <b>Reads file format: </b>" + abEstReadTypeHelp
+            + "</br></br> <b>Estimation method: </b>" + abEstMethodHelp
+            + "</br></br> <b>Percentage of top genes to show: </b>" + abEstTopGenes
+            + "</br></br> <b>Name for output: </b>" + abEstNameHelp
+            + "</br></br> <b>Web page:</b> " + "<a href=\"http://http://trinityrnaseq.github.io/analysis/abundance_estimation.html\" target=\"_blank\">Trinity abundance estimation help page (in a new window).</a>";
+
+
+    
+    //differential gene expression help
+    private static String dgeFilesHelp="Select as many files as you want to perform differential gene expression.";
+    private static String dgeEstMethodHelp="Estimation method used in the previous step.";
+    private static String dgePvalueHelp="P-value threshold for false discovery rate.";
+    private static String dgeFoldChangeHelp="Minimum fold change expressed as |log2(a/b)| (meaning that the default value of 2 is equivalent to 2^2=4 fold change)";
+    private static String dgeMaxDegHelp="Maximum number of differentially expressed genes per comparison to be included in the report (even if BLAST has ore hits).";
+    private static String dgeNameHelp="Write a name for your output files." ;
+    private static String differentialGeneExpressionHelp="<b>Tool description: </b>"
+            + "If the user has sequenced more than one sample under different conditions, they can perform differential gene expression using the abundance estimation files from the previous step. This tool uses the Bioconductor package edgeR for identification of differentially expressed genes."
+            + "</br></br> <b>Abundance estimation files: </b>" + dgeFilesHelp
+            + "</br></br> <b>Method used for abundance estimation: </b>" + dgeEstMethodHelp
+            + "</br></br> <b>P-value offcuts for FDR: </b>" + dgePvalueHelp
+            + "</br></br> <b>Minimum fold change: </b>" + dgeFoldChangeHelp
+            + "</br></br> <b>Maximum differentially expressed genes per comparison: </b>" + dgeMaxDegHelp
+            + "</br></br> <b>Assembled fasta file: </b>" + dgeNameHelp
+            + "</br></br> <b>Web page:</b> " + "<a href=\"http://trinityrnaseq.github.io/analysis/diff_expression_analysis.html\" target=\"_blank\">Trinity DGE help page (in a new window)</a>";
+    
+    
+    //clustering by cutting tree
+    private static String clustInputHelp="Select the name of the output from differential gene expression analysis previously performed.";
+    private static String clustHeight="Percent of height at which thee dendrogram is cut.";
+    private static String clusteringHelp="<b>Tool description: </b>"
+            + "After differential gene expression, clusters of genes can be extracted my cutting the dendrogram at a certain height. "
+            + "</br></br> <b>Select output from differential gene expression: </b>" + clustInputHelp
+            + "</br></br> <b>Height at which the tree is cut: </b>" + clustHeight
             + "</br></br> <b>Web page:</b> " + "<a href=\"http://trinityrnaseq.github.io/analysis/diff_expression_analysis.html#DE_analysis\" target=\"_blank\">Trinity clustering help page (in a new window)</a>";
+
+
     
-    private static String BlastX = "<b>Tool description:</b> </br>BlastX is a program provided by NCBI for comparing nucleotide query sequences translated in all reading frames against a protein sequence database. "
-            + "Local Database: (nr) Non-redundant protein sequences from GenPept, Swissprot, PIR, PDF, PDB, and NCBI RefSeq."
-            + "</br></br> <b>Web page:</b> " + "<a href=\"http://www.ncbi.nlm.nih.gov/books/NBK21097/\" target=\"_blank\">The BLAST Sequence Analysis Tool (in a new window)</a>";
+   
+    // hmmer
+    private static String hmmerQueryHelp="";
+    private static String hmmerDBHelp="";
+    private static String hmmerMinProtLenHelp="";
+    private static String hmmerEvalueHelp="";
+    private static String hmmerOutputHelp="";
+    private static String hmmerHelp= "<b>Tool description: </b>"
+            + "</br></br><b>Query: </b>" + hmmerQueryHelp
+            + "</br></br><b>Database: </b>" + hmmerDBHelp
+            + "</br></br><b>Minimum protein length: </b>" + hmmerMinProtLenHelp
+            + "</br></br><b>Sequence e-value threshold: </b>" + hmmerEvalueHelp
+            + "</br></br><b>Output name: </b>" + hmmerOutputHelp
+            + "</br></br> <b>Web page:</b> " + "<a href=\"http://hmmer.janelia.org/\" target=\"_blank\">HMMER web page (in a new window)</a>";
+
+    
+    
+    
+    // blast
+    private static String blastQueryHelp="<b>Tool description: </b>";
+    private static String blastBlastVersionHelp=""; //blastn blastx tblastx
+    private static String blastDBHelp="";
+    private static String blastEvalueHelp="";
+    private static String blastWindowSizeHelp="";
+    private static String blastMaxHitsHelp="";
+    private static String blastOutputHelp="";
+    private static String blastHelp=""
+        + ""
+        + "</br></br><b>Query: </b>" + blastQueryHelp
+        + "</br></br><b>Blast version: </b>" + blastQueryHelp
+        + "</br></br><b>Database: </b>" + blastBlastVersionHelp
+        + "</br></br><b>Expectation value threshold: </b>" + blastEvalueHelp
+        + "</br></br><b>Window size: </b>" + blastWindowSizeHelp
+        + "</br></br><b>Maximum number of hits per sequence: </b>" + blastMaxHitsHelp
+        + "</br></br><b>Output name: </b>" + blastOutputHelp
+        + "</br></br> <b>Web page:</b> " + "<a href=\"http://www.ncbi.nlm.nih.gov/books/NBK21097/\" target=\"_blank\">The BLAST Sequence Analysis Tool (in a new window)</a>";
+
+
+    
+    
     /**
      * @return the factqcHelp
      */
-    public static String getFactqcHelp() {
-        return factqcHelp;
-    }
-
-    /**
-     * @return the trimmomaticHelp
-     */
-    public static String getTrimmomaticHelp() {
-        return trimmomaticHelp;
-    }
-
-    /**
-     * @return the trimmomaticSlidingWindow
-     */
-    public static String getTrimmomaticSlidingWindow() {
-        return trimmomaticSlidingWindow;
-    }
-
-    /**
-     * @return the trimmomaticWindowSize
-     */
-    public static String getTrimmomaticWindowSize() {
-        return trimmomaticWindowSize;
-    }
-
-    /**
-     * @return the trimmomaticRequiredQuality
-     */
-    public static String getTrimmomaticRequiredQuality() {
-        return trimmomaticRequiredQuality;
+    public static String getFastqcHelp() {
+        return fastqcHelp;
     }
     
     public static String getTrimmomaticAdapterHelp() {
@@ -148,32 +194,12 @@ public class ToolHelp {
         return seecerHelp;
     }
 
-    /**
-     * @return the seecerKmer
-     */
-    public static String getSeecerKmer() {
-        return seecerKmer;
-    }
 
     /**
      * @return the velvetHelp
      */
     public static String getVelvetHelp() {
         return velvetHelp;
-    }
-
-    /**
-     * @return the velvetKmer
-     */
-    public static String getVelvetKmer() {
-        return velvetKmer;
-    }
-
-    /**
-     * @return the velvetInsertLEngth
-     */
-    public static String getVelvetInsertLength() {
-        return velvetInsertLength;
     }
 
     /**
@@ -190,62 +216,59 @@ public class ToolHelp {
         return transabyssHelp;
     }
 
-    /**
-     * @return the transabyssKmer
-     */
-    public static String getTransabyssKmer() {
-        return transabyssKmer;
-    }
-
-    /**
-     * @return the trimmomaticAdapterSeedMismatches
-     */
-    public static String getTrimmomaticAdapterSeedMismatches() {
-        return trimmomaticAdapterSeedMismatches;
-    }
-
-    /**
-     * @return the palindromeClipTreshold
-     */
-    public static String getPalindromeClipTreshold() {
-        return palindromeClipTreshold;
-    }
-
-    /**
-     * @return the simpleClipTreshold
-     */
-    public static String getSimpleClipTreshold() {
-        return simpleClipTreshold;
-    }
 
     /**
      * @return the abundanceEstimation
      */
     public static String getAbundanceEstimationHelp() {
-        return abundanceEstimation;
+        return abundanceEstimationHelp;
     }
 
-    /**
-     * @return the DGE
-     */
-    public static String getDGEHelp() {
-        return DGE;
-    }
-
-    /**
-     * @return the clustering
-     */
-    public static String getClusteringHelp() {
-        return clustering;
-    }
+    
 
     /**
      * @return the SOAPdeNovoTrans
      */
     public static String getSOAPdeNovoTransHelp() {
-        return SOAPdeNovoTrans;
+        return SOAPdeNovoTransHelp;
     }
-    
-    
 
+    /**
+     * @return the trimmomaticHelp
+     */
+    public static String getTrimmomaticHelp() {
+        return trimmomaticHelp;
+    }
+
+
+    /**
+     * @return the differentialGeneExpressionHelp
+     */
+    public static String getDifferentialGeneExpressionHelp() {
+        return differentialGeneExpressionHelp;
+    }
+
+    /**
+     * @return the clusteringHelp
+     */
+    public static String getClusteringHelp() {
+        return clusteringHelp;
+    }
+
+    /**
+     * @return the hmmerHelp
+     */
+    public static String getHmmerHelp() {
+        return hmmerHelp;
+    }
+
+    /**
+     * @return the blastHelp
+     */
+    public static String getBlastHelp() {
+        return blastHelp;
+    }
+
+   
+     
 }
