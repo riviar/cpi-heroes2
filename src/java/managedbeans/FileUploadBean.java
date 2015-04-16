@@ -45,6 +45,7 @@ public class FileUploadBean {
     private UtilityBean utilityBean;
  
     public void upload(FileUploadEvent event) {  
+        System.err.println("FUB.upload entered");
         FacesMessage msg = new FacesMessage("Success! ", event.getFile().getFileName() + " is uploaded.");  
         FacesContext.getCurrentInstance().addMessage(null, msg);
         // Do what you want with the file        
@@ -57,7 +58,8 @@ public class FileUploadBean {
     }  
  
     public void copyFile(String fileName, InputStream in) {
-           try {
+        System.err.println("FUB.copyFile entered");   
+        try {
               
               
                 // write the inputStream to a FileOutputStream
@@ -88,7 +90,7 @@ public class FileUploadBean {
         ArrayList<Projects> fileProject = new ArrayList(1);
         System.out.println("Project " + utilityBean.getSelectedProject().getProjectname());
         fileProject.add(utilityBean.getSelectedProject());
-        
+
         uploadedFile.setPath(destination + fileName);
         uploadedFile.setDisplayname(fileName);
         uploadedFile.setDescription("User uploaded file");
@@ -96,13 +98,13 @@ public class FileUploadBean {
         uploadedFile.setFiletype(new Filetype(7));
         uploadedFile.setProjectsCollection(fileProject);
 
-        //Add output files to project table
+        //Persist file object - must be done before adding to projects! 
+        filesFacade.create(uploadedFile);
+
+        //Update project with new file - must be done after persistence to avoid file duplication
         projectFiles.add(uploadedFile);
         utilityBean.getSelectedProject().setFilesCollection(projectFiles);
         projectFacade.edit(utilityBean.getSelectedProject());
-
-        //Add output to database
-        filesFacade.create(uploadedFile);
     }
     
      /**

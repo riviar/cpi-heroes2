@@ -8,7 +8,6 @@ package managedbeans;
 import entitybeans.Files;
 import entitybeans.Projects;
 import entitybeans.Workgroups;
-//import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -149,8 +148,11 @@ public class ProjectBean {
     }
     
     /**
-     * Creates new project from current user and newProjectName, newProjectWorkgroup and newProjectVisibility
-     * @return redirect string to projects_menu
+     * Creates a new project owned by currently logged-in user. Parameters
+     * <code>newProjectName</code> and <code>newProjectVisibility</code> must
+     * be set to required values, <code>newProjectWorkgroup</code> must be set if
+     * newProjctVisibility is set to Workgroup.
+     * @return String projects_menu
      */
     public String createProject() {
         Projects project = new Projects();
@@ -158,7 +160,6 @@ public class ProjectBean {
         project.setOwner(utilityBean.getUser());
         project.setWorkgroup(newProjectWorkgroup);
         project.setVisibility(newProjectVisibility);
-        //Date today = Date.from(Instant.now());
         Date today = new Date(System.currentTimeMillis());
         project.setCreationdate(today);
         projectFacade.create(project);
@@ -205,7 +206,6 @@ public class ProjectBean {
      * @return
      */
     public String selectProject() {
-        System.err.println("PB.selectProject = " + selectedProject.toString());
         utilityBean.setSelectedProject(selectedProject);
         return "project?faces-redirect=true";
     }

@@ -160,11 +160,9 @@ public class WorkgroupBean {
 
     public String addUserToWorkgroup() {
         System.out.println("adduser called");
-        Users user = utilityBean.getSelectedUser();
-        if (user == null || workgroup == null) {
-            return "invaliddataerrorpage?faces-redirect=true";
-        } else {
-            Collection<Users> users = workgroup.getUsersCollection();
+        Users user = utilityBean.getSelectedUser();      
+        Collection<Users> users = workgroup.getUsersCollection();
+        if (!users.contains(user)) {
             users.add(user);
             workgroup.setUsersCollection(users);
             workgroupFacade.updateWorkgroup(workgroup);
@@ -232,15 +230,6 @@ public class WorkgroupBean {
         } else {
             return workgroupFacade.workgroupsWithUserMember(utilityBean.getUser());
         }
-    }
-
-    public Workgroups getNewWorkgroup(Workgroups workgroup) {
-        user = utilityBean.getUser();
-        workgroup.setOwner(user);
-        ArrayList<Users> users = new ArrayList();
-        users.add(user);
-        workgroup.setUsersCollection(users);
-        return workgroup;
     }
 
     /**

@@ -22,18 +22,14 @@ public abstract class AbstractFacade<T> {
     protected abstract EntityManager getEntityManager();
 
     public void create(T entity) {
-        System.out.println("create called");
+        System.out.println("create " + entity.toString() + " called");
         getEntityManager().persist(entity);
-        getEntityManager().flush();
-        System.out.println("Introduced");
-        //}
-        
+        getEntityManager().flush();    
     }
 
     public void edit(T entity) {
-        System.out.println("edit called");
+        System.out.println("edit " + entity.toString() + " called");
         getEntityManager().merge(entity);
-        System.out.println("edited");
     }
 
     public void remove(T entity) {
