@@ -27,13 +27,16 @@
                     <br/>
                     <ul>
                         <ui:repeat id="userlist" value="#{workgroupBean.getUsersInWorkgroup()}" var="user" >
-                            <li><p>                                   
-                                    <h:outputText converter="userConverter" style="font-weight: bold" value="#{user.username}"/>                                     
-                                    <h:button id="removeUserButton"
+                            <li><p>                 
+
+                                    <h:outputText converter="userConverter" style="font-weight: bold;" value="#{user.username}"/>
+                                    <br/>
+                                    <h:button id="removeUserButton" class="removeButton"
                                               onclick="PF('confirmRemoveUser#{user.idusers}').show();
-                                                      return false;" 
+                                                          return false;" 
                                               value="Remove User">
                                     </h:button>
+
 
                                     <h:form>
                                         <p:confirmDialog id="confirmDialog" widgetVar="confirmRemoveUser#{user.idusers}" message="Are you sure you want to remove user #{user.username}?">
@@ -47,7 +50,7 @@
                                             </p:commandButton>
                                             <p:commandButton id="cancelRemoveButton" 
                                                              onclick="PF('confirmRemoveUser').hide();
-                                                                     return false;" 
+                                                                         return false;" 
                                                              class="centerButton" 
                                                              value="Cancel"/>
                                         </p:confirmDialog>
@@ -72,9 +75,10 @@
                                         <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
                                             <f:param name="selectedProject" value="#{project}"/>
                                         </h:commandLink>
-                                        <h:button id="removeProjectButton"
+                                        <br/>
+                                        <h:button id="removeProjectButton" class="removeButton"
                                                   onclick="PF('confirmRemoveProject#{project.idprojects}').show();
-                                                          return false;" 
+                                                              return false;" 
                                                   value="Remove Project">
                                         </h:button>
 

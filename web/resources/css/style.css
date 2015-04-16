@@ -35,9 +35,66 @@ h5 {font-size:10px}
 
 /* Forms */
 .submit {font:bold 12px verdana,serif; cursor:pointer!important; color:#1c4851; background:none; border:none; width:60px; margin:0 0 0 6px}
-.login {font:bold 12px verdana,serif; cursor:pointer!important; color:#ccc; background:none; border:none; width:60px; margin:0 0 0 6px}
+.login {
+    font:bold 12px verdana,serif; 
+    cursor:pointer!important; 
+    color:#DDD; 
+    background:#666; 
+    -webkit-border-radius: 25;
+    -moz-border-radius: 25;
+    border-radius: 25px;
+    border: none;
+    -webkit-box-shadow: 0px 1px 3px #666666;
+    -moz-box-shadow: 0px 1px 3px #666666;
+    box-shadow: 0px 1px 3px #666666;
+    width: auto; 
+    margin:0 0 0 6px;
+    padding: 5px 5px 5px 5px;
+}
+.login:hover {
+  background: #444;
+  text-decoration: none;
+}
 .registerButton {font:bold 16px verdana,serif; cursor:pointer!important; color:#404040; background:none; border:none; width:85px; margin:6px 6px 6px 15px}
-.centerButton {font:bold 12px verdana,serif; cursor:pointer!important; color:#103C20; background:none; border:none; width: auto; margin:0 0 0 6px}
+.centerButton {
+    font:bold 12px verdana,serif; 
+    cursor:pointer!important; 
+    color:#ffffff; 
+    background:#1C4851; 
+    -webkit-border-radius: 25;
+    -moz-border-radius: 25;
+    border-radius: 25px;
+    border: none;
+    -webkit-box-shadow: 0px 1px 3px #666666;
+    -moz-box-shadow: 0px 1px 3px #666666;
+    box-shadow: 0px 1px 3px #666666;
+    width: auto; 
+    margin:0 0 0 6px;
+    padding: 5px 10px 5px 10px;
+}
+.centerButton:hover {
+  background: #062831;
+  text-decoration: none;
+}
+.removeButton {
+    font: 10px verdana,serif; 
+    cursor:pointer!important; 
+    color:#4E4A49; 
+    background:#BBB; 
+    -webkit-border-radius: 25;
+    -moz-border-radius: 25;
+    border-radius: 25px;
+    border: none;
+    -webkit-box-shadow: 0px 1px 3px #666666;
+    -moz-box-shadow: 0px 1px 3px #666666;
+    box-shadow: 0px 1px 3px #666666;
+    width: auto; 
+    margin-left: 20px;
+}
+.removeButton:hover {
+  background: #999;
+  text-decoration: none;
+}
 .regInput { margin:5px 0 5px 15px}
 .radio {margin:0 5px 0 0; background:none; border:none}
 #datasetList{ columns: 1; -webkit-columns: 1;-moz-columns: 1;}
@@ -75,7 +132,7 @@ h5 {font-size:10px}
 	position:relative
 	}
 #logo-text {color:#ccc; font:normal 27px arial,serif; position:absolute; top:40px; left:100px}
-#logincontrol {width:632px; height:31px; float:right; display:inline; padding:15px 0 0 0; text-align:center; color:#888}
+#logincontrol {width:632px; height:31px; float:right; display:inline; padding:15px 0 15px 0; text-align:center; color:#888}
 #logincontrols:after {content:"."; display:block; height:0; clear:both; visibility:hidden}
 #headerimage {width:998px; height:233px; background:url('../images/bg_header.jpg') no-repeat top left; float:left; position:relative}
 #slogan {color:#ffffff; font:normal 20px arial,serif; position:absolute; bottom:35px; left:320px; text-shadow: 2px 2px #000000}
@@ -106,7 +163,7 @@ h5 {font-size:10px}
 #menu ul li a:hover, #menu ul li a#active, #menu ul li a:active {color:#fff; border:1px solid #fff; background:#000; text-decoration:none}
 
 /* CONTENT AND COLUMNS */
-#content {background:#f3f2f0 url('../images/bg_page.gif') repeat-y top left}
+#content {background:#f3f2f0 url('../images/bg_page.gif') repeat-y top left; margin:15px 0 15px 0;}
 #content a:link, #content a:visited {text-decoration:none; color:#1c4851; font-weight:bold}
 #cA {float:left; width:270px; margin:0 11px 0 30px; display:inline}
 .Ctopleft {background:url('../images/corners_top.gif') no-repeat top left; width:9px; height:9px; overflow:hidden; float:left}
@@ -117,7 +174,7 @@ h5 {font-size:10px}
 #cB {float:right; width:679px; margin:0 8px 0 0; display:inline}
 .Ctopright {background:url('../images/corners_top.gif') no-repeat top right; width:9px; height:9px; overflow:hidden; float:right}
 #cB1 {width:340px; float:left; padding:0 10px 5px 10px}
-.news {border-bottom:1px solid #e6e1dd; border-top:1px solid #fcfafb; padding:10px 15px 5px 15px}
+.news {border-bottom:1px solid #e6e1dd; border-top:1px solid #fcfafb; padding:10px 15px 10px 15px}
 #cB2 {width:309px; float:right; margin:0}
 #job { padding: 5px; width: available; background: #EEE}
 .about {background:#c6d6d6; border:1px solid #a4c0ba; padding:5px;  color:#282627;}
