@@ -734,13 +734,13 @@ public class RNAseqJob {
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Trimmed reverse paired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
                 //Trimmed file filetype (1)
-                output2.setFiletype(new Filetype(1));
+                output2.setFiletype(new Filetype(3));
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after trimming
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
                 output3.setDisplayname(updateJob.getJobname() + "_quality_comparison.html");
                 output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                output3.setFiletype(new Filetype(3));
+                output3.setFiletype(new Filetype(2));
                 output3.setProjectsCollection(fileProject);
 
                 //UNPAIRED FORWARD
@@ -785,13 +785,13 @@ public class RNAseqJob {
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Adapters removed from the reverse paired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
                 //File without adapters filetype (2)
-                output2.setFiletype(new Filetype(2));
+                output2.setFiletype(new Filetype(4));
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after removing adapters
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
                 output3.setDisplayname(outputName[2] + "_quality_comparison.html");
                 output3.setDescription("Quality per base report before and after removing adapters from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                output3.setFiletype(new Filetype(3));
+                output3.setFiletype(new Filetype(2));
                 output3.setProjectsCollection(fileProject);
                 
                 //UNPAIRED FORWARD
@@ -836,7 +836,7 @@ public class RNAseqJob {
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Trimmed right reads from " + updateJob.getJobname() + " processed with SEECER.");
                 //Trimmed file filetype (1)
-                output2.setFiletype(new Filetype(1));
+                output2.setFiletype(new Filetype(3));
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after preprocessing
                 /*output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
@@ -863,14 +863,14 @@ public class RNAseqJob {
                 output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trinity.");
                 //Assembled transcripts filetype (4)
-                output1.setFiletype(new Filetype(4));
+                output1.setFiletype(new Filetype(5));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
                 output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Trinity.");
                 //Assembly statistics filetype (5)
-                output2.setFiletype(new Filetype(5));
+                output2.setFiletype(new Filetype(6));
                 output2.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -889,7 +889,7 @@ public class RNAseqJob {
                 output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Velvet.");
                 //Assembled transcripts filetype (4)
-                output1.setFiletype(new Filetype(4));
+                output1.setFiletype(new Filetype(5));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
@@ -897,7 +897,7 @@ public class RNAseqJob {
                 output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Velvet.");
                 //Assembly statistics filetype (5)
-                output2.setFiletype(new Filetype(5));
+                output2.setFiletype(new Filetype(6));
                 output2.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -916,14 +916,14 @@ public class RNAseqJob {
                 output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trans-ABySS.");
                 //Assembled transcripts filetype (4)
-                output1.setFiletype(new Filetype(4));
+                output1.setFiletype(new Filetype(5));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
                 output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Trans-ABySS.");
                 //Assembly statistics filetype (5)
-                output2.setFiletype(new Filetype(5));
+                output2.setFiletype(new Filetype(6));
                 output2.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -942,14 +942,14 @@ public class RNAseqJob {
                 output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
                 //Assembled transcripts filetype (4)
-                output1.setFiletype(new Filetype(4));
+                output1.setFiletype(new Filetype(5));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
                 output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
                 //Assembly statistics filetype (5)
-                output2.setFiletype(new Filetype(5));
+                output2.setFiletype(new Filetype(6));
                 output2.setProjectsCollection(fileProject);
                 
                 //Add output files to project table

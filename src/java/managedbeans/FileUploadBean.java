@@ -95,7 +95,7 @@ public class FileUploadBean {
         uploadedFile.setDisplayname(fileName);
         uploadedFile.setDescription("User uploaded file");
         //All uploaded files will be considered raw files, filetype 7
-        uploadedFile.setFiletype(new Filetype(7));
+        uploadedFile.setFiletype(new Filetype(1));
         uploadedFile.setProjectsCollection(fileProject);
 
         //Persist file object - must be done before adding to projects! 

@@ -85,9 +85,11 @@ public class FilesBean {
         String supertype;
         switch (file.getFiletype().getFiletypeid()) {
             case 1:
+                supertype = "Raw file";
+                break;
             case 2:
             case 3:
-                supertype = "Raw file";
+                supertype = "Preprocessed file";
                 break;
             case 4:
             case 5:
@@ -135,68 +137,75 @@ public class FilesBean {
         ArrayList<Integer> usefulFiletypes = new ArrayList();
         switch (utilityBean.getSelectedTool().getName()) {
             case "FastQC":
-                usefulFiletypes.add(7);
                 usefulFiletypes.add(1);
-                usefulFiletypes.add(2);
+                usefulFiletypes.add(3);
+                usefulFiletypes.add(4);
                 break;
             case "Trimmomatic - Trimming":
-                usefulFiletypes.add(7);
-                usefulFiletypes.add(2);
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(4);
                 break;
             case "Trimmomatic - Adapters":
-                usefulFiletypes.add(7);
                 usefulFiletypes.add(1);
+                usefulFiletypes.add(3);
                 break;
             case "Seecer":
-                usefulFiletypes.add(7);
                 usefulFiletypes.add(1);
-                usefulFiletypes.add(2);
+                usefulFiletypes.add(3);
+                usefulFiletypes.add(4);
                 break;
             case "Trinity":
-                usefulFiletypes.add(7);
                 usefulFiletypes.add(1);
-                usefulFiletypes.add(2);
+                usefulFiletypes.add(3);
+                usefulFiletypes.add(4);
                 break;
             case "Velvet + Oases":
-                usefulFiletypes.add(7);
                 usefulFiletypes.add(1);
-                usefulFiletypes.add(2);
+                usefulFiletypes.add(3);
+                usefulFiletypes.add(4);
                 break;
             case "Trans-ABySS":
-                usefulFiletypes.add(7);
                 usefulFiletypes.add(1);
-                usefulFiletypes.add(2);
+                usefulFiletypes.add(3);
+                usefulFiletypes.add(4);
                 break;
             case "SOAPdenovo-Trans":
-                usefulFiletypes.add(7);
                 usefulFiletypes.add(1);
-                usefulFiletypes.add(2);
+                usefulFiletypes.add(3);
+                usefulFiletypes.add(4);
                 break;
             case "1. Abundance estimation":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
                 usefulFiletypes.add(5);
+                //usefulFiletypes.add(4);
+                //usefulFiletypes.add(5);
             case "2. Differential gene expression":
                 usefulFiletypes.add(1);
-                usefulFiletypes.add(7);
+                usefulFiletypes.add(3);
+                usefulFiletypes.add(4);
+                usefulFiletypes.add(8);
                 usefulFiletypes.add(9);
                 break;
             case "3. Clusters by cutting dendrogram":
                 usefulFiletypes.add(1);
-                usefulFiletypes.add(7);
+                usefulFiletypes.add(3);
+                usefulFiletypes.add(4);
+                usefulFiletypes.add(10);
                 break;
             case "BLAST":
-                usefulFiletypes.add(4);
                 usefulFiletypes.add(1);
+                usefulFiletypes.add(5);
+                //Top expressed
                 break;
             case "HMMER":
-                usefulFiletypes.add(4);
                 usefulFiletypes.add(1);
+                usefulFiletypes.add(5);
+                //Top expressed
                 break;
             case "Merge files for assembly":
                 usefulFiletypes.add(1);
-                usefulFiletypes.add(7);
                 break;
             default:
                 break;
