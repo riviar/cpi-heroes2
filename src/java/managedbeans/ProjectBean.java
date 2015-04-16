@@ -162,6 +162,10 @@ public class ProjectBean {
         Date today = new Date(System.currentTimeMillis());
         project.setCreationdate(today);
         projectFacade.create(project);
+        Collection<Projects> projects = newProjectWorkgroup.getProjectsCollection();
+        projects.add(project);
+        newProjectWorkgroup.setProjectsCollection(projects);
+        workgroupFacade.edit(newProjectWorkgroup);
         return "projects_menu?faces-redirect=true";
     }
     
