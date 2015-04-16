@@ -88,8 +88,8 @@
                     </div>
                     <div class="news">
                         <h:panelGrid columns="2">
-                            <h:commandButton value="Back" class="centerButton" action="project?faces-redirect=true"/>
-                            <h:commandButton value="Submit" class="centerButton" action="#{toolBean.runJob()}"/>
+                            <p:commandButton value="Back" class="centerButton" action="project?faces-redirect=true"/>
+                            <p:commandButton value="Submit" class="centerButton" action="#{toolBean.runJob()}" ajax="false"/>
                         </h:panelGrid>
                     </div>
                 </h:form>
