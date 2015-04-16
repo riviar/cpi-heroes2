@@ -675,7 +675,7 @@ public class RNAseqJob {
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after trimming
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
-                output3.setDisplayname(outputName[2] + "_quality_comparison.html");
+                output3.setDisplayname(updateJob.getJobname() + "_quality_comparison.html");
                 output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with Trimmomatic.");
                 output3.setFiletype(new Filetype(3));
                 output3.setProjectsCollection(fileProject);

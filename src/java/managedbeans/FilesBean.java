@@ -210,10 +210,13 @@ public class FilesBean {
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
                 usefulFiletypes.add(5);
-            case "DEG":
+            case "Differential gene expression":
+                usefulFiletypes.add(1);
                 usefulFiletypes.add(7);
+                usefulFiletypes.add(9);
                 break;
-            case "CLUSTERS":
+            case "Clusters by cutting dendrogram":
+                usefulFiletypes.add(1);
                 usefulFiletypes.add(7);
                 break;
             case "BLAST":
@@ -227,7 +230,7 @@ public class FilesBean {
             default:
                 break;
         }
-            
+        
         //List<Files> files=filesFacade.getProjectFiles(utilityBean.getSelectedProject().getIdprojects());
         List<Files> files=filesFacade.getFilesForTool(utilityBean.getSelectedProject().getIdprojects(), usefulFiletypes.get(0));
         for(int i=1; i<usefulFiletypes.size(); i++){

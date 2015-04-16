@@ -74,20 +74,14 @@ public class ToolHelp {
             + "</br></br> <b>Web page:</b> " + "<a href=\"http://www.bcgsc.ca/platform/bioinfo/software/trans-abyss\" target=\"_blank\">TransAbyss home page (in a new window)</a>";
     private static String transabyssKmer = "K-mer: default 32, k=32 has a good trade-off for assembling both rare and common transcripts. Using larger k-mers improve the assembly quality of common transcripts and transcripts with repetitive regions, but the assembly of rare transcripts may suffer.";
     
-    private static String SOAPdeNovoTrans = "<b>Version:</b> 1.0.4"
+    private static String SOAPdeNovoTransHelp = "<b>Version:</b> 1.0.4"
             + "</br></br> <b>Tool description:</b> <br>SOAPdenovo-Trans is a de novo transcriptome assembler basing on the SOAPdenovo framework, adapt to alternative splicing and different expression level among transcripts."
             + "</br></br> <b>K-mer:</b> The value is always depended on data size and its transcript features." 
             + "SOAPdenovo-Trans accepts odd Kmer value from 13 to 127.\n" 
             + "Ordinarily, SOAPdenovo-Trans always assembles the RNA-seq data by small kmer (~35-mer) as some of the transcripts are in low expression level."
             + "</br></br> <b>Web page:</b> " + "<a href=\"http://soap.genomics.org.cn/SOAPdenovo-Trans.html\" target=\"_blank\">Soap de Novo-Trans home page (in a new window)</a>";
             
-    private static String clustering = "<b>Tool description:</b> </br>Run this tool to automatically split the data set into a sets of transcripts with related expression patterns by partitioning the hierarchically clustered transcript tree."
-            + "</br></br><b>Percent of height to cut tree:</b> cut tree based on this percent of max(height) of tree."
-            + "</br></br> <b>Web page:</b> " + "<a href=\"http://trinityrnaseq.github.io/analysis/diff_expression_analysis.html#DE_analysis\" target=\"_blank\">Trinity clustering help page (in a new window)</a>";
-    
-    private static String BlastX = "<b>Tool description:</b> </br>BlastX is a program provided by NCBI for comparing nucleotide query sequences translated in all reading frames against a protein sequence database. "
-            + "Local Database: (nr) Non-redundant protein sequences from GenPept, Swissprot, PIR, PDF, PDB, and NCBI RefSeq."
-            + "</br></br> <b>Web page:</b> " + "<a href=\"http://www.ncbi.nlm.nih.gov/books/NBK21097/\" target=\"_blank\">The BLAST Sequence Analysis Tool (in a new window)</a>";
+        
 
  
     
@@ -132,14 +126,54 @@ public class ToolHelp {
     
     
     //clustering by cutting tree
-
-
-
+    private static String clustInputHelp="Select the name of the output from differential gene expression analysis previously performed.";
+    private static String clustHeight="Percent of height at which thee dendrogram is cut.";
+    private static String clusteringHelp="<b>Tool description: </b>"
+            + "After differential gene expression, clusters of genes can be extracted my cutting the dendrogram at a certain height. "
+            + "</br></br> <b>Select output from differential gene expression: </b>" + clustInputHelp
+            + "</br></br> <b>Height at which the tree is cut: </b>" + clustHeight
+            + "</br></br> <b>Web page:</b> " + "<a href=\"http://trinityrnaseq.github.io/analysis/diff_expression_analysis.html#DE_analysis\" target=\"_blank\">Trinity clustering help page (in a new window)</a>";
 
 
     
    
+    // hmmer
+    private static String hmmerQueryHelp="";
+    private static String hmmerDBHelp="";
+    private static String hmmerMinProtLenHelp="";
+    private static String hmmerEvalueHelp="";
+    private static String hmmerOutputHelp="";
+    private static String hmmerHelp= "<b>Tool description: </b>"
+            + "</br></br><b>Query: </b>" + hmmerQueryHelp
+            + "</br></br><b>Database: </b>" + hmmerDBHelp
+            + "</br></br><b>Minimum protein length: </b>" + hmmerMinProtLenHelp
+            + "</br></br><b>Sequence e-value threshold: </b>" + hmmerEvalueHelp
+            + "</br></br><b>Output name: </b>" + hmmerOutputHelp
+            + "</br></br> <b>Web page:</b> " + "<a href=\"http://hmmer.janelia.org/\" target=\"_blank\">HMMER web page (in a new window)</a>";
+
     
+    
+    
+    // blast
+    private static String blastQueryHelp="<b>Tool description: </b>";
+    private static String blastBlastVersionHelp=""; //blastn blastx tblastx
+    private static String blastDBHelp="";
+    private static String blastEvalueHelp="";
+    private static String blastWindowSizeHelp="";
+    private static String blastMaxHitsHelp="";
+    private static String blastOutputHelp="";
+    private static String blastHelp=""
+        + ""
+        + "</br></br><b>Query: </b>" + blastQueryHelp
+        + "</br></br><b>Blast version: </b>" + blastQueryHelp
+        + "</br></br><b>Database: </b>" + blastBlastVersionHelp
+        + "</br></br><b>Expectation value threshold: </b>" + blastEvalueHelp
+        + "</br></br><b>Window size: </b>" + blastWindowSizeHelp
+        + "</br></br><b>Maximum number of hits per sequence: </b>" + blastMaxHitsHelp
+        + "</br></br><b>Output name: </b>" + blastOutputHelp
+        + "</br></br> <b>Web page:</b> " + "<a href=\"http://www.ncbi.nlm.nih.gov/books/NBK21097/\" target=\"_blank\">The BLAST Sequence Analysis Tool (in a new window)</a>";
+
+
     
     
     /**
@@ -190,18 +224,13 @@ public class ToolHelp {
         return abundanceEstimationHelp;
     }
 
-    /**
-     * @return the clustering
-     */
-    public static String getClusteringHelp() {
-        return getClustering();
-    }
+    
 
     /**
      * @return the SOAPdeNovoTrans
      */
     public static String getSOAPdeNovoTransHelp() {
-        return getSOAPdeNovoTrans();
+        return SOAPdeNovoTransHelp;
     }
 
     /**
@@ -211,103 +240,33 @@ public class ToolHelp {
         return trimmomaticHelp;
     }
 
-    /**
-     * @return the trimmomaticSlidingWindow
-     */
-    public static String getTrimmomaticSlidingWindow() {
-        return trimmomaticSlidingWindow;
-    }
-
-    /**
-     * @return the trimmomaticWindowSize
-     */
-    public static String getTrimmomaticWindowSize() {
-        return trimmomaticWindowSize;
-    }
-
-    /**
-     * @return the trimmomaticRequiredQuality
-     */
-    public static String getTrimmomaticRequiredQuality() {
-        return trimmomaticRequiredQuality;
-    }
-
-    /**
-     * @return the trimmomaticAdapterSeedMismatches
-     */
-    public static String getTrimmomaticAdapterSeedMismatches() {
-        return trimmomaticAdapterSeedMismatches;
-    }
-
-    /**
-     * @return the palindromeClipTreshold
-     */
-    public static String getPalindromeClipTreshold() {
-        return palindromeClipTreshold;
-    }
-
-    /**
-     * @return the simpleClipTreshold
-     */
-    public static String getSimpleClipTreshold() {
-        return simpleClipTreshold;
-    }
-
-    /**
-     * @return the seecerKmer
-     */
-    public static String getSeecerKmer() {
-        return seecerKmer;
-    }
-
-    /**
-     * @return the velvetKmer
-     */
-    public static String getVelvetKmer() {
-        return velvetKmer;
-    }
-
-    /**
-     * @return the velvetInsertLength
-     */
-    public static String getVelvetInsertLength() {
-        return velvetInsertLength;
-    }
-
-    /**
-     * @return the transabyssKmer
-     */
-    public static String getTransabyssKmer() {
-        return transabyssKmer;
-    }
-
-    /**
-     * @return the SOAPdeNovoTrans
-     */
-    public static String getSOAPdeNovoTrans() {
-        return SOAPdeNovoTrans;
-    }
-
-    /**
-     * @return the clustering
-     */
-    public static String getClustering() {
-        return clustering;
-    }
-
-    /**
-     * @return the BlastX
-     */
-    public static String getBlastX() {
-        return BlastX;
-    }
-
 
     /**
      * @return the differentialGeneExpressionHelp
      */
     public static String getDifferentialGeneExpressionHelp() {
         return differentialGeneExpressionHelp;
+    }
+
+    /**
+     * @return the clusteringHelp
+     */
+    public static String getClusteringHelp() {
+        return clusteringHelp;
+    }
+
+    /**
+     * @return the hmmerHelp
+     */
+    public static String getHmmerHelp() {
+        return hmmerHelp;
+    }
+
+    /**
+     * @return the blastHelp
+     */
+    public static String getBlastHelp() {
+        return blastHelp;
     }
 
    
