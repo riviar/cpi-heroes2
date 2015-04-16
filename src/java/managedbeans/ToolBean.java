@@ -81,6 +81,7 @@ public class ToolBean {
         job.init(utilityBean.getSelectedProject(), utilityBean.getSelectedTool(), newJobName);
         //job.init(utilityBean.getSelectedProject(), utilityBean.getSelectedTool(), utilityBean.getUser().getEmail(), newJobName);
         job.execute();
+        job.process();
         //System.out.println("Yes");
         return "project?faces-redirect=true";
     }

@@ -56,6 +56,11 @@ public class RNAseqJob {
      * Directory for output files
      */
     private String outputDir = "/home/vmuser/CPI/results";
+    
+    private Process p;
+    private long startingTime;
+    private Jobhistory updateJob;
+    private String[] outputName;
 
     /**
      * provides access to session bean UtilityBean (here for selectedTool)
@@ -600,7 +605,12 @@ public class RNAseqJob {
             //Update job with the complete command and the pid
             jobHistoryFacade.edit(newJob);
             
-            process(p, currentTime, newJob, outputName);
+            this.p = p;
+            this.startingTime = currentTime;
+            this.updateJob = newJob;
+            this.outputName = outputName;
+            
+            //process(p, currentTime, newJob, outputName);
             
             /*StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR", newJob.getIdjobs());
 
@@ -639,15 +649,10 @@ public class RNAseqJob {
         
 }
 
-    /**
-     *
-     * @param p
-     * @param startingTime
-     * @param updateJob
-     * @param outputName
-     */
+    
     @Asynchronous
-    public void process(Process p, long startingTime, Jobhistory updateJob, String[] outputName){
+    //public void process(Process p, long startingTime, Jobhistory updateJob, String[] outputName){
+    public void process(){
         try {
             StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR", updateJob.getIdjobs());
             
