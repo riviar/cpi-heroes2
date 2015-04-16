@@ -101,7 +101,7 @@ public class FilesBean {
                 break;
             case 8:
             case 9:
-                supertype = "Anotated file";
+                supertype = "Annotated file";
                 break;
             default:
                 supertype = "Unknown file type";
@@ -158,51 +158,49 @@ public class FilesBean {
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
+                usefulFiletypes.add(22);
                 break;
             case "Velvet + Oases":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
+                usefulFiletypes.add(22);
                 break;
             case "Trans-ABySS":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
+                usefulFiletypes.add(22);
                 break;
             case "SOAPdenovo-Trans":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
+                usefulFiletypes.add(22);
                 break;
             case "1. Abundance estimation":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
+                usefulFiletypes.add(22);
                 usefulFiletypes.add(5);
-                //usefulFiletypes.add(4);
-                //usefulFiletypes.add(5);
+                usefulFiletypes.add(23);
+                break;
             case "2. Differential gene expression":
-                usefulFiletypes.add(1);
-                usefulFiletypes.add(3);
-                usefulFiletypes.add(4);
-                usefulFiletypes.add(8);
-                usefulFiletypes.add(9);
+                usefulFiletypes.add(8);                
                 break;
             case "3. Clusters by cutting dendrogram":
-                usefulFiletypes.add(1);
-                usefulFiletypes.add(3);
-                usefulFiletypes.add(4);
                 usefulFiletypes.add(10);
                 break;
             case "BLAST":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(5);
-                //Top expressed
+                usefulFiletypes.add(24);
                 break;
             case "HMMER":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(5);
-                //Top expressed
+                usefulFiletypes.add(24);
                 break;
             case "Merge files for assembly":
                 usefulFiletypes.add(1);

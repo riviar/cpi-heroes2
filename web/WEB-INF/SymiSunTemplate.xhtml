@@ -107,9 +107,13 @@
                                 </ul>
                                 <li><p class=""><strong>Annotation</strong></p></li>
                                 <ul>
-                                    <li><p class="subtool">Tool 1</p></li>
-                                    <li><p class="subtool">Tool 2</p></li>
-                                    <li><p class="subtool">Tool 3</p></li>
+                                    <c:forEach items="#{toolsSidebarBean.getAnnotationToolNames()}" var="toolName">
+                                        <li><p class="subtool">
+                                                <h:commandLink value="#{toolName}" action="#{toolsSidebarBean.selectTool()}">
+                                                    <f:param name="tool" value="#{toolName}"/>
+                                                </h:commandLink>
+                                            </p></li>
+                                    </c:forEach>
                                 </ul>
                             </ul>
                         </h:form>

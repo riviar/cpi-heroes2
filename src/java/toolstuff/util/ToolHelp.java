@@ -103,7 +103,7 @@ public class ToolHelp {
             + "</br></br> <b>Estimation method: </b>" + abEstMethodHelp
             + "</br></br> <b>Percentage of top genes to show: </b>" + abEstTopGenes
             + "</br></br> <b>Name for output: </b>" + abEstNameHelp
-            + "</br></br> <b>Web page:</b> " + "<a href=\"http://http://trinityrnaseq.github.io/analysis/abundance_estimation.html\" target=\"_blank\">Trinity abundance estimation help page (in a new window).</a>";
+            + "</br></br> <b>Web page:</b> " + "<a href=\"http://trinityrnaseq.github.io/analysis/abundance_estimation.html\" target=\"_blank\">Trinity abundance estimation help page (in a new window).</a>";
 
 
     
@@ -118,13 +118,13 @@ public class ToolHelp {
             + "If the user has sequenced more than one sample under different conditions, they can perform differential gene expression using the abundance estimation files from the previous step. This tool uses the Bioconductor package edgeR for identification of differentially expressed genes."
             + "</br></br> <b>Abundance estimation files: </b>" + dgeFilesHelp
             + "</br></br> <b>Method used for abundance estimation: </b>" + dgeEstMethodHelp
-            + "</br></br> <b>P-value offcuts for FDR: </b>" + dgePvalueHelp
+            + "</br></br> <b>P-value cutoffs for FDR: </b>" + dgePvalueHelp
             + "</br></br> <b>Minimum fold change: </b>" + dgeFoldChangeHelp
             + "</br></br> <b>Maximum differentially expressed genes per comparison: </b>" + dgeMaxDegHelp
             + "</br></br> <b>Assembled fasta file: </b>" + dgeNameHelp
             + "</br></br> <b>Web page:</b> " + "<a href=\"http://trinityrnaseq.github.io/analysis/diff_expression_analysis.html\" target=\"_blank\">Trinity DGE help page (in a new window)</a>";
     
-    
+   
     //clustering by cutting tree
     private static String clustInputHelp="Select the name of the output from differential gene expression analysis previously performed.";
     private static String clustHeight="Percent of height at which thee dendrogram is cut.";

@@ -401,7 +401,7 @@ public class RNAseqJob {
         String estMethod = selectedTool.getParameterList().get(1).getValue();
         String topGenes = selectedTool.getParameterList().get(2).getValue();
         String prefix = selectedTool.getParameterList().get(3).getValue();
-
+        String prefixforisoforms = prefix.replace(" ", "_");
         String[] outputName = new String[2];
         outputName[0] = prefix;
 
@@ -419,6 +419,7 @@ public class RNAseqJob {
                 + seqType + " "
                 + estMethod + " "
                 + topGenes + " "
+                + prefixforisoforms + " "
                 + outputDir;
                 
         executeCommand(command, outputName);
@@ -438,6 +439,7 @@ public class RNAseqJob {
         String cFoldChange = selectedTool.getParameterList().get(2).getValue();
         String maxDeg = selectedTool.getParameterList().get(3).getValue();
         String prefix = selectedTool.getParameterList().get(4).getValue();
+        String prefixforisoforms = "\""+prefix+"\"";
         String[] outputName = new String[2];
         outputName[0] = prefix;
         outputName[1] = estMethod;
@@ -454,8 +456,8 @@ public class RNAseqJob {
         System.out.println(prefix);
         System.out.println(filesIsoforms);
         
-        
-        
+     
+         
         command += " " 
                 + filesIsoforms + " "
                 + estMethod + " "
@@ -463,7 +465,7 @@ public class RNAseqJob {
                 + cFoldChange + " "
                 + maxDeg + " "
                 + outputDir;
-                
+                          
         executeCommand(command, outputName);
        
     }
@@ -693,7 +695,7 @@ public class RNAseqJob {
         Files output1 = new Files();
         Files output2 = new Files();
         Files output3 = new Files();
-        //Files output4 = new Files();
+        Files output4 = new Files();
         
         //Projects updateProject = project;
         Collection<Files> projectFiles = selectedProject.getFilesCollection();
@@ -709,8 +711,8 @@ public class RNAseqJob {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fastqc.html");
                 output1.setDisplayname(updateJob.getJobname() + "_"+ outputName[0] + ".html");
                 output1.setDescription("FastQC output for " + updateJob.getJobname());
-                //FastQC output HTML report filetype (3)
-                output1.setFiletype(new Filetype(3));
+                //FastQC output HTML report filetype (2)
+                output1.setFiletype(new Filetype(2));
                 output1.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -726,21 +728,21 @@ public class RNAseqJob {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_paired");
                 output1.setDisplayname(outputName[0]);
                 output1.setDescription("Trimmed forward paired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
-                //Trimmed file filetype (1)
-                output1.setFiletype(new Filetype(1));
+                //Trimmed file filetype (3)
+                output1.setFiletype(new Filetype(3));
                 output1.setProjectsCollection(fileProject);
                 //PAIRED REVERSE
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_paired");
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Trimmed reverse paired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
-                //Trimmed file filetype (1)
+                //Trimmed file filetype (3)
                 output2.setFiletype(new Filetype(3));
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after trimming
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
                 output3.setDisplayname(updateJob.getJobname() + "_quality_comparison.html");
                 output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                output3.setFiletype(new Filetype(2));
+                output3.setFiletype(new Filetype(3));
                 output3.setProjectsCollection(fileProject);
 
                 //UNPAIRED FORWARD
@@ -777,14 +779,14 @@ public class RNAseqJob {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_paired");
                 output1.setDisplayname(outputName[0]);
                 output1.setDescription("Adapters removed from the forward paired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                //File without adapters filetype (2)
-                output1.setFiletype(new Filetype(2));
+                //File without adapters filetype (4)
+                output1.setFiletype(new Filetype(4));
                 output1.setProjectsCollection(fileProject);
                 //PAIRED REVERSE
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_paired");
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Adapters removed from the reverse paired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                //File without adapters filetype (2)
+                //File without adapters filetype (4)
                 output2.setFiletype(new Filetype(4));
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after removing adapters
@@ -829,14 +831,14 @@ public class RNAseqJob {
                 output1.setDisplayname(outputName[0]);
                 output1.setDescription("Trimmed left reads from " + updateJob.getJobname() + " processed with SEECER.");
                 //Trimmed file filetype (1)
-                output1.setFiletype(new Filetype(1));
+                output1.setFiletype(new Filetype(22));
                 output1.setProjectsCollection(fileProject);
                 //PAIRED 2
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/rightCorrected.fa");
                 output2.setDisplayname(outputName[1]);
                 output2.setDescription("Trimmed right reads from " + updateJob.getJobname() + " processed with SEECER.");
                 //Trimmed file filetype (1)
-                output2.setFiletype(new Filetype(3));
+                output2.setFiletype(new Filetype(22));
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after preprocessing
                 /*output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
@@ -862,14 +864,14 @@ public class RNAseqJob {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
                 output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trinity.");
-                //Assembled transcripts filetype (4)
+                //Assembled transcripts filetype (5)
                 output1.setFiletype(new Filetype(5));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
                 output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Trinity.");
-                //Assembly statistics filetype (5)
+                //Assembly statistics filetype (6)
                 output2.setFiletype(new Filetype(6));
                 output2.setProjectsCollection(fileProject);
                 
@@ -888,7 +890,7 @@ public class RNAseqJob {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
                 output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Velvet.");
-                //Assembled transcripts filetype (4)
+                //Assembled transcripts filetype (5)
                 output1.setFiletype(new Filetype(5));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
@@ -896,7 +898,7 @@ public class RNAseqJob {
 
                 output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Velvet.");
-                //Assembly statistics filetype (5)
+                //Assembly statistics filetype (6)
                 output2.setFiletype(new Filetype(6));
                 output2.setProjectsCollection(fileProject);
                 
@@ -915,14 +917,14 @@ public class RNAseqJob {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
                 output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trans-ABySS.");
-                //Assembled transcripts filetype (4)
+                //Assembled transcripts filetype (5)
                 output1.setFiletype(new Filetype(5));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
                 output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with Trans-ABySS.");
-                //Assembly statistics filetype (5)
+                //Assembly statistics filetype (6)
                 output2.setFiletype(new Filetype(6));
                 output2.setProjectsCollection(fileProject);
                 
@@ -941,14 +943,14 @@ public class RNAseqJob {
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
                 output1.setDisplayname(outputName[0] + ".transcripts.fa");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
-                //Assembled transcripts filetype (4)
+                //Assembled transcripts filetype (5)
                 output1.setFiletype(new Filetype(5));
                 output1.setProjectsCollection(fileProject);
                 //STATISTICS
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/stats.txt");
                 output2.setDisplayname(outputName[0] + " stats");
                 output2.setDescription("Assembly statistics from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
-                //Assembly statistics filetype (5)
+                //Assembly statistics filetype (6)
                 output2.setFiletype(new Filetype(6));
                 output2.setProjectsCollection(fileProject);
                 
@@ -965,34 +967,25 @@ public class RNAseqJob {
             case ABUNDANCE_ESTIMATION:
 
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/isoforms.results");
-                output1.setDisplayname(outputName[0] + ".isoforms.results");
+                output1.setDisplayname(outputName[0] + " (Ab Est results)");
                 output1.setDescription("Abundance estimation of the isoforms from " + updateJob.getJobname() + " using " + outputName[1]);
-                output1.setFiletype(new Filetype(9));
+                output1.setFiletype(new Filetype(8));
 
                 output1.setProjectsCollection(fileProject);
                 
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/abundance_estimation.pdf");
-                output2.setDisplayname(outputName[0] + " pdf report");
+                output2.setDisplayname(outputName[0] + " PDF report");
                 output2.setDescription("Abundance estimation report from " + updateJob.getJobname() + " using " + outputName[1]);
-                output2.setFiletype(new Filetype(19));
+                output2.setFiletype(new Filetype(7));
                 output2.setProjectsCollection(fileProject);
                 
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/top_expressed.fa");
-                output3.setDisplayname(outputName[0] + " top expressed gene list");
+                output3.setDisplayname(outputName[0] + " (Top expressed genes)");
                 output3.setDescription("Top expressed gene list from " + updateJob.getJobname() + " using " + outputName[1]);
-                output3.setFiletype(new Filetype(7));//FASTA FILE
+                output3.setFiletype(new Filetype(24));//FASTA FILE
                 output3.setProjectsCollection(fileProject);
                 
-                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/abundance_estimation.pdf");
-                output2.setDisplayname(outputName[0] + " pdf report");
-                output2.setDescription("Abundance estimation report from " + updateJob.getJobname() + " using " + outputName[0]);
-                output2.setFiletype(new Filetype(19));
-                output2.setProjectsCollection(fileProject);
-                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/top_expressed.fa");
-                output3.setDisplayname(outputName[0] + " top expressed gene list");
-                output3.setDescription("Top expressed gene list from " + updateJob.getJobname() + " using " + outputName[0]);
-                output3.setFiletype(new Filetype(1));
-                output3.setProjectsCollection(fileProject);
+                
                 //Add output files to project table
                 projectFiles.add(output1);
                 projectFiles.add(output2);
@@ -1006,21 +999,21 @@ public class RNAseqJob {
                 break;
             case DEG:
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/DEG.RData");
-                output1.setDisplayname(outputName[0] + ".DEG.RData");
+                output1.setDisplayname(outputName[0] + " (DGE output)");
                 output1.setDescription("Differential Gene Expression output from " + updateJob.getJobname() + " using " + outputName[1] + " to use in Cluster Analysis.");
-                output1.setFiletype(new Filetype(11));
+                output1.setFiletype(new Filetype(10));
                 output1.setProjectsCollection(fileProject);
                 
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/DEG.pdf");
-                output2.setDisplayname(outputName[0] + " DEG pdf report");
+                output2.setDisplayname(outputName[0] + " DGE pdf report");
                 output2.setDescription("Differential Gene Expression report from " + updateJob.getJobname() + " using " + outputName[1]);
-                output2.setFiletype(new Filetype(20));
+                output2.setFiletype(new Filetype(9));
                 output2.setProjectsCollection(fileProject);
                 
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/metadata.zip");
-                output3.setDisplayname(outputName[0] + "DEG report zip metadata");
+                output3.setDisplayname(outputName[0] + " (DGE metadata)");
                 output3.setDescription("Differential Gene Expression compressed metadata from " + updateJob.getJobname() + " using " + outputName[1]);
-                output3.setFiletype(new Filetype(20));
+                output3.setFiletype(new Filetype(9));
                 output3.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -1037,15 +1030,15 @@ public class RNAseqJob {
                 break;                
             case CLUSTERS: 
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/clusters.pdf");
-                output1.setDisplayname(outputName[0] + " clusters report");
+                output1.setDisplayname(outputName[0] + " clustering report");
                 output1.setDescription("Clustering report from " + updateJob.getJobname());
-                output1.setFiletype(new Filetype(21));
+                output1.setFiletype(new Filetype(11));
                 output1.setProjectsCollection(fileProject);
                 
                 output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/metadata.zip");
-                output2.setDisplayname(outputName[0] + " cluster report zip metadata");
+                output2.setDisplayname(outputName[0] + " (Clustering metadata)");
                 output2.setDescription("Clustering compressed metadata from " + updateJob.getJobname());
-                output2.setFiletype(new Filetype(21));
+                output2.setFiletype(new Filetype(11));
                 output2.setProjectsCollection(fileProject);
                 
                 //Add output files to project table
@@ -1057,6 +1050,78 @@ public class RNAseqJob {
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
+                break;
+            case BLAST:
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/blast_results.xml");
+                output1.setDisplayname(outputName[0] + " (BLAST XML file)");
+                output1.setDescription("BLAST output in Extended Markup Language (XML) format from " + updateJob.getJobname());
+                output1.setFiletype(new Filetype(12));
+                output1.setProjectsCollection(fileProject);
+                
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/blast_results.tab");
+                output2.setDisplayname(outputName[0] + " (BLAST tab separated file)");
+                output2.setDescription("BLAST output in tab separated format from " + updateJob.getJobname());
+                output2.setFiletype(new Filetype(13));
+                output2.setProjectsCollection(fileProject);
+                
+                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/blast_results.esn");
+                output3.setDisplayname(outputName[0] + " (BLAST ESN file)");
+                output3.setDescription("BLAST output in canonical ESN format from " + updateJob.getJobname());
+                output3.setFiletype(new Filetype(13));
+                output3.setProjectsCollection(fileProject);
+                
+                //Add output files to project table
+                projectFiles.add(output1);
+                projectFiles.add(output2);
+                projectFiles.add(output3);
+                selectedProject.setFilesCollection(projectFiles);
+                projectFacade.edit(selectedProject);
+                                
+                //Add outputs to database
+                filesFacade.create(output1);
+                filesFacade.create(output2);
+                filesFacade.create(output3);
+                break;
+            case HMMER:
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/longest_orfs.pep");
+                output1.setDisplayname(outputName[0] + " (ORFs for HMMER)");
+                output1.setDescription("Open Reading Frames used by HMMER from " + updateJob.getJobname());
+                output1.setFiletype(new Filetype(14));
+                output1.setProjectsCollection(fileProject);
+                
+                output2.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/output_hmmer.txt");
+                output2.setDisplayname(outputName[0] + " (HMMER output)");
+                output2.setDescription("Protein domains identified by HMMER from " + updateJob.getJobname());
+                output2.setFiletype(new Filetype(14));
+                output2.setProjectsCollection(fileProject);
+                
+                output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/per_domain_hits_hmmer.txt");
+                output3.setDisplayname(outputName[0] + " (HMMER hits per domain)");
+                output3.setDescription("HMMER hits per domain from " + updateJob.getJobname());
+                output3.setFiletype(new Filetype(14));
+                output3.setProjectsCollection(fileProject);
+                
+                output4.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/per_sequence_hits_hmmer.txt");
+                output4.setDisplayname(outputName[0] + " (HMMER hits per sequence)");
+                output4.setDescription("HMMER hits per sequence from " + updateJob.getJobname());
+                output4.setFiletype(new Filetype(14));
+                output4.setProjectsCollection(fileProject);
+                
+                //Add output files to project table
+                projectFiles.add(output1);
+                projectFiles.add(output2);
+                projectFiles.add(output3);
+                projectFiles.add(output4);
+                selectedProject.setFilesCollection(projectFiles);
+                projectFacade.edit(selectedProject);
+                                
+                //Add outputs to database
+                filesFacade.create(output1);
+                filesFacade.create(output2);
+                filesFacade.create(output3);
+                filesFacade.create(output4);
+                break;
+            case MERGE:
                 break;
             default:
                 throw new AssertionError(selectedTool.getToolEnum().name());

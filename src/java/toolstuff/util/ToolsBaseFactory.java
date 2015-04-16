@@ -233,7 +233,7 @@ public class ToolsBaseFactory {
                 ETool.ABUNDANCE_ESTIMATION, 
                 EToolType.DOWNSTREAM, 
                 "Estimate abundance of isoforms using the reads and the assembled fasta file", 
-                "shell_scripts/do_abundanceEstimation.sh", 
+                "shell_scripts/do_abundanceEstimation2.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getAbundanceEstimationHelp()));
