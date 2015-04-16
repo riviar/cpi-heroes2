@@ -26,7 +26,7 @@ public class JobhistoryConverter implements Converter {
     @Override
     //entities.Jobhistory[ idjobs=165
     public Object getAsObject(FacesContext context, UIComponent component, String jobHistoryTextID) {
-        jobHistoryTextID = jobHistoryTextID.replace("entities.Jobhistory[ idjobs=", "");
+        jobHistoryTextID = jobHistoryTextID.replace("entitybeans.Jobhistory[ idjobs=", "");
         jobHistoryTextID = jobHistoryTextID.replace(" ]", "");
         int jobID = Integer.valueOf(jobHistoryTextID);
         Jobhistory job = jobHistoryFacade.find(jobID);

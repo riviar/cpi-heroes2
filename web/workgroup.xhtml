@@ -47,7 +47,7 @@
                                             </p:commandButton>
                                             <p:commandButton id="cancelRemoveButton" 
                                                              onclick="PF('confirmRemoveUser').hide();
-                                                                         return false;" 
+                                                                     return false;" 
                                                              class="centerButton" 
                                                              value="Cancel"/>
                                         </p:confirmDialog>
@@ -72,10 +72,29 @@
                                         <h:commandLink value="#{project.projectname}" action="#{workgroupBean.selectProject()}">
                                             <f:param name="selectedProject" value="#{project}"/>
                                         </h:commandLink>
-                                        <br/>
-                                        <h:commandLink value="Remove Project" action="#{workgroupBean.removeProjectFromWorkgroup()}">
-                                            <f:param name="selectedProject" value="#{project}"/>
-                                        </h:commandLink>
+                                        <h:button id="removeProjectButton"
+                                                  onclick="PF('confirmRemoveProject#{project.idprojects}').show();
+                                                          return false;" 
+                                                  value="Remove Project">
+                                        </h:button>
+
+                                        <h:form>
+                                            <p:confirmDialog id="confirmDialog" widgetVar="confirmRemoveProject#{project.idprojects}" message="Are you sure you want to remove project #{project.projectname}?">
+                                                <h3>Remove Project</h3>
+                                                <p:commandButton id="confirmRemoveButton"
+                                                                 action="#{workgroupBean.removeProjectFromWorkgroup()}"
+                                                                 class="centerButton" 
+                                                                 ajax="false"
+                                                                 value="ConfirmIt!">
+                                                    <f:param name="selectedProject" value="#{project}"/>
+                                                </p:commandButton>
+                                                <p:commandButton id="cancelRemoveButton" 
+                                                                 onclick="PF('confirmRemoveProject').hide();
+                                                                         return false;" 
+                                                                 class="centerButton" 
+                                                                 value="Cancel"/>
+                                            </p:confirmDialog>
+                                        </h:form>
                                     </p></li>
                             </c:forEach>
                         </h:form>

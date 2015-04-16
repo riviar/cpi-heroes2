@@ -144,6 +144,6 @@ public class Files implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Files[ idresources=" + idresources + " ]";
+        return "entitybeans.Files[ idresources=" + idresources + " ]";
     }
 }
