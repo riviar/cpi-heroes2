@@ -23,5 +23,6 @@ public enum ETool {
     DEG,
     CLUSTERS,
     BLAST,
-    HMMER
+    HMMER,
+    MERGE
 }

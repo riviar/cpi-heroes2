@@ -166,6 +166,9 @@ public class RNAseqJob {
             case HMMER:
                 executeHmmer();
                 break;
+            case MERGE:
+                executeMerge();
+                break;
             default:
                 throw new AssertionError(selectedTool.getToolEnum().name());
         }
@@ -417,7 +420,7 @@ public class RNAseqJob {
        
     }
     
-     private void executeDeg() {
+    private void executeDeg() {
        String filesIsoforms = "";
        for (String filepath:selectedTool.getInputList().get(0).getValues()) {
            filesIsoforms = filesIsoforms.concat(filepath + ",");
@@ -534,6 +537,26 @@ public class RNAseqJob {
         executeCommand(command, outputName);
     }
     
+    
+    private void executeMerge() {
+       String files = "";
+       for (String filepath:selectedTool.getInputList().get(0).getValues()) {
+           files = files.concat(filepath + ",");
+       }
+       //remove last comma
+       files = files.substring(0, files.length()-1);
+
+        String outfileName = selectedTool.getParameterList().get(0).getValue();
+        String[] outputName = new String[1];
+        outputName[0] = outfileName;
+        
+        command += " " 
+                + files + " "
+                + outputDir;
+                
+        executeCommand(command, outputName);
+       
+    }
     
     
     /**

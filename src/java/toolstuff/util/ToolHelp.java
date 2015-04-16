@@ -173,6 +173,11 @@ public class ToolHelp {
         + "</br></br><b>Output name: </b>" + blastOutputHelp
         + "</br></br> <b>Web page:</b> " + "<a href=\"http://www.ncbi.nlm.nih.gov/books/NBK21097/\" target=\"_blank\">The BLAST Sequence Analysis Tool (in a new window)</a>";
 
+    //Merge
+    private static String mergeHelp=""
+        + "Merge reads from different samples in order to perform the assembly."
+        + "</br></br><b>Select files: </b>" + "Select all the files you want to merge.";
+
 
     
     
@@ -267,6 +272,13 @@ public class ToolHelp {
      */
     public static String getBlastHelp() {
         return blastHelp;
+    }
+
+    /**
+     * @return the mergeHelp
+     */
+    public static String getMergeHelp() {
+        return mergeHelp;
     }
 
    

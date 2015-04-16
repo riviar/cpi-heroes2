@@ -80,7 +80,7 @@ public class ToolsBaseFactory {
         inputs.add(new ToolAttributes("Reverse reads", "fasta", null));
         
         parameters.clear();
-        parameters.add(new ToolAttributes("Window Size", "4", null)); //should set default values
+        parameters.add(new ToolAttributes("Window Size", "4", null)); 
         parameters.add(new ToolAttributes("Required Quality", "15", null));
         parameters.add(new ToolAttributes("Forward paired file name", "fw_paired_trimming", null));
         parameters.add(new ToolAttributes("Forward unpaired file name", "fw_unpaired_trimming",null));
@@ -229,7 +229,7 @@ public class ToolsBaseFactory {
         parameters.add(new ToolAttributes("Percent of top genes to show", "20", null));
         parameters.add(new ToolAttributes("Name for output", "sample.RSEM", null));
         
-        fullToolsList.add(new Tool("Abundance estimation", 
+        fullToolsList.add(new Tool("1. Abundance estimation", 
                 ETool.ABUNDANCE_ESTIMATION, 
                 EToolType.DOWNSTREAM, 
                 "Estimate abundance of isoforms using the reads and the assembled fasta file", 
@@ -241,7 +241,7 @@ public class ToolsBaseFactory {
         
         //Differential gene expression
         inputs.clear();
-        inputs.add(new ToolAttributes("Abundance estimation files (select as many as you want to compare)", EToolParamType.MULTIPLE, "", null, null));
+        inputs.add(new ToolAttributes("Abundance estimation files", EToolParamType.MULTIPLE, "", null, null));
 
         parameters.clear();
         dropdownList = new ArrayList();
@@ -253,7 +253,7 @@ public class ToolsBaseFactory {
         parameters.add(new ToolAttributes("Maximum differentially expressed genes per comparison", "10", null));
         parameters.add(new ToolAttributes("Output name", "deg_samples", null));
 
-        fullToolsList.add(new Tool("Differential gene expression", 
+        fullToolsList.add(new Tool("2. Differential gene expression", 
                 ETool.DEG, 
                 EToolType.DOWNSTREAM, 
                 "", 
@@ -270,7 +270,7 @@ public class ToolsBaseFactory {
         parameters.clear();
         parameters.add(new ToolAttributes("Height to cut the tree", "60", null));
         
-        fullToolsList.add(new Tool("Clusters by cutting dendrogram", 
+        fullToolsList.add(new Tool("3. Clusters by cutting dendrogram", 
                 ETool.CLUSTERS, 
                 EToolType.DOWNSTREAM, 
                 "Help me", 
@@ -335,6 +335,22 @@ public class ToolsBaseFactory {
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getHmmerHelp()));
+        
+        
+        // Merge
+        inputs.clear();       
+        inputs.add(new ToolAttributes("Select files", EToolParamType.MULTIPLE, "", null, null));
+        
+        parameters.clear();
+        parameters.add(new ToolAttributes("Output name", "merged reads", null));
+        fullToolsList.add(new Tool("Merge files for assembly", 
+                ETool.MERGE, 
+                EToolType.PREPROCESSING, 
+                "", 
+                "shell_scripts/do_merge.sh",
+                new ArrayList<>(inputs), 
+                new ArrayList<>(parameters),
+                ToolHelp.getMergeHelp()));
 
         
         

@@ -205,17 +205,17 @@ public class FilesBean {
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(2);
                 break;
-            case "Abundance estimation":
+            case "1. Abundance estimation":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
                 usefulFiletypes.add(5);
-            case "Differential gene expression":
+            case "2. Differential gene expression":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(7);
                 usefulFiletypes.add(9);
                 break;
-            case "Clusters by cutting dendrogram":
+            case "3. Clusters by cutting dendrogram":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(7);
                 break;
@@ -226,6 +226,10 @@ public class FilesBean {
             case "HMMER":
                 usefulFiletypes.add(4);
                 usefulFiletypes.add(1);
+                break;
+            case "Merge files for assembly":
+                usefulFiletypes.add(1);
+                usefulFiletypes.add(7);
                 break;
             default:
                 break;
