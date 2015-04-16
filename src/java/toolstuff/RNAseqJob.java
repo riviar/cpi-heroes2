@@ -51,6 +51,7 @@ public class RNAseqJob {
      */
     private String command;
     private String output;
+    //private String email;
     /**
      * Directory for output files
      */
@@ -84,6 +85,14 @@ public class RNAseqJob {
         this.command = "/home/vmuser/CPI/tools/";
     }
     
+    /*public void init(Projects selectedProject, Tool selectedTool, String email, String jobName) {
+        this.selectedProject = selectedProject;
+        this.selectedTool = selectedTool;
+        this.jobName = jobName;
+        this.email = email;
+        this.command = "/home/vmuser/CPI/tools/";
+    }*/
+    
     /*private UtilityBean utilityBean;
     private JobHistoryFacade jobHistoryFacade;
     private FilesFacade filesFacade;
@@ -114,7 +123,7 @@ public class RNAseqJob {
     /**
      * Executes Job based on selected tool.
      */
-    @Asynchronous
+    //@Asynchronous
     public void execute() {
         appentExecutable();
         switch (selectedTool.getToolEnum()) {
@@ -144,6 +153,7 @@ public class RNAseqJob {
                 break;
             case ABUNDANCE_ESTIMATION:
                 executeAbundanceEstimation();
+                break;
             case DEG:
                 executeDeg();
                 break;
@@ -504,7 +514,9 @@ public class RNAseqJob {
             //Update job with the complete command and the pid
             jobHistoryFacade.edit(newJob);
             
-            StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR", newJob.getIdjobs());
+            process(p, currentTime, newJob, outputName);
+            
+            /*StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR", newJob.getIdjobs());
 
             StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT", newJob.getIdjobs());
 
@@ -531,36 +543,59 @@ public class RNAseqJob {
 
                 //Delete the job directory and everything it contains 
                 Process removeFiles = Runtime.getRuntime().exec("rm -r /home/vmuser/CPI/results/" + newJob.getIdjobs());
-            }
+            }*/
 
             jobHistoryFacade.edit(newJob);
 
-            //Create two threads, one to perform the the job and another to return to projects page
-            /*jobThread waitThread = new jobThread("waitThread");
-            waitThread.setP(p);
-            waitThread.setCurrentTime(currentTime);
-            waitThread.setToolEnum(selectedTool.getToolEnum());
-            waitThread.setUpdateJob(newJob);
-            waitThread.setProject(selectedProject);
-            waitThread.setJobHistoryFacade(jobHistoryFacade);
-            waitThread.setFilesFacade(filesFacade);
-            waitThread.setProjectFacade(projectFacade);
-            jobThread returnThread = new jobThread("returnThread");
-            
-            waitThread.start();
-            returnThread.start();*/
-            
-            /*StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
-
-            StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
-
-            // start gobblers
-            outputGobbler.start();
-            errorGobbler.start();*/
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        
 }
+
+    /**
+     *
+     * @param p
+     * @param updateJob
+     * @param outputName
+     */
+    @Asynchronous
+    public void process(Process p, long startingTime, Jobhistory updateJob, String[] outputName){
+        try {
+            StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR", updateJob.getIdjobs());
+            
+            StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT", updateJob.getIdjobs());
+
+            // start gobblers
+            outputGobbler.start();
+            errorGobbler.start();
+
+            p.waitFor();
+
+            //Update the status to finished (0) or error (-1)
+            if (p.exitValue() == 0) {
+                //Running time
+                //updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-startingTime-3600000));
+                updateJob.setRunningtime(new java.sql.Time(86410000L - 3600000));
+
+                //Normal termination
+                updateJob.setProcessid(0);
+
+                //Add the output files to the database
+                addOutputToDB(updateJob, outputName);
+            } else {
+                //Error
+                updateJob.setProcessid(-1);
+                
+                //Delete the job directory and everything it contains 
+                Process removeFiles = Runtime.getRuntime().exec("rm -r /home/vmuser/CPI/results/" + updateJob.getIdjobs());
+            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(RNAseqJob.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RNAseqJob.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public void addOutputToDB(Jobhistory updateJob, String[] outputName){
         Files output1 = new Files();
@@ -850,7 +885,7 @@ public class RNAseqJob {
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/top_expressed.fa");
                 output3.setDisplayname(outputName[0] + " top expressed gene list");
                 output3.setDescription("Top expressed gene list from " + updateJob.getJobname() + " using " + outputName[1]);
-                output3.setFiletype(new Filetype(19));
+                output3.setFiletype(new Filetype(7));//FASTA FILE
                 output3.setProjectsCollection(fileProject);
                 
                 //Add output files to project table

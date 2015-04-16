@@ -79,6 +79,7 @@ public class ToolBean {
         //RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, filesFacade, projectFacade, newJobName);
         
         job.init(utilityBean.getSelectedProject(), utilityBean.getSelectedTool(), newJobName);
+        //job.init(utilityBean.getSelectedProject(), utilityBean.getSelectedTool(), utilityBean.getUser().getEmail(), newJobName);
         job.execute();
         //System.out.println("Yes");
         return "project?faces-redirect=true";
