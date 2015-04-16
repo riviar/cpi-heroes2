@@ -203,6 +203,6 @@ public class Jobhistory implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Jobhistory[ idjobs=" + idjobs + " ]";
+        return "entitybeans.Jobhistory[ idjobs=" + idjobs + " ]";
     }
 }
