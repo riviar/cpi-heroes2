@@ -20,17 +20,15 @@
                 <c:if test="#{dataItemBean.containsReportFile()}">
                     <div class="news">
                         <h4>Job report:</h4>
+                        <br/>
                         <h:messages />
                         <ul>
                             <h:form>
                                 <ui:repeat value="#{dataItemBean.getReportFiles()}" var="reportFile">  
                                     <p>#{reportFile.name} &ndash;
-                                        <h:commandLink style="color: #103C20;" target="newPopup" class="centerButton" value="View report" action="#{dataItemBean.selectOutputFile()}">
+                                        <h:commandLink style="font-weight: normal; color: #4E4A49;" target="newPopup" class="outputInnerButton" value="View report" action="#{dataItemBean.selectOutputFile()}">
                                             <f:param name="output" value="#{reportFile.name}"/>
-                                        </h:commandLink>
-                                        <h:commandButton class="centerButton" style="margin-left: 5px;" value="Download" action="#{dataItemBean.downloadFile()}">
-                                            <f:param name="output" value="#{reportFile.name}"/>
-                                        </h:commandButton>    
+                                        </h:commandLink>  
                                     </p>
                                 </ui:repeat>
                             </h:form>
@@ -39,11 +37,12 @@
                 </c:if>
                 <div class="news">
                     <h4>All job output files:</h4>
+                    <br/>
                     <ul>
                         <h:form>
                             <c:forEach items="#{dataItemBean.getJobOutputFiles()}" var="outputFile">
                                 <p>#{outputFile.name} &ndash;
-                                    <h:commandButton class="centerButton" value="Download" action="#{dataItemBean.downloadFile()}">
+                                    <h:commandButton class="outputInnerButton" value="Download" action="#{dataItemBean.downloadFile()}">
                                         <f:param name="output" value="#{outputFile.name}"/>
                                     </h:commandButton>
                                 </p>
