@@ -87,7 +87,7 @@ public class RNAseqJob {
         this.selectedProject = selectedProject;
         this.selectedTool = selectedTool;
         this.jobName = jobName;
-        this.command = "/home/vmuser/CPI/tools/";
+        this.command = "/home/vmuser/CPI/tools/shell_scripts/";
     }
     
     /*public void init(Projects selectedProject, Tool selectedTool, String email, String jobName) {
@@ -584,6 +584,11 @@ public class RNAseqJob {
         
         //Job results are stored in a directory named after the job ID
         String jobID = Integer.toString(newJob.getIdjobs());
+        /*String printcommand = command.replace("/home/vmuser/CPI/tools/shell_scripts/", "");
+        printcommand = printcommand.replace("/home/vmuser/CPI/datasets/", "");
+        printcommand = printcommand.replace("/home/vmuser/CPI/uploads/", "");
+        printcommand = printcommand.replace("/home/vmuser/CPI/results", "");
+        newJob.setCommandused(printcommand + " " + jobID);*/
         newJob.setCommandused(command + " " + jobID);
         
         String[] commandArray = command.split("\\s+");
@@ -596,8 +601,17 @@ public class RNAseqJob {
 
         ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
         //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
-        Process p;
+        Process p;        
+        
         try {
+            java.io.File file = new java.io.File("/home/vmuser/CPI/log/" + newJob.getIdjobs() + ".log");
+            java.io.PrintWriter outputfile = new java.io.PrintWriter(file);
+            outputfile.println("COMMAND: ");
+            outputfile.println(command);
+            outputfile.println("##############################################");
+            outputfile.println("");
+            outputfile.close();
+            
             p = pb.start();
             Field f = p.getClass().getDeclaredField("pid");
             f.setAccessible(true);
@@ -1066,7 +1080,7 @@ public class RNAseqJob {
                 output2.setProjectsCollection(fileProject);
                 
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/blast_results.esn");
-                output3.setDisplayname(outputName[0] + " (BLAST ESN file)");
+                output3.setDisplayname(outputName[0] + " (BLAST ASN file)");
                 output3.setDescription("BLAST output in canonical ESN format from " + updateJob.getJobname());
                 output3.setFiletype(new Filetype(13));
                 output3.setProjectsCollection(fileProject);
