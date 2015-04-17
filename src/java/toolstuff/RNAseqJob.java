@@ -643,7 +643,7 @@ public class RNAseqJob {
                 Process removeFiles = Runtime.getRuntime().exec("rm -r /home/vmuser/CPI/results/" + newJob.getIdjobs());
             }*/
 
-            jobHistoryFacade.edit(newJob);
+            //jobHistoryFacade.edit(newJob);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -669,8 +669,8 @@ public class RNAseqJob {
             //Update the status to finished (0) or error (-1)
             if (p.exitValue() == 0) {
                 //Running time
-                //updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-startingTime-3600000));
-                updateJob.setRunningtime(new java.sql.Time(86410000L - 3600000));
+                updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-startingTime-3600000));
+                //updateJob.setRunningtime(new java.sql.Time(86410000L - 3600000));
 
                 //Normal termination
                 updateJob.setProcessid(0);
@@ -684,6 +684,7 @@ public class RNAseqJob {
                 //Delete the job directory and everything it contains 
                 Process removeFiles = Runtime.getRuntime().exec("rm -r /home/vmuser/CPI/results/" + updateJob.getIdjobs());
             }
+            jobHistoryFacade.edit(updateJob);
         } catch (InterruptedException ex) {
             Logger.getLogger(RNAseqJob.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
