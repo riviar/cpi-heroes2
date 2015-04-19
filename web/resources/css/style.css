@@ -209,6 +209,8 @@ h5 {font-size:10px}
 	background:url('../images/bg_page.gif') repeat-y -39px 0
 	}
 .Cbottomright {background:url('../images/corners_bottom.gif') no-repeat top right; width:9px; height:9px; overflow:hidden; float:right; display:inline}
+.simpleGuide {list-style-type: upper-latin}
+.simpleGuide ul {list-style-type: decimal}
 
 /* Footer */
 #footer {height:95px; width:100%; margin:0; background:url('../images/bg_footer.gif') no-repeat bottom center}
