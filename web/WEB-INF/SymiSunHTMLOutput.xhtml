@@ -17,7 +17,7 @@
         <meta http-equiv="imagetoolbar" content="no" /><!-- disable IE's image toolbar -->
         <!--<link rel="stylesheet" media="screen" href="css/style.css" /> -->
         <ui:insert name="customStylesheet">
-            <link href="#{facesContext.externalContext.requestContextPath}/resources/css/html_output_pages_css.css" rel="stylesheet" type="text/css" />
+            <link href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" rel="stylesheet" type="text/css" />
         </ui:insert>
     </h:head>
 
@@ -63,7 +63,7 @@
                     </div>
                 </div><!-- headerimage end -->
             </div><!-- header end -->
-            <div id="content" style="padding-left: 30px;">
+            <div id="contentOutput">
                 <div class="Ctopleft"></div>
                 <div class="Ctopright" style="margin-right: 8px;"></div>
                 <ui:insert name="center">Center text</ui:insert>
