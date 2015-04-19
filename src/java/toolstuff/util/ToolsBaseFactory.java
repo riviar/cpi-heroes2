@@ -51,7 +51,7 @@ public class ToolsBaseFactory {
                 ETool.SOAPdenovo_Trans, 
                 EToolType.ASSEMBLY, 
                 "", 
-                "shell_scripts/do_SOAPdenovo-Trans.sh", 
+                "do_SOAPdenovo-Trans.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getSOAPdeNovoTransHelp()));
@@ -68,7 +68,7 @@ public class ToolsBaseFactory {
                 EToolType.PREPROCESSING,
                 "", 
                 //"Preprocessing/FastQC/fastqc", 
-                "shell_scripts/do_fastqc.sh",
+                "do_fastqc.sh",
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getFastqcHelp()));        
@@ -91,7 +91,7 @@ public class ToolsBaseFactory {
                 ETool.TRIMMOMATIC_TRIM, 
                 EToolType.PREPROCESSING, 
                 "", 
-                "shell_scripts/do_trimmomatic-trim.sh", //change for VM
+                "do_trimmomatic-trim.sh", //change for VM
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getTrimmomaticHelp()));
@@ -120,7 +120,7 @@ public class ToolsBaseFactory {
                 ETool.TRIMMOMATIC_ADAPT, 
                 EToolType.PREPROCESSING, 
                 "", 
-                "shell_scripts/do_trimmomatic-adapt.sh", //change for VM
+                "do_trimmomatic-adapt.sh", //change for VM
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getTrimmomaticAdapterHelp()));
@@ -140,7 +140,7 @@ public class ToolsBaseFactory {
                 ETool.SEECER, 
                 EToolType.PREPROCESSING, 
                 "",
-                "shell_scripts/do_seecer.sh",
+                "do_seecer.sh",
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getSeecerHelp()));
@@ -162,7 +162,7 @@ public class ToolsBaseFactory {
                 ETool.TRINITY, 
                 EToolType.ASSEMBLY, 
                 "", 
-                "shell_scripts/do_trinity.sh", 
+                "do_trinity.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getTrinityHelp() ));
@@ -186,7 +186,7 @@ public class ToolsBaseFactory {
                 ETool.VELVET, 
                 EToolType.ASSEMBLY, 
                 "", 
-                "shell_scripts/do_velvet.sh", 
+                "do_velvet.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getVelvetHelp() ));
@@ -205,7 +205,7 @@ public class ToolsBaseFactory {
                 ETool.TRANSABYSS, 
                 EToolType.ASSEMBLY, 
                 "", 
-                "shell_scripts/do_transabyss.sh", 
+                "do_transabyss.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getTransabyssHelp()));
@@ -233,7 +233,7 @@ public class ToolsBaseFactory {
                 ETool.ABUNDANCE_ESTIMATION, 
                 EToolType.DOWNSTREAM, 
                 "Estimate abundance of isoforms using the reads and the assembled fasta file", 
-                "shell_scripts/do_abundanceEstimation2.sh", 
+                "do_abundanceEstimation.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getAbundanceEstimationHelp()));
@@ -257,7 +257,7 @@ public class ToolsBaseFactory {
                 ETool.DEG, 
                 EToolType.DOWNSTREAM, 
                 "", 
-                "shell_scripts/do_deg.sh", 
+                "do_deg.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getDifferentialGeneExpressionHelp()));
@@ -274,7 +274,7 @@ public class ToolsBaseFactory {
                 ETool.CLUSTERS, 
                 EToolType.DOWNSTREAM, 
                 "Help me", 
-                "shell_scripts/do_clusters.sh", 
+                "do_clusters.sh", 
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getClusteringHelp()));
@@ -307,7 +307,7 @@ public class ToolsBaseFactory {
                 ETool.BLAST, 
                 EToolType.ANNOTATION, 
                 "Performs seecering", 
-                "shell_scripts/do_blast.sh",
+                "do_blast.sh",
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getBlastHelp()));
@@ -331,7 +331,7 @@ public class ToolsBaseFactory {
                 ETool.HMMER, 
                 EToolType.ANNOTATION, 
                 "Performs seecering", 
-                "shell_scripts/do_hmmer.sh",
+                "do_hmmer.sh",
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getHmmerHelp()));
@@ -347,7 +347,7 @@ public class ToolsBaseFactory {
                 ETool.MERGE, 
                 EToolType.PREPROCESSING, 
                 "", 
-                "shell_scripts/do_merge.sh",
+                "do_merge.sh",
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
                 ToolHelp.getMergeHelp()));

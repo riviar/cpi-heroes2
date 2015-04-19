@@ -85,23 +85,55 @@ public class FilesBean {
         String supertype;
         switch (file.getFiletype().getFiletypeid()) {
             case 1:
-                supertype = "Raw file";
+                supertype = "01 Uploaded file";
                 break;
             case 2:
+                supertype = "02 FastQC HTML report";
+                break;
             case 3:
-                supertype = "Preprocessed file";
+                supertype = "03 Trimmed reads from Trimmomatic";
                 break;
             case 4:
+                supertype = "04 Preprocessed file (Adapters removed)";
+                break;
+            case 22:
+                supertype = "05 Trimmed reads from SEECER";
+                break;            
+            case 23:
+                supertype = "06 Merged reads";
+                break;
             case 5:
-                supertype = "Assembled file";
+                supertype = "06 Assembled transcripts";
                 break;
             case 6:
+                supertype = "07 Assembly statistics";
+                break;
             case 7:
-                supertype = "Downstream file";
+                supertype = "08 Abundance estimation report";
                 break;
             case 8:
+                supertype = "09 Abundance estimation isoforms file";
+                break;
+            case 24:
+                supertype = "10 Top expressed genes";
+                break; 
             case 9:
-                supertype = "Annotated file";
+                supertype = "11 Differential gene expression report";
+                break;
+            case 10:
+                supertype = "12 Differential gene expression analysis file";
+                break;
+            case 11:
+                supertype = "13 Cluster analysis report";
+                break;
+            case 12:
+                supertype = "14 BLAST XML file";
+                break;
+            case 13:
+                supertype = "15 BLAST tab-separated or ASN file";
+                break;
+            case 14:
+                supertype = "16 HMMER results";
                 break;
             default:
                 supertype = "Unknown file type";

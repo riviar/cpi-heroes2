@@ -146,16 +146,17 @@ h5 {font-size:10px}
 #logo {
 	width:366px;
 	height:85px;
-	padding:14px 0 0 0;
+	padding:14px 0 0 30px;
+	/*margin:0 8px 0 30px;*/
 	background:url('../images/bg_menu_starter.gif') no-repeat top right;
 	float:left;
 	display:inline;
-	position:relative
+	position:absolute
 	}
 #logo-text {color:#ccc; font:normal 27px arial,serif; position:absolute; top:40px; left:100px}
 #logincontrol {width:632px; height:31px; float:right; display:inline; padding:15px 0 15px 0; text-align:center; color:#888}
 #logincontrols:after {content:"."; display:block; height:0; clear:both; visibility:hidden}
-#headerimage {width:998px; height:233px; background:url('../images/bg_header.jpg') no-repeat top left; float:left; position:relative}
+#headerimage {width:998px; height:233px; background:url('../images/bg_header.jpg') no-repeat top left; float:left; position:relative; left: -10}
 #slogan {color:#ffffff; font:normal 20px arial,serif; position:absolute; bottom:35px; left:320px; text-shadow: 2px 2px #000000}
 #registerFloater {width:189px; height:59px; margin:128px 0 0 0; background:url('../images/download.gif') no-repeat top left; float:left}
 #download-text {color:#fff; font:bold 15px/22px arial,serif; width:187px; display:block; text-align:center; padding:8px 2px 0 0}
@@ -172,8 +173,9 @@ h5 {font-size:10px}
 
 /* Menu */
 #menu {
-	width:632px;
+	width:605px;
 	height:53px;
+	margin:0 0 0 0px;
 	background:url('../images/bg_menu.gif') repeat-x top left;
 	float:right;
 	display:inline

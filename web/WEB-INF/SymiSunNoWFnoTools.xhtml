@@ -23,7 +23,7 @@
 
             <div id="header">
                 <div id="logo">
-                    
+                    <h:link outcome="index" ><h:graphicImage library="images" width="191" height="51" alt="Cranfield Logo" name="logo.gif" /></h:link>
                 </div>
                 <div id="menu">
                     <ul>
@@ -58,7 +58,7 @@
                     <c:if test="#{utilityBean.user == null}">
                         <div id="registerFloater">
                             <h:form>
-                                <span id="download-text">Not yet an user?<br/><h:link value="Register for free!" outcome="register"></h:link></span>
+                                <span id="download-text">Not yet a user?<br/><h:link value="Register for free!" outcome="register"></h:link></span>
                             </h:form>
                         </div>
                     </c:if>

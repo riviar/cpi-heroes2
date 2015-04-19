@@ -130,7 +130,11 @@ public class Jobhistory implements Serializable {
     }
 
     public String getCommandused() {
-        return commandused;
+        String printcommand = commandused.replace("/home/vmuser/CPI/tools/shell_scripts/", "");
+        printcommand = printcommand.replace("/home/vmuser/CPI/datasets/", "");
+        printcommand = printcommand.replace("/home/vmuser/CPI/uploads/", "");
+        printcommand = printcommand.replace("/home/vmuser/CPI/results", "");
+        return printcommand;
     }
 
     public void setCommandused(String commandused) {

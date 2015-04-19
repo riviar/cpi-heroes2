@@ -6,6 +6,8 @@
 package toolstuff;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -39,12 +41,15 @@ public class StreamGobbler extends Thread {
                 String line = null;
                 //java.io.File file = new java.io.File("/home/pitas/Deskargak/" + logfile + ".log");
                 java.io.File file = new java.io.File("/home/vmuser/CPI/log/" + logfile + ".log");
-                java.io.PrintWriter outputfile = new java.io.PrintWriter(file);
+                //java.io.PrintWriter outputfile = new java.io.PrintWriter(new BufferedWriter(new FileWriter(file, true)));
                 while ((line = br.readLine()) != null) {
+                    java.io.PrintWriter outputfile = new java.io.PrintWriter(new BufferedWriter(new FileWriter(file, true)));
+                
                     System.out.println(type + "> " + line);
                     outputfile.println(type + "> " + line);
+                    outputfile.close();
                 }
-                outputfile.close();
+                //outputfile.close();
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
