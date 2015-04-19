@@ -116,7 +116,7 @@ h5 {font-size:10px}
   background: #999;
   text-decoration: none;
 }
-.regInput { margin:5px 0 5px 15px}
+.regInput { margin:5px 0 5px 15px; width: 200px}
 .radio {margin:0 5px 0 0; background:none; border:none}
 #datasetList{ columns: 1; -webkit-columns: 1;-moz-columns: 1;}
 #datasetList li { list-style-type: disc}

@@ -43,7 +43,7 @@
                             </h:panelGrid>
 
                             <c:if test="#{(input.inputType == 'TEXTFIELD') || (input.inputType == 'DROPDOWN')}">
-                                <h:selectOneMenu class="regInput" value="#{input.value}" style="width: 200px">
+                                <h:selectOneMenu class="regInput" value="#{input.value}">
                                     <f:selectItems value="#{filesBean.getFilesMap()}"/>
                                     <!--<c:forEach items="{MockLists.inputs}" var="file"> 
                                             <f:selectItem itemLabel="{file}" itemValue="{file}"/>
@@ -75,7 +75,7 @@
                                 <p:inputText class="regInput" value="#{param.value}"/><br/>
                             </c:if>
                             <c:if test="#{param.inputType == 'DROPDOWN'}">
-                                <h:selectOneMenu class="regInput" value="#{param.value}" style="width: 200px">
+                                <h:selectOneMenu class="regInput" value="#{param.value}">
                                     <c:forEach items="#{param.getDropdownList()}" var="drop"> 
                                         <f:selectItem itemLabel="#{drop.label}" itemValue="#{drop.value}"/>
                                     </c:forEach>

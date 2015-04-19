@@ -116,7 +116,7 @@
                     <h3>Add new member</h3>
                     <h:form>
                         <h:outputText value="User name"/><br/>
-                        <h:selectOneMenu  converter="userConverter" class="regInput" value="#{utilityBean.selectedUser}" style="width: 200px">                            
+                        <h:selectOneMenu  converter="userConverter" class="regInput" value="#{utilityBean.selectedUser}">                            
                             <f:selectItems value="#{authenticationBean.allUsers}" var="item" itemLabel="#{item.username}"/>
                         </h:selectOneMenu>
                         <h:commandButton id="addMemberButton" action="#{workgroupBean.addUserToWorkgroup()}" class="centerButton" value="Add"/>
