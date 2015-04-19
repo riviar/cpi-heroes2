@@ -186,6 +186,9 @@ public class DataItemBean {
                 outputsList.add(new GenericOutput("Blast results XML", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/blast_results.xml", jobsTool));
                 outputsList.add(new GenericOutput("Blast results Table", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/blast_results.tab", jobsTool));
                 break;
+            case MERGE:
+                outputsList.add(new GenericOutput("Blast results XML", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/merged_reads", jobsTool));
+                break;
         }
         return outputsList;
     }
