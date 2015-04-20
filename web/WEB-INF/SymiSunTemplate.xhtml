@@ -10,15 +10,15 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><ui:insert name="title">RNA-seq template</ui:insert></title>
-
-        <script src="http://code.jquery.com/jquery-latest.js"/>
+        <script src="jQuery_1.11.2.js"/>
         <script type="text/javascript">
-        setInterval("my_function();",5000);
-    function my_function(){
-      $('#cB2').load(location.href + ' #cB2');
-    }
+            setInterval("my_function();", 5000);
+            function my_function() {
+                $('#cB2').load(location.href + ' #cB2');
+            }
         </script>
-        
+
+
         <!--<meta name="Description" content="FCT01 by SymiSun* is an open source XHTML 1.0 and CSS valid template, released under the creative commons license." />
         <meta name="Keywords" content="symisun, symisun*, free css template, valid xhtml template, open source template, free xhtml template, ftc01, symisun 01" />
         -->
@@ -32,7 +32,7 @@
 
             <div id="header">
                 <div id="logo">
-                    
+
                 </div>
                 <div id="menu">
                     <ul>
@@ -165,9 +165,9 @@
                                                         <p>Starting date: #{job.startingdate} #{job.startingtime}</p>
                                                         <p>Running time: #{job.runningtime}</p></c:if>
                                                     <c:if test="#{job.processid==-1}"><p style="color:red"><b>ERROR</b>  -  
-                                                        <h:commandLink value="Delete Job" action="#{jobHistoryBean.deleteJob()}">
-                                                            <f:param name="selectedJob" value="#{job.idjobs}"/>
-                                                        </h:commandLink></p>
+                                                            <h:commandLink value="Delete Job" action="#{jobHistoryBean.deleteJob()}">
+                                                                <f:param name="selectedJob" value="#{job.idjobs}"/>
+                                                            </h:commandLink></p>
                                                         <p>Starting date: #{job.startingdate} #{job.startingtime}</p>
                                                     </c:if>                                               
 
@@ -196,6 +196,7 @@
                 </div><!-- foot1 end -->
             </div><!-- foot end -->
         </div><!-- footer end -->
+
     </h:body>
 
 </html>
