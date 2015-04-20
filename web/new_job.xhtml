@@ -35,12 +35,7 @@
                         <h4>Inputs</h4>
                         <c:forEach items="#{utilityBean.selectedTool.inputList}" var="input">
 
-
-                            <h:panelGrid columns="2">
-                                <h:outputText value="#{input.name}"/>
-
-
-                            </h:panelGrid>
+                            <h:outputText value="#{input.name}"/><br/>
 
                             <c:if test="#{(input.inputType == 'TEXTFIELD') || (input.inputType == 'DROPDOWN')}">
                                 <h:selectOneMenu class="regInput" value="#{input.value}">
@@ -63,13 +58,7 @@
                         <h4>Parameters</h4>
                         <c:forEach items="#{utilityBean.selectedTool.parameterList}" var="param">
 
-                            <h:panelGrid columns="2">
-                                <h:outputText value="#{param.name}"/>
-
-                                <p:dialog  resizable="false" minHeight="80" header="Help" widgetVar="toolHelp3" modal="true">
-                                    <h:outputText value="#{param.paramHelp}"/> <br/>
-                                </p:dialog>
-                            </h:panelGrid>
+                            <h:outputText value="#{param.name}"/><br/>
 
                             <c:if test="#{param.inputType == 'TEXTFIELD'}">    
                                 <p:inputText class="regInput" value="#{param.value}"/><br/>
@@ -81,9 +70,6 @@
                                     </c:forEach>
                                 </h:selectOneMenu><br/><br/>
                             </c:if>
-                            <p:dialog resizable="false" minHeight="80" header="Help" widgetVar="toolHelp3" modal="true">
-                                <h:outputText value="#{param.paramHelp}"/> <br/>
-                            </p:dialog>
                         </c:forEach>
                     </div>
                     <div class="news">
@@ -98,15 +84,6 @@
                 <p:dialog resizable="true" dynamic ="true" width="400" minHeight="80" header="#{utilityBean.selectedTool.name} help " widgetVar="toolHelp1" modal="true">
                     <h:outputText escape="false" value="#{utilityBean.selectedTool.toolHelp }"/> <br/>
                 </p:dialog> 
-                <p:dialog dynamic ="true" resizable="false" minHeight="80" header="Help" widgetVar="toolHelp2" modal="true">
-                    <h:outputText value="toolHelp2"/>                    
-                    <h:outputText value="#{input.paramHelp}"/> <br/>
-                </p:dialog>
-
-                <p:dialog  dynamic="true" resizable="false" minHeight="80" header="Help" widgetVar="toolHelp3" modal="true">
-                    <h:outputText value="#{param.paramHelp}"/> <br/>
-                    <h:outputText value="toolHelp3"/>
-                </p:dialog>
 
             </ui:define>
 
