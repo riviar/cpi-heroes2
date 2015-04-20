@@ -11,7 +11,6 @@ import toolstuff.util.ETool;
  * Generic output entity class
  * Output entity allows to generate it in specific way on output page
  * @author Rafal Kural
- * @version 1.0
  */
 public class GenericOutput {
     /**

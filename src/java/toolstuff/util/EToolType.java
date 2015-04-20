@@ -8,7 +8,6 @@ package toolstuff.util;
 /**
  * Enum type listing available tool family types
  * @author Rafal Kural
- * @version 1.0
  */
 public enum EToolType {
     PREPROCESSING,

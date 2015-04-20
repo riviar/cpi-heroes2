@@ -13,7 +13,6 @@ import java.util.List;
  * Static class used to manipulate contents of the files
  *
  * @author Rafal Kural
- * @version 1.0
  */
 public class FileEditor {
 

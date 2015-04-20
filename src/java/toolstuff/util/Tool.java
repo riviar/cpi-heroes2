@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * Tools entity class. Not from database
  * @author Rafal Kural
- * @version 1.0
  */
 public class Tool {
     private String name;

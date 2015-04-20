@@ -16,7 +16,6 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import sessionbeans.AccountSessionFacade;
 import sessionbeans.ProjectSessionFacade;
@@ -25,7 +24,6 @@ import sessionbeans.WorkGroupSessionFacade;
 /**
  * Managed bean for workgroup-related operations
  * @author Rafal Kural
- * @version 1.0
  */
 @ManagedBean
 @ViewScoped

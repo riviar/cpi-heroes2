@@ -8,7 +8,6 @@ package toolstuff.util;
 /**
  * Enum for input param type
  * @author Rafal Kural
- * @version 1.0
  */
 public enum EToolParamType {
     TEXTFIELD,

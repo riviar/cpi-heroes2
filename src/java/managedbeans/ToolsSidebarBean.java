@@ -5,9 +5,7 @@
  */
 package managedbeans;
 
-import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -18,7 +16,6 @@ import toolstuff.util.ToolsBaseFactory;
 /**
  * Managed bean for displaying and choosing tools
  * @author Rafal Kural
- * @version 1.0
  */
 @ManagedBean
 @RequestScoped

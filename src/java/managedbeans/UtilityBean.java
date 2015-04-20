@@ -18,7 +18,6 @@ import toolstuff.util.Tool;
  * Bean used to store information about session
  *
  * @author Rafal Kural
- * @version 1.0
  */
 @ManagedBean
 @SessionScoped

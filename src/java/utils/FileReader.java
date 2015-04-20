@@ -6,7 +6,6 @@
 
 package utils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.Scanner;
 /**
  * Class that allows retrieving contents of files
  * @author Rafal Kural
- * @version 1.0
  */
 public final class FileReader {
     

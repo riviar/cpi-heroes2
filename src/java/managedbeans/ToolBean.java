@@ -7,25 +7,18 @@ package managedbeans;
 
 import entitybeans.Jobhistory;
 import entitybeans.Projects;
-import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-import managedbeans.UtilityBean;
-import sessionbeans.AccountSessionFacade;
 import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
 import sessionbeans.ProjectSessionFacade;
-import sessionbeans.WorkGroupSessionFacade;
 import toolstuff.RNAseqJob;
 
 /**
  * Managed bean for running tool jobs
  * @author Rafal Kural
- * @version 1.0
  */
 @ManagedBean//(name = "TestToolBean")
 @RequestScoped

@@ -33,7 +33,6 @@ import utils.FileEditor;
  * Managed bean for managing tool output page
  *
  * @author Rafal Kural
- * @version 1.0
  */
 @ManagedBean
 @RequestScoped

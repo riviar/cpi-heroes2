@@ -9,13 +9,9 @@ import entitybeans.Files;
 import entitybeans.Filetype;
 import entitybeans.Jobhistory;
 import entitybeans.Projects;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,8 +19,6 @@ import java.util.logging.Logger;
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import javax.faces.bean.ManagedProperty;
-import managedbeans.UtilityBean;
 import sessionbeans.FilesFacade;
 import sessionbeans.JobHistoryFacade;
 import sessionbeans.ProjectSessionFacade;
@@ -35,7 +29,6 @@ import toolstuff.util.Tool;
  * (UtilityBean).
  *
  * @author Rafal Kural
- * @version 1.0
  */
 
 @Stateful

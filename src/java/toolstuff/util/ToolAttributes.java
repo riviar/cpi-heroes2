@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * Tool Attributes
  * @author Rafal Kural
- * @version 1.03
  */
 public class ToolAttributes {
     

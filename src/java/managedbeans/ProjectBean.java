@@ -22,7 +22,6 @@ import sessionbeans.WorkGroupSessionFacade;
 /**
  * Managed bean for project-related operations
  * @author Rafal Kural
- * @version 1.0
  */
 @ManagedBean
 @ViewScoped

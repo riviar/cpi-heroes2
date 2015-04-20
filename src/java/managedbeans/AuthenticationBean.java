@@ -19,7 +19,6 @@ import sessionbeans.AccountSessionFacade;
 /**
  * Managed bean dealing with registering and logging users in/out
  * @author Rafal Kural
- * @version 1.0
  */
 @ManagedBean
 @RequestScoped

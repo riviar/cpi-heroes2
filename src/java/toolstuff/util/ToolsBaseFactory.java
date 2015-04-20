@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * Factory class for ToolsBase.
  * @author Rafal Kural
- * @version 1.06
  */
 public class ToolsBaseFactory {
     

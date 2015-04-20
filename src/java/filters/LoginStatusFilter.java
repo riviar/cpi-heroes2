@@ -25,7 +25,6 @@ import managedbeans.UtilityBean;
 /**
  * Filters pages that user can see depending on his logged-in/out status
  * @author Rafal Kural
- * @version 1.0
  */
 @WebFilter(filterName = "LoginStatusFilter", urlPatterns = {"/*"})
 public class LoginStatusFilter implements Filter {

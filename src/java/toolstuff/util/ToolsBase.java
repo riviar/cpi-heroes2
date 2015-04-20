@@ -12,7 +12,6 @@ import java.util.List;
  * Holds data on available tools
  *
  * @author Rafal Kural
- * @version 1.02
  */
 public class ToolsBase {
 
