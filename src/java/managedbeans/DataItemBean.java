@@ -210,6 +210,8 @@ public class DataItemBean {
                 return displayPDFOutput();
             case MAGIC:
                 return "'tis be magics. No common folk should be able to see that message";
+            case TXT:
+                return displayCSVOutput();
             default:
                 throw new AssertionError(utilityBean.getSelectedOutput().getOutputType().name());
 
