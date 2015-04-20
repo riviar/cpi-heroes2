@@ -7,6 +7,8 @@ package managedbeans;
 
 import entitybeans.Jobhistory;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -15,6 +17,10 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import sessionbeans.JobHistoryFacade;
 
 /**
@@ -77,7 +83,32 @@ public class JobHistoryBean {
     public JobHistoryBean(Jobhistory newJob) {
         this.newJob = newJob;
     }
-
+    /**
+     * Retrieves a content stream to be served to a downloading client. This method
+     * extracts the name of the shell script from a string representing the entire
+     * command, given with absolute path to the script executed.
+     * @param commandused String as stored in JobHistory.commandused. 
+     * @return StreamedContent object representing the file extracted from the String commandused.
+     * @throws IOException 
+     */
+    public StreamedContent downloadScript(String commandused) throws IOException {
+        // Strip all parameters from commandline
+        // Assumes we have been given an an absolute path with no escaped spaces
+        commandused = commandused.substring(0, commandused.indexOf(" "));
+        // Extract name of file from absolute path
+        String filename = commandused.substring("/home/vmuser/CPI/tools/shell_scripts/".length(), commandused.length());
+        FileInputStream stream;
+        try {
+            stream = new FileInputStream(commandused);
+        } catch (FileNotFoundException ex) {
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.sendRedirect("errorpage.xhtml");
+            return new DefaultStreamedContent();                     
+        }
+        DefaultStreamedContent downloadStream = new DefaultStreamedContent(stream, "application/octet-stream", filename);
+        return downloadStream;
+    }
+    
     public String addJob2History() {
         //check if user with specified login already exists
         /*if (jobHistoryFacade.jobExists(newJob.getJobname())) {

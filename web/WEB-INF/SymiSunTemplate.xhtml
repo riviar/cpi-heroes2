@@ -129,9 +129,12 @@
                                 <h:form>
                                     <ul>
                                         <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
-                                                                                            <p:dialog header="Job commandline" widgetVar="dlg#{job.idjobs}" minHeight="40">
-                                                        <h:outputText value="#{job.commandused}" />
-                                                    </p:dialog>
+                                            <p:dialog header="Job commandline" widgetVar="dlg#{job.idjobs}" minHeight="40">
+                                                <h:outputText value="#{job.commandused}" /><br />
+                                                <p:commandButton icon="ui-icon-arrowthickstop-1-s" value="Download shell script" title="Download"  ajax="false">
+                                                    <p:fileDownload value="#{jobHistoryBean.downloadScript(job.commandused)}"/>
+                                                </p:commandButton>
+                                            </p:dialog>
                                         </c:forEach>
                                         <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
 
@@ -156,9 +159,9 @@
                                                         <p>Starting date: #{job.startingdate} #{job.startingtime}</p>
                                                         <p>Running time: #{job.runningtime}</p></c:if>
                                                     <c:if test="#{job.processid==-1}"><p style="color:red"><b>ERROR</b>  -  
-                                                        <h:commandLink value="Delete Job" action="#{jobHistoryBean.deleteJob()}">
-                                                            <f:param name="selectedJob" value="#{job.idjobs}"/>
-                                                        </h:commandLink></p>
+                                                            <h:commandLink value="Delete Job" action="#{jobHistoryBean.deleteJob()}">
+                                                                <f:param name="selectedJob" value="#{job.idjobs}"/>
+                                                            </h:commandLink></p>
                                                         <p>Starting date: #{job.startingdate} #{job.startingtime}</p>
                                                     </c:if>                                               
 
