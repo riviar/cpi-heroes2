@@ -1130,6 +1130,19 @@ public class RNAseqJob {
                 filesFacade.create(output4);
                 break;
             case MERGE:
+                output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/longest_orfs.pep");
+                output1.setDisplayname(outputName[0] + " (ORFs for HMMER)");
+                output1.setDescription("Open Reading Frames used by HMMER from " + updateJob.getJobname());
+                output1.setFiletype(new Filetype(23));
+                output1.setProjectsCollection(fileProject);
+                
+                //Add output files to project table
+                projectFiles.add(output1);
+                selectedProject.setFilesCollection(projectFiles);
+                projectFacade.edit(selectedProject);
+                                
+                //Add outputs to database
+                filesFacade.create(output1);                              
                 break;
             default:
                 throw new AssertionError(selectedTool.getToolEnum().name());

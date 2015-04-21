@@ -191,24 +191,28 @@ public class FilesBean {
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
                 usefulFiletypes.add(22);
+                usefulFiletypes.add(23);
                 break;
             case "Velvet + Oases":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
                 usefulFiletypes.add(22);
+                usefulFiletypes.add(23);
                 break;
             case "Trans-ABySS":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
                 usefulFiletypes.add(22);
+                usefulFiletypes.add(23);
                 break;
             case "SOAPdenovo-Trans":
                 usefulFiletypes.add(1);
                 usefulFiletypes.add(3);
                 usefulFiletypes.add(4);
                 usefulFiletypes.add(22);
+                usefulFiletypes.add(23);
                 break;
             case "1. Abundance estimation":
                 usefulFiletypes.add(1);
