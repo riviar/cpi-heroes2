@@ -32,13 +32,13 @@ public final class FileReader {
      * @return raw contents of the file as string
      * @throws FileNotFoundException there is no file under specified filepath
      */
-    public static String readFile(String filepath, int numberOfLines) throws FileNotFoundException {
+    public static String readFile(String filepath) throws FileNotFoundException {
         StringBuilder stringBuffer = new StringBuilder();
         int i = 0;
         File file = new File(filepath);
         Scanner fileStream = new Scanner(file);
         
-        while (fileStream.hasNext() && (i < numberOfLines)) {
+        while (fileStream.hasNext()) {
             stringBuffer.append(fileStream.nextLine()).append("<br/>");
             i++;
         }

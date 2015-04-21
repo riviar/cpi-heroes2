@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -21,6 +23,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import outputview.EOutputType;
 import outputview.GenericOutput;
+import toolstuff.StreamGobbler;
 import utils.FileReader;
 import toolstuff.util.ETool;
 import toolstuff.util.EToolType;
@@ -127,7 +130,7 @@ public class DataItemBean {
                 outputsList.add(new GenericOutput("Forward unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
-                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "/home/vmuser/CPI/results/" + jobid + "/" + jobid + "_quality_comparison.html", jobsTool));
+                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "../results/" + jobid + "/quality_comparison.html", jobsTool));
                 break;
 
             case TRIMMOMATIC_ADAPT:
@@ -135,7 +138,7 @@ public class DataItemBean {
                 outputsList.add(new GenericOutput("Forward unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
-                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "/home/vmuser/CPI/results/" + jobid + "/" + jobid + "_quality_comparison.html", jobsTool));
+                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "../results/" + jobid + "/quality_comparison.html", jobsTool));
                 break;
 
             case SEECER:
@@ -248,7 +251,7 @@ public class DataItemBean {
     private String displayCSVOutput() {
         String path = utilityBean.getSelectedOutput().getPath();
         try {
-            String contents = FileReader.readFile(path, 10);
+            String contents = FileReader.readFile(path);
             return contents;
         } catch (FileNotFoundException e) {
             return "File not found";
