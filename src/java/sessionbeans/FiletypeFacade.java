@@ -11,15 +11,21 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
- * @author lestelles
+ * Facade to manage the <i>Filetype</i> table in the database
+ * @author Lucia Estelles Lopez
  */
 @Stateless
 public class FiletypeFacade extends AbstractFacade<Filetype> {
 
+    /**
+     * Object that controls the table entities 
+     */
     @PersistenceContext(unitName = "RNAseqPU")
     private EntityManager em;
     
+    /**
+     * Empty constructor needed by the EJB to initialise the facade 
+     */
     public FiletypeFacade() {
         super(Filetype.class);
     }

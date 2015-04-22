@@ -25,10 +25,14 @@ import sessionbeans.ProjectSessionFacade;
 import toolstuff.util.Tool;
 
 /**
- * Universal job class. Used to execute job using currently selected tool
+ * Universal job class. Used to execute and control jobs using currently selected tool
  * (UtilityBean).
+ * 
+ * <p> It is an EJB so that it can access the database when the jobs are finished.
  *
  * @author Rafal Kural
+ * @author Asier Gonzalez
+ * @author Lucia Estelles Lopez
  */
 
 @Stateful
@@ -40,88 +44,85 @@ public class RNAseqJob {
     private String jobName;
 
     /**
-     * Command used to run the job
+     * Full path of the command used to run the job
      */
     private String command;
-    private String output;
-    //private String email;
+            
     /**
      * Directory for output files
      */
     private String outputDir = "/home/vmuser/CPI/results";
     
-    private Process p;
-    private long startingTime;
-    private Jobhistory updateJob;
-    private String[] outputName;
-
     /**
-     * provides access to session bean UtilityBean (here for selectedTool)
+     * Command-line process to run the selected tool
      */
-    //@ManagedProperty(value = "#{utilityBean}")
+    private Process p;
     
+    /**
+     * Starting time of the job
+     */
+    private long startingTime;
+    
+    /**
+     * Executed job
+     */
+    private Jobhistory updateJob;
+    
+    /**
+     * List of the the names of the tool outputs
+     */
+    private String[] outputName;
+    
+    /**
+     * Facade to add the job outputs to list of files of the project
+     */
     @EJB
     ProjectSessionFacade projectFacade;
 
+    /**
+     * Facade to add the job to the history
+     */
     @EJB
     private JobHistoryFacade jobHistoryFacade;
 
+    /**
+     * Facade to add the outputs to the <i>Files</i> table 
+     */
     @EJB
     private FilesFacade filesFacade;
     
+    /**
+     * The project the job belongs to
+     */
     Projects selectedProject;
+    
+    /**
+     * The executed tool
+     */
     Tool selectedTool;
 
+    /**
+     * Empty constructor needed by the EJB
+     */
     public RNAseqJob() {
     }
     
-        
+    /**
+     * It initialises the necessary parameters
+     * @param selectedProject Project to which the jobs is related
+     * @param selectedTool Executed tool
+     * @param jobName Name given to the job
+     */    
     public void init(Projects selectedProject, Tool selectedTool, String jobName) {
         this.selectedProject = selectedProject;
         this.selectedTool = selectedTool;
         this.jobName = jobName;
         this.command = "/home/vmuser/CPI/tools/shell_scripts/";
     }
-    
-    /*public void init(Projects selectedProject, Tool selectedTool, String email, String jobName) {
-        this.selectedProject = selectedProject;
-        this.selectedTool = selectedTool;
-        this.jobName = jobName;
-        this.email = email;
-        this.command = "/home/vmuser/CPI/tools/";
-    }*/
-    
-    /*private UtilityBean utilityBean;
-    private JobHistoryFacade jobHistoryFacade;
-    private FilesFacade filesFacade;
-    private ProjectSessionFacade projectFacade;
-
-    public RNAseqJob(String jobName) {
-        this.jobName = jobName;
-        this.command = "/home/vmuser/CPI/tools/";
-    }
-
-    /**
-     * Creates job object
-     * @param utilityBean utility bean with session data
-     * @param jobHistoryFacade 
-     * @param filesFacade
-     * @param projectFacade
-     * @param jobName 
-     */
-    /*public RNAseqJob(UtilityBean utilityBean, JobHistoryFacade jobHistoryFacade, FilesFacade filesFacade, ProjectSessionFacade projectFacade, String jobName) {
-        this.jobHistoryFacade = jobHistoryFacade;
-        this.utilityBean = utilityBean;
-        this.filesFacade = filesFacade;
-        this.projectFacade = projectFacade;
-        this.jobName = jobName;
-        this.command = "/home/vmuser/CPI/tools/";
-    }*/
-
+        
     /**
      * Executes Job based on selected tool.
      */
-    //@Asynchronous
     public void execute() {
         appentExecutable();
         switch (selectedTool.getToolEnum()) {
@@ -179,7 +180,6 @@ public class RNAseqJob {
         String inputFileName = selectedTool.getInputList().get(0).getValue();
         String[] outputName = new String[1];
         outputName[0] = "fastqc";
-        //command += " " + inputFileName + " " + "-o "+outputDir+jobName;
         command += " " 
                 + inputFileName + " "
                 + outputDir;
@@ -266,14 +266,7 @@ public class RNAseqJob {
         String[] outputName = new String[2];
         outputName[0] = leftCorrName;
         outputName[1] = rightCorrName;
-        
-        /*
-        //directory where seecer will store temporary files during job
-        String tmpPath = "/home/vmuser/CPI/tools/Seecer/testdata/tmp";
-        //String jellyfishPath = "/home/vmuser/CPI/tools/Preprocessing/Seecer/Seecer/jellyfish-1.1.11/bin";      
-        command += " -t " + tmpPath + " -k " + KmerCount +" "+ rightInput + " " + leftInput;
-	*/
-        
+                
         command += " " 
                 + leftInput + " "
                 + rightInput + " "
@@ -285,7 +278,8 @@ public class RNAseqJob {
     }
 
     /**
-     * Retrieves parameters and executes Trinity job Be mindful of reversed
+     * Retrieves parameters and executes Trinity job.
+     * <p>Be mindful of reversed
      * right/left order!
      */
     private void executeTrinity() {
@@ -293,7 +287,6 @@ public class RNAseqJob {
         String rightInput = selectedTool.getInputList().get(1).getValue();
          
         String seqType = selectedTool.getParameterList().get(0).getValue();
-        //String outputDir = "/home/lestelles/Desktop/"; // probably should be changed?
         String outfileName = selectedTool.getParameterList().get(1).getValue();
         String[] outputName = new String[1];
         outputName[0] = outfileName;
@@ -340,7 +333,6 @@ public class RNAseqJob {
         String rightInput = selectedTool.getInputList().get(1).getValue();
         
         String kmer = selectedTool.getParameterList().get(0).getValue();
-        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         String outfileName = selectedTool.getParameterList().get(1).getValue();
         String[] outputName = new String[1];
         outputName[0] = outfileName;
@@ -355,6 +347,9 @@ public class RNAseqJob {
        
     }
     
+    /**
+     * Retrieves parameters, creates the configuration file and executes a SOAPdenovo-Trans job
+     */
      private void executeSOAPdenovoTrans(){
         String leftInput = selectedTool.getInputList().get(0).getValue();
         String rightInput = selectedTool.getInputList().get(1).getValue();
@@ -362,7 +357,6 @@ public class RNAseqJob {
         String seqType = selectedTool.getParameterList().get(0).getValue();
         String kmer = selectedTool.getParameterList().get(1).getValue();
         String insLen = selectedTool.getParameterList().get(2).getValue();
-        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
         String outfileName = selectedTool.getParameterList().get(3).getValue();
         String[] outputName = new String[1];
         outputName[0] = outfileName;
@@ -382,8 +376,8 @@ public class RNAseqJob {
     }
     
     /**
-     * Retrieves parameters and executes aligns transcripts to an assembly 
-     * previously performed using Bowtie and estimates abundance using RSEM.
+     * Retrieves parameters and aligns transcripts to an assembly 
+     * previously performed using Bowtie and estimates abundance using RSEM or eXpress.
      */
     private void executeAbundanceEstimation() {
         String fasta = selectedTool.getInputList().get(0).getValue();
@@ -398,13 +392,9 @@ public class RNAseqJob {
         String[] outputName = new String[2];
         outputName[0] = prefix;
 
-        //Pass the estimation methon to include it in the description within the database
+        //Pass the estimation method to include it in the description within the database
         outputName[1] = estMethod;
         
-        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
-        //String outfileName = selectedTool.getParameterList().get(1).getValue();
-        
-
         command += " " 
                 + fasta + " "
                 + leftInput + " "
@@ -419,6 +409,9 @@ public class RNAseqJob {
        
     }
     
+    /**
+     * 
+     */
     private void executeDeg() {
        String filesIsoforms = "";
        for (String filepath:selectedTool.getInputList().get(0).getValues()) {
@@ -436,11 +429,6 @@ public class RNAseqJob {
         String[] outputName = new String[2];
         outputName[0] = prefix;
         outputName[1] = estMethod;
-        //String files = selectedTool.getParameterList().get(5).getValue();
-       
-        
-//String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
-        //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
         
         System.out.println(estMethod);
         System.out.println(pvalue);
@@ -449,8 +437,6 @@ public class RNAseqJob {
         System.out.println(prefix);
         System.out.println(filesIsoforms);
         
-     
-         
         command += " " 
                 + filesIsoforms + " "
                 + estMethod + " "
@@ -468,10 +454,6 @@ public class RNAseqJob {
         String ptree = selectedTool.getParameterList().get(0).getValue();
                
         
-        //String outputDir = "/home/vmuser/CPI/results/"; // probably should be changed?
-        //String outfileName = getUtilityBean().getSelectedTool().getParameterList().get(1).getValue();
-
-        //The output of Cluster analysis isn't input for any other tool
         String[] outputName = new String[1];
         outputName[0] = jobName + "_output";
         
@@ -560,15 +542,13 @@ public class RNAseqJob {
     
     
     /**
-     * Executes shell command
-     * @param command full command to execute
-     * @return 
+     * Executes shell command and adds new job to history
+     * @param command full command to execute 
      */
     private void executeCommand(String command, String[] outputName) {
 
         Jobhistory newJob;
         long currentTime = System.currentTimeMillis();
-        //newJob = new Jobhistory(jobName, 1, utilityBean.getSelectedProject().getIdprojects(), command, currentTime);
         newJob = new Jobhistory(jobName, 1, selectedProject.getIdprojects(), command, currentTime);
         
         System.out.println(jobHistoryFacade.findAll().size());
@@ -577,23 +557,17 @@ public class RNAseqJob {
         
         //Job results are stored in a directory named after the job ID
         String jobID = Integer.toString(newJob.getIdjobs());
-        /*String printcommand = command.replace("/home/vmuser/CPI/tools/shell_scripts/", "");
-        printcommand = printcommand.replace("/home/vmuser/CPI/datasets/", "");
-        printcommand = printcommand.replace("/home/vmuser/CPI/uploads/", "");
-        printcommand = printcommand.replace("/home/vmuser/CPI/results", "");
-        newJob.setCommandused(printcommand + " " + jobID);*/
         newJob.setCommandused(command + " " + jobID);
         
         String[] commandArray = command.split("\\s+");
         List<String> commandList = new ArrayList(commandArray.length + 1);
-        //Arrays.asList(commandArray);
+        
         for (int i = 0; i < commandArray.length; i++) {
             commandList.add(commandArray[i]);
         }
         commandList.add(jobID);
 
         ProcessBuilder pb = new ProcessBuilder().command(commandList).redirectErrorStream(true);
-        //ProcessBuilder pb = new ProcessBuilder().command("pwd").redirectErrorStream(true);
         Process p;        
         
         try {
@@ -617,40 +591,7 @@ public class RNAseqJob {
             this.p = p;
             this.startingTime = currentTime;
             this.updateJob = newJob;
-            this.outputName = outputName;
-            
-            //process(p, currentTime, newJob, outputName);
-            
-            /*StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR", newJob.getIdjobs());
-
-            StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT", newJob.getIdjobs());
-
-            // start gobblers
-            outputGobbler.start();
-            errorGobbler.start();
-
-            p.waitFor();
-
-            //Update the status to finished (0) or error (-1)
-            if (p.exitValue() == 0) {
-                    //Running time
-                newJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-currentTime-3600000));
-                //newJob.setRunningtime(new java.sql.Time(86410000L - 3600000));
-
-                //Normal termination
-                newJob.setProcessid(0);
-
-                //Add the output files to the database
-                addOutputToDB(newJob, outputName);
-            } else {
-                //Error
-                newJob.setProcessid(-1);
-
-                //Delete the job directory and everything it contains 
-                Process removeFiles = Runtime.getRuntime().exec("rm -r /home/vmuser/CPI/results/" + newJob.getIdjobs());
-            }*/
-
-            //jobHistoryFacade.edit(newJob);
+            this.outputName = outputName;           
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -658,9 +599,10 @@ public class RNAseqJob {
         
 }
 
-    
+    /**
+     * Performs the job asynchronously so that the user can continue doing other work
+     */
     @Asynchronous
-    //public void process(Process p, long startingTime, Jobhistory updateJob, String[] outputName){
     public void process(){
         try {
             StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR", updateJob.getIdjobs());
@@ -677,8 +619,7 @@ public class RNAseqJob {
             if (p.exitValue() == 0) {
                 //Running time
                 updateJob.setRunningtime(new java.sql.Time(System.currentTimeMillis()-startingTime-3600000));
-                //updateJob.setRunningtime(new java.sql.Time(86410000L - 3600000));
-
+                
                 //Normal termination
                 updateJob.setProcessid(0);
 
@@ -699,16 +640,19 @@ public class RNAseqJob {
         }
     }
     
+    /**
+     * Adds job outputs to the database
+     * @param updateJob Executed job that needs to be updated
+     * @param outputName User selected name for the output
+     */
     public void addOutputToDB(Jobhistory updateJob, String[] outputName){
         Files output1 = new Files();
         Files output2 = new Files();
         Files output3 = new Files();
         Files output4 = new Files();
         
-        //Projects updateProject = project;
         Collection<Files> projectFiles = selectedProject.getFilesCollection();
-        
-        
+                
         ArrayList<Projects> fileProject = new ArrayList(1);
         System.out.println("Project " + selectedProject.getProjectname());
         fileProject.add(selectedProject);
@@ -751,28 +695,12 @@ public class RNAseqJob {
                 output3.setDisplayname(updateJob.getJobname() + "(Quality comparison)");
                 output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with Trimmomatic.");
                 output3.setFiletype(new Filetype(3));
-                output3.setProjectsCollection(fileProject);
-
-                //UNPAIRED FORWARD
-                /*output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_unpaired");
-                output3.setDisplayname(outputName[2]);
-                output3.setDescription("Trimmed forward unpaired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
-                //Trimmed file filetype (1)
-                output3.setFiletype(new Filetype(1));
-                output3.setProjectsCollection(fileProject);
-                //UNPAIRED REVERSE
-                output4.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_unpaired");
-                output4.setDisplayname(outputName[3]);
-                output4.setDescription("Trimmed reverse unpaired reads from " + updateJob.getJobname() + " processed Trimmomatic.");
-                //Trimmed file filetype (1)
-                output4.setFiletype(new Filetype(1));
-                output4.setProjectsCollection(fileProject);*/
+                output3.setProjectsCollection(fileProject);                
                 
                 //Add output files to project table
                 projectFiles.add(output1);
                 projectFiles.add(output2);
                 projectFiles.add(output3);
-                /*projectFiles.add(output4);*/
                 selectedProject.setFilesCollection(projectFiles);
                 projectFacade.edit(selectedProject);
                                 
@@ -780,7 +708,6 @@ public class RNAseqJob {
                 filesFacade.create(output1);
                 filesFacade.create(output2);
                 filesFacade.create(output3);
-                /*filesFacade.create(output4);*/
                 break;
             case TRIMMOMATIC_ADAPT:
                 //PAIRED FORWARD
@@ -802,28 +729,12 @@ public class RNAseqJob {
                 output3.setDisplayname(outputName[2] + "_quality_comparison.html");
                 output3.setDescription("Quality per base report before and after removing adapters from " + updateJob.getJobname() + " processed with Trimmomatic.");
                 output3.setFiletype(new Filetype(2));
-                output3.setProjectsCollection(fileProject);
-                
-                //UNPAIRED FORWARD
-                /*output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fw_unpaired");
-                output3.setDisplayname(outputName[2]);
-                output3.setDescription("Adapters removed from the forward unpaired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                //File without adapters filetype (2)
-                output3.setFiletype(new Filetype(2));
-                output3.setProjectsCollection(fileProject);
-                //UNPAIRED REVERSE
-                output4.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/r_unpaired");
-                output4.setDisplayname(outputName[3]);
-                output4.setDescription("Adapters removed from the reverse unpaired reads from " + updateJob.getJobname() + " processed with Trimmomatic.");
-                //File without adapters filetype (2)
-                output4.setFiletype(new Filetype(2));
-                output4.setProjectsCollection(fileProject);*/
-                
+                output3.setProjectsCollection(fileProject);                
+                                
                 //Add output files to project table
                 projectFiles.add(output1);
                 projectFiles.add(output2);
                 projectFiles.add(output3);
-                /*projectFiles.add(output4);*/
                 selectedProject.setFilesCollection(projectFiles);
                 projectFacade.edit(selectedProject);
                 
@@ -831,7 +742,6 @@ public class RNAseqJob {
                 filesFacade.create(output1);
                 filesFacade.create(output2);
                 filesFacade.create(output3);
-                /*filesFacade.create(output4);*/
                 break;
             case SEECER:
                 //PAIRED 1
@@ -849,23 +759,16 @@ public class RNAseqJob {
                 output2.setFiletype(new Filetype(22));
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after preprocessing
-                /*output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
-                output3.setDisplayname(outputName[2] + "_quality_comparison.html");
-                output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with SEECER.");
-                output3.setFiletype(new Filetype(3));
-                output3.setProjectsCollection(fileProject);*/
-                
+                                
                 //Add output files to project table
                 projectFiles.add(output1);
                 projectFiles.add(output2);
-                //projectFiles.add(output3);
                 selectedProject.setFilesCollection(projectFiles);
                 projectFacade.edit(selectedProject);
                               
                 //Add outputs to database
                 filesFacade.create(output1);
                 filesFacade.create(output2);
-                //filesFacade.create(output3);
                 break;
             case TRINITY:
                 //TRANSCRIPTS
@@ -1156,21 +1059,7 @@ public class RNAseqJob {
         System.out.println(selectedTool.getName());
         command += selectedTool.getPath();
     }
-
-    /**
-     * @return the utilityBean
-     */
-    /*public UtilityBean getUtilityBean() {
-        return utilityBean;
-    }*/
-
-    /**
-     * @param utilityBean the utilityBean to set
-     */
-    /*public void setUtilityBean(UtilityBean utilityBean) {
-        this.utilityBean = utilityBean;
-    }*/
-
+    
     /**
      * @return the jobHistoryFacade
      */

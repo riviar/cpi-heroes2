@@ -23,7 +23,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entity of the <i>filetype</i> table from the <i>cpiproject</i> database
+ * <p> It allows to search entries according to each of its parameters
+ *  
  * @author user
  */
 @Entity

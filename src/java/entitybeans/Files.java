@@ -25,8 +25,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author pitas
+ * Entity of the <i>files</i> table from the <i>cpiproject</i> database
+ * <p> It allows to search entries according to each of its parameters and a combined search for a given <code>projectid</code> and <code>filetype</code>
+ * 
+ * @author Asier Gonzalez
  */
 @Entity
 @Table(name = "files")
