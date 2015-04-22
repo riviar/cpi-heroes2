@@ -25,7 +25,7 @@ public class FileConverter implements Converter {
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String fileTextID) {
-        fileTextID = fileTextID.replace("entities.Files[ idresources=", "");
+        fileTextID = fileTextID.replace("entitybeans.Files[ idresources=", "");
         fileTextID = fileTextID.replace(" ]", "");
         int fileID = Integer.valueOf(fileTextID);
         Files file = fileFacade.find(fileID);

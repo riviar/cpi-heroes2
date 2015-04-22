@@ -13,12 +13,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- *
- * @author vmuser
+ * It handles the standard and error output of the command line processes to redirect the into the Glassfish server log and the job log file.
+ * @author Asier Gonzalez
  */
 public class StreamGobbler extends Thread {
 
+        /**
+         * The process output stream
+         */
         InputStream is;
+        
+        /**
+         * Stream type.
+         * <p><code>OUTPUT</code> for the standard output and <code>ERROR</code> for errors
+         */
         String type;
         String logfile;
 

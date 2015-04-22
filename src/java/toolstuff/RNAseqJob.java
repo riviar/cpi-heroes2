@@ -717,7 +717,7 @@ public class RNAseqJob {
             case FASTQC:
                 //HTML
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/fastqc.html");
-                output1.setDisplayname(updateJob.getJobname() + "_"+ outputName[0] + ".html");
+                output1.setDisplayname(outputName[0] + " (HTML)");
                 output1.setDescription("FastQC output for " + updateJob.getJobname());
                 //FastQC output HTML report filetype (2)
                 output1.setFiletype(new Filetype(2));
@@ -748,7 +748,7 @@ public class RNAseqJob {
                 output2.setProjectsCollection(fileProject);
                 //HTML with the FastQC quality report images before and after trimming
                 output3.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/quality_comparison.html");
-                output3.setDisplayname(updateJob.getJobname() + "_quality_comparison.html");
+                output3.setDisplayname(updateJob.getJobname() + "(Quality comparison)");
                 output3.setDescription("Quality per base report before and after the trimming from " + updateJob.getJobname() + " processed with Trimmomatic.");
                 output3.setFiletype(new Filetype(3));
                 output3.setProjectsCollection(fileProject);
@@ -870,7 +870,7 @@ public class RNAseqJob {
             case TRINITY:
                 //TRANSCRIPTS
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
-                output1.setDisplayname(outputName[0] + ".transcripts.fa");
+                output1.setDisplayname(outputName[0] + " (transcripts)");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trinity.");
                 //Assembled transcripts filetype (5)
                 output1.setFiletype(new Filetype(5));
@@ -896,7 +896,7 @@ public class RNAseqJob {
             case VELVET:
                 //TRANSCRIPTS
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
-                output1.setDisplayname(outputName[0] + ".transcripts.fa");
+                output1.setDisplayname(outputName[0] + " (transcripts)");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Velvet.");
                 //Assembled transcripts filetype (5)
                 output1.setFiletype(new Filetype(5));
@@ -923,7 +923,7 @@ public class RNAseqJob {
             case TRANSABYSS:
                 //TRANSCRIPTS
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
-                output1.setDisplayname(outputName[0] + ".transcripts.fa");
+                output1.setDisplayname(outputName[0] + " (transcripts)");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with Trans-ABySS.");
                 //Assembled transcripts filetype (5)
                 output1.setFiletype(new Filetype(5));
@@ -949,7 +949,7 @@ public class RNAseqJob {
             case SOAPdenovo_Trans:
                 //TRANSCRIPTS
                 output1.setPath("/home/vmuser/CPI/results/" + updateJob.getIdjobs() + "/transcripts.fa");
-                output1.setDisplayname(outputName[0] + ".transcripts.fa");
+                output1.setDisplayname(outputName[0] + " (transcripts)");
                 output1.setDescription("Transcripts from " + updateJob.getJobname() + " processed with SOAPdenovo-Trans.");
                 //Assembled transcripts filetype (5)
                 output1.setFiletype(new Filetype(5));

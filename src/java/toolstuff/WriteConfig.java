@@ -6,13 +6,15 @@
 package toolstuff;
 
 /**
- *
- * @author pitas
+ * Creates the configuration file for SOAPdenovo-Trans
+ * @author Asier Gonzalez
  */
 public class WriteConfig {
 
+    /**
+     * Sequence
+     */
     String seqType;
-    //String max_read_len;
     String insertSize;
     String leftRead;
     String rightRead;
