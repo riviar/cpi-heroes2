@@ -12,6 +12,8 @@ import entitybeans.Workgroups;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 import javax.ejb.Stateful;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -114,7 +116,7 @@ public class ProjectSessionFacade extends AbstractFacade<Projects> {
         Query q = em.createNamedQuery("Projects.findInUsersWorkgroup", Projects.class);
         q.setParameter(1, user.getIdusers());
         userVisibleProjects.addAll(q.getResultList());
-        userVisibleProjects.addAll(getUserOwnedProjects(user));
+        userVisibleProjects.addAll(getUsersPrivateProjects(user));
         userVisibleProjects.addAll(getAllPublicProjects());
         return userVisibleProjects;
     }
