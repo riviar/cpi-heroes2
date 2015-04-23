@@ -6,8 +6,9 @@
 package toolstuff.util;
 
 /**
- *
+ * Help for all the tools.
  * @author Gergely
+ * @author Lucia Estelles Lopez
  */
 public class ToolHelp {
 
@@ -138,12 +139,13 @@ public class ToolHelp {
     
    
     // hmmer
-    private static String hmmerQueryHelp="";
-    private static String hmmerDBHelp="";
-    private static String hmmerMinProtLenHelp="";
-    private static String hmmerEvalueHelp="";
-    private static String hmmerOutputHelp="";
+    private static String hmmerQueryHelp="Select the fasta file with the sequences you want to query.";
+    private static String hmmerDBHelp="Select the database to search against.";
+    private static String hmmerMinProtLenHelp="Minimum length of the ORFs to be considered.";
+    private static String hmmerEvalueHelp="Evalue threshold for HMMER.";
+    private static String hmmerOutputHelp="Write a descriptive name for the output files.";
     private static String hmmerHelp= "<b>Tool description: </b>"
+            + "HMMER is a tool that analyses protein sequences using profile hidden Markov models."
             + "</br></br><b>Query: </b>" + hmmerQueryHelp
             + "</br></br><b>Database: </b>" + hmmerDBHelp
             + "</br></br><b>Minimum protein length: </b>" + hmmerMinProtLenHelp
@@ -155,15 +157,15 @@ public class ToolHelp {
     
     
     // blast
-    private static String blastQueryHelp="<b>Tool description: </b>";
-    private static String blastBlastVersionHelp=""; //blastn blastx tblastx
-    private static String blastDBHelp="";
-    private static String blastEvalueHelp="";
-    private static String blastWindowSizeHelp="";
-    private static String blastMaxHitsHelp="";
-    private static String blastOutputHelp="";
-    private static String blastHelp=""
-        + ""
+    private static String blastQueryHelp="Select the fasta file with the sequences you want to query.";
+    private static String blastBlastVersionHelp="The versions of BLAST available for the user are blastn (nucleotide query against a nucleotide database), blastx (translated nucleotide query against a protein database) and tblastx (translated nucleotide query against a translated nucleotide database)."; //blastn blastx tblastx
+    private static String blastDBHelp="Select the database to search against.";
+    private static String blastEvalueHelp="Evalue threshold for BLAST";
+    private static String blastWindowSizeHelp="Number of nucleotides to include in the window for BLAST algorithm.";
+    private static String blastMaxHitsHelp="Maximum number of hits to show in the report";
+    private static String blastOutputHelp="Write a name for the output files.";
+    private static String blastHelp="<b>Tool description: </b>"
+        + "BLAST is a tool that performs a sequence query search against a database using local alignments."
         + "</br></br><b>Query: </b>" + blastQueryHelp
         + "</br></br><b>Blast version: </b>" + blastQueryHelp
         + "</br></br><b>Database: </b>" + blastBlastVersionHelp

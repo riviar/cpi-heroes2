@@ -15,7 +15,7 @@
             </ui:define>
             
             <ui:define name="customStylesheet">
-                <c:if test="#{utilityBean.selectedOutput.outputType == 'HTML'}">
+                <c:if test="#{utilityBean.selectedOutput.outputType == 'HTML' || utilityBean.selectedOutput.outputType == 'PDF'}">
                     <link href="#{facesContext.externalContext.requestContextPath}/resources/css/html_output_pages_css.css" rel="stylesheet" type="text/css" />
                 </c:if>
                 <c:if test="#{utilityBean.selectedOutput.outputType == 'TXT'}">

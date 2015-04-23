@@ -19,44 +19,79 @@ import toolstuff.RNAseqJob;
 /**
  * Managed bean for running tool jobs
  * @author Rafal Kural
+ * @author Asier Gonzalez
  */
-@ManagedBean//(name = "TestToolBean")
+@ManagedBean
 @RequestScoped
 public class ToolBean {
 
+    /**
+     * The project the job belongs to
+     */
     private Projects project;
 
+    /**
+     * New job to be created and run according to the tool selected by the user
+     */
     private Jobhistory newJob = new Jobhistory();
+    
+    /**
+     * Job name
+     */
     private String newJobName = "";
 
+    /**
+     * User selected name for the outcomes
+     */
     private String outputFile = "none";
     
+    /**
+     * Enterprise JavaBean to create, configure and run the job
+     */
     @EJB
     RNAseqJob job;
 
+    /**
+     * Facade to modify the files list of the projects in the database
+     */
     @EJB
     ProjectSessionFacade projectFacade;
 
+    /**
+     * Facade to add and modify jobs
+     */
     @EJB
     private JobHistoryFacade jobHistoryFacade;
 
+    /**
+     * Facade to add the resulting files to the database
+     */
     @EJB
     private FilesFacade filesFacade;
-//    @EJB
-//    AuthenticationBean authBean;
+
+    /**
+     * Managed bean with session scoped information
+     */
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
 
+    /**
+     * The project the user selected retrieved from the web
+     */
     @ManagedProperty(value = "#{param.selectedProject}")
     private String selectedProject;
 
     /**
-     * Creates a new instance of WorkgroupBean
+     * Creates a new instance of ToolBean
      */
     public ToolBean() {
         project = new Projects();
     }
 
+    /**
+     * Sets the name of the job
+     * @param newJobName Job name
+     */
     public void setNewJob(String newJobName) {
         this.newJob = new Jobhistory(newJobName);
     }
@@ -67,15 +102,10 @@ public class ToolBean {
      * @return redirect string to go back to project page
      */
     public String runJob() {
-        //System.out.println(utilityBean.getSelectedTool().getName());
-        //RNAseqJob job = new RNAseqJob(newJobName);
-        //RNAseqJob job = new RNAseqJob(utilityBean, jobHistoryFacade, filesFacade, projectFacade, newJobName);
         
         job.init(utilityBean.getSelectedProject(), utilityBean.getSelectedTool(), newJobName);
-        //job.init(utilityBean.getSelectedProject(), utilityBean.getSelectedTool(), utilityBean.getUser().getEmail(), newJobName);
         job.execute();
         job.process();
-        //System.out.println("Yes");
         return "project?faces-redirect=true";
     }
 

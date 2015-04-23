@@ -27,47 +27,40 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 /**
- *
- * @author pitas
+ * Facade to manage jobs in the database
+ * @author Asier Gonzalez
  */
 
-//@Stateless
 @Stateful
 public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
 
+    /**
+     * The job to be persisted
+     */
     private Jobhistory newJob;
     
-    
+    /**
+     * Object that controls the table entities 
+     */
     @PersistenceContext(unitName = "RNAseqPU")
     private EntityManager em;
     
-   /* @ManagedProperty(value = "#{param.currentJob}")
-    private String currentJob;*/
-  
     @Override
     protected EntityManager getEntityManager() {
-        /*if(em == null){
-             System.out.println("Yes, it's null");
-             EntityManagerFactory emf = Persistence.createEntityManagerFactory("RNAseqPU");
-             EntityManager ecm = emf.createEntityManager(); 
-             return ecm;
-        }else{*/
-            return em;
-        //}        
+          return em;      
     }
     
+    /**
+     * Empty constructor needed by the EJB to initialise the facade 
+     */
     public JobHistoryFacade() {
         super(Jobhistory.class);
     }
     
-        
-    /*public void setcurrentJob(String currentJob) {
-        this.currentJob = currentJob;
-    }*/
     
     /**
      * It retrieves all the user jobs from the history
-     * @return 
+     * @return List with all the jobs 
      */
     public List<Jobhistory> getAllJobs() {
         Query q = em.createNamedQuery("Jobhistory.findAll");
@@ -76,38 +69,26 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
     
     /**
      * It retrieves all the jobs in the history related to the selected project
-     * @return 
+     * @return List wit all the jobs of the selected project
      */
     public List<Jobhistory> getProjectJobs(int projectid) {
         List<Jobhistory> list = new ArrayList();
         
         Query q = em.createNamedQuery("Jobhistory.findByProjectid");
-        //Query q = em.createNamedQuery("Jobhistory.findAll");
-        //System.out.println("Project: " + projectid);
         
         q.setParameter("projectid", projectid);
-        //System.out.println(q.getResultList().size());
-        /*List<Jobhistory> jobs = q.getResultList();
-        for (Jobhistory job:jobs) {
-            System.out.println(job.getProjectid().getIdprojects());
-            System.out.println(Integer.parseInt(projectid));
-            if(job.getProjectid().getIdprojects()==Integer.parseInt(projectid)){
-                 list.add(job);
-            }
-        }*/
-        
+                
         return q.getResultList();
-        //    return list;
+        
     }
     
     
     /**
      * It retrieves the PID of a job given its name
-     * @param currentJob
-     * @return 
+     * @param currentJob Name of the job whose PID is searched
+     * @return Operating system level process identifier of the job
      */
     public int getJobPID(String currentJob){
-       // System.out.println(currentJob);
         
         Query q = em.createNamedQuery("Jobhistory.findByJobname");
         q.setParameter("jobname", currentJob);
@@ -115,8 +96,8 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
     }
 
     /**
-     * Add new job to database
-     * @param newJob 
+     * Adds new job to database
+     * @param newJob Job to be added
      */
     public void addJob(Jobhistory newJob){
         if(newJob == null){
@@ -127,16 +108,14 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
         }
         System.out.println(newJob.getCommandused());
         create(newJob);
-        //System.out.println(this.newJob.getJobname());
-        //System.out.println(this.newJob.getProcessid());
-        //System.out.println(this.newJob.getCommandused());
-        //create(new Jobhistory("Manually entered job"));
-        
-            
-        
+      
     }
     
-   
+   /**
+    * Checks if exists a job with the given name
+    * @param jobname Name of the searched job
+    * @return <code>True</code> if the job exists and <code>FALSE</code> otherwise
+    */
     public boolean jobExists(String jobname) {
         Query q = em.createQuery("SELECT j FROM Jobhistory j WHERE j.jobname=:jobname");
         q.setParameter("username", jobname);
@@ -155,9 +134,9 @@ public class JobHistoryFacade extends AbstractFacade<Jobhistory> {
     }
     
     /**
-     * Retrieve Jobhistory item by id
-     * @param id
-     * @return 
+     * Retrieves Job item by id
+     * @param id Database-level identifier of the searched job
+     * @return Matching job
      */
     public Jobhistory findJobHistoryById(int id) {
         Query q = em.createNamedQuery("Jobhistory.findByIdjobs");

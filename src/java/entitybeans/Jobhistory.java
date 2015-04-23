@@ -25,8 +25,10 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author pitas
+ * Entity of the <i>jobhistory</i> table from the <i>cpiproject</i> database
+ * <p> It allows to search entries according to each of its parameters
+ * 
+ * @author Asier Gonzalez
  */
 @Entity
 @Table(name = "jobhistory")

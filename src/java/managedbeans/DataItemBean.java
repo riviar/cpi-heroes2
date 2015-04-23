@@ -6,10 +6,12 @@
 package managedbeans;
 
 import entitybeans.Jobhistory;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -122,7 +124,12 @@ public class DataItemBean {
         outputsList.add(new GenericOutput("Log", EOutputType.TXT, "/home/vmuser/CPI/log/" + jobid + ".log", jobsTool));
         switch (jobsTool) {
             case FASTQC:
-                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "../results/" + jobid + "/fastqc.html", jobsTool));
+                
+                              
+                outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "http://138.250.31.63:8821/tmpresults/" + jobid + "/fastqc.html", jobsTool));
+               
+                //outputsList.add(new GenericOutput("FastQC Report", EOutputType.HTML, "/home/vmuser/NetBeansProjects/cpi-heroes-dropbox-2703/web/252/fastqc.html", jobsTool));
+                
                 break;
 
             case TRIMMOMATIC_TRIM:
@@ -130,7 +137,7 @@ public class DataItemBean {
                 outputsList.add(new GenericOutput("Forward unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
-                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "../results/" + jobid + "/quality_comparison.html", jobsTool));
+                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "http://138.250.31.63:8821/tmpresults/" + jobid + "/quality_comparison.html", jobsTool));
                 break;
 
             case TRIMMOMATIC_ADAPT:
@@ -138,7 +145,7 @@ public class DataItemBean {
                 outputsList.add(new GenericOutput("Forward unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/fw_unpaired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse paired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_paired", jobsTool));
                 outputsList.add(new GenericOutput("Reverse unpaired", EOutputType.NO_DISPLAY, "/home/vmuser/CPI/results/" + jobid + "/r_unpaired", jobsTool));
-                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "../results/" + jobid + "/quality_comparison.html", jobsTool));
+                outputsList.add(new GenericOutput("Quality Comparison", EOutputType.HTML, "http://138.250.31.63:8821/tmpresults/" + jobid + "/quality_comparison.html", jobsTool));
                 break;
 
             case SEECER:

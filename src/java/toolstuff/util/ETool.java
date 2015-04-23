@@ -8,6 +8,7 @@ package toolstuff.util;
 /**
  * Tool enum
  * @author Rafal Kural
+ * @author Lucia Estelles Lopez
  */
 public enum ETool {
     FASTQC,

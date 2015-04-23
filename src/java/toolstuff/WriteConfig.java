@@ -6,35 +6,56 @@
 package toolstuff;
 
 /**
- *
- * @author pitas
+ * Sets the configuration file for SOAPdenovo-Trans 
+ * @author Asier Gonzalez
  */
 public class WriteConfig {
 
+    /**
+     * Sequence type
+     * <p><code>fasta</code> for files with either fa or fasta extension and <code>fastq</code> for fq and fastq
+     */
     String seqType;
-    //String max_read_len;
+    
+    /**
+     * Insert size of the pair-ended experiment, that is, the distance between the forward and reverse reads
+     */
     String insertSize;
+    
+    /**
+     * Name of the left of forward read
+     */
     String leftRead;
+    
+    /**
+     * Name of the right or reverse read
+     */
     String rightRead;
     
-    public WriteConfig(String seqType, /*String max_read_len,*/ String insertSize, String leftRead, String rightRead) {
+    /**
+     * Sets all the parameters
+     * @param seqType Sequence type (fasta or fastq)
+     * @param insertSize Insert size
+     * @param leftRead Name of the left/forward reads
+     * @param rightRead Name of the right/reverse reads
+     */
+    public WriteConfig(String seqType, String insertSize, String leftRead, String rightRead) {
         this.seqType = seqType;
-        //this.max_read_len = max_read_len;
         this.insertSize = insertSize;
         this.leftRead = leftRead;
         this.rightRead = rightRead;
     }
     
+    /**
+     * Writes the configuration to <i>/home/vmuser/CPI/tools/SOAPdenovo-Trans/config_file</i>
+     * @throws Exception Writing to a file can cause an exception if the destination file does not exist or it cannot be accessed
+     */
     public void write() throws Exception {
         java.io.File file = new java.io.File("/home/vmuser/CPI/tools/SOAPdenovo-Trans/config_file");
         
         java.io.PrintWriter output = new java.io.PrintWriter(file);
                 
-        //output.println("#maximal read length");
-        //output.println("max_rd_len=50");
         output.println("[LIB]");
-        //output.println("#maximal read length in this lib");
-        //output.println("rd_len_cutof=45");
         output.println("#average insert size");
         output.println("avg_ins=" + insertSize);
         
