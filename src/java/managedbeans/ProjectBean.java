@@ -21,6 +21,7 @@ import sessionbeans.WorkGroupSessionFacade;
 
 /**
  * Managed bean for project-related operations
+ *
  * @author Rafal Kural
  */
 @ManagedBean
@@ -33,14 +34,14 @@ public class ProjectBean {
     private Workgroups newProjectWorkgroup;
     private String newProjectVisibility;
     private List<Projects> userVisibleProjects;
-    
+
     @EJB
     ProjectSessionFacade projectFacade;
     @EJB
     WorkGroupSessionFacade workgroupFacade;
     @EJB
     FilesFacade fileFacade;
-    
+
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
 //    @ManagedProperty(value = "#{param.selectedProject}")
@@ -48,15 +49,13 @@ public class ProjectBean {
 //    @ManagedProperty(value = "#{param.fakeProperty}")
 
     public Projects getSelectedProject() {
-        System.err.println("PB.getSelectedProject = " + selectedProject);
         return selectedProject;
     }
 
-    public void setSelectedProject(Projects selectedProject) {       
+    public void setSelectedProject(Projects selectedProject) {
         this.selectedProject = selectedProject;
-        System.err.println("PB.setSelectedProject = " + selectedProject);
     }
-    
+
     public String getNewProjectName() {
         return newProjectName;
     }
@@ -145,12 +144,13 @@ public class ProjectBean {
         createProject();
         return "workgroup?faces-redirect=true";
     }
-    
+
     /**
      * Creates a new project owned by currently logged-in user. Parameters
-     * <code>newProjectName</code> and <code>newProjectVisibility</code> must
-     * be set to required values, <code>newProjectWorkgroup</code> must be set if
+     * <code>newProjectName</code> and <code>newProjectVisibility</code> must be
+     * set to required values, <code>newProjectWorkgroup</code> must be set if
      * newProjctVisibility is set to Workgroup.
+     *
      * @return String projects_menu
      */
     public String createProject() {
@@ -162,17 +162,21 @@ public class ProjectBean {
         Date today = new Date(System.currentTimeMillis());
         project.setCreationdate(today);
         projectFacade.create(project);
-        Collection<Projects> projects = newProjectWorkgroup.getProjectsCollection();
-        projects.add(project);
-        newProjectWorkgroup.setProjectsCollection(projects);
-        workgroupFacade.edit(newProjectWorkgroup);
+        if (newProjectWorkgroup != null) {
+            Collection<Projects> projects = newProjectWorkgroup.getProjectsCollection();
+            projects.add(project);
+            newProjectWorkgroup.setProjectsCollection(projects);
+            workgroupFacade.edit(newProjectWorkgroup);
+        }
         return "projects_menu?faces-redirect=true";
     }
-    
+
     /**
-     * Deletes the project currently represented by bean parameter <code>selectedProject</code>.
-     * Removes associations between workgroups/files and deleted workgroup, but 
-     * does not delete the associated workgroups/files themselves.
+     * Deletes the project currently represented by bean parameter
+     * <code>selectedProject</code>. Removes associations between
+     * workgroups/files and deleted workgroup, but does not delete the
+     * associated workgroups/files themselves.
+     *
      * @return String "projects_menu"
      */
     
@@ -182,14 +186,14 @@ public class ProjectBean {
         Workgroups workgroup = project.getWorkgroup();
         // test for non-null workgroup rather than project visibility
         // in case of future security model changes
-        if(workgroup != null) {
+        if (workgroup != null) {
             Collection<Projects> projects = workgroup.getProjectsCollection();
             projects.remove(project);
             workgroup.setProjectsCollection(projects);
             workgroupFacade.updateWorkgroup(workgroup);
         }
         // update files associatee with deleted project
-        for(Files file: project.getFilesCollection()) {
+        for (Files file : project.getFilesCollection()) {
             Collection<Projects> projects = file.getProjectsCollection();
             projects.remove(project);
             file.setProjectsCollection(projects);
@@ -199,14 +203,15 @@ public class ProjectBean {
         projectFacade.remove(project);
         return "projects_menu?faces-redirect=true";
     }
-    
-     /**
+
+    /**
      * Selects projects and redirects to its page
+     *
      * @return
      */
     public String selectProject() {
         utilityBean.setSelectedProject(selectedProject);
         return "project?faces-redirect=true";
     }
-    
+
 }
