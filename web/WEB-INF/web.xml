@@ -29,4 +29,7 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    <error-page>
+        <location>/errorpage.xhtml</location>
+    </error-page>
 </web-app>

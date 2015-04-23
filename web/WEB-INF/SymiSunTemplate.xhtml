@@ -140,7 +140,14 @@
                             <div id="hiddenDiv" class="workHistory" style="height:500px; overflow-y: scroll">
                                 <h:form>
                                     <ul>
-
+                                        <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
+                                            <p:dialog header="Job commandline" widgetVar="dlg#{job.idjobs}" minHeight="40">
+                                                <h:outputText value="#{job.commandused}" /><br />
+                                                <p:commandButton icon="ui-icon-arrowthickstop-1-s" value="Download shell script" title="Download"  ajax="false">
+                                                    <p:fileDownload value="#{jobHistoryBean.downloadScript(job.commandused)}"/>
+                                                </p:commandButton>
+                                            </p:dialog>
+                                        </c:forEach>
                                         <c:forEach items="#{jobHistoryBean.getProjectJobs()}" var="job">
 
                                             <li><div id="job">
@@ -149,8 +156,7 @@
                                                             <f:param name="selectedJob" value="#{job.idjobs}"/>
                                                         </h:commandLink>
                                                     </p>
-                                                    <p>#{job.commandused}</p>
-
+                                                    <p><p:commandButton value="Display job commandline" type="button" onclick="PF('dlg#{job.idjobs}').show();" /></p>
                                                     <c:if test="#{job.processid>0}"><p style="color:orange"><b>RUNNING</b>  -  
                                                             <h:commandLink value="Cancel Job" action="#{jobHistoryBean.cancelJob()}">
                                                                 <f:param name="selectedJob" value="#{job.idjobs}"/>

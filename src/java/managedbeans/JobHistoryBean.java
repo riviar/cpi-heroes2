@@ -139,6 +139,7 @@ public class JobHistoryBean {
             jobHistoryFacade.addJob(newJob);
         }
 
+        //}
         return "project";
     }
 
@@ -206,11 +207,12 @@ public class JobHistoryBean {
      * @return Operating system level job PID
      */
     public int getJobPID() {
+        System.out.println(jobName);
         return jobHistoryFacade.getJobPID(getCurrentJob());
     }
 
     /**
-     * Uses the linux command <i>ps</i> command to get the running time of an ongoing
+     * Uses the linux <i>ps</i> command to get the running time of an ongoing
      * @param PID Identifier of the job whose running time is required
      * @return Running time
      */
@@ -241,6 +243,13 @@ public class JobHistoryBean {
 
             }
 
+            /*StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "ERROR");
+
+             StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+
+             // start gobblers
+             outputGobbler.start();
+             errorGobbler.start();*/
         } catch (Exception ex) {
             ex.printStackTrace();
         }
