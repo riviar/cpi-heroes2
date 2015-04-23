@@ -189,7 +189,7 @@ public class RNAseqJob {
 
     /**
      * Retrieves parameters and executes Trimmomatic job for trimming using
-     * sliding window
+     * sliding window.
      */
     private void executeTrimmomaticTrim() {
         String leftInput = selectedTool.getInputList().get(0).getValue();
@@ -219,7 +219,7 @@ public class RNAseqJob {
     }
 
     /**
-     * Retrieves parameters and executes Trimmomatic job for removing adapters
+     * Retrieves parameters and executes Trimmomatic job for removing adapters.
      */
     private void executeTrimmomaticAdapt() {
         String leftInput = selectedTool.getInputList().get(0).getValue();
@@ -254,7 +254,7 @@ public class RNAseqJob {
     }
 
     /**
-     * Retrieves parameters and executes Seecer job
+     * Retrieves parameters and executes Seecer job.
      */
     private void executeSeecer() {
         String leftInput = selectedTool.getInputList().get(0).getValue();
@@ -279,8 +279,6 @@ public class RNAseqJob {
 
     /**
      * Retrieves parameters and executes Trinity job.
-     * <p>Be mindful of reversed
-     * right/left order!
      */
     private void executeTrinity() {
         String leftInput = selectedTool.getInputList().get(0).getValue();
@@ -301,7 +299,7 @@ public class RNAseqJob {
     }
 
     /**
-     * Retrieves parameters and executes Velvet job
+     * Retrieves parameters and executes Velvet job.
      */
     private void executeVelvet() {
         String leftInput = selectedTool.getInputList().get(0).getValue();
@@ -326,7 +324,7 @@ public class RNAseqJob {
     }
 
     /**
-     * Retrieves parameters and executes Velvet job
+     * Retrieves parameters and executes Transabyss job.
      */
     private void executeTransabyss() {
         String leftInput = selectedTool.getInputList().get(0).getValue();
@@ -348,7 +346,7 @@ public class RNAseqJob {
     }
     
     /**
-     * Retrieves parameters, creates the configuration file and executes a SOAPdenovo-Trans job
+     * Retrieves parameters, creates the configuration file and executes a SOAPdenovo-Trans job.
      */
      private void executeSOAPdenovoTrans(){
         String leftInput = selectedTool.getInputList().get(0).getValue();
@@ -410,7 +408,7 @@ public class RNAseqJob {
     }
     
     /**
-     * 
+     *  Retrieves parameters and executes differential gene expression.
      */
     private void executeDeg() {
        String filesIsoforms = "";
@@ -448,6 +446,11 @@ public class RNAseqJob {
         executeCommand(command, outputName);
        
     }
+    
+    
+    /**
+     *  Retrieves parameters and performs clustering by cutting dendrogram.
+     */
     private void executeClusters() {
         String RDataFile = selectedTool.getInputList().get(0).getValue();
 
@@ -466,7 +469,9 @@ public class RNAseqJob {
        
     }
     
-    
+    /**
+     *  Retrieves parameters and executes blast.
+     */
     private void executeBlast(){
         String query = selectedTool.getInputList().get(0).getValue();
         
@@ -496,7 +501,9 @@ public class RNAseqJob {
         executeCommand(command, outputName);
     }
     
-    
+    /**
+     *  Retrieves parameters and executes Hmmer.
+     */
     private void executeHmmer(){
         String query = selectedTool.getInputList().get(0).getValue();
         
@@ -519,7 +526,9 @@ public class RNAseqJob {
         executeCommand(command, outputName);
     }
     
-    
+    /**
+     *  Retrieves parameters and executes merge file.
+     */
     private void executeMerge() {
        String files = "";
        for (String filepath:selectedTool.getInputList().get(0).getValues()) {

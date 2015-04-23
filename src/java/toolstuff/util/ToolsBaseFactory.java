@@ -11,6 +11,8 @@ import java.util.List;
 /**
  * Factory class for ToolsBase.
  * @author Rafal Kural
+ * @author Lucia Estelles Lopez
+ * @author Asier Gonzalez
  */
 public class ToolsBaseFactory {
     
@@ -66,7 +68,6 @@ public class ToolsBaseFactory {
                 ETool.FASTQC, 
                 EToolType.PREPROCESSING,
                 "", 
-                //"Preprocessing/FastQC/fastqc", 
                 "do_fastqc.sh",
                 new ArrayList<>(inputs), 
                 new ArrayList<>(parameters),
