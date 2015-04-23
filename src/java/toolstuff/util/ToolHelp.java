@@ -11,7 +11,7 @@ package toolstuff.util;
  * @author Lucia Estelles Lopez
  */
 public class ToolHelp {
-
+    
     private static String fastqcHelp = "<b>Version:</b> 0.11.3 </br></br><b>Tool description:</b> </br>A quality control tool for high throughput sequence data. Performs simple quality control checks. "
             + "The left hand side of the main interactive display or the top of the HTML report show a summary of the modules which were run, and a quick evaluation."
             + "</br></br> <b>Web page:</b> " + "<a href=\"http://www.bioinformatics.babraham.ac.uk/projects/fastqc/\" target=\"_blank\">FastQC home page (opens in a new window)</a>";
@@ -184,7 +184,7 @@ public class ToolHelp {
     
     
     /**
-     * @return the factqcHelp
+     * @return the fastqcHelp
      */
     public static String getFastqcHelp() {
         return fastqcHelp;
