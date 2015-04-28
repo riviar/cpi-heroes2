@@ -7,6 +7,8 @@ package managedbeans;
 
 import entitybeans.Jobhistory;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -17,10 +19,15 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import sessionbeans.JobHistoryFacade;
 
 /**
- * Managed bean that works as an interface between the tool submission form and the database facade
+ * Managed bean that works as an interface between the tool submission form and
+ * the database facade
+ *
  * @author Asier Gonzalez
  */
 @ManagedBean
@@ -38,7 +45,7 @@ public class JobHistoryBean {
     private Jobhistory newJob = new Jobhistory("New Job 2");
 
     /**
-     * 
+     *
      * @return Executed job
      */
     public Jobhistory getNewJob() {
@@ -46,8 +53,8 @@ public class JobHistoryBean {
     }
 
     /**
-     * 
-     * @param newJob Job to run 
+     *
+     * @param newJob Job to run
      */
     public void setNewJob(Jobhistory newJob) {
         this.newJob = newJob;
@@ -60,7 +67,7 @@ public class JobHistoryBean {
     JobHistoryFacade jobHistoryFacade;
 
     /**
-     * Managed bean with session scoped information 
+     * Managed bean with session scoped information
      */
     @ManagedProperty(value = "#{utilityBean}")
     private UtilityBean utilityBean;
@@ -78,23 +85,23 @@ public class JobHistoryBean {
     private String selectedJobId;
 
     /**
-     * 
-     * @param currentJob Running or user selected job 
+     *
+     * @param currentJob Running or user selected job
      */
     public void setcurrentJob(String currentJob) {
         this.setCurrentJob(currentJob);
     }
 
     /**
-     * 
-     * @param utilityBean 
+     *
+     * @param utilityBean
      */
     public void setUtilityBean(UtilityBean utilityBean) {
         this.utilityBean = utilityBean;
     }
-    
+
     /**
-     * 
+     *
      * @return User selected job id
      */
     public String getSelectedJobId() {
@@ -102,13 +109,12 @@ public class JobHistoryBean {
     }
 
     /**
-     * 
-     * @param selectedJobId 
+     *
+     * @param selectedJobId
      */
     public void setSelectedJobId(String selectedJobId) {
         this.selectedJobId = selectedJobId;
     }
-
 
     /**
      * Creates a new instance of JobHistoryBean
@@ -120,18 +126,49 @@ public class JobHistoryBean {
 
     /**
      * Creates a new instance of JobHistoryBean with a preconfigured job
-     * @param newJob 
+     *
+     * @param newJob
      */
     public JobHistoryBean(Jobhistory newJob) {
         this.newJob = newJob;
     }
 
     /**
-     * Adds job to the <i>Jobhistory</i> table in the database and redirects to the <i>Projects</i> page
+     * Retrieves a content stream to be served to a downloading client. This
+     * method extracts the name of the shell script from a string representing
+     * the entire command, given with absolute path to the script executed.
+     *
+     * @param commandused String as stored in JobHistory.commandused.
+     * @return StreamedContent object representing the file extracted from the
+     * String commandused.
+     * @throws IOException
+     */
+    public StreamedContent downloadScript(String commandused) throws IOException {
+        // Strip all parameters from commandline
+        // Assumes we have been given an an absolute path with no escaped spaces
+        commandused = commandused.substring(0, commandused.indexOf(" "));
+        // Extract name of file from absolute path
+        String filename = commandused.substring("/home/vmuser/CPI/tools/shell_scripts/".length(), commandused.length());
+        FileInputStream stream;
+        try {
+            stream = new FileInputStream(commandused);
+        } catch (FileNotFoundException ex) {
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            response.sendRedirect("errorpage.xhtml");
+            return new DefaultStreamedContent();
+        }
+        DefaultStreamedContent downloadStream = new DefaultStreamedContent(stream, "application/octet-stream", filename);
+        return downloadStream;
+    }
+
+    /**
+     * Adds job to the <i>Jobhistory</i> table in the database and redirects to
+     * the <i>Projects</i> page
+     *
      * @return Returns the user to the <i>Projects</i> page
      */
     public String addJob2History() {
-        
+
         if (jobHistoryFacade != null) {
             jobHistoryFacade.addJob(newJob);
         } else {
@@ -147,37 +184,40 @@ public class JobHistoryBean {
      * @param jobName The job name to set
      */
     public void setJobName(String jobName) {
-        this.jobName = jobName;        
+        this.jobName = jobName;
     }
 
     /**
      * Gets all the jobs from the database
+     *
      * @return List of the jobs
      */
     public List<Jobhistory> getJobs() {
         List<Jobhistory> jobs = jobHistoryFacade.getAllJobs();
-        
+
         return jobs;
     }
 
     /**
      * Gets all the jobs from the selected project
+     *
      * @return List of the project jobs
      */
     public List<Jobhistory> getProjectJobs() {
         List<Jobhistory> jobs = jobHistoryFacade.getProjectJobs(utilityBean.getSelectedProject().getIdprojects());
         List<Jobhistory> list = new ArrayList(jobs.size());
         for (int i = jobs.size() - 1; i >= 0; i--) {
-            
+
             list.add(jobs.get(i));
 
         }
-        
+
         return list;
     }
 
     /**
      * Gets the names of all the jobs
+     *
      * @return List of the job names
      */
     public List<String> getJobName() {
@@ -191,6 +231,7 @@ public class JobHistoryBean {
 
     /**
      * Gets the executed command of all the jobs
+     *
      * @return List of job commands
      */
     public List<String> getJobCommand() {
@@ -204,6 +245,7 @@ public class JobHistoryBean {
 
     /**
      * Gets the process identifier of the current job
+     *
      * @return Operating system level job PID
      */
     public int getJobPID() {
@@ -213,6 +255,7 @@ public class JobHistoryBean {
 
     /**
      * Uses the linux <i>ps</i> command to get the running time of an ongoing
+     *
      * @param PID Identifier of the job whose running time is required
      * @return Running time
      */
@@ -258,7 +301,7 @@ public class JobHistoryBean {
     }
 
     /**
-     * 
+     *
      * @param currentJob the currentJob to set
      */
     public void setCurrentJob(String currentJob) {
@@ -289,7 +332,8 @@ public class JobHistoryBean {
 
     /**
      * Deletes the selected job from history
-     * @return 
+     *
+     * @return
      */
     public String deleteJob() {
         Jobhistory selectedJobHistoryItem = jobHistoryFacade.findJobHistoryById(Integer.valueOf(selectedJobId));
@@ -299,7 +343,8 @@ public class JobHistoryBean {
 
     /**
      * Stops the execution of the selected job
-     * @return 
+     *
+     * @return
      */
     public String cancelJob() {
         Jobhistory selectedJobHistoryItem = jobHistoryFacade.findJobHistoryById(Integer.valueOf(selectedJobId));

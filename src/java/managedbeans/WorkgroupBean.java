@@ -155,7 +155,13 @@ public class WorkgroupBean {
             return workgroup.getUsersCollection();
         }
     }
-
+    
+    /**
+     * Adds the nser specified in parameter <code>utilityBean.selectedUser</code>
+     * to workgroup in parameter <code>workgroupBean.workgroup</code>.
+     * @return String redirecting next request back to workgroup page
+     */
+    
     public String addUserToWorkgroup() {
         System.out.println("adduser called");
         Users user = utilityBean.getSelectedUser();      
@@ -168,6 +174,12 @@ public class WorkgroupBean {
         return "workgroup?faces-redirect=true";
     }
 
+    /**
+     * Removes the nser specified in parameter <code>workgroupBean.selectedUser</code>
+     * to workgroup in parameter <code>workgroupBean.workgroup</code>.
+     * @return String redirecting next request back to workgroup page
+     */
+
     public String removeUserFromWorkgroup() {
         Collection<Users> users = workgroup.getUsersCollection();
         System.out.println("Trying to remove user " + selectedUser.getUsername());
@@ -177,6 +189,12 @@ public class WorkgroupBean {
         return "workgroup?faces-redirect=true";
     }
 
+    /**
+     * Adds the project specified in parameter <code>workgroupBean.selectedProject</code>
+     * to workgroup in parameter <code>workgroupBean.workgroup</code>.
+     * @return String redirecting next request back to workgroup page
+     */
+    
     public String addProjectToWorkgroup() {
         project = selectedProject;
         workgroup = selectedWorkgroup;
@@ -189,6 +207,12 @@ public class WorkgroupBean {
         return "workgroup?faces-redirect=true";
     }
 
+    /**
+     * Removes project specified in parameter <code>workgroupBean.selectedProject</code>
+     * from workgroup in parameter <code>workgroupBean.workgroup</code>.
+     * @return String redirecting next request back to workgroup page
+     */
+    
     public String removeProjectFromWorkgroup() {
 
         Collection<Projects> projects = workgroup.getProjectsCollection();
@@ -199,6 +223,12 @@ public class WorkgroupBean {
         return "workgroup?faces-redirect=true";
     }
 
+    /**
+     * Creates a new workgroup with name set to parameter <code>orkgroupBean.newWorkgroupName</code>
+     * The currently logged-in user will be the owner, and single initial member
+     * of the created group.
+     * @return String redirecting next request back to workgroup page
+     */
     public String createWorkgroup() {
         newWorkgroup = new Workgroups();
         newWorkgroup.setWorkgroupname(newWorkgroupName);
@@ -212,15 +242,26 @@ public class WorkgroupBean {
         return "workgroups_menu?faces-redirect=true";
     }
 
+    /**
+     * Deletes a workgroup specified by parameter <code>workgroupBean.workgroup</code>. 
+     * Projects belonging to the workgroup are not affected, and remain visible
+     * to the user who owns them.
+     * @return String redirecting next request back to workgroup page
+     */
     public String removeWorkgroup() {
         if (workgroup == null) {
-            return "invaliddataerrorpage?faces-redirect=true";
+            return "errorpage?faces-redirect=true";
         } else {
             workgroupFacade.removeWorkgroup(workgroup);
         }
         return "workgroup?faces-redirect=true";
     }
-
+    
+    /**
+     * Gets all the workgroups where the current logged-in user is a member.
+     * @return A collection containing all the workgroups to which the current
+     * logged-in user (<code>utilityBean.user</code>) belongs.
+     */
     public Collection<Workgroups> getWorkgroupsForUser() {
 
         if (utilityBean.getUser() == null) {
@@ -232,7 +273,7 @@ public class WorkgroupBean {
 
     /**
      * Selects workgroup and redirects to its page
-     * @return
+     * @return String redirecting next request back to workgroup page
      */
     public String selectWorkgroup() {
         utilityBean.setSelectedWorkgroup(selectedWorkgroup);
@@ -241,7 +282,7 @@ public class WorkgroupBean {
 
     /**
      * Selects projects and redirects to its page
-     * @return
+     * @return String redirecting next request back to project page
      */
     public String selectProject() {
         utilityBean.setSelectedProject(selectedProject);
