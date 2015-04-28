@@ -212,6 +212,7 @@ h5 {font-size:10px}
 .Cbottomright {background:url('../images/corners_bottom.gif') no-repeat top right; width:9px; height:9px; overflow:hidden; float:right; display:inline}
 .simpleGuide {list-style-type: upper-latin}
 .simpleGuide ul {list-style-type: decimal}
+.dev-list {list-style: disc;}
 
 /* Footer */
 #footer {height:95px; width:100%; margin:0; background:url('../images/bg_footer.gif') no-repeat bottom center}
